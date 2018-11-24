@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtGetchilddepid' alias='根据部门id获取部门的所有子部门' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='61ea' unid='48258072000E0C3F482580CA0031C5E1' sequence='19'>
+<created><datetime>20170217T170339,21+08</datetime></created>
+<modified><datetime>20181025T014920,51+08</datetime></modified>
+<revised><datetime>20181024T092021,23+08</datetime></revised>
+<lastaccessed><datetime>20181025T014920,50+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T102127,87+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092127,48+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtGetDepidByUser_xm
+	Created 2016-12-8 by oanewadmin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "Commonlib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim dbCur As NotesDatabase
+	Dim note As NotesDocument
+	Dim strBx As String
+	Dim strdepid As string
+
+	Set dbCur = session.Currentdatabase
+	Set note = session.Documentcontext
+	
+	strdepid = getRefValue(note.Query_String_Decoded(0),"depid=")
+	Dim nmBx As New NotesName(strBx)
+	Dim strreturndep As String 
+	strreturndep=strdepid
+	Dim dbIndi As NotesDatabase
+	Dim vwUser As NotesView
+	Dim docUser As NotesDocument
+	Dim docdepcoll As NotesDocumentCollection
+	Dim docdep As NotesDocument
+	Set dbIndi = session.Getdatabase(dbCur.Server, "indishare/indinames.nsf")
+	Set vwUser = dbIndi.Getview("vwDepByParentCode")
+	Set docdepcoll = vwUser.Getalldocumentsbykey(strdepid,true)
+	Set docdep=docdepcoll.Getfirstdocument()
+	While Not docdep Is Nothing 
+		strreturndep=strreturndep+","+docdep.DepartmentCode(0)
+		Set docdep=docdepcoll.Getnextdocument(docdep)
+	Wend
+	Dim jsonarry As New Converjsonobject
+	Call jsonarry.Additem("depid",strreturndep)
+	Print |Content-Type:text/plain;Charset=GB2312|
+	Print jsonarry.Tojson()
+	Exit Sub
+errorhandle:
+	showError "Initialize"
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='EB7E1C0CE7486DC548258331000AC8B4'>
+<agentmodified><datetime>20181025T014920,51+08</datetime></agentmodified>
+<agentrun><datetime>20181107T174221,53+08</datetime></agentrun>
+<runlog>Started running agent 'agtGetchilddepid|根据部门id获取部门的所有子部门' on 2018-11-07 17:42:21
+Ran LotusScript code
+Done running agent 'agtGetchilddepid|根据部门id获取部门的所有子部门' on 2018-11-07 17:42:21
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092021,23+08</datetime></item></agent>
+

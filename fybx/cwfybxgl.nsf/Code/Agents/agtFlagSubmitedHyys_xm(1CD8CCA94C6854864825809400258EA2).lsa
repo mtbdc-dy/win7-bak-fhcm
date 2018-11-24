@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtFlagSubmitedHyys_xm' alias='标志报销会议预算单' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='338e' unid='1CD8CCA94C6854864825809400258EA2' sequence='22'>
+<created><datetime>20161225T145013,46+08</datetime></created>
+<modified><datetime>20181025T014920,33+08</datetime></modified>
+<revised><datetime>20181024T092021,20+08</datetime></revised>
+<lastaccessed><datetime>20181025T014920,32+08</datetime></lastaccessed>
+<addedtofile><datetime>20161225T152932,28+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092127,45+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtFlagSubmitedHyys_xm
+	Created 2016-12-25 by oanewadmin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "Commonlib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim dbCur As NotesDatabase
+	Dim agent As NotesAgent
+	Dim note As NotesDocument
+	
+	Set dbCur = session.Currentdatabase
+	Set agent = session.Currentagent
+	
+	Set note = dbCur.Getdocumentbyid(agent.Parameterdocid)
+	If Not note Is Nothing Then
+	
+		'首次提交需要将选择的会议费申请赋值，其他人不能再选择
+		Dim appPath As String 
+		Dim dbhysq As NotesDatabase 
+		Dim dochysq As NotesDocument
+		Dim strhysqunid As String 
+		Dim viewhysq As NotesView
+		appPath=StrLeftBack(note.dbPath(0),"/")
+		strhysqunid=note.fldhysqunid(0)
+		Set dbhysq=session.Getdatabase("", appPath+"/cwhyfysqgl.nsf")
+		Set viewhysq=dbhysq.Getview("vwDocPublishedByHyUnid")
+		Set dochysq=viewhysq.Getdocumentbykey(strhysqunid)
+		If Not dochysq Is Nothing Then
+			If note.flownum(0) = 0 Then
+				dochysq.fldBaoxjs="0"
+			Else
+				dochysq.fldBaoxjs="1" '将会议费用申请设置为已经报销结束
+			End If
+			
+			Call dochysq.save(True,False)
+		End If
+	End If
+		
+	Exit Sub
+errorhandle:
+	showError "Initialize"
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20161225T145128,18+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20181024T092021,20+08</datetime></item></agent>
+

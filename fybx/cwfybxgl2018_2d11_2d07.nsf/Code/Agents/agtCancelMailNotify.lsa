@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtCancelMailNotify' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' comment='邮件通知' restrictions='unrestricted'>
+<noteinfo noteid='906' unid='0C238F53B94191BA48257B19002472DA' sequence='49'>
+<created><datetime>20130221T143806,98+08</datetime></created>
+<modified><datetime>20181107T195812,59+08</datetime></modified>
+<revised><datetime>20181024T085459,49+08</datetime></revised>
+<lastaccessed><datetime>20181107T195812,59+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195812,59+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085606,33+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20140801T144147,29+08</datetime></agentmodified></rundata>
+<item name='$FILE' summary='true' sign='true' seal='true'><object><file hosttype='msdos'
+ compression='none' flags='sign' encoding='none' name='%%source%%.jar' size='332'>
+<created><datetime>20060427T142634,93+08</datetime></created>
+<modified><datetime>20060427T142635,04+08</datetime></modified><filedata>
+UEsDBBQACAAIAFFzmzQAAAAAAAAAAAAAAAAOAAAASmF2YUFnZW50LmphdmFNTrEKwkAMnW+4f8jY
+OtQPEAcVF0EXXRzjNbSH9VIuqSjSf7fXVhACyct7Ly/+0XJUaFg7KUp++MDFYmVt290a78A1KAIH
+fOKmoqBAL6VQCoxoi0LwsdbM4if7Ek6sJEf0IctHzmh8D4Mx5kwingPI3NdQkc7LLF8lyXh2x0GH
+HMB/sP7ZisH0L0vOZF0uIbtyF8FxSVAxCdQUKYfE9uBQXZ3tX45aTeGUT09R0UYf9Kzo7peIjqZP
+ejtUb+0XUEsHCKO5qH++AAAAHwEAAFBLAQIUABQACAAIAFFzmzSjuah/vgAAAB8BAAAOAAAAAAAA
+AAAAAAAAAAAAAABKYXZhQWdlbnQuamF2YVBLBQYAAAAAAQABADwAAAD6AAAAAAA=
+</filedata></file></object></item>
+<item name='$FILE' summary='true' sign='true' seal='true'><object><file hosttype='msdos'
+ compression='none' flags='sign' encoding='none' name='%%object%%.jar' size='480'>
+<created><datetime>20060427T142635,04+08</datetime></created>
+<modified><datetime>20060427T142635,04+08</datetime></modified><filedata>
+UEsDBBQACAAIAFFzmzQAAAAAAAAAAAAAAAAPAAAASmF2YUFnZW50LmNsYXNzbVFNT8JAEH1LgdJS
+qAoofoDxBhjtD9CYKNGDAS4Q76VssAq7pF2Uf+SZC0YP/gB/lHFaCfFrk30z8+btzOzu+8frGzQc
+YV9HUceujm0dezqqWaRgmkjCiiBrIoGchTLWLWwhb2ENtoUKbIZyrd4aSTUNnYEc+0I6XR6GvhQn
+DFqtfsOQPvWFr84YKr+V50MuVFMKxWeK5Plr98GNueM78hiSTTngDMaKZ7BbvuCd6bjPg57bH1HW
+7Mpp4PErPw6GXC37k5aC7y0YClFdZ+SKoXM58/hExTqjIxUP264vfih6t4F8/Oqx+XfsCzekhD0J
+fKG6yvXue4HrEVP87y1wALoNopUgjx6PsEBRhSwjm2o8Q5+Tw1AiTMekRrizkrbJamRLjQUyrcMX
+pBnaT5G7gDGPD1gk1pYlqtAJo52hrzQop1M2R73zKBJDl4qn2fgEUEsHCGe72dpQAQAAAwIAAFBL
+AQIUABQACAAIAFFzmzRnu9naUAEAAAMCAAAPAAAAAAAAAAAAAAAAAAAAAABKYXZhQWdlbnQuY2xh
+c3NQSwUGAAAAAAEAAQA9AAAAjQEAAAAA
+</filedata></file></object></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210745,13+08</datetime></item>
+<item name='$POID'><datetime>20181024T085459,49+08</datetime></item></agent>
+

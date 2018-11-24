@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='HTTP_cookie' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='39e' unid='A9C1E0E2C5CE4A4448257D100028253A' sequence='56'>
+<created><datetime>20140709T151829,70+08</datetime></created>
+<modified><datetime>20181107T195620,67+08</datetime></modified>
+<revised><datetime>20181024T085446,45+08</datetime></revised>
+<lastaccessed><datetime>20181107T195620,67+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195620,67+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='HTTP_cookie'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQAq0EbI5kfp80iwKucNkwbXDUYHxjUV7qwab/GwGqNLygEAAQABAAEAA==
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180308T102952,94+08</datetime></item></sharedfield>
+

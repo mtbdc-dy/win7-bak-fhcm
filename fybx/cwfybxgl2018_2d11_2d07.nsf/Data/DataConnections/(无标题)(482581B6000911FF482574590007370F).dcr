@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE dataconnection SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<dataconnection name='(无标题)' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' nocompose='true' designerversion='8' class='rdbms'
+ type='db2' objecttype='table' blockkeyfieldupdates='true'>
+<noteinfo noteid='17da' unid='482581B6000911FF482574590007370F' sequence='61'>
+<created><datetime>20080530T091848,47+08</datetime></created>
+<modified><datetime>20181107T195904,29+08</datetime></modified>
+<revised><datetime>20181024T085453,66+08</datetime></revised>
+<lastaccessed><datetime>20181107T195904,29+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195904,29+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,33+08</datetime></item>
+<item name='$POID'><datetime>20181024T085453,66+08</datetime></item></dataconnection>
+

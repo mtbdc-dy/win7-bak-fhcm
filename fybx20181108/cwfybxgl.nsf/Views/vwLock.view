@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwLock' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ showinmenu='false' publicaccess='false' designerversion='5' comment='锁定文档'
+ unreadmarks='standard' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='false' showmargin='true'
+ shrinkrows='true' extendlastcolumn='false' showhierarchies='false' unreadcolor='maroon'
+ rowlinecount='5' headerlinecount='1' rowspacing='1.25' bgcolor='white' altrowcolor='#efefef'
+ totalscolor='blue' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' uniquekeys='false'
+ formatnoteid='D3F32663C661963548256A1B001ECCD5'>
+<noteinfo noteid='172' unid='BD5CDAB3D6E437BE48256E5D0063B7B4' sequence='55'>
+<created><datetime>20040321T020910,92+08</datetime></created>
+<modified><datetime>20181025T014925,89+08</datetime></modified>
+<revised><datetime>20181024T085439,75+08</datetime></revised>
+<lastaccessed><datetime>20181107T172953,96+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133242,94+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+fgAJAHQAKIntW6nPnvQl49ozv/YqPFDQhCZpF3EezlwIlH3x7WRQIQraP7KcAQW5VkDMIQ9DBsdD
+U8crUEKThMeMpFXijQOTKL9eTjNr7tSgVI6k60mWyBQMy2mzHrzbsC1Ll2f7CNO/mmQZxOjbvmnd
+hnFmqQQABAAEAAQA
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='$60' width='13.6250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><font size='9pt'/><columnheader title='unid'><font size='9pt'/></columnheader><datetimeformat
+ legacy='true' show='date' date='yearmonthday' fourdigityear='true' time='hourminutesecond'
+ zone='never'/><code event='value'><formula compiled='true'>
+JgAJABwA4AfhnAqnIhE+/6CBhNesF2BwaNfRXt7YBAAEAAQABAA=
+</formula></code></column>
+<column resort='ascending' hidedetailrows='false' listseparator='comma' itemname='fldlocksign'
+ width='16.1250' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='false' twisties='true'><font size='9pt'/><columnheader
+ title='锁定标记'><font size='9pt'/></columnheader><datetimeformat legacy='true'
+ show='date' date='yearmonthday' time='hourminutesecond' zone='never'/><numberformat
+ legacy='true' format='general' digits='2' punctuated='false' parens='false'
+ percent='false' bytes='false'/></column>
+<column sort='descending' hidedetailrows='false' itemname='fldlocktime' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='锁定时间'><font size='9pt'/></columnheader></column>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,11+08</datetime></item></view>
+

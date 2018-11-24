@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='myview底部按钮扩展_After_yy' alias='sfrmmyviewBottomButton_Custom_After_yy'
+ xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='eda' unid='8A07DC0C63248C2448258053001F2F01' sequence='48'>
+<created><datetime>20161021T134036,49+08</datetime></created>
+<modified><datetime>20181025T014914,79+08</datetime></modified>
+<revised><datetime>20181024T085503,42+08</datetime></revised>
+<lastaccessed><datetime>20181025T014914,78+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010756,51+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'> </run></par><subformref><code event='value'><formula
+ compiled='true'>
+RgAJADwAnE2ym+rK6RdrjQDlCN+dNzWfL6ploRqcoZFzvNm8BU21wqQlB9iXYGlNzh/j5AqzjPsN
+Qmy72q8EAAQABAAEAA==
+</formula></code></subformref>
+<par def='1'><run html='true'> </run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmmyviewBottomButton_Custom_After</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,39+08</datetime></item></subform>
+

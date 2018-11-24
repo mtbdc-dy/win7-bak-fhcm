@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='subBfsp' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ designerversion='8.5.3' comment='并发审批使用'>
+<noteinfo noteid='2b6' unid='11043AF651BE5EFB482570DC00249161' sequence='55'>
+<created><datetime>20051219T143925,13+08</datetime></created>
+<modified><datetime>20181025T014917,11+08</datetime></modified>
+<revised><datetime>20181024T085442,82+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,10+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010759,05+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' align='center' hide='notes'/>
+<par def='1'><run html='true'>&lt;div style="display:none"&gt;</run><run html='true'><font
+ size='9pt' color='red'/>并发审批处理此文件的部门：</run><run html='true'><font size='9pt'/><field
+ type='text' allowmultivalues='true' kind='computed' name='alldealer_spbm'
+ listinputseparators='comma' listdisplayseparator='comma'><code event='defaultvalue'><formula
+ compiled='true'>
+bgAJAGQAp4yX3kCGq1cKhjMrj7Bups/0Upm6g5j8VNiY5YOZRK7cMEc5ZSX0cISZjqDWUtERkiGX
+cHQPm/nBGR9ZsURHL0jI58tQFsh7mjPeyJcj0gTOx9SdwQf19m8P99NFH6kMBAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='12' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' color='red'/>并发审批处理此文件的人：</run><run
+><font size='9pt'/><field type='names' allowmultivalues='true' kind='computed'
+ name='alldealer_spr' listinputseparators='comma' listdisplayseparator='comma'><code
+ event='defaultvalue'><formula compiled='true'>
+RgAJADwAPJsCzJF0m6nyY1itaqc44OkHXAmMy4t8DQTbrSyQSYqrOFfBWKzI2vSRJc4lnLFmtnKs
+co1MazAEAAQABAAEAA==
+</formula></code></field></run><run
+><font size='9pt'/><field lookupeachchar='false' lookupaddressonrefresh='false'
+ type='authors' allowmultivalues='true' kind='computed' name='DocumentAuthors_spbm'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='defaultvalue'><formula compiled='true'>
+RgAJADwA+36Tr3j8l7b681Iyc3rzksLSsA1JNfIHkxbL6is6aK5mH+50ym4wWKr2SZpIK0agOtDL
+7C71fvQEAAQABAAEAA==
+</formula></code></field></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;div style="display:</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+pgAJAJwAztho6x6tRP1MzIRUYZSa2asYU+9cjExvuH1tPL/6LOPpx/63KLpXn/CVNfvFB3X8s1xr
+89FULJRUjZe65G5/KKo2ZTDlAbvqt6F8U+vDpyg2gaKqNFbq/7ef8zEQbVkHghPwdEd1Qt4AqpUa
+vHu0h/OkWsFua9tcPLW8M27ZA4lav/ECSnv+SpiDvtcaJN213+ibw+VepxcEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>"&gt;</run></par>
+<pardef id='2' hide='web'><code event='hidewhen'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='2'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red"&gt;并发审批当前处理人：</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;&lt;span class='userName'&gt;</run><run
+ html='true'><font size='9pt'/><field lookupeachchar='false' lookupaddressonrefresh='false'
+ type='authors' allowmultivalues='true' kind='computed' name='DocumentAuthors_spr'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='defaultvalue'><formula compiled='true'>
+RgAJADwA+36Tr3j8l7b681Iyc3rzksLSsA1JNfIHkRV4vSMnqzWqFg2/KAZsoGyJ6/+K5YY3hAF3
+rY2fwAUEAAQABAAEAA==
+</formula></code></field></run><run
+ html='true'><font color='red'/>&lt;/span&gt;</run></par>
+<pardef id='3'><code event='hidewhen'><formula compiled='true'>
+TgAJAEQA2Aytx4eNgw8FPZ+DxwpNySt2Oszx+yka2hw5HPWEUdGslg1eKM8eKWaC7zv/ayvc7jmG
+VhIzfiiriPDpIwT8hQQABAAEAAQA
+</formula></code></pardef>
+<par def='3'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red" data-string-id="indiplatform.tylc.bfspdqclr"&gt;并发审批当前处理人：</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;&lt;span class='userName'&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+3gAJANQAXfd1PeblaEhEMaCRqpcXtkLUbfEqQMHn9c8VtKw1e2XayHlDU5WU40r2vu16FjyOLIq0
+OwQDYcBtS7SMfo1w3MB4ymPbuILbDxpl3/x8URbPLnXyaYMrwuBiflx/DmLowKYOgHJst9u3tMQD
+ayeuyxAearLqMBixwppC2MI3Ew9b3d+JL41TFZtuWma90OZ0s4eKb9QE3lIwm4+Y+m2zHHCUhXFE
+G2Ow2+IWIK+KDwIobasdltN6a7pZsxGafoG7bTmbwRguAWdlSKUBYAtnNwQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font color='red'/>&lt;/span&gt;</run></par>
+<pardef id='4' leftmargin='1.0625in' firstlineleftmargin='1in' hide='web'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='4'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red"&gt;</run><run
+ html='true'><font size='9pt' color='red'/>并发审批读者：</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;&lt;span class='userName'&gt;</run><run
+ html='true'><font size='9pt' color='red'/><field lookupeachchar='false' lookupaddressonrefresh='false'
+ type='readers' allowmultivalues='true' kind='editable' name='DocumentReaders_spr'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='defaultvalue'><formula compiled='true'>
+RgAJADwA+36Tr3j8l7b681Iyc3rzksLSsA1JNfIHkRV4vSMnqzVfudO20/KfuvN+fvCzP6ScNSUj
+lUrFZsAEAAQABAAEAA==
+</formula></code></field></run><run
+ html='true'><font color='red'/>&lt;/span&gt;</run></par>
+<pardef id='5' leftmargin='1.0625in' firstlineleftmargin='1in'><code event='hidewhen'><formula
+ compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='5'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red" data-string-id="indiplatform.tylc.bfspclwjr"&gt;</run><run
+ html='true'><font size='9pt' color='red'/>并发审批处理此文件的人：</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;</run></par>
+<pardef id='6' leftmargin='1.0625in' firstlineleftmargin='1in'><code event='hidewhen'><formula
+ compiled='true'>
+VgAJAEwAshbmoyxTrEP9RYmQs4oHCRrtbUpWGIq3N6vHY99abyz5u/0jZpNA3r+m3BxY2AHXxfba
+E5vkqTeLzQAMdGZRkGXdwgOfMAHjBAAEAAQABAA=
+</formula></code></pardef>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run><run html='true'><computedtext><code
+ event='value'><formula compiled='true'>
+1gIJAMwCBa5TNKOlkisXzpol2DaGBwvJLRlc/F+DOeaY/WLT5zGkyQWQ+SOPfKWKqoL1T7V5/wZz
+OmX29Ya8xAVq7jlN3GOpEwVTKwB4yIt+fcJFf8uweD3TbCTwbd4MVjBwuPyTMJ8LsRj/GJTcKZs3
+BQNLljhA1hsOkTItx+ttnsEgxN8J95b2zuMVNAjv6z9+/9FIpODYDa6RCJFP8rHcqp7ynxR1wK82
++j+OjCPMVzeSIDHv47oNtNQ39ZvenqDUTJkcA6OEs17/K9oGdygk76KNG9xpdh3NvCYHJ8TebXK2
+wv/lWSLB5YrmnkV77/6l2Q2qANEK78RdbivvGNz8tOKRntg3PBk0+tyNHBGauT8wLElEyWrt724f
+a4pgnS6IDRNuv0h40lIFW+IMPL8O7fvI0xGlaDFl9zNT4KkflztlMfAxviQHoZs+PngUftrcQ5As
+mr94tPg0ZtCNIQmitIDWGnGBoylfgsvm3njwx/IM/A8jI1XVignw+vVk+aJAftqwFHs32T9t2FaW
+N8ByigGJo999TH7iiRn1OJYrChfE2fYxjc61zsBAF0VnL3947vwpAjgYBbWI2MNmSoFyeIpBhjnQ
+ICE955SnO/fk3qHrzQTFSbE2yuls0LMN4bNUlzad1ns99i16FzMh7btKn8BGyogTnenWrUe4QBSu
+JGcMqsEI5Ti9+JHcWlvGIoezfnDJYUNlsMAbgzz+BSFm3VccrRQLQGhtKcFtpplD650+ANO4mw+j
+cuFiW+Xl8jD5zoPjgJOeEMynzHpEwBRBX63UmKCcClq+m8XepOkkPVGmwncqE/dWIwO8P54ZkEaJ
+PCkEooHaORir8/Di5er1evRoRDCgd0FNn6oaytAi9ikwR5upTrIXU9WbQETXmIiLs4IpRmEqDo49
+lRGlHtJjkxPqO9sAhFgQc3Y9dG+IZ758cYoypxVlkhKrngQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font color='red'/></run></par>
+<pardef id='7' leftmargin='1.0625in' firstlineleftmargin='1in'><code event='hidewhen'><formula
+ compiled='true'>
+VgAJAEwAshbmoyxTrEP9RYmQs4oHCRrtbUpWGIq3N6vHY99abyz5u/0jZpNA3r+m3BxY2AHXxfba
+E5vkqTeLzQAMdGZRkO1BgtIJ9Ae+BAAEAAQABAA=
+</formula></code></pardef>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;span class='userName'&gt;</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+9gAJAOwAsUHxt4Zy1X0UmRNkyQ8xjmz6IzzuzSdszrTtC1W8yAgcEt6PjsQNOW0ybpWu5JRMP8rA
+5VXGxGv3Zb2XNlE6Ghu252JfYneTiPXaXZBX5JIl1YFSqVGNmJ4spSPy/4f4ubaKM4pQFzfduVL/
+o6vgYbBTgzTIMblKBqOm8gHsyYByiKN9AnaQvM81FwT6fsZsqw1/EakQ6XdOijzrIRbHFoCNqdOc
+4YmXdKeXlXZDz/VOBfLoSDV8MsBArbporVpp3cjxGW0upN3+r18Q0V6b3co+VzdlcjA2g/j8s7Ge
+j5kRfns1r+OBmgQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font color='red'/>&lt;/span&gt;</run></par>
+<par def='5'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red" data-string-id="indiplatform.tylc.bfsphqgly"&gt;并发审批会签部门管理员：</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;&lt;span class='userName'&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+BgEJAPwA4Br+ZLR5Maa0dzbGOtP7YqsGujl4zXkFcu7oLkXS2jWc2EE43upuoShoes6BOmj3sFAz
+RbdWE5Au0AYRy2qEuOdXDg3cVu+FTgHw3Tht0NtJjTfHK6cmR+ZUHPleuwfYzqD06CKz+JkAcXuJ
+nt5hZlESaBASgK+nH8TNhFZzwqrAC781V7GM2YHaj6gN7B2bBZ6/bp4y8XiUb3tzW4HWnrkjJyyi
+lbCHqgkaXfsJK2drD8GD8y9LMaWldHs+5o2dfb/hCGN6CY/4MvTu3ADbIKGguLGOg4HOi7Mk/3v6
+Ct9CWoTVGYpikityhgoNkHpnE+u4YfGGiloEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font color='red'/>&lt;/span&gt;</run></par>
+<par def='4'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red"&gt;</run><run
+ html='true'><font size='9pt' color='red'/>并发审批部门读者：</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;&lt;span class='userName'&gt;</run><run
+ html='true'><font size='9pt' color='red'/><field lookupeachchar='false' lookupaddressonrefresh='false'
+ type='readers' allowmultivalues='true' kind='editable' name='DocumentReaders_spbm'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='defaultvalue'><formula compiled='true'>
+RgAJADwA+36Tr3j8l7b681Iyc3rzksLSsA1JNfIHkxbL6is6aK76zNtbzIEUWq4pn/tn1PiS73vY
+wKLT4jgEAAQABAAEAA==
+</formula></code></field></run><run
+ html='true'><font color='red'/>&lt;/span&gt;(部门的管理员)</run></par>
+<par def='5'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red" data-string-id="indiplatform.tylc.bfspclwjbm"&gt;</run><run
+ html='true'><font size='9pt' color='red'/>并发审批处理此文件的部门：</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+XgEJAFQBDrsCFzxQZFYJPVIOeQGmLGgrVtnj+u58x1nuiBQs+RFxu9EhtnVAMhZapIVyqP7oJAuN
+x4xz8/iXCaGGvloKy77uXLui4td/YF2u/PiUuQV1pikydii0fk50ow3zAPaHELOJOnbeKbvvkAVB
+0Si4YCEVy+zrNQ9YxKyUStSyYj7vbgaBc1yvDFF0rFgiFNmzfTlje5cKgSIQLhdM6FX130nbh3gS
+y4rOdSNt4TQCz6+udrM3ebA7LAsH6h4/HwyCCEbkiXkahNzxKk8EYuQBPIqAaA32Uc870Jkcy4ni
+5IKIU2f6KioLgv3q2mQslSCucHmo6rBdOjXwa/RdEQhmL94seBhk7qs6ZJUszt2jc3OF9hWZhtye
+fYtkE87RiV28vXDqKya6SIjlute6IEKONsMXr6JorwUGxmrQkm+Z8r7cB82z/1x5sWJyS4pJGmPU
+BAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font color='red'/></run></par>
+<par def='5'><run html='true'><font color='red'/>&lt;br&gt;&lt;b style="color:red" data-string-id="indiplatform.tylc.bfspzt"&gt;审批状态：</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/b&gt;</run><run
+ html='true'><font size='9pt' color='red'/><field type='text' kind='computed'
+ name='stat_bfsp'><code event='defaultvalue'><formula compiled='true'>
+PgAJADQAfKaRMxmLRbSwX4B1lQKug3D2TUjjz7vL73d7gNZXhokPyCPi72k0QpjBdfd9iiDgBAAE
+AAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='11' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>  </run></par>
+<pardef id='8' align='center' leftmargin='1in' hide='notes'><code event='hidewhen'
+ enabled='false'><formula compiled='true'>
+NgAJACwA36X/XRiqV+ov2mOGfZTCiQXVuIgKgC71PGZ51A6SbrGnECmU+T4OrwQABAAEAAQA
+</formula></code></pardef>
+<par def='8'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20061013T100422,85+08</datetime></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>subBfsp</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,55+08</datetime></item></subform>
+

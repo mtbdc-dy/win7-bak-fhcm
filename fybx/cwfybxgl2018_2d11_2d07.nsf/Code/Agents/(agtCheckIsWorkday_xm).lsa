@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='(agtCheckIsWorkday_xm)' alias='(判断选择的日期是否为工作日)' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='true' designerversion='8.5.3' comment='删除原有投票结果文档并重新生成投票结果文档'
+ restrictions='fulladminunrestricted'>
+<noteinfo noteid='1b7a' unid='702971D2FED5944D482581BD0011C406' sequence='6'>
+<created><datetime>20171018T111402,94+08</datetime></created>
+<modified><datetime>20181107T195927,45+08</datetime></modified>
+<revised><datetime>20181024T085504,67+08</datetime></revised>
+<lastaccessed><datetime>20181107T195927,45+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195927,45+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085611,51+08</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='all'/><code event='options'><lotusscript>%REM
+	判断开始日期和结束日期分别是工作日还是休息日
+	Created 2016-11-19 by wx
+	Description: Comments for Library
+%END REM
+Option Public
+Use "commonLib"
+Use "LibWorkSchedule"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim note As NotesDocument
+	Dim db As NotesDatabase
+	Dim vw As NotesView
+	Dim dcs As NotesDocumentCollection
+	Dim strQueryString As String
+	Dim strSubjectUNID As String
+	Dim strResult As String
+	strResult = "false"
+	Set note = session.DocumentContext
+	strQueryString = note.query_string_decoded(0)
+	strksrq = getRefValue( strQueryString ,"strksrq=" )
+	strjsrq = getRefValue( strQueryString ,"strjsrq=" )
+	'判断开始日期的类型
+	Dim datres As Variant
+	datres = fnGetSchedule(strksrq,strksrq) 
+	ForAll v In datres  
+		strResult = CStr(v) 
+	End ForAll
+	'判断结束日期的类型
+	datres = fnGetSchedule(strjsrq,strjsrq) 
+	ForAll v In datres  
+		strResult = strResult + ";" +  CStr(v) 
+	End ForAll
+	
+	Print "Content-type: text/xml;Charset=utf-8"
+	Print "&lt;?xml version='1.0' encoding='utf-8'?&gt;"
+	Print |&lt;STAT&gt;|+ strResult +|&lt;/STAT&gt;|
+	Exit Sub
+errorhandle:
+	showerror "Initialize"
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='9B984DBB181035FF482580720012EF04'>
+<agentmodified><datetime>20170929T012532,43+08</datetime></agentmodified>
+<agentrun><datetime>20171016T105453,86+08</datetime></agentrun>
+<runlog>Started running agent 'agtCheckIsWorkday_xm|判断选择的日期是否为工作日' on 2017-10-16 10:54:53
+Running on all documents in database: 59 total
+Found 59 document(s) that match search criteria
+Ran LotusScript code
+Done running agent 'agtCheckIsWorkday_xm|判断选择的日期是否为工作日' on 2017-10-16 10:54:53
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T085504,67+08</datetime></item></agent>
+

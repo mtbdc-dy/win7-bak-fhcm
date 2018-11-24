@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='myview数据表格区域上部扩展' alias='sfrmmyviewDataTable_Custom_Before'
+ xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1a8e' unid='482581B6000911FF482581B7003CB677' sequence='33'>
+<created><datetime>20171012T190308,71+08</datetime></created>
+<modified><datetime>20181107T195924,88+08</datetime></modified>
+<revised><datetime>20181024T092026,18+08</datetime></revised>
+<lastaccessed><datetime>20181107T195924,88+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195924,88+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name>CN=admin/O=ppm</name><name
+>CN=OAserver/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmmyviewDataTable_Custom_Before</text></item></subform>
+

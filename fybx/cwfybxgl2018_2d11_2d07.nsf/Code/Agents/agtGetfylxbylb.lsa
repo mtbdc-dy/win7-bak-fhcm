@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtGetfylxbylb' alias='根据费用类型获取其他费用类别' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='1866' unid='48258072000E0C3F4825806A0008524E' sequence='48'>
+<created><datetime>20161113T093053,58+08</datetime></created>
+<modified><datetime>20181107T195907,02+08</datetime></modified>
+<revised><datetime>20181024T092019,81+08</datetime></revised>
+<lastaccessed><datetime>20181107T195907,02+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195907,02+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092126,04+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtGetfylxbylb
+	Created 2016-11-13 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+use "commonlib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errhanlde
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim notecoll As NotesDocumentCollection
+	Dim note As NotesDocument
+	Dim view As NotesView
+	Dim doc As NotesDocument
+	Dim jsonobj As New Converjsonobject
+	Dim jsonarry As new Converjsonarray
+	Dim strfylx As String 
+    Set doc=session.Documentcontext
+	strfylx=GetRefValue(doc.Query_string_Decoded(0),"fylx=")
+	Set db=session.Currentdatabase()
+	Set view=db.Getview("vwqtfBaoxXiangmuByfylb")
+	Set notecoll=view.Getalldocumentsbykey(strfylx)
+	Set note=notecoll.Getfirstdocument()
+	While Not note Is Nothing 
+		 Dim jsonarryobj As new Converjsonobject
+		 Call jsonarryobj.Additem("xmmc", note.fldBaoxfylx_xm(0))
+		 Call  jsonarryobj.Additem("xmbh", note.strXiangmubh(0))
+		 Call jsonarry.Additem(jsonarryobj)
+		 Set note=notecoll.Getnextdocument(note)
+	Wend
+	Call jsonobj.Additem("items", jsonarry)
+	Print |Content-Type:text/plain;Charset=GB2312|
+	Print jsonobj.Tojson()
+
+	Exit sub
+errhanlde:
+	showerror("agtGetfylxbylb")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='56C2DA30522E254A482583320014C0CD'>
+<agentmodified><datetime>20181025T014920,63+08</datetime></agentmodified>
+<agentrun><datetime>20181107T195543,95+08</datetime></agentrun>
+<runlog>Started running agent 'agtGetfylxbylb|根据费用类型获取其他费用类别' on 2018-11-07 19:55:43
+Ran LotusScript code
+Done running agent 'agtGetfylxbylb|根据费用类型获取其他费用类别' on 2018-11-07 19:55:43
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092019,81+08</datetime></item></agent>
+

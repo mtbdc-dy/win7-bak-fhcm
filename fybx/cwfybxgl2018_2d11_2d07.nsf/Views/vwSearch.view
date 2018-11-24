@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwSearch' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ showinmenu='false' publicaccess='false' designerversion='8.5.3' unreadmarks='standard'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='true' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='maroon' rowlinecount='5' headerlinecount='1'
+ rowspacing='1.25' bgcolor='white' altrowcolor='#efefef' totalscolor='blue'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false' formatnoteid='D6B3B5925542585948256F7700272E31'>
+<noteinfo noteid='156' unid='65E6AADFB1327971482579A4002890BF' sequence='55'>
+<created><datetime>20120214T152304,95+08</datetime></created>
+<modified><datetime>20181107T195612,53+08</datetime></modified>
+<revised><datetime>20181024T085439,59+08</datetime></revised>
+<lastaccessed><datetime>20181107T195612,53+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195612,53+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+RgAJADwAedWGwsksOep8TDFf7CuhCI/ECyR/VZ0dFFNtD+QaMHxkXjTsGVzw96qVnZHagV9aZ128
+3BdkICoEAAQABAAEAA==
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='$61' width='40'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='UNID'><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+JgAJABwA4AfhnAqnIhHl8uz+drfJoQpdl5nvhBMTBAAEAAQABAA=
+</formula></code></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210734,99+08</datetime></item></view>
+

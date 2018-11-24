@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='strShowXgdp' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='2b2' unid='A4AF974465AD0D0548257D95000A5E91' sequence='53'>
+<created><datetime>20141119T095315,69+08</datetime></created>
+<modified><datetime>20181107T195617,36+08</datetime></modified>
+<revised><datetime>20181024T085443,39+08</datetime></revised>
+<lastaccessed><datetime>20181107T195617,36+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195617,36+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='strShowXgdp'><code event='defaultvalue'><formula
+ compiled='true'>
+NgIJACwCGk9BAh629SxNQxUFp8/Q69P4y8gPERc6scVb0WOKSErYKFhlDFG4g1inUHqwJMXXUQm1
+Q/RdS3ApUrG9nxVWM1EqarK6g3754PaGTPemysfYWqBaMnC156Epth24EAvBsagXPHXyZsB4+2lw
+EFnOYGIzmwlg0NzmvV0vY1YKZ0uBc3XggPyCW0T71L4BvZVECBIfxINH2goTVn4ZEzPIKyAcP0pu
+bQJQylYjCy3fQcCg+sjw+YyMCOiH7QraAHWPzSB+lmeK9y/rpkrmTQ890/15377M6PWJVIOzd7lW
+KavrmCnTp4dFqEAbC9OaBu/3JcNCk1O7h8oOKU016baMomplMzxVQRDOBgCNMG2VBQb6ikkDG7cZ
+VUMlEBEL4EBk6WxFdjtwZY6rYGp+Mynxlm5UM/zsC8pzAUZoSaB2ajJzW2iUrOmkZ0QGJaPHGu3f
+onO5zbqDlVNnHdoI/EtecdFehaZ/GJjLyc2DSbdifm4ys8MT/hv8fk+LA29tEcfqbFax1nHhhLZk
+V5H0c3x4qb9EffYu3cn4hQQiNt0+Lta5Tn7hj6N07j07QgiWjVdK34Bb8HyxnwaEpgjIaeMs6C0V
+XfwMCT59WdFEqzDfMmt7UkXZob6yXL3w8mzgquDSOSYNCAWRqV+Yvmph4gaShxIGpCAY9vLqVRex
+1kTZ+TPXDbeLLtEfFA0EEQcIFPErXO/UiLbTW512I8aPPVXrubZKSotXv7IMBAAEAAQABAA=
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,63+08</datetime></item></sharedfield>
+

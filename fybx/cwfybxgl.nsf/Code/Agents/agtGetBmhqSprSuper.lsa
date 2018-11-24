@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtGetBmhqSprSuper' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' comment='高权限获取部门会签当前审批人' restrictions='fulladminunrestricted'>
+<noteinfo noteid='1c6ce' unid='C0AA1771D4E7A9D54825823E002BA0AE' sequence='13'>
+<created><datetime>20180224T155631,82+08</datetime></created>
+<modified><datetime>20181025T014913,35+08</datetime></modified>
+<revised><datetime>20181024T085505,20+08</datetime></revised>
+<lastaccessed><datetime>20181025T014913,34+08</datetime></lastaccessed>
+<addedtofile><datetime>20180312T010949,87+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085612,04+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20180224T180911,17+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210745,57+08</datetime></item>
+<item name='$POID'><datetime>20181024T085505,20+08</datetime></item></agent>
+

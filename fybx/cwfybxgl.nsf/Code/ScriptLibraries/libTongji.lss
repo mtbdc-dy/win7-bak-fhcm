@@ -1,0 +1,122 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library libTongji
+	Created 2013-9-6 by admin/smartdot
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+
+
+Use "commonlib"
+Use "AppUtsLib"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Sub suJsHeader22
+Declare Sub suJsHeader
+Declare Function fnHead(note)
+
+'++LotusScript Development Environment:2:5:(Declarations):0:2
+
+'++LotusScript Development Environment:2:2:suJsHeader22:1:8
+Sub suJsHeader22
+	Dim strTemp2 As String
+	strTemp2 = geti18nString("indioffice.gdzcgl.tongji", "统计")
+	Print |<script>|
+	Print |function fnCreateExcel(){|
+	Print |tableToExcel('excel',strTemp2);|
+	Print |}|
+	
+	Print |/*                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+	Print |* 导出指定表格至excel中                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+	Print |* hems 2012-10-17                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+	Print |*/                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+	Print |var tableToExcel = (function() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+	Print |	  var uri = 'data:application/vnd.ms-excel;base64,'                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+	Print |	    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'   |
+	Print |	    , tobase64 = function(s) { return window.btoa?window.btoa(unescape(encodeURIComponent(s))):base64.encode(unescape(encodeURIComponent(s))) ;}                                                                                                                                                                                                                                                                                                                                                                                                                       |
+	Print |	    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }                                                                                                                                                                                                                                                                                                                                                                                                          |
+	Print |	  return function(table, name) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+	Print |	    if (!table.nodeType) table = document.getElementById(table)                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+	Print |	    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML};                                                                                                                                                                                                                                                                                                                                                                                                            |
+	Print |	    window.location.href = uri + tobase64(tt)                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+	Print |	  }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+	Print |	})()|
+	
+	Print |function fnCreateWord(){|
+	Print |var oWD				= new ActiveXObject("Word.Application");|
+	Print |oWD.Application.Visible= 1;|
+	Print |var oDC				= oWD.Documents.Add("",0,1);|
+	Print |var oRange			= oDC.Range(0,1);|
+	Print |var sel				= document.body.createTextRange();|
+	
+	Print |sel.moveToElementText	( excel);|
+	Print |sel.select();|
+	Print |sel.execCommand("Copy");|
+	Print |oRange.Paste();|
+	Print |}|
+	Print |</script>|
+	Exit Sub
+End Sub
+
+
+'++LotusScript Development Environment:2:2:suJsHeader:1:8
+Sub suJsHeader
+	Print |<script>|
+	Print |function fnCreateExcel(){|
+    'Print |dojo.byId('tjContent').value=encodeURIComponent(dojo.byId('excel').innerHTML);|
+	Print |dojo.byId('tjContent').value=dojo.byId('excel').innerHTML;|
+	Print |document.forms[0].submit()|
+	Print |}|
+	Print |</script>|
+	Exit Sub
+End Sub
+
+'++LotusScript Development Environment:2:1:fnHead:1:8
+Function fnHead(note)
+	Dim strTemp2 As String
+	On Error GoTo errorhandler
+	'MsgBox fnGetPlatformUts()
+	Print |Content-type: text/html|
+	Print ||
+	Print |<!DOCTYPE html><html class='tundra'>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=gb2312" />
+<LINK REL=STYLESHEET type = 'text/css' href='|+ note.ResourcePath(0) +|css/global.css?open&| + |'>
+<LINK REL=STYLESHEET type = 'text/css' href='|+ note.ResourcePath(0) +|css/global_gongwen.css?open&| + |'>
+	<LINK REL=stylesheet HREF="countview.css?open&| + fnGetAppUts() + |" TYPE="text/css">
+	<Script type='text/javascript' src='|+ note.ResourcePath(0) +|jslib/global.js?open&| +  |'></Script>
+	<Script type='text/javascript' src='pgCreateMenu.js?open&| + fnGetAppUts() + |'></Script>
+	<LINK REL=stylesheet HREF="/dojo/smartdot/css/dojo_smartdot.css?open&| + |" TYPE="text/css">
+	<script type="text/javascript" src="/dojo/dojo/dojo.js?open&| +|" djConfig="parseOnLoad: true,usePlainJson:true"></script>
+	<script type="text/javascript" src="/dojo/smartdot/dojo_smartdot.js?open&| + |"></script>
+	<script type="text/javascript">
+dojo.require("smartdot.form.Button");
+</script>
+|
+	REM JS 函数处理
+	suJsHeader
+	strTemp2 = geti18nString("indiplatform.tylc.weizhi", "您的位置:")
+	Print |</head>
+<body text="#000000" bgcolor="#FFFFFF" topmargin=0 leftmargin=0 rightmargin=0 class='tundra'>
+<form method="post" action="./agtExportExcelGdzcgl?openagent" name="exportexcel" target="_blank">
+<textarea id="tjContent" name="tjContent" style="display:none"></textarea>
+</form>
+<div id="crumb"  class="crumb">
+	<span>| + strTemp2 + |</span>|
+	strTemp2 = geti18nString("indioffice.gdzcgl.tjhz", "费用报销")
+	Print |<ul><li>| + strTemp2 + |</li>|
+	strTemp2 = geti18nString("indioffice.gdzcgl.tjhz", "领导费用统计")
+	Print |<li class="crumb-li-last">| + strTemp2 + |</li></ul>|
+	Print |</div>|
+	strTemp2 = geti18nString("indioffice.gdzcgl.dcExcel", "导出Excel")
+	Print |<div id="btnContainer" nowrap>
+	<span class="btn-action-key"><button onClick="fnCreateExcel();" dojoType="smartdot.form.Button">| + strTemp2 + |</button></span>|
+	strTemp2 = geti18nString("indiplatform.tylc.tuichu", "退出")
+	print |<span class="btn btn-default"><div class="btn btn-content" onClick="self.location=document.referrer;"  >| + strTemp2 + |</div></span>
+	</div>
+|
+	Exit Function
+errorhandler:
+	Call showerror("fnHead")
+End Function

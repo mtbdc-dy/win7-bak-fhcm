@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_CheckMobilePhoneForTiXing' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='42a' unid='A7640A5E70C98CAD48257F85003C0DC8' sequence='55'>
+<created><datetime>20160329T185556,88+08</datetime></created>
+<modified><datetime>20181025T014922,19+08</datetime></modified>
+<revised><datetime>20181024T085444,83+08</datetime></revised>
+<lastaccessed><datetime>20181025T014922,18+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133246,42+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='key_CheckMobilePhoneForTiXing'><code event='defaultvalue'><formula
+ compiled='true'>
+tgIJAKwC00I67SpMYSe8FkxAAyiJ7o1NnEfHSJihuzwkAE0IhpwGbpL4hf5GmRsBzP/dy8rnIjO2
+nzBVuOqEZPIt4JS/DvlaJtlIlW9jYukP/GoHcI3wWCpk1I5Q3+fWYnWISt9ceWHjs/2E9BaG45SN
+/K10ClbTjB1gklCLBfQcx5ZSsiIKVzjvbMZI1e0Gq4ai8vlIyy8gpJmxi0FAAOK7nbJ6XoqzJxwV
+7QDg0EC+mClrvL/0v0R7AVIsgIh/U1gvwezvtj6EYJPz5KTQPx/50UNwS9pI8YAU0bWVTNPrts8F
+xMEqaecLRs6sk8TUGu1hwJJ0XZ1V3RXBVmNiYAiHzS8GdfdJ5YQlSAZDc17qrZ2bT8nUle+LnWnC
+ikPOOnCDhugoHf98AndZrtb1pMAkPPpXqwbG50TRcJM/J+vXpj0o4H6ak2zo3WuDHubCYIB4oZuD
+BSXCTYbqZr/wZFrM31Yi1e811U9IKr4rT7JUQfgQSRTf06KOMs6lnoe4yQxwnzUqg/qdY07lNkyc
+Ysx2onsYo9zHM9JgQ7niz5diW7n0Ui+KYnylYCj/8f4yH3Ivho5CniKT1Pww61wpPwqKB8qki2OU
+j77fvLz837SG2xFB/JIaK3qn2NQT7xSQzNJbW7VtAJQjt2aK9dd/58MMdQJ/iGs/n1ZG8Gw+tRGs
+sKvIUt7hfcHL+NBaHD5Cd4pbwFKdOLCVfj5gmhD528q/AiD8tfu4T6ZXJ28+dRf81ZQdqp3NLTIA
+fQa7B3AeQT9rYFinDFe0ODBOugLTS4en+VaRCFK+7Uqt319d0oM6FG8HHUMJ0o+8/hmyezvU8NMx
+g3dCuT6dGSfHEnkoV0/F1RvNvS2zMINEYRhFEXczEhX6rPZ74vtvA1Ve9ek2MFJR8RyMOcY3q90c
+vOQEAAQABAAEAA==
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,99+08</datetime></item></sharedfield>
+

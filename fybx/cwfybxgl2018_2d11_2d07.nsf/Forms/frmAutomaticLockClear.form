@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmAutomaticLockClear' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='false' designerversion='5' comment='自动解锁表单'
+ inherit='true'>
+<noteinfo noteid='45e' unid='252E18716B79DB2C48256E6F004C9CE2' sequence='57'>
+<created><datetime>20040407T215648,98+08</datetime></created>
+<modified><datetime>20181107T195626,98+08</datetime></modified>
+<revised><datetime>20181024T085453,49+08</datetime></revised>
+<lastaccessed><datetime>20181107T195626,98+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195626,98+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webquerysave'><formula
+ compiled='true'>
+PgAJADQA9btSiNs1fQZw27nYs7vuxDtLzJqKcX6uTqfK2jx3MWjsSBe7K2PiDHA9bkge8k+YBAAE
+AAQABAA=
+</formula></code><code event='onLoad' for='web'><javascript
+>document.forms[0].submit();</javascript></code>
+<body><richtext>
+<pardef id='1' align='center'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;div style="display:lnone"&gt;表单所有隐藏域信息</run></par>
+<table widthtype='fixedcenter' refwidth='6.6931in'><tablecolumn width='1.9688in'/><tablecolumn
+ width='4.7243in'/>
+<tablerow>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='3' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='3'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>隐藏域</run></par></tablecell>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='4' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='4'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>描述</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<pardef id='6' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>共享域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='5' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='5'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><field type='text' kind='editable'
+ name='hfldLockDocId'><code event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIUwOI32HBoo65wu/QVEWr0kvstkaRz96I4EAAQABAAEAA==
+</formula></code></field></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<pardef id='7' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<par def='5'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='8' leftmargin='0.0104in' hide='read notes' tabs='L6.5493in L7.0493in L7.5493in L8.0493in L8.5493in L9.0493in L9.5493in L10.0493in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font size='14pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<pardef id='9' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='9'><run><font size='9pt' color='#8f8f8f'/></run></par></tablecell></tablerow></table>
+<pardef id='10' align='center' leftmargin='1in'><code event='hidewhen' enabled='false'><formula
+ compiled='true'>
+NgAJACwA36X/XRiqV+ov2mOGfZTCiQXVuIgKgC71PGZ51A6SbrGnECmU+T4OrwQABAAEAAQA
+</formula></code></pardef>
+<par def='10'><run html='true'><font size='9pt'/>&lt;/div&gt;</run></par>
+<par def='10'><run html='true'><font size='9pt'/></run></par>
+<par def='10'><run html='true'><font size='9pt'/></run></par>
+<par def='10'><run><font size='9pt' color='white'/>并发审批自动解锁...</run></par>
+<pardef id='11' align='center' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='11'><run><font size='14pt' style='bold'/></run></par>
+<par def='11'><run><font size='14pt' style='bold'/></run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmAutomaticLockClear</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,27+08</datetime></item></form>
+

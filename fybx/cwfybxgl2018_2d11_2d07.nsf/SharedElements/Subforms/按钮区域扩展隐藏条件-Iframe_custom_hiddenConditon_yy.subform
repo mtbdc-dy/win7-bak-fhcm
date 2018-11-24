@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='按钮区域扩展隐藏条件-Iframe_custom_hiddenConditon_yy' alias='sfrmFlowButton-Iframe_Custom_HiddenCondition_yy'
+ xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ designerversion='8.5.3' comment='第一排按钮' renderpassthrough='true'>
+<noteinfo noteid='cae' unid='7AF55D7663BAF8B0482580530027059F' sequence='48'>
+<created><datetime>20161021T150613,43+08</datetime></created>
+<modified><datetime>20181107T195831,22+08</datetime></modified>
+<revised><datetime>20181024T085442,08+08</datetime></revised>
+<lastaccessed><datetime>20181107T195831,22+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195831,22+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='notes web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'> </run></par><subformref><code event='value'><formula
+ compiled='true'>
+TgAJAEQARFD8+XU1uKJKg8arWG+mtCkWPDI4KOT7Fhx3913haHd9tVsA3Eu9U17d895Pkhy0Eqs8
+Q28qEwBOLzpxVtqo6gQABAAEAAQA
+</formula></code></subformref>
+<par def='1'><run html='true'> </run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmFlowButton-Iframe_Custom_HiddenCondition</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210736,65+08</datetime></item></subform>
+

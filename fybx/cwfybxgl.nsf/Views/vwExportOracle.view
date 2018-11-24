@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwExportOracle' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' showinmenu='false' noreplace='true' publicaccess='false'
+ designerversion='8.5.3' unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='true' showmargin='true'
+ shrinkrows='false' extendlastcolumn='false' showhierarchies='false' unreadcolor='black'
+ rowlinecount='1' headerlinecount='1' rowspacing='1' bgcolor='white' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='1013a' unid='AE6F5714E1E55FD3482581910026690C' sequence='3'>
+<created><datetime>20170904T145932,60+08</datetime></created>
+<modified><datetime>20181024T101240,55+08</datetime></modified>
+<revised><datetime>20181024T101240,54+08</datetime></revised>
+<lastaccessed><datetime>20181024T101240,54+08</datetime></lastaccessed>
+<addedtofile><datetime>20170904T145934,83+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+>SELECT form = "frmWebFlow" &amp; subform != "sfrmchailvfeebx" &amp; flownum = 9999 &amp; fldExport != "1"</formula></code>
+<column hidedetailrows='false' itemname='$3' width='4' resizable='true' separatemultiplevalues='false'
+ sortnoaccent='false' sortnocase='true' showaslinks='false' hidden='true'><columnheader
+><font size='9pt' style='bold'/></columnheader><code event='value'><formula
+>@DocNumber</formula></code></column>
+<column sort='descending' hidedetailrows='false' itemname='年份' width='10'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><columnheader title='年份'><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula>@Year(@Created)</formula></code></column>
+<column sort='ascending' hidedetailrows='false' itemname='fldBaoxiaoBm' width='10'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='报销部门'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='fldBaoxiaoRen_xm' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='报销人'><font size='9pt' style='bold'/></columnheader></column>
+<column totals='total' hidedetailrows='false' itemname='fldBaoxiaoje_xm' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='jine'><font size='9pt' style='bold'/></columnheader></column>
+<item name='TmpViewDesignCollation'><text>zh-CN@UCA</text></item></view>
+

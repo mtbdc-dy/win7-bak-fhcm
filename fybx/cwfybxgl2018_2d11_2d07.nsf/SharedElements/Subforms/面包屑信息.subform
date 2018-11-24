@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='面包屑信息' alias='sfrmCrumb' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1de' unid='16F924BD0311886D4825780900110B11' sequence='55'>
+<created><datetime>20101230T110609,45+08</datetime></created>
+<modified><datetime>20181107T195613,86+08</datetime></modified>
+<revised><datetime>20181024T085441,57+08</datetime></revised>
+<lastaccessed><datetime>20181107T195613,86+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195613,86+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'>&lt;div style="display:none"&gt;</run><run html='true'><sharedfieldref
+ name='appName'/></run><run html='true'><sharedfieldref name='moduleTitle'/></run><run
+ html='true'><sharedfieldref name='crumb_default'/></run><run html='true'><sharedfieldref
+ name='crumb_custom'/></run></par><subformref><code event='value'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NVIoFDIRXYSvcaSM7y2fst7eS5qzBVcvF0EAAQABAAEAA==
+</formula></code></subformref>
+<par def='1'><run html='true'><sharedfieldref name='crumb'/></run><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;div id="crumb" class="crumb" style="display:</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+VgAJAEwAkwgAix9iV/7fdeiYV4mqCFSGez0nLW/LjVRH75gXMzrT1exk51C7ksYI+cGmsidp3r1h
+J2pPzstRVVXv+KCqPrThYzrVPsp2BAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>"</run><run html='true'>&gt;</run></par>
+<par def='1'><run html='true'>	&lt;span data-string-id="indiplatform.tylc.weizhi"&gt;您的位置:&lt;/span&gt;</run></par>
+<par def='1'><run html='true'>	&lt;ul&gt;</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+xgEJALwBO6XDtxLBB+EtaETQeyzXuZpz3YreUUwy5PeV/jjPYKuGCYkijHvdylOJltIc0U1FEE7c
+7p0ePeg2kXWYQM7n7/oy04u33ZUTmiMUAPizvlxl941+nOS9hzntGfOy6vdkXXtUTxzRwvns3Ssk
+MTXbw1x3FECra2qB02YGa+SUcSVE4iJPlvjC4+wUeJQBK6FWe1lER9PPBzTHt9XAO42aPO3x+bBm
+cP6WNNmFlcSTlTMzNaXTo9xFta16J/3jOhq32Ch3t1tH0y2vs8Nsy1cUz1MZvTnPQ4uyfCs8/TMg
+L5CyvBnxU8kVLtvYYrBSDOZR+MVRODGkkSJOaoXpm331Q4UcNg8fYkN3i2scwrRMum57YJxd6KLw
+VNo7HcaLIRNPea8SqEU29mIu5ulNMR2VoqUD/Cqibp05q75y0pnDNoOD0uH4ij3ZlVlH0xFw7uU+
+KhetXZ+IoPgwZ/5yEbOC9D7OmCV6uzOSCPzbq+irismk188vPuia5//WQ2OzJik2ygFV06ZFvX03
+hVjjQyyFG8wD1chjI1msKTb54DlPR7NzkgA+d/+dV9aHaeB7slwuMGnnh2xPEyAEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>	&lt;/ul&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmCrumb</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,91+08</datetime></item></subform>
+

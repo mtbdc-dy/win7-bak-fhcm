@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmShowDlg' alias='弹出层for sl_indidocx' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='2f6' unid='644E94E8E57C2807482579B40051E16D' sequence='55'>
+<created><datetime>20120301T225421,25+08</datetime></created>
+<modified><datetime>20181025T014916,43+08</datetime></modified>
+<revised><datetime>20181024T085442,56+08</datetime></revised>
+<lastaccessed><datetime>20181025T014916,42+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010758,09+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>//smartdot.IframeDialog在ie下加载太慢，还是用旧的方式加载。</run></par>
+<pardef id='2' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run html='true'>&lt;div dojoType="dijit.Dialog" id="dlgWebPaint" title="手写-(请从左侧开始书写)" style="display:none" width="705px" height="405px" data-string-id="indiplatform.tylc.sxts"&gt;</run></par>
+<pardef id='3'/>
+<par def='3'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>&lt;div style="display:none"&gt;</run></par>
+<pardef id='4' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='4'><run html='true'><font size='9pt' color='red'/>		&lt;input name="idx_webpaintwidth" value="</run><run
+ html='true'><font size='9pt' color='red'/><sharedfieldref name='str_webPaintWidth'/></run><run
+ html='true'><font size='9pt' color='red'/>"&gt; //手写批示宽度</run></par>
+<par def='4'><run html='true'><font size='9pt' color='red'/>		&lt;input name="idx_webpaintheight" value="</run><run
+ html='true'><font size='9pt' color='red'/><sharedfieldref name='str_webPaintHeight'/></run><run
+ html='true'><font size='9pt' color='red'/>"&gt; //手写批示高度</run></par>
+<par def='4'><run html='true'><font size='9pt' color='red'/>	&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>		&lt;iframe id="ifrWebPaint" name="ifrWebPaint" src=""   frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt; </run></par>
+<par def='2'><run html='true'>&lt;div id="dlgWebPaint_onhide" style="position:absolute;top:-1500px"&gt;&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>弹出层for sl_indidocx</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,19+08</datetime></item></subform>
+

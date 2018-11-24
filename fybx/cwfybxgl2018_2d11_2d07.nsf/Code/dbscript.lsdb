@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE databasescript SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<databasescript xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ designerversion='8.5.3'>
+<noteinfo noteid='203e' unid='6372D6BB761ADED54825833C00292F19' sequence='1'>
+<created><datetime>20181105T152950,33+08</datetime></created>
+<modified><datetime>20181107T200147,40+08</datetime></modified>
+<revised><datetime>20181105T152950,42+08</datetime></revised>
+<lastaccessed><datetime>20181107T200147,40+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T200147,40+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby></databasescript>
+

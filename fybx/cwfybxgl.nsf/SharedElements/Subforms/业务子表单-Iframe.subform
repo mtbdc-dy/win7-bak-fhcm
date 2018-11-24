@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='业务子表单-Iframe' alias='sfrmSubform-Iframe' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='2ae' unid='408726DF4F1BDC8748257BD2002011B5' sequence='55'>
+<created><datetime>20130825T135016,85+08</datetime></created>
+<modified><datetime>20181025T014918,89+08</datetime></modified>
+<revised><datetime>20181024T085502,35+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,88+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010803,77+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='notes web' tabs='L3.2479in'/>
+<par def='1'><run html='true'> </run><run html='true'><sharedfieldref name='subformCustom'/></run><run
+ html='true'> </run></par>
+<pardef id='2' leftmargin='1in' hide='notes' tabs='L3.2479in'/>
+<par def='2'><run html='true'>&lt;input name="fldsfrmSubform" value="</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='fldsfrmSubform'><code
+ event='defaultvalue'><formula compiled='true'>
+rgEJAKQBhPQY7jyXXj/UjuYEdfWad/JGmj51VvCBwvS8FK8w44Q86ZvGDFRQ1RBG0nmurXCMVyRO
+F2C1J1MeceKFqzlhbx6S+hRwEs2tJ7fd0/+ZJSbAsjKYI/TH7yotJ8UDJy9DVlyASSWuODAfbQDy
+YMtKj/2d+ZHG6IJ9lrXTfieycaXn4jL79yMskkhPQnoh6RFxkh0MFvSCtk7xoX1QlHyYoMwWalPx
+L0dziUVYFABigLsdiTxXFGz9w6+ElgzU6pf9/6EtuVZtt9hxE+zj5e00vA1BdPS0nYPC6GpOmKGB
++PMR60KQMRJuLklQWwLU2PZrznCdzsR4gInCKphJqSLMPmd77e6ncYvpzAn/kTlFjv5YIfSAccW7
+h5uGMYcXWN9w3asG0vla1cpp05Fh3rm3PxDarRFJH/BZyigeYfF6eLnh/sZxrkM+2m1oA6kpkqIb
+bHANTMqjiSb6LO+TiwR6LfabN8cgeQNu+6LesG0HtAo52nkBqriztAgvHHSIRU2bC38ldqxXo8QG
+QtjVfmISf6G3Rlrb+oxYqtFYiTdWpf8EAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>" type="hidden"&gt;</run></par><subformref
+><code event='value'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIUL39vaSNdmHteG05gui+kgNqZMOEwlJ4gEAAQABAAEAA==
+</formula></code></subformref>
+<pardef id='3' hide='web'/>
+<par def='3'><run html='true'><font color='red'/>//合并会签添加</run></par><subformref
+><code event='value'><formula compiled='true'>
+TgAJAEQAD14D5ivaAXyxU9wgjIfWw+guye5YwX/v2Qo3dJfR/cTKTV6zCTtEvRv3k21tmC6O3Rft
+ohwE64J+7iq80NxLKAQABAAEAAQA
+</formula></code></subformref>
+<par def='2'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmSubform-Iframe</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,51+08</datetime></item></subform>
+

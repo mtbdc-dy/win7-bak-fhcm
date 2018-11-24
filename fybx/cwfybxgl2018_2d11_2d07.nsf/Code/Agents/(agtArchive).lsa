@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='(agtArchive)' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' comment='归档时调用的代理' restrictions='unrestricted'>
+<noteinfo noteid='9f2' unid='6ABBC62FDC128F31482573D20012321F' sequence='49'>
+<created><datetime>20080116T111844,79+08</datetime></created>
+<modified><datetime>20181107T195817,95+08</datetime></modified>
+<revised><datetime>20181024T085503,70+08</datetime></revised>
+<lastaccessed><datetime>20181107T195817,95+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195817,95+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085610,54+08</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20160823T172326,16+08</datetime></agentmodified></rundata>
+<item name='$FILE' summary='true' sign='true' seal='true'><object><file hosttype='msdos'
+ compression='none' flags='sign' encoding='none' name='%%object%%.jar' size='3766'>
+<created><datetime>20010416T155155,94+08</datetime></created>
+<modified><datetime>20010416T155155,96+08</datetime></modified><filedata>
+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
+AAAAAA==
+</filedata></file></object></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210747,15+08</datetime></item>
+<item name='$POID'><datetime>20181024T085503,70+08</datetime></item></agent>
+

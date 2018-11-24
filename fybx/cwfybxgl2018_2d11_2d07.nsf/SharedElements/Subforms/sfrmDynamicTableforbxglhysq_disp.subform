@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmDynamicTableforbxglhysq_disp' alias='会议费用报销关联会议费用申请' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' comment='公文稿纸显示'>
+<noteinfo noteid='196e' unid='482581B6000911FF482581B70014B480' sequence='63'>
+<created><datetime>20171012T114609,28+08</datetime></created>
+<modified><datetime>20181107T195913,21+08</datetime></modified>
+<revised><datetime>20181024T092018,65+08</datetime></revised>
+<lastaccessed><datetime>20181107T195913,21+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195913,21+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name
+>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>//表单oaload事件
+dojo.addOnLoad(function(){
+}); 
+
+function fncheckbox(){
+    var arry=new Array();
+    var i=0;
+    dojo.forEach(dojo.query("input[name='ckbox']"),function(obj,m){
+       //将被选中的选项的id添加到数组中
+       if(obj.checked){
+         arry[i]=obj.id;
+         i=i+1;
+       }
+   })
+  dojo.byId("fldxzid_xm").value=arry;
+}</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div style="display:none"&gt;</run></par>
+<pardef id='2' leftmargin='0.5000in' rightmargin='95%' firstlineleftmargin='0.7500in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='2'>    <run html='true'>  </run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/><field type='text'
+ allowmultivalues='true' kind='editable' name='fldxzid_xm' listinputseparators='comma semicolon'
+ listdisplayseparator='semicolon' htmlid='fldxzid_xm'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='11' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/> </run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div&gt;&amp;nbsp;&lt;/div&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;!--动态表格样例2--start--&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div id="</run><run html='true'><font size='9pt'
+ style='bold' name='宋体' pitch='variable' truetype='true' familyid='0'/>grid_3</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>" data-dojo-type="smartdot.DynamicGrid" data-dojo-props="datastore:'hfldData_hysq',layout:'inline',editable:false"&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;script type="text/template" data-role="gridNode"&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;table class="grid-table" width=100% id=</run><run
+ html='true'><font size='9pt' style='bold' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>"grid-table"</run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/>&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;thead&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;tr&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;th&gt;选择</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/th&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:20%" data-string-id="indiplatform.tylc.named"&gt;序号&lt;/th&gt; </run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:20%" data-string-id="indiplatform.tylc.deptd"&gt;借款日期&lt;/th&gt; </run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:20%" data-string-id="indiplatform.tylc.riqi"&gt;借款单编号&lt;/th&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;th style="width:20%" data-string-id="indiplatform.tylc.riqi"&gt;借款用途&lt;/th&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:20%" data-string-id="indiplatform.tylc.riqi"&gt;尚欠金额&lt;/th&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th&gt;&lt;/th&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;/tr&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;/thead&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;tbody&gt; </run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	{% if items.length %}</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		{% for item in items %}</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;tr data-role="loopRow" class="dojoDndItem"&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;td style="width:20px"&gt;&lt;input name="ckbox" type="checkbox" onclick="fncheckbox();" id="{{item.xh}}"/&gt;&lt;/td&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;{{</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>forloop.counter}}&lt;/td&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;&lt;a href="{{item.ljurl}}" target="_blank"&gt;{{item.jkrq|default}}&lt;/a&gt;&lt;/td&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;{{item.jkdbh|default}}&lt;/td&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;{{item.jkyt|default}}&lt;/td&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;td&gt;{{item.sqje|default}}&lt;/td&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td class="grid-action"&gt;&lt;/td&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;/tr&gt;{% endfor %}{% else %}&lt;tr data-role="empty"&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;#&lt;/td&gt;&lt;td colspan="4"&gt;&lt;/td&gt;&lt;/tr&gt;{% endif %}</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;/tbody&gt;&lt;/table&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;/script&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;div style="display:none;"&gt;</run><run
+ html='true'>&lt;textarea name="hfldData_hysq" id="hfldData_hysq"&gt;</run><run
+ html='true'>&lt;/textarea&gt;</run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='Fldtime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='riqi' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='OriginalModTime' sign='true'><datetime>20060217T154720,20+08</datetime></item>
+<item name='fldFenShu' summary='false' sign='true'><number>0</number></item>
+<item name='Fldfs' summary='false' sign='true'><number>0</number></item>
+<item name='strStartDate' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strStartTime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strEndDate' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strEndTime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='fldQiCaoRQ' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>动态表格_disp</text></item></subform>
+

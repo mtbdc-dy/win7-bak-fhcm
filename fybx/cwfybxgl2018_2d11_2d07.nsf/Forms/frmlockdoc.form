@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmlockdoc' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ publicaccess='true' designerversion='5' comment='锁文档'>
+<noteinfo noteid='3da' unid='8F29DC53327D12E248256E5D006156A7' sequence='57'>
+<created><datetime>20040321T014311,75+08</datetime></created>
+<modified><datetime>20181107T195622,13+08</datetime></modified>
+<revised><datetime>20181024T085446,20+08</datetime></revised>
+<lastaccessed><datetime>20181107T195622,13+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195622,13+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' hide='notes web' tabs='L5.3146in'/>
+<par def='1'/>
+<table widthtype='fixedcenter' refwidth='7.1847in'><tablecolumn width='1.9688in'/><tablecolumn
+ width='1.3778in'/><tablecolumn width='1.9688in'/><tablecolumn width='1.8694in'/>
+<tablerow>
+<tablecell bgcolor='gray'>
+<pardef id='3' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='3'><run><font size='12pt' color='white'/>域</run></par></tablecell>
+<tablecell bgcolor='gray'>
+<pardef id='4' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='4'><run><font size='12pt' color='white'/>中文注释</run></par></tablecell>
+<tablecell bgcolor='gray'>
+<pardef id='5' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='5'><run><font size='12pt' color='white'/>值</run></par></tablecell>
+<tablecell bgcolor='gray'>
+<pardef id='6' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='6'><run><font size='12pt' color='white'/>备注</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='7' leftmargin='0.0104in' tabs='L7.2090in' keepwithnext='true'
+ keeptogether='true'/>
+<par def='7'><run><font color='red'/></run><run><font color='red'/><field
+ type='text' kind='editable' name='fldlocksign'><code event='htmlattributes'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NVcGcMQ5n3iygwMe8YYjq3tAMtL+ye3DroEAAQABAAEAA==
+</formula></code><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL26h6T28uENn8AQABAAEAAQA
+</formula></code></field></run><run
+><font color='red'/></run></par></tablecell>
+<tablecell>
+<par def='4'>锁定标志</par></tablecell>
+<tablecell>
+<par def='5'>1:正在编辑</par>
+<par def='5'>0:无人编辑</par></tablecell>
+<tablecell>
+<par def='6'/></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font color='red'/></run><run><font color='red'/><field
+ type='datetime' kind='editable' name='fldlocktime'><datetimeformat show='datetime'
+ date='yearmonthday' fourdigityearfor21stcentury='true' time='hourminute'
+ zone='never' dateformat='yearmonthdayweekday' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1='-' dateseparator2='-'
+ dateseparator3=' ' timeseparator=':' timeformat24='true' preference='usersetting'/><code
+ event='htmlattributes'><formula compiled='true'>
+LgAJACQA9ngbFZRT/NVcGcMQ5n3iygwMe8YYjq3tAMtL+ye3DroEAAQABAAEAA==
+</formula></code></field></run><run
+><font color='red'/></run></par></tablecell>
+<tablecell>
+<par def='4'>锁定时间</par></tablecell>
+<tablecell>
+<par def='5'/></tablecell>
+<tablecell>
+<par def='6'>取得编辑权的人写入</par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font color='red'/></run><run><font color='red'/><field
+ lookupeachchar='false' lookupaddressonrefresh='false' type='names' kind='editable'
+ name='fldlockman'><code event='htmlattributes'><formula compiled='true'>
+LgAJACQA9ngbFZRT/NVcGcMQ5n3iygwMe8YYjq3tAMtL+ye3DroEAAQABAAEAA==
+</formula></code></field></run><run
+><font color='red'/></run></par></tablecell>
+<tablecell>
+<par def='4'>当前编辑者</par></tablecell>
+<tablecell>
+<par def='5'/></tablecell>
+<tablecell>
+<par def='6'>取得编辑权的人名</par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='3'><run><font color='red'/></run><run><font color='red'/><field
+ type='authors' kind='editable' name='fldlockauthor'/></run><run><font color='red'/></run></par></tablecell>
+<tablecell>
+<pardef id='8' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='8'>当前环节并发用户</par></tablecell>
+<tablecell>
+<pardef id='9' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='9'/></tablecell>
+<tablecell>
+<pardef id='10' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='10'/></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='11' leftmargin='0.0104in' hide='web' keepwithnext='true' keeptogether='true'/>
+<par def='11'><run><font color='red'/></run><run><font color='red'/><field
+ type='authors' kind='editable' name='flddbmanager'><code event='defaultvalue'><formula
+ compiled='true'>
+JgAJABwA/3hPwW/Jxll4H+q70zfoLXQT7Aj4xG6JBAAEAAQABAA=
+</formula></code></field></run><run><font color='red'/></run></par></tablecell>
+<tablecell>
+<par def='8'>系统管理员</par></tablecell>
+<tablecell>
+<par def='9'/></tablecell>
+<tablecell>
+<par def='10'/></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='3'><run><font color='red'/></run><run><font color='red'/><field
+ type='authors' kind='editable' name='fldtmplockauthor'/></run><run><font
+ color='red'/></run></par></tablecell>
+<tablecell>
+<par def='8'>上一环节处理用户</par></tablecell>
+<tablecell>
+<par def='9'>用于撤回操作,可编辑锁文档</par></tablecell>
+<tablecell>
+<par def='10'/></tablecell></tablerow></table>
+<pardef id='12' leftmargin='1.9826in' firstlineleftmargin='1in' hide='notes web'
+ tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='12'/>
+<par def='1'/>
+<pardef id='13' tabs='L5.3146in'/>
+<par def='13'/>
+<par def='13'/>
+<par def='13'/></richtext></body>
+<item name='locktime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmlockdoc</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,41+08</datetime></item></form>
+

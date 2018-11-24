@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='打印表单open代理' alias='agtPrintOpen' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='7d6' unid='0BCAB5FD803CF9DA48257BEF001569B6' sequence='49'>
+<created><datetime>20130923T115353,18+08</datetime></created>
+<modified><datetime>20181025T014926,39+08</datetime></modified>
+<revised><datetime>20181024T085456,14+08</datetime></revised>
+<lastaccessed><datetime>20181025T014926,38+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133250,08+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085602,99+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0' agentdata='9EE00C20292CF6DA4825833A001142AF'>
+<agentmodified><datetime>20181025T014926,39+08</datetime></agentmodified>
+<agentrun><datetime>20181107T162151,36+08</datetime></agentrun>
+<runlog>Started running agent '打印表单open代理|agtPrintOpen' on 2018-11-07 16:21:51
+Ran LotusScript code
+Done running agent '打印表单open代理|agtPrintOpen' on 2018-11-07 16:21:51
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,11+08</datetime></item>
+<item name='$POID'><datetime>20181024T085456,14+08</datetime></item></agent>
+

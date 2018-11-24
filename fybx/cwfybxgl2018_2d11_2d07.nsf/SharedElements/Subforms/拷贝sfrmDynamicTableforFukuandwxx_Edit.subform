@@ -1,0 +1,1150 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='拷贝sfrmDynamicTableforFukuandwxx_Edit' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' noreplace='true' designerversion='8.5.3'
+ comment='公文稿纸可编辑'>
+<noteinfo noteid='209a' unid='3D76747908D6D9E44825833D0036F6A7' sequence='1'>
+<created><datetime>20181106T180020,87+08</datetime></created>
+<modified><datetime>20181107T200149,27+08</datetime></modified>
+<revised><datetime>20181106T180021,10+08</datetime></revised>
+<lastaccessed><datetime>20181107T200149,27+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T200149,27+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby><code event='jsheader'
+ for='web'><javascript>dojo.require("smartdot.form.DateTextBox");
+dojo.require("smartdot.form.TimeTextBox");
+dojo.require("smartdot.form.SelectPersonTextBox");
+dojo.require("smartdot.form.SelectGroupTextBox");
+dojo.require("smartdot.form.SelectDepTextBox");
+dojo.require("smartdot.form.SelectDepTextarea");
+dojo.require("dijit.Tooltip");
+dojo.require("smartdot.DynamicGrid");
+dojo.require("smartdot.IframeDialog"); 
+dojo.require("dojo.dnd.Source");
+smartdot.i18n.requireLocalization("indiplatform.searchconfig");
+
+/*
+ * 提示：该表单中提供了两种形式的动态表格样例,以下代码仅供参考使用,如果有需要可以在此基础上进行订制修改
+ * 
+ */
+//表单oaload事件
+dojo.addOnLoad(function(){
+
+	
+	//为动态表格样例1添加上传附件功能支持------start------		
+	var grid1 = dijit.byId("grid_5");
+	//添加动态表格时执行
+	grid1.onAddRow = function(){ 
+		//initAddFileObj();
+	}
+	//编辑动态表格执行
+	grid1.onEditRow = function(){
+	
+	
+		//initAddFileObj();
+	}
+	
+	//-----动态表格1 顺序调整功能
+	dojo.connect(dojo.byId("grid_5"),"onclick",function(event){
+		gridRowMove("grid_5",event);
+	});
+	/*
+	var newButton = dojo.byId("grid_5").document.getElementsByClassName('btn btn-default');
+	if(newButton){
+	for(var i=0;i&lt;newButton.length;i++){
+  		if(i==0){
+			newButton[0].click();
+					
+  		}
+	}
+	}
+	*/
+
+});
+//获取当前对象的上级对象是否包含cls
+function getParentCt(oElement,cls){
+	var idVL = false;
+	for(var obj=oElement;obj;obj=obj.parentNode){
+		if(obj.getAttribute){
+			if(obj.className.indexOf(cls) &gt; -1){
+				idVL = true;
+				break;
+			}
+		}
+	}
+	return  idVL;
+}
+
+//设置动态表格可拖动
+function fnDragable(){
+	var wishlist = new dojo.dnd.Source("grid-table");
+}
+
+
+
+//复选框单击事件,阻止事件冒泡(因为单击时会进入编辑界面,所以条用此方法阻止其进入编辑状态)
+function ckHandler_fkdw(evt){
+	if(window.event) {event.cancelBubble = true;}else if(evt){evt.stopPropagation();}
+}
+ 
+//全选/反选方法
+function ckall(obj,gridId){
+	dojo.forEach(dojo.query("input[name='ckbox']",dojo.byId(gridId)),function(myobj){
+		if(myobj){
+			if(myobj.checked){
+				myobj.checked = false;
+			}else{
+				myobj.checked = true;
+			}
+		}
+	});
+}
+
+//进入编辑状态时执行的方法
+function fnEdrow(){
+	try{
+		//将当前编辑状态的 复选框隐藏
+		var editObj = dojo.query("input[sid="+(this.editIndex+1)+"]")[0];
+		if(editObj){
+			editObj.style.display="none";
+		}
+	}catch(err){
+	}
+}
+
+//点击添加执行的方法
+function fnAddrow(){
+	try{
+	 
+		//将当前编辑状态的 复选框隐藏
+		var editObj = dojo.query("input[sid="+(this.editIndex+1)+"]")[0];
+		if(editObj){
+			editObj.style.display="none";
+		}
+		 
+		
+	}catch(err){
+	}
+}
+
+//多选删除方法
+function deleteCsRow(gridId){
+	//调整json
+	var grid = dijit.byId(gridId);
+	if(grid.editIndex!=null){
+		alert(smartdot.i18n.getString('indiplatform.tylc.editnodel',"编辑状态无法进行删除"));
+		return; 
+	}
+	//var jsonFields=JSON.parse(grid.get("context"));
+	var jsonFields=dojo.fromJson(grid.get("context"));	
+	var ckAllObj = dojo.query("input[name='ckbox']");
+	//取得选中的项
+	ckAllObj = dojo.filter(ckAllObj,function(item,index){return item.checked;});
+	if(ckAllObj.length&lt;=0){
+		alert(smartdot.i18n.getString('indiplatform.tylc.qxzdeldata',"请选中要删除的数据"));
+		return ;
+	}
+	dojo.forEach(ckAllObj,function(myobj){
+		if(myobj.checked){
+			var sid = myobj.getAttribute("sid");
+			//将要删除的项设置为空
+			jsonFields.items[sid-1]=null;
+		}
+	});
+	//过滤值为空的项
+	jsonFields.items = dojo.filter(jsonFields.items,function(item,index){return item!=null;});
+	//重新绘制表格
+	grid.set("context",	dojo.toJson(jsonFields));	
+	grid.render();
+}
+
+//移动动态表格的某行
+function gridRowMove(gridId,evt){
+	//向上or向下
+	var targetNode=evt.target?evt.target:evt.srcElement;
+	var upordown;
+	if(!targetNode.getAttribute("data-role")){
+		return;
+	}
+	if (targetNode.getAttribute("data-role").toLowerCase()=="upbutton"){
+		upordown=1;
+	}else if(targetNode.getAttribute("data-role").toLowerCase()=="downbutton"){
+		upordown=-1;
+	}else{
+		return;
+	}
+	//找到对应tr的序列号
+	var trNode=targetNode.parentNode.parentNode;
+	var trIndex=dojo.query("td",trNode)[0].innerHTML;
+	if(trIndex.toLowerCase().indexOf("input")!==-1){
+		trIndex=dojo.query("td",trNode)[0].childNodes[0].getAttribute("sid");
+	}
+	var arrIndex=trIndex-1;
+	//调整json
+	var grid = dijit.byId(gridId);
+	var jsonFields=dojo.fromJson(grid.get("context"));	
+	var itemTarge=jsonFields.items[arrIndex];
+	if(upordown==1){
+		//up
+		if(arrIndex!=0){
+			var tmp=jsonFields.items[arrIndex-1];
+			jsonFields.items[arrIndex-1]=itemTarge;
+			jsonFields.items[arrIndex]=tmp;
+		}
+	}else{
+		//down
+		if(arrIndex!=jsonFields.items.length-1){
+			var tmp=jsonFields.items[arrIndex+1];
+			jsonFields.items[arrIndex+1]=itemTarge;
+			jsonFields.items[arrIndex]=tmp;
+		}
+	}
+	//重新绘制表格
+	grid.set("context",	dojo.toJson(jsonFields));	
+	grid.render();
+}
+
+/*
+说明：将动态表格数据导出至Excel
+注意：1. 此功能也可以在样例2中实现,实现方法一样,
+	  2. 导入Excel窗口的"下载模板"会调用该方法
+*/
+function exportExcel(){
+	//动态表格id
+	var gridid="grid_5";
+	var	strUrl = "/indishare/oaresource.nsf/exportexcel.xsp";
+	//取得动态表格数据
+	var gridJsonStr = dijit.byId(gridid).context;
+	var reqObj = dojo.fromJson(gridJsonStr);
+	//判断是否有数据
+	if(reqObj.items.length &lt;=0){
+		alert(smartdot.i18n.getString('indiplatform.tylc.noexportnd',"动态表格没有数据,无法导出!"));
+		return false;
+	}else{
+		var params = {
+			 //Excel文件中的数据列的排列顺序(必须与动态表格的json数据key值相同,如果不同会导致导出数据为null)
+			"px":"xh,fkdwmc,fkdwnsr,zq,kxdqr,fkje,fklx,xm,htbh,bz",
+			"col":"序号,付款单位名称,付款单位纳税人识别号,账期,款项到期日,付款金额（小写）,付款类型,项目,合同编号,备注",
+			"json":gridJsonStr
+ 		} 		
+ 		var appIframe = dojo.byId("iupload");
+ 		IframePost.doPost({Url:strUrl,Target:appIframe,PostParams:params});
+	}				
+}
+
+/*
+说明：上传Excel返回的数据对象,此处为样例代码,供参考使用,针对具体的场景可以进行修改
+注意： 此功能也可以在样例2中实现,实现方法一样
+*/	
+function uploadExcelToJson(){
+	var gridid="grid_5";
+	var	strUrl = "/indishare/oaresource.nsf/frmExcelToJson?open";		
+	var sTitle = smartdot.i18n.getString('indiplatform.tylc.qxzexcel',"选择Excel文件");
+ 	var dialog = new smartdot.IframeDialog({
+	  	src:strUrl,
+		title : sTitle,
+		width : "260px",
+		height : "158px",
+	    onReceiveMessage:function(data){
+	     	//data为Excle解析后返回的Json格式字符串. 如果Excel中有6列,则上传Excel后解析后的对象为格式为:
+			//{"field_0":"测试1","field_1":"产品部","field_2":"2014-9-1","field_3":"身份 证","field_4":"2147483647","field_5":"无"}
+	     	//定义动态表格的Json格式
+	     	var aryTmp =  
+["sblx","syr","cgqwsj","cgjb","cglx","cgyy","hsr","lxdh","hssj","sfhs","bz","zcbyj","xxbyj","ysjg"];
+	     	//循环替换Excel导出的Json字符串中的field_属性
+	     	for(var i=0;i&lt;aryTmp.length;i++){
+		     	var reg = new RegExp("(field_"+ i +")","g");   
+		     	 
+		     	
+			     data = data.replace(reg,aryTmp[i]);   	
+			}
+			console.log(data)
+			 //////////////////////////////////////////开始。对导入的日期进行特殊处理
+               var j=0;
+               var temdate="";
+               objDataStore_tmp = dojo.fromJson(data);
+			dojo.forEach(objDataStore_tmp.items,function(o){
+			   
+				if(o.hasOwnProperty("cgqwsj")){
+				     temdate = objDataStore_tmp.items[j].cgqwsj;
+				    
+				     temdate = changedate_xm(temdate);
+				      
+					o_fields = dojo.fromJson("{\"cgqwsj\":\""+temdate+"\"}");
+					dojo.mixin(o,o_fields);
+				}
+				
+				if(o.hasOwnProperty("hssj")){
+				     temdate = objDataStore_tmp.items[j].hssj;
+				     temdate = changedate_xm(temdate);
+					o_fields = dojo.fromJson("{\"hssj\":\""+temdate+"\"}");
+					dojo.mixin(o,o_fields);
+				}
+				
+				j=j+1;
+			});
+           
+               data = dojo.toJson(objDataStore_tmp);
+               console.log(data)
+               /////////////////////////////////////////结束
+               
+			//将解析后的数据加载到动态表格中
+			dijit.byId(gridid).set("context",data);
+			dijit.byId(gridid).render();
+			//var jsonObj = dojo.fromJson(data);//将json字符串转为对象, 供参考
+	     	//var jsonStr = dojo.toJson(data);	 //将对象转为json字符串, 供参考
+	     	dialog.hide().then(function(){
+				dialog.destroy();
+			});
+		}
+ 	});
+	dialog.show();
+	return false;
+}
+
+//ifrmae对象,导出exccel数据时使用
+var IframePost = function(){
+	var setFrame = function(oFrm){
+		if (!oFrm.name || oFrm.name=="")
+				oFrm.name = oFrm.id;
+		},
+		createForm = function(obj,charset) {
+			var oForm = document.createElement("form");
+			oForm.id = "forPost";
+			oForm.method = "post";
+			oForm.action = obj.Url;
+			oForm.acceptCharset=charset;
+			//兼容IE8写法
+		     if(document.all){
+		     	window.oldcharset=document.charset;
+		     	document.charset=charset;
+			}
+			oForm.target = obj.Target.name;
+			var oIpt, arrParams;
+			arrParams = obj.PostParams;		
+			for (var tmpName in arrParams) {
+				oIpt = document.createElement("input");
+				oIpt.type = "hidden";
+				oIpt.name = tmpName;
+				oIpt.value = arrParams[tmpName];
+				oForm.appendChild(oIpt);
+			}
+			return oForm;
+		},
+		deleteForm = function(){
+			if(window.oldcharset &amp;&amp; document.all){
+		     	document.charset = window.oldcharset;
+			}		
+			var oOldFrm = document.getElementById("forPost");
+			if (oOldFrm) {
+				document.body.removeChild(oOldFrm);
+			}
+		}
+	return {
+		//功能：给嵌套的Iframe界面Post值
+		//参数：obj - 传递对象
+		//     {Url - 页面地址, Target - Iframe对象, PostParams - Post参数,{ 参数名1 : 值1, 参数名2 : 值2 } }
+		//例：{ Url: "ProjPlan_DcRate_Dept_Main.aspx?YearMonth=2012-01", Target: appIframe, PostParams: { DeptGUID:  document.all["txt_DeptGUID"].value} }
+		doPost: function(obj) {
+			setFrame(obj.Target);
+			deleteForm();
+			var oForm = createForm(obj,"UTF-8");
+			document.body.appendChild(oForm);
+			oForm.submit();
+			deleteForm();
+		}
+	}
+}();
+
+//将编号增加到json供导出用
+dojo.addOnLoad(function(){
+	var grid = dijit.byId("grid_5");
+	grid.watch("context",function(name,oldvalue,value){
+		var objJson = dojo.fromJson(value);
+		dojo.map(objJson.items,function(item,index){
+			return item.bh = index+1;
+		});
+		
+		//回写到context
+		grid.set("context",dojo.toJson(objJson));
+		grid.render();
+	})
+});
+
+//add by zhoujb 新增加的付款信息板块计算金额
+function fnGetSfjedt_xm(yfje){	
+	var yfje = dojo.byId("dwyfje").value;
+	if(yfje == ""){ yfje = "0.00"};
+	var hxje = dojo.byId("dwhxje").value;
+	if(hxje == ""){ hxje = "0.00"};
+	//var sfje = (parseFloat(yfje)-parseFloat(hxje)).toFixed(2);
+	//add by wx 2018-11-05增加挂账金额和支票核销金额的扣减
+	var gzje = dojo.byId("dwgzje").value;
+	if(gzje == ""){ gzje = "0.00"}
+	var zphxje = dojo.byId("dwzphxje").value;
+	if(zphxje == ""){ zphxje = "0.00"}
+	var sfje = (parseFloat(yfje)-parseFloat(hxje)-parseFloat(gzje)-parseFloat(zphxje)).toFixed(2);
+	dojo.byId("dwsfje").value = sfje;
+	dojo.byId("dwsfje").value = parseFloat(sfje).toFixed(2);
+	var tbje=parseFloat(sfje).toFixed(2);
+    	if(tbje&gt;0){
+     	dojo.byId("dwtbje").value="补"+tbje;
+    	}else{
+     	dojo.byId("dwtbje").value="退"+(0-tbje);
+     }
+}
+// add end
+function fnTixing(){
+	var hxje = dojo.byId("dwhxje").value;
+	if(hxje!=""){
+		return true
+	}
+	if(hxje==""){		
+		if((confirm("您未关联预付款凭证，是否保存"))){
+		return true
+		}
+	}
+	
+}
+/*
+	方法说明 ：		获取收款人信息
+	作    者 ：		tianyq@smartdot.com
+	日    期 ：		2018-10-29
+*/
+function fnSelSkr(o){
+
+	var strType_xm;
+	//add by wx 注释收款方类型必填校验，设置默认为单位 2018-11-05
+	/*if(dojo.query("input[name='strType_xm']:checked")[0]){
+		strType_xm = dojo.query("input[name='strType_xm']:checked")[0].value;
+	}else{
+		alert("请先选择收款方类型。");
+		return false;
+	}*/
+	strType_xm = "单位"
+
+	var tempStr = "收款方信息选择";
+	var strUrl = "/indishare/indiWSCenter.nsf/myview_erpskrinfo_xm?openform&amp;type="+escape(strType_xm);
+	
+	var dialog = new smartdot.IframeDialog({
+		src : strUrl,
+		preventCatch : true,
+		title : tempStr,
+		width : "1000px",
+		height : "530px",
+		onReceiveMessage : function(data) {
+			dojo.byId("skdwxx").value = data.RECEIVE_OBJ_NAME;			//收款方户名
+			dojo.byId("khh").value = data.RECEIVE_BANK_OPEN_NAME;			//收款方开户行名称
+			dojo.byId("skfyhzh").value = data.RECEIVE_NUMBER;				//收款方账号
+			//dojo.byId("skdwwybs").value = data.BANK_BIG_NUM;				//收款方银行 data.BANK_BIG_NUM   表单上没开发！！！
+			//判断收款方唯一标识的第一个字母：P为个人供应商，C为单位供应商  add by wx 2018-11-05   start------
+			dojo.byId("skfwydm").value = data.RECEIVE_OBJ;					//收款方唯一标识
+			dojo.byId("skdwzt").value = "0";					//收款单位状态(0表示选择，1表示新增)
+			var strtype = document.getElementsByName("strType_xm");
+			//收款方唯一标识的第一位为P时，给身份证号赋值并设为必填，并将统一社会信用代码清空，设为不必填，类型设置为个人
+			if(data.RECEIVE_OBJ.substring(0,1) == "P"){
+				//统一社会信用代码
+				smartdot.Validator.getItem("skdwwybs").set("required", false);
+				dojo.byId("skdwwybs").value = "";
+				dojo.byId("xydm1").style.display="";
+				dojo.byId("xydm2").style.display="none";
+				//身份证号
+				dojo.byId("sfzh").value = data.CRIEDIT_NUMBER;
+				dojo.byId("sfzh1").style.display="none";
+				dojo.byId("sfzh2").style.display="";
+				smartdot.Validator.getItem("sfzh").set("required", true);
+				//收款单位类型
+				for (i=0;i&lt;strtype.length;i++){
+       				if (strtype[i].value == "个人"){
+        					strtype[i].checked = true;
+        					break;
+       				}
+       			}				
+			}	
+			//收款方唯一标识的第一位为C时，给统一社会信用代码赋值并设为必填，并将身份证号清空，设为不必填，类型设置为单位	
+			if(data.RECEIVE_OBJ.substring(0,1) == "C"){
+				//统一社会信用代码
+				dojo.byId("skdwwybs").value = data.CRIEDIT_NUMBER;
+				dojo.byId("xydm1").style.display="none";
+				dojo.byId("xydm2").style.display="";
+				smartdot.Validator.getItem("skdwwybs").set("required", true);
+				//身份证号
+				smartdot.Validator.getItem("sfzh").set("required", false);
+				dojo.byId("sfzh").value = "";
+				dojo.byId("sfzh1").style.display="";
+				dojo.byId("sfzh2").style.display="none";
+				
+				//收款单位类型
+				for (i=0;i&lt;strtype.length;i++){
+       				if (strtype[i].value == "单位"){
+        					strtype[i].checked = true;
+        					break;
+       				}
+       			}				
+			}
+			dojo.query("#skdwxx").attr("readOnly",true);
+			dojo.query("#khh").attr("readOnly",true);
+			dojo.query("#skfyhzh").attr("readOnly",true);
+			dojo.query("#skdwwybs").attr("readOnly",true);
+			dojo.query("#sfzh").attr("readOnly",true);
+			//判断收款方唯一标识的第一个字母：P为个人供应商，C为单位供应商  add by wx 2018-11-05  end------
+			
+			dialog.hide().then(function(){
+				dialog.destroy();
+			});
+		},
+		onShow:function(){return;
+			if(dialogLoading){
+				dialogLoading.hide().then(function(){
+					dialogLoading.destroy();
+				});
+			}
+		}
+	});
+
+	dialog.show();
+}
+
+/*
+函数名：fnChangeSklx_xm
+函数功能：统一信用代码或者身份证号变化时
+	如果统一社会信用代码不为空，则身份证号为空并且不必填，类型为单位
+	如果身份证号不为空，则统一社会信用代码为空并且不必填，类型为个人
+修改时间：2018-11-05 add by wx
+*/
+function fnChangeSklx_xm(strkey){
+	var strtype = document.getElementsByName("strType_xm");
+	//修改社会信用代码域
+	if(strkey=="dw"){
+		if(dojo.byId("skdwwybs").value!=""){
+			//收款单位类型为单位
+			for(i=0;i&lt;strtype.length;i++){
+       			if (strtype[i].value == "单位"){
+        				strtype[i].checked = true;
+        				break;
+       			}
+       		}
+       		//身份证号为空且不必填
+       		smartdot.Validator.getItem("sfzh").set("required", false);
+       		dojo.byId("sfzh").value = "";
+       		dojo.byId("sfzh1").style.display="";
+			dojo.byId("sfzh2").style.display="none";
+			
+			//统一社会信用代码必填
+			dojo.byId("xydm1").style.display="none";
+			dojo.byId("xydm2").style.display="";
+			smartdot.Validator.getItem("skdwwybs").set("required", true);
+		}
+	}
+	//修改身份证号域
+	if(strkey=="gr"){
+	console.log(dojo.byId("sfzh").value)
+		if(dojo.byId("sfzh").value!=""){
+			//收款单位类型为个人
+			for(i=0;i&lt;strtype.length;i++){
+       			if (strtype[i].value == "个人"){
+        				strtype[i].checked = true;
+        				break;
+       			}
+       		}
+       		//统一社会信用代码为空且不必填
+       		smartdot.Validator.getItem("skdwwybs").set("required", false);
+       		dojo.byId("skdwwybs").value = "";
+       		dojo.byId("xydm1").style.display="";
+			dojo.byId("xydm2").style.display="none";
+			
+			//身份证号必填
+			dojo.byId("sfzh1").style.display="none";
+			dojo.byId("sfzh2").style.display="";
+			smartdot.Validator.getItem("sfzh").set("required", true);
+		}
+	} 
+}
+
+
+//选择预付款主数据
+function fnSelectview_yufukuan(db,view,flds,title,mode,value){ 
+	var strdbpath = document.forms[0].dbPath_JS.value;
+	db = strdbpath.substr(0,strdbpath.lastIndexOf("/"))+"/fylyfsq.nsf";
+	if(dojo.byId("skdwxx").value==""){
+		alert("请选择收款方户名");
+		return false;
+	}
+	key = '[fldSkrxm_xm] ='+dojo.query("[name=skdwxx]")[0].value;
+	key = encodeURIComponent(key);
+	var paramobj = {
+			'db':db,
+			'view':view,
+			'flds':flds,
+			'title':title,
+			'mode':'1',
+			'key':key,
+			'callbackFun':function(data){	
+				var obj=eval(data); 
+				var obj=dojo.fromJson(data);	
+				var yfkunid = "";
+			 	var yfkbh = "";
+			 	var hxje = "0.00";
+			 	for(var i = 0;i&lt;obj.length;i++){
+					if(yfkbh == ""){
+						yfkbh = obj[i].fldFwbh;
+					}else{
+						yfkbh = yfkbh + "," + obj[i].fldFwbh;
+					}
+					if(yfkunid == ""){
+						yfkunid = obj[i].fldunid;
+					}else{
+						yfkunid = yfkunid + "," + obj[i].fldunid;
+					}
+					hxje = (parseFloat(hxje) + parseFloat(obj[i].FLDSQJE_XM)).toFixed(2);
+				}
+				dojo.query("[name=hxje]")[0].value = hxje;   	// 核销金额
+				dojo.query("[name=glfyyf]")[0].value = yfkbh;		//关联费用预付
+				dojo.query("[name=yfkhkpzunid]")[0].value = yfkunid;   	// 预付款unid
+				//计算实付金额	
+				fnGetSfjedt_xm(hxje);
+		   }
+		};
+
+	fnSelect(paramobj);
+}
+
+//清空按钮将选择带出的那些域设置为可编辑，并且将收款单位状态改为1 add by wx 2018-11-05
+function fnChangeSkdwzt_xm(){
+	dojo.byId("skdwzt").value="1";
+	dojo.byId("skfwydm").value="";
+	dojo.byId("skdwxx").value="";
+	dojo.byId("khh").value="";
+	dojo.byId("skfyhzh").value="";
+	dojo.byId("skdwwybs").value="";
+	dojo.byId("sfzh").value="";
+	dojo.query("#skdwxx").attr("readOnly",false);
+	dojo.query("#khh").attr("readOnly",false);
+	dojo.query("#skfyhzh").attr("readOnly",false);
+	dojo.query("#skdwwybs").attr("readOnly",false);
+	dojo.query("#sfzh").attr("readOnly",false);
+}
+</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' rightmargin='0%' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><parstyle
+ name='html'><font size='9pt' color='black' name='face52'/></parstyle></pardef>
+<pardef id='2' leftmargin='0.5000in' rightmargin='95%' firstlineleftmargin='1in'/>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;style&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> .DynamicGrid .grid-table th{</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   text-align:center !important;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>  }</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> .DynamicGrid .grid-table td{</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   text-align:center  !important;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>  }</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/style&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div style="display:none"&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;input name="dbPath_JS" value="</run><run
+ html='true'><computedtext><code event='value'><formula>dbPath</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>"&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;!--动态表格 样例1--start--&gt;</run></par>
+<pardef id='3' leftmargin='1in' rightmargin='95%'><code event='hidewhen' enabled='false'><formula
+>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='3'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div id="</run><run html='true'><font size='9pt'
+ style='bold' name='宋体' pitch='variable' truetype='true' familyid='0'/>grid_5</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>" data-dojo-type="smartdot.DynamicGrid" data-dojo-props="datastore:'hfldData_fkdw',onAddRow:fnAddrow,onEditRow:fnEdrow,compute:['sfje','sum','#fldHjje_xm',2],beforeSaveCheck:fnTixing"</run></par>
+<par def='3'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>style="padding-top:0px;border-style:none;</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>margin-left:0px</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>;width:100%;overflow:auto"</run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;</run></par>
+<par def='3'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;script type="text/template" data-role="gridNode"&gt;</run></par>
+<par def='3'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;table class="grid-table"&gt;</run></par>
+<pardef id='4' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.2500in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;thead&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.qi"&gt;收款方户名&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.zhi"&gt;统一社会信用代码&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.sfzh"&gt;身份证号&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.zhi"&gt;开户行&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.qi"&gt;银行名称&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.jshj"&gt;应付金额&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.shuil"&gt;核销金额&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.shuil"&gt;挂账金额&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.shuil"&gt;支票核销金额&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.jine"&gt;实付金额&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.jine"&gt;关联费用预付&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.jine"&gt;支付状态&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important"&gt;&lt;span data-string-id="indiplatform.tylc.jine"&gt;支付&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>   &lt;th class="tdLabel" style="border-top:none !important;display:</run><run
+ html='true'><computedtext><code event='value'><formula>@If(flownum=0;"";"none")</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>"&gt;&lt;span data-string-id="indiplatform.tylc.jine"&gt;删除&lt;/span&gt;&lt;/th&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/thead&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tbody&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>{% if items.length %}</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>{% for item in items %}</run></par>
+<pardef id='5' leftmargin='0.5000in' rightmargin='95%' firstlineleftmargin='1.2500in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='5'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr data-role="loopRow" data-string-id="indiplatform.tylc.djbjbh" title="点击编辑本行" &gt;</run></par>
+<pardef id='6' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.5000in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:20px"&gt;&lt;input name="ckbox" type="checkbox" onclick="ckHandler_fkdw(event);" sid="{{forloop.counter}}" /&gt;&lt;/td&gt;</run></par>
+<pardef id='7' leftmargin='0.7500in' rightmargin='95%' firstlineleftmargin='1.5000in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.skdwxx|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.skdwwybs|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.sfzh|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.khh|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.skzhmc|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.yfje|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.hxje|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.gzje|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.zphxje|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.sfje|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.glfyyf|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;{{item.zfzt|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent" style="display:none"&gt;{{item._dynid_|default}}&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td align="center" class="tdContent"&gt;</run></par>
+<pardef id='8' leftmargin='1in' hide='notes web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='8'><run html='true'>	&lt;!--财务改造项目 20181027 以下内容中有web隐藏条件，操作需谨慎--&gt;</run></par>
+<pardef id='9' leftmargin='1.2500in' rightmargin='100%' hide='notes'><code
+ event='hidewhen' enabled='false'><formula>REM {还需要在条件中加上 或当前环节是不是财务支付时};
+@If(fldZfzt_xm="";@False;@True)</formula></code></pardef>
+<par def='9'><run html='true'><font size='9pt' name='monospace' color='maroon'/>	&lt;button id="btnZf_xm" type="button" dojoType="smartdot.form.BusyButton"</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/> timeOut="2000"  </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>onClick="return fnEmitZf_xm(</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>{{item._dynid_|default}}</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>);"</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/>data-string-id="indiplatform.tylc.tixing"&gt;支付&lt;/</run><run
+ html='true'><font size='9pt' name='serif' color='#a11f12'/>button</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/>&gt;</run></par>
+<pardef id='10' leftmargin='1.2500in' rightmargin='100%' hide='notes'><code
+ event='hidewhen'><formula>REM {还需要在条件中加上 或当前环节是不是财务支付时};
+@If(fldZfzt_xm="";@False;@True)</formula></code></pardef>
+<par def='10'><run html='true'><font size='9pt' name='serif' color='blue'/>	&lt;/td&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;!--上移、下移功能,不需要删除即可--&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="grid-action" style="width:15px;border:1px solid #ddd;display:</run><run
+ html='true'><computedtext><code event='value'><formula>@If(flownum=0;"";"none")</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>"&gt;&lt;button data-role="removeButton" type="button" class="remove-button" data-string-id="indiplatform.tylc.djscbh" title="点击删除本行"&gt;&amp;times;&lt;/button&gt;&lt;/td&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> </run></par>
+<par def='5'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>{% endfor %}</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>{% else %}</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr data-role="empty"&gt;</run></par>
+<pardef id='11' leftmargin='1.2500in' rightmargin='95%' firstlineleftmargin='1.5000in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='11'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td&gt;&lt;/td&gt;</run></par>
+<par def='11'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td&gt;&lt;/td&gt;</run></par>
+<par def='11'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td colspan="22"&gt;&lt;span data-string-id="indiplatform.tylc.wshuju"&gt;&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>{% endif %}</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tbody&gt;</run></par>
+<pardef id='12' leftmargin='0.7500in' rightmargin='95%' firstlineleftmargin='1in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/table&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/script&gt;</run></par>
+<pardef id='13' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;div class="bottomContent" style="text-align:left;border-top:none !important"&gt;</run></par>
+<pardef id='14' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula>flownum !=0</formula></code></pardef>
+<par def='14'><run html='true'><font size='9pt' name='monospace' color='blue'/>	&lt;button  type="button" dojoType="smartdot.form.Button" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>data-string-id="indiplatform.tylc.delete"</run><run
+ html='true'><font size='9pt' name='monospace' color='blue'/> onClick="deleteCsRow('</run><run
+ html='true'><font size='9pt' style='bold' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>grid_5</run><run html='true'><font size='9pt' name='monospace'
+ color='blue'/>');"&gt;删除&lt;/button&gt;</run></par>
+<pardef id='15' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.5000in'
+ hide='notes'><code event='hidewhen'><formula>flownum !=0</formula></code></pardef>
+<par def='15'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;a data-role="newButton" class="btn btn-default"&gt;</run></par>
+<par def='15'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;span class="btn-content" data-string-id="indiplatform.tylc.xinzeng"&gt;增加&lt;/span&gt;</run></par>
+<par def='15'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;/a&gt;</run></par>
+<pardef id='16' leftmargin='1in' hide='notes web mobile' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='16'><run html='true'><font size='9pt' name='monospace' color='blue'/>	&lt;button  type="button" dojoType="smartdot.form.BusyButton" timeOut=2000 onClick="return exportExcel();"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>data-string-id="indiplatform.tylc.exceldc"</run><run
+ html='true'><font size='9pt' name='monospace' color='blue'/>&gt;导出&lt;/span&gt;&lt;/button&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='monospace' color='blue'/>	&lt;iframe name="iupload" id="iupload" target="_blank" style="display:none"&gt;&lt;/iframe&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;/div&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/></run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;script type="text/template" data-role="editNode"&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div class="form-horizontal"&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;table align="left" class="</run><run html='true'><font
+ size='9pt'/><computedtext><code event='value'><formula>@If(@IsDocBeingEdited;"tableClass";"tableClass-readOnly")</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>" width="100%"&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>needfill</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.skdwxx"&gt;收款方户名&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%" colspan="3"&gt;&lt;input name="skdwxx" type="text" id="skdwxx" style="width:80%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>required="true" indiType="smartdot.form.Validation"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;</run></par>
+<par def='4'><run html='true'><font name='serif'/>&lt;button type="button" class="btn btn-default" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>onclick="fnSelSkr(this)"</run><run
+ html='true'><font name='serif'/>&gt;&lt;span class="btn-content"&gt;&lt;span data-string-id="</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>indiplatform.tylc.xuanze</run><run
+ html='true'><font name='serif'/>"&gt;选择&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;</run></par>
+<par def='4'><run html='true'><font name='serif'/>&lt;button type="button" class="btn btn-default" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>onclick="fnChangeSkdwzt_xm(this)"</run><run
+ html='true'><font name='serif'/>&gt;&lt;span class="btn-content"&gt;&lt;span data-string-id="</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>indiplatform.tylc.qingk</run><run
+ html='true'><font name='serif'/>"&gt;清空&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right;display:none" id="xydm1"&gt;&lt;span data-string-id="indiplatform.tylc.skdwwybs"&gt;统一社会信用代码&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right;" id="xydm2"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>needfill</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.skdwwybs"&gt;统一社会信用代码&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="skdwwybs" type="text" id="skdwwybs" style="width:100%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>required="true" </run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/>  </run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/>indiType="smartdot.form.Validation" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>onChange="fnChangeSklx_xm('dw')"&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right;display:none" id="sfzh1"&gt;&lt;span data-string-id="indiplatform.tylc.sfzh"&gt;身份证号&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right;" id="sfzh2"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>needfill</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.sfzh"&gt;身份证号&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="sfzh" type="text" id="sfzh" style="width:100%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>required="true" </run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/> </run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/>indiType="smartdot.form.Validation" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>onChange="fnChangeSklx_xm('gr')"&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>needfill</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.khh"&gt;开户行&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="khh" type="text" id="khh"  style="width:100%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>required="true"</run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/> </run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/>indiType="smartdot.form.Validation" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>needfill</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.skzhmc"&gt;银行账号&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="skzhmc" type="text" id="skfyhzh" style="width:100%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>required="true"</run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/> </run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/>indiType="smartdot.form.Validation"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>needfill</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.yfje"&gt;应付金额&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="yfje" id="dwyfje" type="text"  style="width:100%;"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>required="true"</run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/> </run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/>indiType="smartdot.form.Validation"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/> onChange="fnGetSfjedt_xm(this.value)"&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;&lt;span data-string-id="indiplatform.tylc.hxje"&gt;核销金额&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="hxje" id="dwhxje" type="text"  style="width:100%;" readOnly </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>indiType="smartdot.form.Validation" </run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>onChange="fnGetSfjedt_xm(this.value)"&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;&lt;span data-string-id="indiplatform.tylc.gzje"&gt;挂账金额&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="gzje" id="dwgzje" type="text"  style="width:100%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>indiType="smartdot.form.Validation"</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/> onChange="fnGetSfjedt_xm(this.value)"&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;&lt;span data-string-id="indiplatform.tylc.zphxje"&gt;支票核销金额&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%"&gt;&lt;input name="zphxje" id="dwzphxje" type="text"  style="width:100%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>indiType="smartdot.form.Validation"</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/> onChange="fnGetSfjedt_xm(this.value)"&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;&lt;span data-string-id="indiplatform.tylc.sfje"&gt;实付金额&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;input name="sfje" id="dwsfje" type="text"  style="width:100%;" </run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/>required="true" </run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/>readOnly </run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/> indiType="smartdot.form.Validation"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;&lt;span data-string-id="indiplatform.tylc.glfyyf"&gt;关联费用预付&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;input name="glfyyf" id="glfyyf" type="text"  style="width:100%;"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/> </run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>readOnly </run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/> indiType="smartdot.form.Validation"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/> </run><run
+ html='true'><font name='serif'/> </run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>onclick="fnSelectview_yufukuan(</run><run
+ html='true'><computedtext><code event='value'><formula>"'','vwDocByAllforyfksel_xm','fldFwbh,fldunid,FLDSQJE_XM','选择报销所对应的单位预付款单','1',this"</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>)"&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;&lt;span data-string-id="indiplatform.tylc.sfje"&gt;支付状态&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" colspan="3"&gt;&lt;input name="zfzt" id="zfzt" type="text"  style="width:100%;"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/> indiType="smartdot.form.Validation"</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr style="display:none"&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" style="width:20%;text-align:right"&gt;&lt;span data-string-id="indiplatform.tylc.skdwxx"&gt;收款方类型&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent" style="width:30%;text-align:left"&gt;</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/><field
+ borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='strType_xm' htmlid='strType_xm'><keywords
+ helperbutton='false' columns='2' ui='radiobutton'><textlist><text>单位|单位</text><text
+>个人|个人</text></textlist></keywords></field></run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr style="display:none"&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel"&gt;&lt;span data-string-id="indiplatform.tylc.skdwzt"&gt;收款单位状态（新增/选择）&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;input name="skdwzt" id="skdwzt" type="text" value="1" style="width:100%;"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/> indiType="smartdot.form.Validation"</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel"&gt;&lt;span data-string-id="indiplatform.tylc.skfwydm"&gt;收款方唯一代码&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;input name="skfwydm" id="skfwydm" type="text"  style="width:100%;"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/> indiType="smartdot.form.Validation"</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> &lt;tr style="display:none"&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel"&gt;&lt;span data-string-id="indiplatform.tylc.yfkunid"&gt;预付款unid&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;input name="yfkhkpzunid" id="yfkhkpzunid" type="text"  style="width:100%;"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/> indiType="smartdot.form.Validation"</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel"&gt;&lt;span data-string-id="indiplatform.tylc.tbje"&gt;退补金额&lt;/span&gt;：&lt;/td&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;input name="dwtbje" id="dwtbje" type="text"  style="width:100%;"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/> indiType="smartdot.form.Validation"</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td colspan=2&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div&gt;</run></par>
+<pardef id='17' leftmargin='0' rightmargin='95%' firstlineleftmargin='1.2500in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='17'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;button type="button" class="btn btn-key" data-role="saveButton" &gt;&lt;span class="btn-content" data-string-id="indiplatform.tylc.baocun"&gt;保存&lt;/span&gt;&lt;/button&gt;</run></par>
+<par def='17'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;button type="button" class="btn btn-default" data-role="cancelButton"&gt;&lt;span class="btn-content" data-string-id="indiplatform.tylc.cancel"&gt;取消&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/table&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/script&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='12'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div style="display:none"&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.descriptma"&gt;后台存的域，实际用时应该隐藏：&lt;/span&gt;</run></par>
+<pardef id='18' leftmargin='0.7500in' rightmargin='95%' firstlineleftmargin='1in'/>
+<par def='18'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='richtext' kind='editable' name='hfldData_fkdw'
+ htmlid='hfldData_fkdw'><code event='htmlattributes'><formula>"style='width:100%' rows='8'"</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par>
+<par def='13'><run html='true'><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;!--动态表格样例1--end--&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;style&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>.DynamicGrid .grid-table TD {</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>    text-align: left;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>    line-height: 20px;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>    padding: 4px 3px;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>}</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/style&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par></richtext></body>
+<item name='Fldtime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='riqi' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='OriginalModTime' sign='true'><datetime>20071018T105948,93+08</datetime></item>
+<item name='fldFenShu' summary='false' sign='true'><number>0</number></item>
+<item name='Fldfs' summary='false' sign='true'><number>0</number></item>
+<item name='strStartDate' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strStartTime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strEndDate' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strEndTime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='fldQiCaoRQ' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>动态表格_Edit</text></item></subform>
+

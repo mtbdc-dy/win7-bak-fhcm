@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='FTP功能相关资源' alias='sfrmFtp' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='356' unid='8D2C359891EFF475482579B9004FAEF1' sequence='55'>
+<created><datetime>20120306T223021,29+08</datetime></created>
+<modified><datetime>20181025T014914,59+08</datetime></modified>
+<revised><datetime>20181024T085443,76+08</datetime></revised>
+<lastaccessed><datetime>20181025T014914,58+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010753,55+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>var tempstr1 = smartdot.i18n.getString("indiplatform.tylc.ksss1","搜索");
+function fnonfocus(){
+	if(document.getElementsByName("simple_search")[0].value == tempstr1)
+    {
+    	document.getElementsByName("simple_search")[0].value ="";
+    }
+}
+function fnonblur()
+{
+   	if(document.getElementsByName("simple_search")[0].value == "")
+   	{
+   		document.getElementsByName("simple_search")[0].value = tempstr1;
+   	}
+}
+function fnonkeypress(event)
+{
+	var strKey = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+  	
+  	if (strKey==13)
+  	{
+		if(document.getElementsByName("simple_search")[0].value == "")
+		{
+			alert(smartdot.i18n.getString("indiplatform.tylc.sstj","请输入搜索条件！"));
+			return;
+		}  	
+		//快速搜索为dojo按钮，相关click调用对应做修改
+		dojo.byId("gosearch").click();
+  	}
+}
+function SpeedSearch(){
+	var ss=document.getElementsByName("simple_search")[0];
+  	if(ss.value == "")
+ 	{
+		alert(smartdot.i18n.getString("indiplatform.tylc.sstj","请输入搜索条件！"));
+		ss.focus();
+		return;
+  	}
+	document.getElementById("ifrFTPDraft").contentWindow.fnLoadFTPAtt(ss.value)
+}</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='print'/>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;div </run><run html='true'><font name='serif'
+ color='#0062e1'/>dojoType="dijit.Dialog"</run><run html='true'><font name='宋体'
+ pitch='variable' truetype='true' familyid='0' color='#0062e1'/> id="ftpDialog" title="添加超大附件" data-string-id="indiplatform.tylc.tjcdfj" style="display:none;width:500px"&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>	&lt;div id="ftp-tab-bar" class="tab-bar"&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>		&lt;ul class="tab-bar-list"&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>			&lt;li class="tab-bar-item tab-bar-item-selected" onclick="fnSwitchFtpDraft( 0 )"&gt;&lt;span class="tab-bar-item-value"  data-string-id="indiplatform.tylc.scxfj"&gt;上传新附件&lt;/span&gt;&lt;/li&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>			&lt;li class="tab-bar-item" onclick="fnSwitchFtpDraft( 1 )"&gt;&lt;span class="tab-bar-item-value" data-string-id="indiplatform.tylc.</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>cwjzzzzxz</run><run html='true'><font name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='#0062e1'/>"&gt;从文件中转站中选择&lt;/span&gt;&lt;/li&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>		&lt;/ul&gt;</run></par>
+<pardef id='2' leftmargin='1.2500in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run html='true'>&lt;div id="wrap-search" </run><run html='true'><font
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='#0062e1'/>style="</run><run
+ html='true'>float:right;display:none"&gt;</run></par>
+<par def='2'><run html='true'>	&lt;div class="search"&gt;</run></par>
+<par def='2'><run html='true'>	</run><run html='true'><field type='text' kind='editable'
+ name='simple_search' extrahtmlattrs='onblur="fnonblur()" onfocus="fnonfocus()" onkeypress="fnonkeypress(event)" border="0" data-string-id=&apos;indiplatform.ldpx.sousuo&apos;'><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwAuN+KRkT004jCbiAMwAnwdvM2nMi7OFDlBAAEAAQABAA=
+</formula></code><code event='onBlur'
+ for='web'><javascript>fnonblur()</javascript></code><code event='onFocus'
+ for='web'><javascript>fnonfocus()</javascript></code><code event='onKeyPress'
+ for='web'><javascript>fnonkeypress(event)</javascript></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='65375' afterparcount='13' containertype='65418'
+ aftercontainercount='8' afterbegincount='10'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='2'><run html='true'>	&lt;span id="gosearch" onclick="SpeedSearch()"&gt;&lt;/span&gt;</run></par>
+<par def='2'><run html='true'>	&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>	&lt;/div&gt;</run></par>
+<par def='2'/>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;div id="ftp-upload"&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>	&lt;div id="warp-total-action-one" style="margin-left:5px;"&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>		&lt;span&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>			&lt;span class="tdBtn" onclick="fnAddAtt()" data-string-id="indiplatform.tylc.</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>tjfj</run><run html='true'><font name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='#0062e1'/>"&gt;添加附件&lt;/span&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>			&lt;span class="tdBtn" onclick="</run><run
+ html='true'>RestartUpload</run><run html='true'><font name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='#0062e1'/>()" data-string-id="indiplatform.tylc.</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>cxscsbwj</run><run html='true'><font name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='#0062e1'/>"&gt;重新上传失败文件&lt;/span&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>		&lt;/span&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>	&lt;/div&gt;</run></par>
+<pardef id='3' leftmargin='1in' rightmargin='100%' hide='print'/>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/> 	&lt;div id="divComposeAttachArea"&gt;</run></par>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/> 		&lt;div style="display:none" id="divComposeAttachInfo"&gt;</run><run
+ html='true'><font style='underline' name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/>&lt;/div&gt;</run></par>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/> 		&lt;div id="divComposeAttachContent"&gt;</run></par>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/> 			&lt;ul&gt;</run></par>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/> 			</run></par>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/> 			&lt;/ul&gt;</run></par>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/> 	</run><run html='true'><font style='underline'
+ name='Courier New' pitch='fixed' truetype='true' familyid='30' color='#3f8080'/>	&lt;/div&gt;</run></par>
+<par def='3'><run html='true'><font name='Courier New' pitch='fixed' truetype='true'
+ familyid='30' color='#3f8080'/>	 </run><run html='true'><font style='underline'
+ name='Courier New' pitch='fixed' truetype='true' familyid='30' color='#3f8080'/>&lt;/div&gt;</run></par>
+<par def='3'><run html='true'><font style='underline' name='Courier New' pitch='fixed'
+ truetype='true' familyid='30' color='#3f8080'/>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>	&lt;iframe id="ifrFTPDraft" name="ifrFTPDraft" src="" </run><run
+ html='true'><font name='serif' color='#0062e1'/>width="0px" height="0px" style="border:0;margin:0 5px" frameborder="0"</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>&gt;&lt;/iframe&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>	&lt;div id="warp-total-action-two"&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>		&lt;center&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>			&lt;div class="btn btn-key"&gt;&lt;span class="btn-content" onclick="fnSaveAtt()" data-string-id="indiplatform.tylc.</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>sure</run><run html='true'><font name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='#0062e1'/>"&gt;确定&lt;/span&gt;&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>			&lt;div class="btn btn-default"&gt;&lt;span class="btn-content" onclick="fnHideFtpSelect()"  data-string-id="indiplatform.tylc.</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>cancel</run><run html='true'><font name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='#0062e1'/>"&gt;取消&lt;/span&gt;&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>		&lt;/center&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>	&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;/div&gt;</run></par>
+<pardef id='4' leftmargin='1in' hide='read print'/>
+<par def='4'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/></run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;div style="display:none"&gt;</run></par>
+<par def='4'><run><font color='#0062e1' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='ftp_MainDocUNID' htmlid='ftp_MainDocUNID'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='4'><field type='richtext' kind='editable' name='ftp_tmpatt' htmlid='ftp_tmpatt'/><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='5' leftmargin='1in' hide='edit print'/>
+<par def='5'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;input id="</run><run html='true'><font
+ name='Courier New' pitch='fixed' truetype='true' familyid='30' color='#4200ff'/>ftp_MainDocUNID</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>" name="</run><run html='true'><font name='Courier New'
+ pitch='fixed' truetype='true' familyid='30' color='#4200ff'/>ftp_MainDocUNID</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>" value="</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+LgAJACQAxlObK2ryBUVV9sw5WmFq3GiMlV6GD4MLJQJrvzakUxAEAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='#0062e1'/>" /&gt;</run></par>
+<pardef id='6'/>
+<par def='6'><run html='true'>&lt;input id="strFTPAttInfor" name="strFTPAttInfor" value="</run><run
+ html='true'><field type='richtext' kind='computed' name='strFTPAttInfor'
+ htmlid='strFTPAttInfor'><code event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIUJtq5mZ0WCCqYUvMHZCSvrc8qfcCpku1kEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>" /&gt;</run></par>
+<par def='6'><run html='true'>&lt;input id="strStaticViewFileSize" name="strStaticViewFileSize" value="</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='strStaticViewFileSize'><code
+ event='defaultvalue'><formula compiled='true'>
+7gIJAOQCE5WQac9VFnixLqTGpfntHRKJs1z/6rbNYKb8JhNRP4B6XIDR89MoTTIYwB5mf81Rarcz
+sna6XiYeWdmHyV6GvlOGQJ3KQLFgRgPOWs7JpadkMSqjrxpsKTU4XD7cIKHwEPUO8r5aMteTo/cY
+empjKyUDd+e3ywjqWq9acGLv/YvamPi3fnoTrY7gA/lWO9/Q+vKIs1CJEGacv4So1fZVUjXZ6Joj
+q8Gwov1F0VnTL7fNJC8RFSor2ckSqjkhO2C6ePJHiZ9OyA15yxx07RM7L66f5M8M4N1BMC2af4dX
+/UohKmWC5cZxM7IEwdgfIJS8+U/wUUhkaaetWpPkc91/aoPlIhfpnZgvmgzR61fNBVZHL3n2FsAZ
+Wg7gq5zbj/HyPW3e26UhDK0RMvkU2NTmGNCWocJbVBb36xp35Zn4kLMozn+oSDygx8rqk80KW6Wg
+y+YgGM4LAvIibbSW+gOd95zmizQ1l8S0Pa2jpLbGKnuppaeXnhgWxe95JTn6uRGAOsG1EiW9EYC1
+wnRqFbEP6cz/sC0paDTfaxAsXQI7c+k/lWO2lkz6LGjORnznh/E+K+yUDQtwV5ulRikI7CT3soJ2
+qbOpvpEq6/wVOjHYuNhfZWxBWRjVL3TLAT1XW85k2rF/BPO2x/dGasL4+vQbdgyL1JZIa3suFQAk
+Q7evv9Ff6FSlCBQaLjCEI9eQj/ZL5eykfg9GnpKCImgjCEHGhLeNS/z38i6mFkBpzXYfNoackjWx
+lC/SpbtLJnkD4R39h0SUFzewWZGh+nRWyuZaSEh2vAYNBaEsqoK5SF4FUH8n7NWR57nBtEplFgE5
+z+KxzDnHoX1hCsn0VlK60IHbBC+mv9LmwNOVdIVOlPgSRsuoviVkUlA/t4gseOE13yFTQcgQ1+Ro
+vD6h2JJSzGmD1wAHtqlnibRhcXMGjXdbZ59yYx36m5DUxMGkHg7bZ2anuMYIUyI7gm9Etxl0SLc6
+NAQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run html='true'>" /&gt;</run></par>
+<pardef id='7' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='7'><run html='true'><font size='9pt' color='red'/>&lt;input name="ftp_curuser" value="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+HgAJABQAbKmhCPlID24SeQFQroTRUAQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='red'/>"&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' color='red'/>&lt;input name="idx_silverlightFTP_version" value="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+5gIJANwCXcCwZmnbHoA23y/IrzzBP40yNv10MhBrHTfQlmxD15e3AX0GE034rVWDJADPf7iM/LJ0
+YrutTTIvqJMxY9Q3K9Gkh+qPyG1dx1LMhjT57y4Jem08ApjJfPneU/Mdt7umJRD9mbI2f+YXVd2v
+699dFr6Nma2+3vouoyvqqtxQ96Zw2BJ5AaNDrypHp/fOPCBQIgexrhHZTJcl4pE/0m8souYkrO7T
+lysQV3YhFFh5f8UZw6ZeJnQNtMlRIoW29R86WNbZwIsgea1W0rmzOgj8Dlj9EiGIttJLG09IdM5f
+4Sxq+8I7nVI6xaMePNfJjlq+Q7j0ZU8Q1yGuxqn0urllgmLj1KsKGjwv+W43agFdqS12mrMlBxEF
+lIyUDHrGT8z5ap4ETz1TLcQB9f2TnimQ2uJm0/V5bwBe460cBjHic94vJv3JrYIgThJVq5f1zfiO
+14AbgIn4wQiPeFpbRCbIgE3pooJR0t9Owq2m6LbyMGB3PXOM0ZLHlcXLWCHm2wnnkwLI5Yf6DaWB
+XRAk3Ah03HVKtI/QwM398PTgiLA9aB3SjbDBt5Iii2E8Wvk4CIjFEq2hzT+NkO9qVkRaeotm16It
+077YBkVefzMfTAsA+uKxKkWFmYApOwNYJIu5SctH+rSuWRTRgemQbFJRN8VV4n9eFh0nslB1yw1+
+OvEySwgoHCzjMqDoP80y2v/TQqUf7s0mw+yXdL7AklYv364sXP+ubsQses2Nhq4r3YX1oqOPoilC
++PviDUi95lXHt2xEUDKmXgGqUgQfrUhxSi+7uhizV2BSpWYm+NTYgXqxQ2kUugU0z98b52cmhN8C
+GOQUA2SkXp1Q1ooCr34cP1/VWV1OlXi7BEFLGlr8mpl3C7wc46pvMDDfz/PB4YnS1GPswQOUXAm7
+Ff9IxpSY5ZpOhiVmw9/De5KoXFegc1aDgEiEGTuO+fkRw1eKS3uaVCWGi9+RPWV4sVMEAAQABAAE
+AA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='red'/>"&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' color='red'/>&lt;input name="idx_initftpParams" value="</run><run
+ html='true'><font color='red'/><computedtext><code event='value'><formula
+ compiled='true'>
+BgMJAPwC0RbOSuiHFUSRIZgOABbDbTnTSXpmS18SgY3bpO4x68Pn5/Usv2N8RIGy1cbZCQMuJVFh
+0mgBu2iQ58RnUWytW1YQP/q1Yukf9yrQsDgu3sGE1X7TVt0Qkc+INBnT2u+vfJ0JW7rjEJI07vXt
+Rm8GnbGDV1GHXtXA2epZ89rup8FyxxBg/EmqLPoW5SiWBPh3Vnax+kOBZ2L+M6fbxnweblwXRGWV
+mqhJ1VxYWfGR660asBM0a+zMXu4GwlNV2XiQy9SUkyM+8qUFm35lnJ27lna3dMc9pO4ZcG7bdoR0
+VD8lLra4aSnOzHoGcL+tlSLmvax5nYLPcj9H8ywGHCxH2Amh25DT+etCrJkDHMt059pOTlO7SBvj
+RjNAUUq4Fc7WOYAVupA8H2EZGtO1KkroHZfxAKeQZUvC0u2rLP6SFJRH0yahgRnmHtWgGJVdApkA
+v9MP12Kt6xKM3yaU3TrEVhbs1brs4a7YppQi3NIquOJtzI2ayiELiFG4YW9qlUocm9eJ8Lem69Je
+wfGVVfWjdSAJMdlSVyj9hhtZqqPzXV5SjajXKe6oHLL7+eO4TRxBwygifb3ZPjgzu7H73LWJk64j
++lWvDHfF+oyoPUMXDpImpGl/6I84Pex0M4Qw0GIqXY9nKeYt0QRo/Pv4bSGBMdwvNx+M2FrhVdLB
+xyD7j0JNgvaRuJlTEEe04dI7k0s+MWBjbhwoL7wz1AtR5lbH/1AcW2wy06/bLnCEouBvVqJSv3YN
+zGxH3xIIDt35etvHCnDuptxmQ+HdFy1a50htsZd0KpOblifhCBdFO/bws3J1Qgl0wSIJwcbe/FR9
+bXHLKeMoXjq0JNgqul/oiiymZG2hzu5z6/qGvdt4lCqiB0uSpS3TgSuKY6CVaYYrG4jUIwctUU3B
+neidGYw8ieNDzD/24/GP0btX+y50Z69fVl0/FDDuu+7TntsGX7C70DeI8LXTxzEZUbhKyFOalzCp
+B6rDlQyMMqmCdxbOtmM+x85HPcXpW4vOcwQABAAEAAQA
+</formula></code></computedtext></run><run html='true'>,</run><run
+ html='true'><font size='9pt' color='navy'/>Language=</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp81Wsq16n3fg2yeboLmtOcmtCSIgMCglf5EEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>,UploadServers=</run><run html='true'><field type='text' kind='computedfordisplay'
+ name='strFTPServerInfor'><code event='defaultvalue'><formula compiled='true'>
+LgAJACQAPCoz+6OID/Lf5/mRpXVunSoLXQwOcnI8f30hBHge3b4EAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='28' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>,Md5CheckUrl=/</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+NgAJACwAynp+sh9AibgacJ1h+keIMSikfqempX98DY8UN+7IZ+Y9N7EbjfUH4gQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'>/agtCheckMD5?openagent</run><run html='true'><font size='9pt'
+ color='red'/>"&gt;</run></par>
+<par def='6'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;/div&gt;</run></par>
+<par def='4'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/></run></par>
+<par def='7'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;LINK REL=stylesheet HREF="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp82hNp83KA7SOUBxcuCiyuDR/DMkcpPU1NAEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>ftpcustom.css</run><run html='true'><computedtext><code
+ event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>" TYPE="text/css" /&gt;</run></par>
+<par def='7'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='#0062e1'/>&lt;LINK REL=stylesheet HREF="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp82hNp83KA7SOUBxcuCiyuDR/DMkcpPU1NAEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='#0062e1'/>ftpmgr.css</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='#0062e1'/>" TYPE="text/css" /&gt;</run></par>
+<par def='7'><run html='true'>&lt;script type="text/javascript" src="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp802ukkCpkqIjoEf0kQmhGK9M8CB8MccqDMEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>lib/ftpcustom.js</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run html='true'>"&gt;&lt;/script&gt;</run></par>
+<par def='7'><run html='true'>&lt;script type="text/javascript" src="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp802ukkCpkqIjoEf0kQmhGK9M8CB8MccqDMEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>jslib/Silverlight.js</run><run html='true'><computedtext><code
+ event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>"&gt;&lt;/script&gt;</run></par>
+<par def='7'><run html='true'>&lt;script type="text/javascript" src="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp802ukkCpkqIjoEf0kQmhGK9M8CB8MccqDMEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>lib/ftp.js</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run html='true'>"&gt;&lt;/script&gt;</run></par>
+<par def='7'><run html='true'><font name='Consolas' pitch='fixed' truetype='true'
+ familyid='30'/>&lt;div id="</run><run html='true'><font name='Courier New'
+ pitch='fixed' truetype='true' familyid='30' color='#4200ff'/>silverlightFTPControlHost</run><run
+ html='true'><font name='Consolas' pitch='fixed' truetype='true' familyid='30'/>"&gt;</run></par>
+<par def='6'><run html='true'><font name='Consolas' pitch='fixed' truetype='true'
+ familyid='30'/>&lt;/div&gt;</run></par>
+<par def='7'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmFtp</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,97+08</datetime></item></subform>
+

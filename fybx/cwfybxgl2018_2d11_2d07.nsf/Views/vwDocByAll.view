@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwDocByAll' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ showinmenu='false' defaultdesign='true' allowdocselection='true' publicaccess='false'
+ designerversion='8.5.3' language='zh-CN' comment='所有公文－统计用' unreadmarks='standard'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='true' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='maroon' rowlinecount='5' headerlinecount='1'
+ rowspacing='1.25' haslinkcolumn='true' bgcolor='white' altrowcolor='#efefef'
+ totalscolor='blue' headerbgcolor='white' boldunreadrows='false' evaluateactions='false'
+ allownewdocuments='false' allowcustomizations='true' hidemarginborder='false'
+ marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
+<noteinfo noteid='19a' unid='F8E357D35A8E795A48257A3A00374531' sequence='58'>
+<created><datetime>20120713T180341,93+08</datetime></created>
+<modified><datetime>20181107T195613,14+08</datetime></modified>
+<revised><datetime>20181024T085440,76+08</datetime></revised>
+<lastaccessed><datetime>20181107T195613,14+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195613,14+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+ZgIJAFwCc7jTTCjxhT2VLVODq5DptDFKWnQcLxaZSmBJkb0k5AcIDnXKE9f+CWoWGhdYpfuIrmPv
+/BXDJyxeB6ITAY/mnHTANnGB9KKFZ7NMiDOOE9nDWgPJyQbPZ/sxnwV3I5/qjh2A+BQ6JpcoRFP2
+pTg3eZIzPIsykj2swJ2eX3svItkD28I7Bi6t8oxB5GXbnhYzOUnLdI0N7x/zzcWjRJgBsID2onh+
+AIIDzieXKto/BtmqKE1h8AFSfa8BO/1muf1qJ7HftI2Dpf2ayOQIa0k+rKz8sRWbgz6Jb3h2BoLS
+/3HJxEZA7oRayER9stE1oZ+iTOcyjs523gboQSxetoFS2IpiM3O8JBKA338U64WPArBsPs3nz/uu
+GDEtMQqiRdPJIrNwTAK/R4zTiXVEsaoaHncB2Y6rkpz7+WRuWWJOobgvUx3VNX4NhKzV8svhPnrZ
+0QbYtPnO8YwRZXxwkYlY5ufXn3vlufZWxwAL2PbUf1cbVakWyaYcUiKx9EsLsh5/UAtgqf7Yiffz
+2xib60te5bjJjDX4jtPQ9CZrFmnT7qiic6Yo2RB0Oo/oakh6SJvQHekB80khfP3xkWRMaH7Smhcx
+ubeHvGQfY6abtI7j71LcxIR8x0JKmikFl1b2WkqDrrQ1VxPNZ3B8gimDX83ubyoy0/au4LfuXaLa
+leNu86OUwGjiTO5BhJVY4dU7hmIPBtz1ksUBhVS78zd4JmTmSVP7N9H2YbEim3fKMWdvpEyeEBTy
+oGQNkL5nXJLpOybUSNUMxpNUXW+dp2umOEbDzWdCFwFu/H1GBAAEAAQABAA=
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' hidedetailrows='false' itemname='fldQiCaoRQ' width='4.5000'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' hidden='true'><columnheader title='date'><font style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+NgAJACwAzBjxVZmeWPEN0A8vUyTz3E4ROiwxbVgCHbo1Ua3mptR1FrqwNLyA6AQABAAEAAQA
+</formula></code></column>
+<column sort='descending' hidedetailrows='false' itemname='$61' width='13.6250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='true'><font size='9pt'/><columnheader title='&lt;span data-string-id="indiplatform.tylc.qcrq">起草日期&lt;/span>'><font
+ style='bold'/></columnheader><datetimeformat legacy='true' show='date' date='yearmonthday'
+ fourdigityear='true' time='hourminutesecond' zone='never'/><code event='value'><formula
+ compiled='true'>
+NgAJACwAzqQZZk+Wp3PzzDJTv/QU9nannnMyBzXxZt4rNZ0aJoFOtIVjH9J+6wQABAAEAAQA
+</formula></code></column>
+<column sort='ascending' hidedetailrows='false' listseparator='comma' itemname='$63'
+ width='49' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='true'><font size='9pt'/><columnheader title='&lt;span data-string-id="indiplatform.tylc.biaoti">标题&lt;/span>'><font
+ style='bold'/></columnheader><datetimeformat legacy='true' show='date' date='yearmonthday'
+ time='hourminutesecond' zone='never'/><numberformat legacy='true' format='general'
+ digits='2' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='value'><formula compiled='true'>
+PgAJADQAYOoaALEkEgUz5DGorhVri4tculMM80m8O1ssjRU4m2XgY7xTqHLW8d2HM5tRdA7RBAAE
+AAQABAA=
+</formula></code></column>
+<column hidedetailrows='false' listseparator='comma' itemname='$62' width='13.6250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='true' formatdatatype='datetime'><font size='9pt'/><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.clzt">处理状态&lt;/span>'><font
+ style='bold'/></columnheader><datetimeformat legacy='true' show='date' date='yearmonthday'
+ time='hourminute' zone='never'/><numberformat legacy='true' format='general'
+ digits='2' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='value'><formula compiled='true'>
+DgEJAAQBRwimbBDltDltTBbnz0E0bQ6JOEIe6KPhfQ1r/JkKAwbgdG7XUqBFz2yxZLoQCrGUt8kz
+VldHqL0f+PIRX8EM/n3xzXDsVn8UPNaIUMzf0BV5+lM4twRIeSXugoeRIiS9EjgyTJUf8ILN75Vl
+bGd7taUdZ4KclAHxbYGVB34hDyDXLgtUxcyKKJ755HDZcliifD7XzNOh0o2VQfDG2fogtypGxeKd
+mcM4m0rH1U45wIYzG3SrNM89or1zcZucYhOKEKnbK8usg8phXXbt2lSzDBjk8CbPLYom2SvYwR3T
+2emRozmI4gtv3QBHlBo0qdBvAkL8UaRkgcWuShD4U05NUAQABAAEAAQA
+</formula></code></column>
+<column hidedetailrows='false' itemname='$57' width='12.3750' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.dqclr">当前处理人&lt;/span>'><font
+ style='bold'/></columnheader><code event='value'><formula compiled='true'>
+jgAJAIQAzb0TQi4cwpHsNqYxg9QAAHc4GvfbnCE7Ooi/3aPQwi3rD9Yo5nu5vm4iYTokF3kS/Uoj
+QAVnSo18C55sI3NW9yaMZgxmtR2Z3kQjkwHnP+ievv/RcEvAn4ew2YXrih9NdYc1dPYaq7xYjvvD
+YN6SJp+sNetG6+l+quNbqvCQDCYEAAQABAAEAA==
+</formula></code></column>
+<item name='$TYPE'><text>$SUBVIEW</text></item>
+<item name='$LastBuildTime' sign='true'><datetime>19990726T175344,55+08</datetime></item>
+<item name='$BabelInfo' sign='true'><text>00000172</text></item>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN</text></item>
+<item name='$SelQuery' sign='true'>
+<rawitemdata type='f'>
+gQYAAAAAif8dAAAAAAACAAoABQBmcm1XZWJGbG93dHJhc2gA
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,53+08</datetime></item></view>
+

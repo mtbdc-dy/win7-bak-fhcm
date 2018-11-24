@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='strShowMgrPublishConfig' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='37e' unid='149CB289E737AB5648257D3300424BCB' sequence='55'>
+<created><datetime>20140813T200407,79+08</datetime></created>
+<modified><datetime>20181025T014925,01+08</datetime></modified>
+<revised><datetime>20181024T085504,24+08</datetime></revised>
+<lastaccessed><datetime>20181025T014925,00+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133245,56+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='strShowMgrPublishConfig'><code event='defaultvalue'><formula
+ compiled='true'>
+RgIJADwC3q3+0QppPG68njXjei5h7nLfSf+zTmVzql8Sw5ov7rn+pL2ZfO5iqX9RkFyAtcNrLxjv
+lwjuv89O0HudgrpXQ+0HYzT3Chy61v6W9VokOyCeq1QKTwmaQZzP69KyDes493dUCYKuvIxMWaLv
+VlwBhaGmrrqHLDP2zigbN6ka7Wn9Mcx/XfVaLdZrWxPUfKEtEisG9MdejptYJOfBEbTzmGBepU2I
++6UR8L6Rc1Zwmjed51ENBkCo3sT8IsCfoE8Ck5KSHrMF10xSMm4UA/jGF8QeCMXdSZMkneW9ggUg
+WXqCYd+EpAgwMrZYDdkLIb27GA8RRdhQMK3oIuNUZg/ciLk6YakyzwQfSLc1DtkekBxB4G3uAY2p
+HMNPYcB/8eTVGvOZK3KvJZLT6DO0E08YhT7DboZZztXpfAFfgcLS1YERAG6QytfMKhYgCaDBmJKX
+QpgKzJQCdmwSusnDOEDkbLyIm/+CJV5+goZ4Ul0R2MNPpvSeBJYbtxmdDCjdlNv/IKet+HonlA3K
+GbrZwipJxw27YbD2ha0h6bmcq6eSDedpNNcCJI8OL9hpT+boL1Zzv2ONDxzlALbsqgmYhQNk4PXY
+T49YU1Qzk+atydChWnrchMkfUQRjHKBwWEUYK9As8KH8qE/+140n4za7dVcUKCzy/Kyt4lcsBe+v
+4YhrvKaAzJK74FwHuGT5WBZvp9dum5m2ekw2Rz249HYC1qhm8FqWmdOsOFd6FVnqqhuGH+dsC67u
+uZRmzwQABAAEAAQA
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,69+08</datetime></item></sharedfield>
+

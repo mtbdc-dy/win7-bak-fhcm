@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtSaveDraft' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' comment='保存文档调用按钮代理' restrictions='unrestricted'>
+<noteinfo noteid='7c2' unid='9C369703328379A248256E65001F429D' sequence='49'>
+<created><datetime>20040328T134126,69+08</datetime></created>
+<modified><datetime>20181107T195803,21+08</datetime></modified>
+<revised><datetime>20181024T085501,02+08</datetime></revised>
+<lastaccessed><datetime>20181107T195803,21+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195803,21+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085607,83+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0' agentdata='EE7A5343D9A69F6F48258331002DE32C'>
+<agentmodified><datetime>20181025T014921,15+08</datetime></agentmodified>
+<agentrun><datetime>20181107T174910,70+08</datetime></agentrun>
+<runlog>Started running agent 'agtSaveDraft' on 2018-11-07 17:49:10
+Ran LotusScript code
+Done running agent 'agtSaveDraft' on 2018-11-07 17:49:10
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210745,91+08</datetime></item>
+<item name='$POID'><datetime>20181024T085501,02+08</datetime></item></agent>
+

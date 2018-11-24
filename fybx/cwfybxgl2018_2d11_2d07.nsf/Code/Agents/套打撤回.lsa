@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='套打撤回' alias='agtRevertTaoDa' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='unrestricted'
+ enabled='false'>
+<noteinfo noteid='722' unid='B3EAD4D761B6D12C48257BDA00477F68' sequence='49'>
+<created><datetime>20130902T210056,72+08</datetime></created>
+<modified><datetime>20181107T195758,30+08</datetime></modified>
+<revised><datetime>20181024T085456,22+08</datetime></revised>
+<lastaccessed><datetime>20181107T195758,30+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195758,30+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085603,07+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20151116T163823,78+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210745,05+08</datetime></item>
+<item name='$POID'><datetime>20181024T085456,22+08</datetime></item></agent>
+

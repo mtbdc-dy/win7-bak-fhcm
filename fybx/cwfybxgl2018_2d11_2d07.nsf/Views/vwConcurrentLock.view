@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwConcurrentLock' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' showinmenu='false' allowdocselection='true'
+ publicaccess='false' designerversion='8.5.3' comment='代理间并发访问共享资源的互斥锁' unreadmarks='standard'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='true' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='maroon' rowlinecount='5' headerlinecount='1'
+ rowspacing='1.25' haslinkcolumn='true' bgcolor='white' altrowcolor='#efefef'
+ totalscolor='blue' headerbgcolor='white' boldunreadrows='false' evaluateactions='false'
+ allownewdocuments='false' allowcustomizations='true' hidemarginborder='false'
+ marginwidth='0px' marginbgcolor='white' uniquekeys='false' formatnoteid='0111FC1BA62CF386482579E40025A9D0'>
+<noteinfo noteid='1a6' unid='A6F6E000BE225C7348257DFD00303B8A' sequence='57'>
+<created><datetime>20150303T164649,70+08</datetime></created>
+<modified><datetime>20181107T195613,25+08</datetime></modified>
+<revised><datetime>20181024T085440,85+08</datetime></revised>
+<lastaccessed><datetime>20181107T195613,25+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195613,25+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+ZgAJAFwAgfBwdQhmArwDZjk4kWNcygHGOu0OM1v6oaoIHHGX15EPd+x8MMeGRuUYxqpnXvcdzgmr
+FdoFmCAIe529xnT1g6g8KKPuaEityfl1ZAdmCBIGV33sxQQXWQQABAAEAAQA
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' hidedetailrows='false' itemname='strResourceKey'
+ width='21.1250' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='false'><columnheader title='资源关键字'><font style='bold'/></columnheader></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,59+08</datetime></item></view>
+

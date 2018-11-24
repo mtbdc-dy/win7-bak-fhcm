@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_fallbackV4' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='332' unid='E76366519EFC9F5648257D5800104FF5' sequence='55'>
+<created><datetime>20140919T105810,45+08</datetime></created>
+<modified><datetime>20181107T195618,79+08</datetime></modified>
+<revised><datetime>20181024T085504,22+08</datetime></revised>
+<lastaccessed><datetime>20181107T195618,79+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195618,79+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedwhencomposed' name='key_fallbackV4'><code event='defaultvalue'><formula
+ compiled='true'>
+NgIJACwCjyt5cpmT0+iDJvFfTiQCC6ycv6/MAtYbD/vKQveJGZ1X7SbBWfGiMOYWbwYiV4PXhUaF
+tLG09ag2snileU9ge6NiYZRLZPxaYPRb4lZclPaCbiZ8XNdRemc/xTrN8DWhTVNcarQCvbSykaz5
+woqAqoQlBQGODfI28oRmjIiPtTap7H7qskaYr8q+39VrVoiyZt5p33CSj1SfGpQ3piMmSMJu3RHz
+nVqhFyc77ZJn68fjpeI9e8LWG7ABERhyuRqke897KSmSWthnNp+IUD8jnB0VlPDg41Q/y+MSSgwW
+yP9i1CoEOa19VLE8CcXKgFVZBMdWpmY1BM8ez23aP1eYkXM2oqJR55xJKdUph9HvnovweuDpNTzu
+VSuPXfrwl4qyoLy8eqcsgkXaREvF9djjM3CrzKtjmLa5001h+1/k/OVklXYoKdfY30QLHomm+kUl
+uewHvkIT33rLejXDI2XGdDluAUY/a6xte4CzTXfj5PKtWPsPNhkmFHb8u9TuEFgl0P//FtFX5a5/
+gIESQwDZ3ozPH4xcvQV/ekGCAOxj+p48RuhUDH5E2TGeDhNtSzfX5WKRbiQkc53BvBGworxHdAsT
+a7EsZ/+wiiirvrpB1ZGJg0Zigxno5OWgI03CIAarJ3gtPPPUb/K8fKmEmsUDOpkjBcYA81ancq6W
+2DChqDI3HbECyPuC3jeeG7SOmEYDFmACHr9vycGLghvA6OlLkQ1AIYC7FBl3BAAEAAQABAA=
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,21+08</datetime></item></sharedfield>
+

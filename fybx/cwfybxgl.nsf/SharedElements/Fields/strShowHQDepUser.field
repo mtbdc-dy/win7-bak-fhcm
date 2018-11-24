@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='strShowHQDepUser' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='386' unid='1F05B75A5711E15548257CC200259872' sequence='55'>
+<created><datetime>20140422T145038,58+08</datetime></created>
+<modified><datetime>20181025T014924,97+08</datetime></modified>
+<revised><datetime>20181024T085443,99+08</datetime></revised>
+<lastaccessed><datetime>20181025T014924,96+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133245,60+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='strShowHQDepUser'><code event='defaultvalue'><formula
+ compiled='true'>
+zgEJAMQBecV7thpRqI8VGBmvXNEP3fi6tJ2gAq6r9WVfLJtV//Z1eB/U4llCsXdmUzgPoX5xh9/h
+UvuL6dMtU3IvfUrOyqUixGRcIjWRmoNrycPaqnh/HIkqvRo0//WULil1nDEH5WaB4ZZOV0vjgTzC
+95/cxFC8/NjAlC1oeWgZzWtiEjsJ29kgvNQ5YPGmZM0BVRdBhvr0w0vk3OMLJDJ0cMRNIEjdxvPA
+o9CozyaggxdrFwbGu3mDPpS6mX4TJNqGstFC39PseDjS4+6yDGEBXIlJt9xutaZQ9tz3yHr5/5Dq
+OWTgmheH9zAyF7n1rS6Uc5+hlcU6GiofRC9E5oBvA5+YGvPFYh0fiLfjekpvDhh2Hu9mP1vSIboc
+1I7vKSSsRXgqcbVXwetm/c5Gw67Kwe1W6quNp3bmBEnBku+fVolAOfXjpUyDMxpBlN6GTtk2lXvi
+Yg1KkvnzAh/7T9x9ALMZ3X5BppSaOTIzkYkIlz3y1F3mVKjHETku8HhgPaKH945ArbdUaz6Hlshi
+75m0s1sfxm9XhUUktZ2gUR6l/21X0dau5djaHpn/8RiN6ircJPGZg4tQhCrZ6RLKH6vRmFvvwgQA
+BAAEAAQA
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,73+08</datetime></item></sharedfield>
+

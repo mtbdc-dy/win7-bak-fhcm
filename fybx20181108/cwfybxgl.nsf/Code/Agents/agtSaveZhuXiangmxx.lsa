@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtSaveZhuXiangmxx' alias='保存募集资金主项目信息' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='12d22' unid='48258072000E0C3F48258084003018ED' sequence='23'>
+<created><datetime>20161209T164521,09+08</datetime></created>
+<modified><datetime>20181025T014921,21+08</datetime></modified>
+<revised><datetime>20181024T092020,10+08</datetime></revised>
+<lastaccessed><datetime>20181025T014921,20+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T102128,45+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092126,34+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>Option Public
+Option Explicit
+Use "CommonLib"   
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	'错误捕获	
+	On Error Goto errhandler
+	Dim	session	As	New	NotesSession
+	Dim	db		As		NotesDatabase
+	Dim	doc		As		NotesDocument
+	Dim 	vec 		As 		NotesViewEntryCollection
+	Dim 	veTmp 	As 		NotesViewEntry
+	Dim	docTmp	As		NotesDocument
+	Dim	note		As		NotesDocument
+	Dim	view		As		NotesView
+	Set note=session.Documentcontext
+	note.form="frmMujzjMianxm"
+	Call note.Save(true,False)
+	Exit Sub
+errhandler:
+	ShowError("Initialize")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='BF5C9A9A6290EC5648258336000CF903'>
+<agentmodified><datetime>20181025T014921,21+08</datetime></agentmodified>
+<agentrun><datetime>20181030T102141,88+08</datetime></agentrun>
+<runlog>Started running agent 'agtSaveZhuXiangmxx|保存募集资金主项目信息' on 2018-10-30 10:21:41
+Ran LotusScript code
+Done running agent 'agtSaveZhuXiangmxx|保存募集资金主项目信息' on 2018-10-30 10:21:41
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092020,10+08</datetime></item></agent>
+

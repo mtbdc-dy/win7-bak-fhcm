@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='shysFilter' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='3a2' unid='0C959B711291865A48257D4300054AF9' sequence='33'>
+<created><datetime>20140829T085748,73+08</datetime></created>
+<modified><datetime>20181025T014924,79+08</datetime></modified>
+<revised><datetime>20181024T092009,34+08</datetime></revised>
+<lastaccessed><datetime>20181025T014924,78+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133245,74+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=admin/O=smartdot</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='shysFilter'><code event='defaultvalue'><formula
+>""</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item></sharedfield>
+

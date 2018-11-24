@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmWebPaint-V6' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='4a42' unid='E3EE17A6EB135C1848258080002BA3E4' sequence='35'>
+<created><datetime>20161205T155640,04+08</datetime></created>
+<modified><datetime>20181025T014914,51+08</datetime></modified>
+<revised><datetime>20181024T085441,49+08</datetime></revised>
+<lastaccessed><datetime>20181025T014914,50+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010753,37+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webqueryopen'><formula
+ compiled='true'>
+PgAJADQAAeR/IdtLwhOcReR7KQgjurfcoBmFdZ6dagfsj8V83IGYHR4mOakrLQgGB39wJ4BZBAAE
+AAQABAA=
+</formula></code><code event='htmlhead'><formula compiled='true'>
+lgAJAIwAyD5lU442AveSddOism24VuwURZw1W8prwNGxN2cyYnl8da/F2YzNH19/k8PNu+9WGatc
+P3BY9ekv8t/XqtzUgAxkKFJ01rnHTBfoo8zREs15k8FZOfzPffmSJObkDtny6F5+EsvHv1Yrv8JG
+0hhxD2Jkwwc/q/xMoOkX+tFpYS+Gtw/GGyUMmgQABAAEAAQA
+</formula></code><code
+ event='jsheader' for='web'><javascript>smartdot.i18n.requireLocalization("indiplatform.tylc");
+
+dojo.addOnLoad(function(){
+	var canvas =document.getElementById('canvas');
+	eraser=false;
+	ctx = canvas.getContext("2d");
+	painting = false;
+	lastX = 0;
+	lastY = 0;
+	lineThickness =10;
+	pensize=10;
+	color="black";
+	oldcolor="";
+	hasImg= "false";
+	data="";
+	canvas.addEventListener('mousedown', startMousePaint, false);  
+     canvas.addEventListener('mousemove', continueMousePaint, false);   
+     canvas.addEventListener('mouseup', stopMousPaint, false);
+     canvas.addEventListener('touchstart', startPaint, false); 
+     canvas.addEventListener('touchmove', continuePaint, false);
+     canvas.addEventListener('touchend', stopPaint, false);
+     document.getElementById("mypaint-pen").style.background = "#81bae7";
+     
+    
+    try{
+   	 var userfile=null;	
+   	 dojo.map( parent.slCtl.Content.Files.FileList, function(onefile) {
+   			 if(onefile.FileName==parent.document.getElementsByName("idx_CurHAFile")[0].value){
+				userfile=onefile;
+			}						 
+		});
+	}
+	catch(e){console.log(e)}
+	if(userfile){
+ 		var imageObj = new Image();
+   	 	imageObj.onload = function() {
+   	 		if(this.height&gt;405){	
+   	 			canvas.setAttribute("height",this.height+"px")
+   	 			document.getElementById("mypaint-wrap").style.overflowY='auto';
+			}	
+       		ctx.drawImage(this, 0, 0);
+    		}
+    		imageObj.src=userfile.Link
+	} 
+})
+
+function fnPensizeChange(){	
+	pensize=document.getElementsByName("pensize")[0].value
+}
+function fnPencolorChange(){	
+	color=document.getElementsByName("pencolor")[0].value
+}
+
+function SePen(){
+	document.getElementById("mypaint-pen").style.background = "#81bae7";
+	document.getElementById("mypaint-eraser").style.background = "#bfbfbf";
+	color=oldcolor;
+
+}
+
+function SetEraser(){
+	document.getElementById("mypaint-eraser").style.background = "#81bae7";
+	document.getElementById("mypaint-pen").style.background = "#bfbfbf";
+	oldcolor=color;
+	color="white"
+
+}
+
+function startMousePaint(e) {
+            painting = true;
+            ctx.fillStyle = "#000000";
+            lastX = e.pageX - this.getClientRects()[0].left;
+            lastY = e.pageY - this.getClientRects()[0].top;
+            e.preventDefault();
+            hasImg="true";
+}
+function stopMousPaint(e){
+            painting = false;        
+}
+function continueMousePaint(e) {
+            if (painting) {
+                mouseX = e.pageX - this.getClientRects()[0].left;//this.offsetLeft;
+                mouseY = e.pageY - this.getClientRects()[0].top;//this.offsetTop;             
+			 var x1 = mouseX,
+                    x2 = lastX,
+                    y1 = mouseY,
+                    y2 = lastY;
+                var steep = (Math.abs(y2 - y1) &gt; Math.abs(x2 - x1));
+                if (steep){
+                    var x = x1;
+                    x1 = y1;
+                    y1 = x;
+                    var y = y2;
+                    y2 = x2;
+                    x2 = y;
+                }
+                if (x1 &gt; x2) {
+                    var x = x1;
+                    x1 = x2;
+                    x2 = x;
+                    var y = y1;
+                    y1 = y2;
+                    y2 = y;
+                }
+                var dx = x2 - x1,
+                    dy = Math.abs(y2 - y1),
+                    error = 0,
+                    de = dy / dx,
+                    yStep = -1,
+                    y = y1;
+                    
+                if (y1 &lt; y2) {
+                    yStep = 1;
+                }
+                lineThickness = pensize - Math.sqrt((x2 - x1) *(x2-x1) + (y2 - y1) * (y2-y1))/10;
+                if(lineThickness &lt; 1){
+                    lineThickness = 1;
+                }
+         
+                ctx.fillStyle=color;
+                 
+                for (var x = x1; x &lt; x2; x++) {
+                    if (steep) {
+                        ctx.fillRect(y, x, lineThickness , lineThickness );
+                    } else {
+                        ctx.fillRect(x, y, lineThickness , lineThickness );
+                    }
+                    error += de;
+                    if (error &gt;= 0.5) {
+                        y += yStep;
+                        error -= 1.0;
+                    }
+                }
+               lastX = mouseX; 
+               lastY = mouseY;            
+	}        
+}
+
+function startPaint(e) {
+            painting = true;
+            ctx.fillStyle = "#000000";
+            lastX = e.touches[0].pageX - this.getClientRects()[0].left;
+            lastY = e.touches[0].pageY - this.getClientRects()[0].top;
+            e.preventDefault();
+            hasImg="true";
+}
+function stopPaint(e){
+            painting = false;        
+}
+function continuePaint(e) {
+            if (painting) {
+                mouseX = e.touches[0].pageX - this.getClientRects()[0].left;//this.offsetLeft;
+                mouseY = e.touches[0].pageY - this.getClientRects()[0].top;//this.offsetTop;             
+			 var x1 = mouseX,
+                    x2 = lastX,
+                    y1 = mouseY,
+                    y2 = lastY;
+                var steep = (Math.abs(y2 - y1) &gt; Math.abs(x2 - x1));
+                if (steep){
+                    var x = x1;
+                    x1 = y1;
+                    y1 = x;
+                    var y = y2;
+                    y2 = x2;
+                    x2 = y;
+                }
+                if (x1 &gt; x2) {
+                    var x = x1;
+                    x1 = x2;
+                    x2 = x;
+                    var y = y1;
+                    y1 = y2;
+                    y2 = y;
+                }
+                var dx = x2 - x1,
+                    dy = Math.abs(y2 - y1),
+                    error = 0,
+                    de = dy / dx,
+                    yStep = -1,
+                    y = y1;
+                    
+                if (y1 &lt; y2) {
+                    yStep = 1;
+                }
+                lineThickness = pensize - Math.sqrt((x2 - x1) *(x2-x1) + (y2 - y1) * (y2-y1))/10;
+                if(lineThickness &lt; 1){
+                    lineThickness = 1;
+                }
+                ctx.fillStyle=color;
+                for (var x = x1; x &lt; x2; x++) {
+                    if (steep) {
+                        ctx.fillRect(y, x, lineThickness , lineThickness );
+                    } else {
+                        ctx.fillRect(x, y, lineThickness , lineThickness );
+                    }
+                    error += de;
+                    if (error &gt;= 0.5) {
+                        y += yStep;
+                        error -= 1.0;
+                    }
+                }
+               lastX = mouseX; 
+               lastY = mouseY;            
+	}        
+}
+
+function SetClear(){
+ 	if(parent.dojo.byId("strExistPaint")){
+		parent.dojo.byId("strExistPaint").value = "";
+	} 
+	 ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function ClosePaint() {
+     if(hasImg=="true"){
+     	data=canvas.toDataURL();
+     	parent.$$idx.V6Sx=data;
+     	if(parent.dojo.byId("strExistPaint")){
+			parent.dojo.byId("strExistPaint").value = "true";
+		} 
+	}else{
+		parent.$$idx.V6Sx="";
+	}
+	//关闭手写批示 
+	parent.fnShowSx(false);
+}
+
+
+function fnLarger(){
+	 
+	var wrap = document.getElementById("mypaint-wrap");	 
+	var step=100;
+	var maxW = 1300;
+	var maxH = 1200; //超过后无法手写
+	var w = canvas.offsetWidth+step;
+	var h = canvas.offsetHeight+step;
+
+	h =Math.min(h,maxH);
+	var image = new Image();
+	image.src = canvas.toDataURL("image/png");
+	canvas.setAttribute("height",h+"px")	
+	wrap.style.overflowY='auto';
+	var imageObj = new Image();
+   	imageObj.onload = function() {
+       		ctx.drawImage(this, 0, 0);
+    	}
+    	imageObj.src=image.src;
+}</javascript></code>
+<body><richtext>
+<pardef id='1' align='center'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;div style="display:none"&gt;表单所有隐藏域信息</run></par>
+<pardef id='2' hide='notes'/>
+<par def='2'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='idx_MainDocUNID' htmlid='idx_MainDocUNID'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+NgAJACwAVATYQgZVSvNAjs4Vvn2G9zbHEbEsqM6VJlD+RCeEP4HCEG3Uo0rw8wQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='red' name='宋体' pitch='variable' truetype='true' familyid='0'/><field
+ type='text' kind='computedfordisplay' name='query_string'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQAq0EbI5kfp83YGdPAeoORNpgoAFILJupPJVmxZsRBVNoEAAQABAAEAA==
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='14' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/><field type='text' kind='editable' name='idx_AttachUnid'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='21' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'> </run><run
+ html='true'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='28' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='3' hide='web'/><subformref name='sfrmDojo'/>
+<par def='3'/>
+<pardef id='4' align='center' leftmargin='1in'><code event='hidewhen' enabled='false'><formula
+ compiled='true'>
+NgAJACwA36X/XRiqV+ov2mOGfZTCiQXVuIgKgC71PGZ51A6SbrGnECmU+T4OrwQABAAEAAQA
+</formula></code></pardef>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/></run><run html='true'><font size='9pt'
+ color='red' name='宋体' pitch='variable' truetype='true' familyid='0'/><sharedfieldref
+ name='str_webPaintHeight'/></run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0' color='red'/></run><run html='true'><font
+ size='9pt' color='red' name='宋体' pitch='variable' truetype='true' familyid='0'/><sharedfieldref
+ name='str_webPaintWidth'/></run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0' color='red'/></run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/></run><run html='true'><font size='9pt'
+ color='red' name='宋体' pitch='variable' truetype='true' familyid='0'/><sharedfieldref
+ name='key_isUsingV6IDX'/></run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0' color='red'/></run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;/div&gt;</run></par>
+<pardef id='5' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="mypaint-wrap" style="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+HgEJABQBESwrXMj4f+g3unzUfREHbXuq8A6xHwrpbXwlFd95lgJATHFeVLInSIDF1c7CMnW0Ypwm
+ijwxLhmQOyphaJ3qxB0lQP4JLza2C/RVFRTdjJu0PwXyMMLRoG/vP2oSVl2OGyHdYDkLtCIqXI/F
+wwVcvp8bAn21PLnseJc5jTaY8oHr77tpEpdR5OUpyNzdOk7u5OXmH9cksIrqJwDQQfJEJRx6/5F8
+k0GVD6MwojD97PliO4GZuH9mJxdPx4AZZm6Fd8QvXxrdI4u5I64EM2Y1PbXOdcQf/ATvPScnfK4X
+ItZcC7jC9iwvb+VSPFYoKYVDP5LSrTZ1OWMxcwmUZ3IsPiaCZjsymRVXSjXnQrfhVKMEAAQABAAE
+AA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='maroon'/>"&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="</run><run
+ html='true'>webpaintV6_</run><run html='true'><font size='9pt' color='maroon'/>bar"&gt;</run></par>
+<pardef id='6'/>
+<par def='6'><run html='true'><font size='9pt' color='maroon'/>	&lt;div id="mypanit-btn" class="btn btn-key" onSelectStart="return false;" onClick="ClosePaint</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>();</run><run html='true'><font size='9pt' color='maroon'/>"&gt;&lt;span id="mypaint-btn-content" class="btn-content" data-string-id="indiplatform.tylc.bcps"&gt;保存批示&lt;/span&gt;&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>	&lt;div id="</run><run
+ html='true'><font name='Courier New' pitch='fixed' truetype='true' familyid='30'
+ color='maroon'/>mypaint-pen</run><run html='true'><font size='9pt' color='maroon'/>" class="btn btn-key"  data-string-id="indiplatform.tylc.setpen"  onClick="</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>SePen();</run><run html='true'><font size='9pt' color='maroon'/>"&gt;钢笔&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>	&lt;div id="</run><run
+ html='true'><font name='Courier New' pitch='fixed' truetype='true' familyid='30'
+ color='maroon'/>mypaint-eraser</run><run html='true'><font size='9pt' color='maroon'/>" class="btn btn-key" data-string-id="indiplatform.tylc.seteraser"  onClick="Set</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>Eraser();</run><run html='true'><font size='9pt' color='maroon'/>"&gt;橡皮&lt;/div&gt;</run></par>
+<par def='6'><run html='true'>	&lt;div id="webpaintV6_pencolor"&gt;</run><run
+ html='true'><font color='#ff0041'/>&lt;span data-string-id="</run><run html='true'><font
+ size='9pt' color='maroon'/>indiplatform.tylc</run><run html='true'><font
+ color='#ff0041'/>.</run><run html='true'><font color='#ff0041'/>pencolor</run><run
+ html='true'><font color='#ff0041'/>"&gt;</run><run html='true'><field usenotesstyle='false'
+ height='0.2083in' width='1in' multiline='true' borderstyle='inset' lookupeachchar='false'
+ lookupaddressonrefresh='false' type='keyword' kind='editable' name='pencolor'><keywords
+ helperbutton='false' columns='1' ui='combobox'><textlist><text>黑色|black</text><text
+>红色|red</text><text>蓝色|blue</text><text>绿色|green</text><text>黄色|yellow</text></textlist></keywords><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwAuN+KRkT004hpOXFmxS4wtPfRVcfYinoWBAAEAAQABAA=
+</formula></code><code event='onChange'
+ for='web'><javascript>fnPencolorChange()</javascript></code></field></run><run
+ html='true'><font color='red'/>&lt;/span&gt;</run><run html='true'>&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>	&lt;div id="</run><run
+ html='true'>webpaintV6_pensizetitle</run><run html='true'><font size='9pt'
+ color='maroon'/>" class="btn btn-key" data-string-id="indiplatform.tylc.pensize"&gt;笔粗:&lt;/div&gt;</run></par>
+<par def='6'><run html='true'>	&lt;div id="webpaintV6_pensize"&gt;</run><run
+ html='true'><font color='#ff0041'/>&lt;span&gt;</run><run html='true'><field
+ usenotesstyle='false' height='0.2083in' width='1in' multiline='true' borderstyle='inset'
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' kind='editable'
+ name='pensize'><keywords helperbutton='false' columns='1' ui='combobox'><textlist
+><text>1|1</text><text>2|2</text><text>3|3</text><text>4|4</text><text>5|5</text><text
+>6|6</text><text>7|7</text><text>8|8</text><text>9|9</text><text>10|10</text></textlist></keywords><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL26RWNwaVsHOvAQABAAEAAQA
+</formula></code><code event='onChange'
+ for='web'><javascript>fnPensizeChange()</javascript></code></field></run><run
+ html='true'><font color='red'/>&lt;/span&gt;</run><run html='true'>&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>	&lt;div id="</run><run
+ html='true'><font name='Courier New' pitch='fixed' truetype='true' familyid='30'
+ color='#3f8080'/>webpaintV6-clear</run><run html='true'><font size='9pt'
+ color='maroon'/>" class="btn btn-key"  data-string-id="indiplatform.tylc.setclear" onClick="SetClear</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>();</run><run html='true'><font size='9pt' color='maroon'/>"&gt;清空&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/> 	</run><run
+ html='true'><font size='9pt' color='maroon'/>&lt;div id="mypanit-btn-larger" class="btn btn-key"  data-string-id="indiplatform.tylc.zgqy" title="增高手写区域" onClick="</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>fnLarger</run><run html='true'><font size='9pt' color='maroon'/>()</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>;</run><run html='true'><font size='9pt' color='maroon'/>"&gt;增高区域&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/></run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/> &lt;canvas id="canvas" </run><run
+ html='true'><font size='9pt' color='maroon'/> width="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+ngAJAJQArkcs1Uqe34VtSYy+CN8+8omVQ8X/sjkJv01A2/wfaP+NSiiDeY9cqMTWXhkrhQnvfcUP
+QyNHF7LzCrlseWo7O6KFHZmXi6G/S03G7dWgIPLWa1b8ta1nBtwESk6EjWqKrOBteB27QYa2i1KW
+0qTnPCLtUK9rn1Kyz2k+TA10FPM1xKm1ZMbpgorQp2R5hYHUBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='maroon'/>" height="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+ngAJAJQAAUNZtPvZYAemH+YeKO1OiYmaB0Wl/452wy9TgczoUOUE6AwGHAYoCU6e3ibhcrTSLO9v
+No1nVnVzSplXiTsvlUXYCbNlY6qWyNewK4bKsVME8U2U0EPzbAiXDSZ/VjPNqhWsIqO5l4hRvUSH
+3cC8MtotRrLqUU/ZU9+IXhCM+5/TwXUywSjO19omqW29qP0DBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='maroon'/>"</run><run html='true'><font
+ size='9pt' color='maroon'/>&gt;&lt;/canvas&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmWebPaint</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,57+08</datetime></item></form>
+

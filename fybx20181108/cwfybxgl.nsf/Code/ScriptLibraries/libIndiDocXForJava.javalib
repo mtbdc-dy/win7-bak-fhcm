@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='libIndiDocXForJava' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3 v4strict' designerversion='8.5.3'>
+<noteinfo noteid='602' unid='F525179B1492E1F148257EA2002765E2' sequence='55'>
+<created><datetime>20150815T151019,86+08</datetime></created>
+<modified><datetime>20181025T014923,69+08</datetime></modified>
+<revised><datetime>20181024T085449,98+08</datetime></revised>
+<lastaccessed><datetime>20181025T014923,68+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133248,50+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='JavaAgent.class' codepath='D:\Domino\Notes\Data'><javaarchive name='clIdx.jar'>
+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
+</javaarchive></javaproject></code>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210743,28+08</datetime></item>
+<item name='$POID'><datetime>20181024T085449,98+08</datetime></item></scriptlibrary>
+

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='javaFzjhLib' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3 v4strict' designerversion='8.5.3'>
+<noteinfo noteid='5ca' unid='A88B6A998E86887248257FEF000D2C90' sequence='55'>
+<created><datetime>20160713T102353,76+08</datetime></created>
+<modified><datetime>20181107T195746,98+08</datetime></modified>
+<revised><datetime>20181024T085453,07+08</datetime></revised>
+<lastaccessed><datetime>20181107T195746,98+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195746,98+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='JavaAgent.class' codepath='D:\Program Files\IBM\Notes\Data'><javaarchive
+ name='javaFzjhLib.jar'>
+UEsDBBQACAAIALxS7UgAAAAAAAAAAAAAAAAUAAQATUVUQS1JTkYvTUFOSUZFU1QuTUb+ygAA803M
+y0xLLS7RDUstKs7Mz7NSMNQz4OUKTk3MSU2xUigpKk3l5eLlAgBQSwcId4LwOSkAAAAnAAAAUEsD
+BBQACAAIAKRS7UgAAAAAAAAAAAAAAAAeAAAAY29tL3NtYXJ0ZG90L2Z6amgvY2xGempoLmNsYXNz
+zVRNbxtVFD0vHs+M7SFppkmaobQlpeTDsWO+KeO2kKRtEpo4CSYGwoc0cSbuRPaM8YyThooNKyR+
+QQGBkJCSSpYILAJmQRZIrcQS8Q/YsgSJFeG+GZvEjVmDJft47nv3vnvOuW9++uv7HwCM4W0JHQz9
+eaeUcktGxVt1vNTae+s3U/nidQIJAsOJdWPDSBUNu5CaX1k38x6DeMmyLe8KQ2h4JMcgTDqrZhQh
+RBSEIVLKmj1lejmjaK1mzcqGWWEYHJ49rJP1KpZdSI8cD0XxELokdDL0FR2v6qZWnZJlO6nxgml7
+E4ZrKjiBboaugun5sazpupZjE4nhkdmWlMZKWsZJBkTRi1MS+lr4BIcq6IdGpMx3q0bRZeg92mpA
+OT2yLOM0Q49lr1ruTaNipoxyuWSUx2x3LYYzOCfhLC23a0DBoxhgiFHHVw3PWCESDJfbyNFOoJaC
+zfR0DI/hcQkXqNe2GxQMYogYWe582bR9m6j/EYbujc3AkIkt7u/4wgwvNaoggSSDRC3mLHOTYait
+Wy1n8Y3USApPSniCKh9bVPAUnia5OW8nXy1xA7dumFsMiTYCLz/ItZFC9j3L0Ol6lSPjFMPzeEHC
+xWP8G0kKdMQYVDp6xjNLlFk1AxYRXMIVCZdbx2DLpV0KXsRLpJVTpQnvDTq0nNQCpXmUbBolms4J
+XJUwyXDyMPvarbxZ9nyjr+E6g+w5wVk0D8NtR3waL0uYaRZpPUPBDcySFWUeKtoPTGPTipx/x2bc
+OYM6rzTvWNutZPwCCZjbnHZcMiDYK+MVmkgStVlCxqsMjHzs5GWzRslsFm03Cu2O4RfsdQVvIEO9
+BVdppmA7FXOSBlLGm4GJQdWpilMtN18TQWjWKVh5DIAMAP+E6R+9S+hXoqduQsaj8W8hf+1viNCV
+jjWW/6SkKOGX30GZZXMsw3RBVfVwXFX30HMHkR3cVtXdUVVVH67jkRDmEnWcZ/gYSlynxXe0yG5C
+Ha4j3oFM8n4jOk3RZFyoYywEXdCEe+jUBPWZOp7rgB7Wwo3iibge3sagLn6DtCbuYXwPU9vo0+Ud
+iJq8r0t+O2zurrRz8IcW3qXOu3Aat2mWzuKij2lkfFzELR/5+kfEh69z5OscF/Ghj5/hCx+5CnO0
+FqhQJxVkwvePqNCGMvWVEWoJdb5B9wjD+xC3D34lkos+STXLCR78vIMzoZoe5vzCh/wkzk/a18Um
+P5H4CTXyLIbzWCIaF5D1kT+b1Bh/5riEFR85WbNBYwm5gAbrJxoxiv1CNAISTCetdZG+Unx0D6/d
+4Rw+4Rya5DLJQ3IfhGrJhpf/cPpNE5o0yThuZFhdDowUNbFhpBinB2H0X/ZJmtTYlxzVpW0M6TIX
+RG4KckqPckGi+3okaJll7kZ2Dn7XSCS/57BQC9WIYQ/O4XNSZYDM5ajjUx95/CvizeMcddR8/BH3
+fOQqvfWfjPzy/2rk8TdQSwcIOO0C0UkEAAC+CAAAUEsBAhQAFAAIAAgAvFLtSHeC8DkpAAAAJwAA
+ABQABAAAAAAAAAAAAAAAAAAAAE1FVEEtSU5GL01BTklGRVNULk1G/soAAFBLAQIUABQACAAIAKRS
+7Ug47QLRSQQAAL4IAAAeAAAAAAAAAAAAAAAAAG8AAABjb20vc21hcnRkb3QvZnpqaC9jbEZ6amgu
+Y2xhc3NQSwUGAAAAAAIAAgCSAAAABAUAAAAA
+</javaarchive></javaproject></code>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,71+08</datetime></item>
+<item name='$POID'><datetime>20181024T085453,07+08</datetime></item></scriptlibrary>
+

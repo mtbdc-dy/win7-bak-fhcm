@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='打印扩展功能子表单' alias='sfrmPrint_Custom' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1ace' unid='482581B6000911FF482581B7003E368D' sequence='32'>
+<created><datetime>20171012T191931,97+08</datetime></created>
+<modified><datetime>20181107T195925,73+08</datetime></modified>
+<revised><datetime>20181024T092024,45+08</datetime></revised>
+<lastaccessed><datetime>20181107T195925,73+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195925,73+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>dojo.addOnLoad(function(){
+   var depname;
+   var depname1;
+   var depname2;
+   var depname3;
+   var depname4;
+   dojo.forEach(dojo.query(".deptforshort"),function(e,i){
+       depname=e.innerHTML;
+       depname1=depname.substring(0,depname.indexOf("/"));
+       depname2=depname.substring(depname.indexOf("/")+1,depname.length)
+       depname3=depname2.substring(0,depname2.indexOf("/"));
+       depname4=depname1+"/"+depname3;
+       e.innerHTML=depname4
+   })
+})</javascript></code>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'/>
+<pardef id='2' leftmargin='1in'/>
+<par def='2'><run html='true'>&lt;!-- 定制打印扩展放到该子表单下 --&gt;</run></par>
+<par def='2'><run html='true'>&lt;style&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='Consolas' pitch='fixed'
+ truetype='true' familyid='30' color='#222222'/>#print-paper</run><run html='true'><font
+ size='12pt' name='serif'/>{</run></par>
+<par def='1'><run html='true'><font size='12pt' name='serif'/>  padding:0px 5px !important;</run></par>
+<par def='1'><run html='true'><font size='12pt' name='serif'/>}</run></par>
+<par def='1'><run html='true'><font size='12pt' name='serif'/>&lt;/style&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmPrint_Custom</text></item></subform>
+

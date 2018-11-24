@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='DoUtil' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3 v4strict' noreplace='true' designerversion='8.5.3'>
+<noteinfo noteid='25fa2' unid='D5B95C0C1D0594DD48258334001EA61F' sequence='5'>
+<created><datetime>20181028T133446,07+08</datetime></created>
+<modified><datetime>20181028T141351,13+08</datetime></modified>
+<revised><datetime>20181028T141351,12+08</datetime></revised>
+<lastaccessed><datetime>20181028T141351,12+08</datetime></lastaccessed>
+<addedtofile><datetime>20181028T133528,33+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=smartdot</name><name
+>CN=admin/O=org</name><name>CN=admin/O=crcgas</name><name>CN=admin/O=unipec</name><name
+>CN=admin/O=geidco</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='JavaAgent.class' codepath='D:\Program Files (x86)\IBM\Notes\Data'><java
+ name='DoUtil.java'>import java.util.Iterator;
+import java.util.Vector;
+import lotus.domino.*;
+
+
+public class DoUtil {
+	public static EmbeddedObject getAttachFile(Document doc) throws NotesException{
+		Vector atts=doc.getParentDatabase().getParent().evaluate("@AttachmentNames",doc);
+		Iterator it=atts.iterator();
+		String attName=null;
+		while(it.hasNext()){
+			attName=(String) it.next();
+			String ex=attName.substring(attName.lastIndexOf(".") + 1).toLowerCase();
+			if(ex.equals("xls") || ex.equals("xlsx")){
+				break;
+			}else{
+				attName=null;
+			}
+		}
+		if(attName != null){
+			EmbeddedObject emo=doc.getAttachment(attName);
+			return emo;
+		}
+		return null;		
+		
+	}
+	public static void adjustExcelItemNull(String [] flds,Object[] valus ,java.io.PrintWriter pw)throws Exception{
+		//System.out.println(flds.length);
+		//System.out.println(valus.length);
+		if(flds.length != valus.length){
+			pw.println("&lt;Script&gt;");
+			pw.println("alert('Excel中不允许存在空值，导入错误')");
+			pw.println("history.back();parent.location.reload();var objDialog = window.parent.dijit.byId('ifrmDigForExcel');objDialog.destroy();");
+			pw.println("&lt;/Script&gt;");
+			pw.flush();
+			pw.close();
+			throw new Exception("配置的域个数与excel列不一致。");
+		}
+	}
+	public static void recycle(Base obj){
+		   try{
+			   obj.recycle();
+		   }catch(Exception e){
+			   e.printStackTrace();
+		   }
+	   }
+}
+</java></javaproject></code>
+<item name='$JavaCompilerSource'><text>1.3</text></item>
+<item name='$JavaCompilerTarget'><text>1.2</text></item></scriptlibrary>
+

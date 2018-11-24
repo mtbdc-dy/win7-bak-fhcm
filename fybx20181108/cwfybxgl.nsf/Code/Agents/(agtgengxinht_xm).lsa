@@ -1,0 +1,1436 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='(agtgengxinht_xm)' alias='(流程结束更新合同信息和执行信息表)' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' publicaccess='true'
+ designerversion='8.5.3' runonbehalfof='CN=oanewadmin/O=ppm' restrictions='fulladminunrestricted'>
+<noteinfo noteid='12c86' unid='38E492F6E5F7F0F948258176004FFEA8' sequence='11'>
+<created><datetime>20170808T223345,36+08</datetime></created>
+<modified><datetime>20181025T014919,27+08</datetime></modified>
+<revised><datetime>20181024T092020,59+08</datetime></revised>
+<lastaccessed><datetime>20181025T014919,26+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T102126,78+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092126,74+08</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='runonce'/><code event='options'><lotusscript>
+Option Public
+Option Declare
+Use "commonlib"
+Use "AppLib"
+
+
+
+</lotusscript></code><code event='declarations'><lotusscript>Dim profiledoc As NotesDocument
+Dim strHTName As String
+Dim strApp As String
+
+</lotusscript></code><code event='initialize'><lotusscript>%REM
+	Agent agtgengxinht_xm
+	Created 2016-11-01
+	Description: '流程结束将报销单中的合同本期付款金额传回到执行信息表中的支付金额栏,同时更新合同执行信息表和和合同信息库的合同付款动态行
+%END REM
+Sub Initialize
+	
+	On Error GoTo errorhandle
+	
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim docMain As NotesDocument
+	Dim agent As NotesAgent
+	Dim path As String
+	Dim strTotal As String	
+	Dim arr As Variant
+	Dim strxh As String
+	Dim str4 As String
+	Dim arrxh As Variant
+	Dim str5 As String
+	Dim str6 As string
+	
+	str5 = ""
+	Set agent = session.CurrentAgent
+	Set dbCurrent= session.currentdatabase
+	'MsgBox "进入流程结束agtgengxinht_xm代理"
+	
+	Set profiledoc =  dbCurrent.Getprofiledocument("ManagerSet")
+	strHTName = profiledoc.fldContractFWQ(0)
+	strApp = profiledoc.fldContractApp(0)
+	path = fnGetAppNameFromAppDbPath(dbCurrent.Filepath)	
+	Set docMain = dbCurrent.Getdocumentbyid(agent.Parameterdocid)
+	
+	If Not docMain Is Nothing Then	
+		strTotal = docMain.fldHtbqfkje(0)
+		If InStr(strTotal,";") &gt; 0 Then
+			arr = Split(strTotal,";")
+			'选择多行项目付款信息情况
+			Call fnSelectDuoHang(session,docMain,arr)
+			Call fnSelectDuoHang_htxm(session,docMain,arr)
+		Else				
+			Call fnSelectOne(session,docMain,strTotal)
+			Call fnSelectOne_htxm(session,docMain,strTotal)
+		End If
+
+
+	End If
+	
+	
+	Exit Sub
+errorhandle:
+	'showerror("agentgxhzb_xm")
+	MsgBox "agtgengxinht_xm has error: " + CStr(Error()) + " at line: " + CStr(Erl()) 
+End Sub
+
+</lotusscript></code><code event='fnSelectOne'><lotusscript>Sub fnSelectOne(session As NotesSession,docMain As NotesDocument,strTotal As String)
+	On Error GoTo errorHandle
+	
+	'选择一行项目付款信息情况
+	Dim newjsonarry As New Converjsonarray
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonarry2 As New Converjsonarray
+	Dim newjsonobj2 As New Converjsonobject
+	Dim newjsonarry3 As New Converjsonarray
+	Dim newjsonobj3 As New Converjsonobject						
+	Dim jsonReader2 As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+	Dim strdatajk As String 
+	Dim vResultsfk As Variant
+	Dim vPiecesfk As Variant
+	Dim i As Integer
+	Dim strHTunid As String
+	Dim htdb As NotesDatabase
+	Dim path As String
+	Dim htdc As NotesDocumentCollection
+	Dim htdoc As NotesDocument
+	Dim str2 As String
+	Dim j As Integer
+	Dim strnewdata As String
+	Dim strnewdata2 As String
+	Dim strnewdata3 As String
+	Dim fkcount As Integer
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+	
+	Set htdb = session.Getdatabase(strHTName, strApp + "/htsp.nsf")
+	Set htxxdb = session.Getdatabase(strHTName, strApp + "/htxx.nsf")
+	Set htxxvw = htxxdb.Getview("vwContractByRefKey")
+	path = fnGetAppNameFromAppDbPath(htdb.Filepath)
+	'获取合同审批数据库所在服务器域名
+	Dim aParam As Variant
+	Dim strHost As String
+	Dim clapp As New clApp(path,aParam) 
+	strHost = clapp.getAppHost()
+	
+	strdatajk=docMain.Getfirstitem("hfldData_htqkxz").Text
+	strdatajk=Replace(strdatajk,Chr(10),"")
+	strdatajk=Replace(strdatajk,Chr(13),"")
+	
+	If strdatajk &lt;&gt; "" Then 
+		Set vResultsfk=jsonReader2.Parse(strdatajk)
+		vPiecesfk = vResultsfk.Items
+		
+		If vPiecesfk("items").count&lt;&gt; 0 Then	
+			For i=0 To vPiecesfk("items").count-1
+				strHTunid = CStr(vPiecesfk("items").items(CInt(i)).items("htunid"))	
+				str2 = CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_"))
+
+				Set htdoc = htxxvw.Getdocumentbykey(strHTunid, True)
+				If Not htdoc Is Nothing Then
+					
+					Dim strdataht As String 
+					Dim vResultsht As Variant
+					Dim vPiecesht As Variant
+					strdataht=htdoc.Getfirstitem("hfldData_1").Text
+					strdataht=Replace(strdataht,Chr(10),"")
+					strdataht=Replace(strdataht,Chr(13),"")
+					Set vResultsht=jsonReader2.Parse(strdataht)
+					vPiecesht = vResultsht.Items					
+					fkcount = vPiecesht("items").count
+					
+					'更新执行信息表内容
+					Dim strdatazx As String 
+					Dim vResultszx As Variant
+					Dim vPieceszx As Variant
+					Dim zxdoc As NotesDocument
+					Dim sjcount As Integer
+					Dim x As Integer
+					Dim blyj() As String
+					Dim arr As Variant
+					Dim strTmp As String
+					Dim m As Integer
+					
+					Set zxdoc = htxxdb.Getdocumentbyunid(htdoc.fldZXunid(0))
+					If Not zxdoc Is Nothing Then
+						'MsgBox "zhixing存在"
+						strdatazx=zxdoc.Getfirstitem("hfldData").Text
+						strdatazx=Replace(strdatazx,Chr(10),"")
+						strdatazx=Replace(strdatazx,Chr(13),"")
+						Set vResultszx=jsonReader2.Parse(strdatazx)
+						vPieceszx = vResultszx.Items
+						
+						Dim str6 As String
+						Dim arrxm() As String
+						Dim n As Integer
+						n=0
+						For j=0 To vPieceszx("items").count-1							
+							str6 = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+							If str6&lt;&gt;"" Then
+								If InStr(str6,"小计") &lt;= 0 Then
+									ReDim  Preserve arrxm(1+n)
+									arrxm(n) = CStr(Trim(vPieceszx("items").items(CInt(j)).items("xm")))
+									'MsgBox "arrxm(n)=" +CStr(arrxm(n))
+									n = n + 1
+								End If
+							End If
+						Next
+						
+						Dim arr3  As Variant
+						arr3 = ArrayUnique(arrxm)
+						sjcount = CInt(UBound(arr3))
+						'MsgBox "sjcount=" +  CStr(sjcount)
+						
+						If CInt(fkcount) = CInt(sjcount) Then
+							'MsgBox "4444446666899999"
+							For j=0 To vPieceszx("items").count-1
+								Dim jsonarryobj2 As New Converjsonobject
+								Dim jsonarryobj4 As New Converjsonobject
+								Dim strzfbl As String	
+								Dim str3 As String				
+								str3 = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+								strzfbl = CStr(Format(((CDbl(strTotal)/CDbl(str3))*100),"fixed")) + "%"
+								'MsgBox "strzfbl=" + CStr(strzfbl)
+								If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")="" Then
+									
+									If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strTotal)) Then
+										'MsgBox "12121212"	
+										Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj2.Additem("syje", "0")
+										Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj2.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										Call jsonarryobj2.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj2.Additem("zfbl", CStr(strzfbl))
+										Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj2.Additem("fq", "")
+										Call jsonarryobj2.Additem("xz", "true")
+										Call newjsonarry2.Additem(jsonarryobj2)
+									Else
+										'MsgBox "3443434343"
+										Dim strsyje As String
+										strsyje = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strTotal),"fixed"))										
+										
+										Call jsonarryobj4.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj4.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj4.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj4.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj4.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj4.Additem("syje", "0")
+										Call jsonarryobj4.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj4.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										Call jsonarryobj4.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj4.Additem("zfbl", CStr(strzfbl))
+										Call jsonarryobj4.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj4.Additem("fq", "")
+										Call jsonarryobj4.Additem("xz", "true")
+										Call newjsonarry2.Additem(jsonarryobj4)
+										
+										Call jsonarryobj2.Additem("xm", "")	
+										Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj2.Additem("syje", strsyje)
+										Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj2.Additem("zfje", "")
+										Call jsonarryobj2.Additem("zfsj", "")
+										Call jsonarryobj2.Additem("zfbl", "")
+										Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj2.Additem("fq", "true")
+										Call jsonarryobj2.Additem("xz", "")
+										Call newjsonarry2.Additem(jsonarryobj2)
+									End If
+									
+								Else
+									'MsgBox "3434343434000000000"
+									Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))
+									Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))									
+									Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+									Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+									Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+									Call jsonarryobj2.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+									Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+									Call jsonarryobj2.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+									Call jsonarryobj2.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+									Call jsonarryobj2.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+									Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+									Call jsonarryobj2.Additem("fq", vPieceszx("items").items(CInt(j)).items("fq"))
+									Call jsonarryobj2.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+									Call newjsonarry2.Additem(jsonarryobj2)
+								End If
+							Next
+							Call newjsonobj2.Additem("items", newjsonarry2)
+							strnewdata2=newjsonobj2.Tojson()
+							'MsgBox CStr(strnewdata2)
+							Call zxdoc.Replaceitemvalue("hfldData", strnewdata2)
+							'MsgBox "strTotal=" + CStr(strTotal)
+							zxdoc.fldBqzfje = strTotal
+							If zxdoc.fldLjzfje_xm(0)="" Then
+								zxdoc.fldLjzfje_xm = "0.00"
+							End If
+							zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strTotal),"fixed")
+							zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+							Call zxdoc.Save(True,False)
+						Else
+							'MsgBox "000000888888"
+							Dim strxm As String
+							Dim tt As String
+							For j=0 To vPieceszx("items").count-1				
+								If str2 = CStr(vPieceszx("items").items(CInt(j)).items("_dynid_")) Then
+									If CStr(vPieceszx("items").items(CInt(j)).items("xm")) &lt;&gt; "" Then
+										strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+										strxm = strxm + "（小计）"
+									End If
+								End If
+							Next
+							'MsgBox "strxm=" + CStr(strxm)
+							For j=0 To vPieceszx("items").count-1				
+								If strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm")) Then	
+									'MsgBox "yyyyyyyyyyy"						
+									tt = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+								End If
+							Next
+							'MsgBox "合同总约定金额=" + CStr(tt)
+							
+							For j=0 To vPieceszx("items").count-1
+								Dim jsonarryobj3 As New Converjsonobject
+								Dim jsonarryobj5 As New Converjsonobject
+								Dim strzfbl3 As String	
+								
+								strzfbl3 = CStr(Format(((CDbl(strTotal)/CDbl(tt))*100),"Fixed")) + "%"																
+								'MsgBox "strzfbl3=" + CStr(strzfbl3)	
+								
+								If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")="" Then
+									'MsgBox "fffffff"								
+									If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strTotal)) Then
+										'MsgBox "aaaaaa"
+										Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))								
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje","0")
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										'MsgBox CStr(Format(CStr(docMain.fldFlowOverRQ(0)),"YYYY-MM-DD"))	
+										Call jsonarryobj3.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj3.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "")
+										Call jsonarryobj3.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									Else
+										'MsgBox "tttttttttttt"
+										Dim strsyje2 As String
+										strsyje2 = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strTotal),"fixed"))
+										Call jsonarryobj5.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj5.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj5.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj5.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj5.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj5.Additem("syje", "0")
+										Call jsonarryobj5.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj5.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										Call jsonarryobj5.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj5.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj5.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj5.Additem("fq", "")
+										Call jsonarryobj5.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj5)
+										
+										Call jsonarryobj3.Additem("xm", "")	
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje", strsyje2)
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", "")
+										Call jsonarryobj3.Additem("zfsj", "")
+										Call jsonarryobj3.Additem("zfbl", "")
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "true")
+										Call jsonarryobj3.Additem("xz", "")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									End If									
+								Else
+									'MsgBox "ggggggggggg"
+									Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+									Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+									Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+									Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+									Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+									Call jsonarryobj3.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+									Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+									Call jsonarryobj3.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+									Call jsonarryobj3.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+									Call jsonarryobj3.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+									Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+									Call jsonarryobj3.Additem("fq", "")
+									Call jsonarryobj3.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+									Call newjsonarry3.Additem(jsonarryobj3)
+								End If
+							Next
+							Call newjsonobj3.Additem("items", newjsonarry3)
+							strnewdata3=newjsonobj3.Tojson()
+							'MsgBox CStr(strnewdata3)
+							Call zxdoc.Replaceitemvalue("hfldData", strnewdata3)
+							'MsgBox "55555555555555"
+							'MsgBox "&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;=" + CStr(zxdoc.fldBqzfje(0))
+							zxdoc.fldBqzfje = strTotal
+							If zxdoc.fldLjzfje_xm(0)="" Then
+								zxdoc.fldLjzfje_xm = "0.00"
+							End If
+							zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strTotal),"fixed")
+							zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+							Call zxdoc.Save(True,False)
+						End If
+						
+					End If
+					
+				End If							
+			Next
+		End If
+	End If	
+	
+	Exit Sub
+	
+errorHandle:
+	MsgBox "fnSelectOne错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub
+
+</lotusscript></code><code event='fnSelectDuoHang_htxm'><lotusscript>Sub fnSelectDuoHang_htxm(session As NotesSession,docMain As NotesDocument,arr As Variant)
+	On Error GoTo errorHandle
+	
+	'选择多行项目付款信息情况
+	
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonobj2 As New Converjsonobject	
+	Dim newjsonobj3 As New Converjsonobject		
+	Dim jsonReader2 As New Jsonreader
+	
+	Dim jsonobj As New Converjsonobject
+	Dim strdatajk As String 
+	Dim vResultsfk As Variant
+	Dim vPiecesfk As Variant
+	Dim i As Integer
+	Dim strHTunid As String
+	Dim htdb As NotesDatabase
+	Dim path As String
+	Dim htdc As NotesDocumentCollection
+	Dim htdoc As NotesDocument
+	Dim str2 As String
+	Dim j As Integer
+	Dim strnewdata As String
+	Dim strnewdata2 As String
+	Dim strnewdata3 As String
+	Dim strHang As String
+	Dim fkcount As Integer
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+	
+	Set htdb = session.Getdatabase(strHTName,  strApp + "/htsp.nsf")
+	Set htxxdb = session.Getdatabase(strHTName,strApp + "/htxx.nsf")
+	Set htxxvw = htxxdb.Getview("vwContractByRefKey")
+	path = fnGetAppNameFromAppDbPath(htdb.Filepath)
+	'获取合同审批数据库所在服务器域名
+	Dim aParam As Variant
+	Dim strHost As String
+	Dim clapp As New clApp(path,aParam) 
+	strHost = clapp.getAppHost()
+	
+	strdatajk=docMain.Getfirstitem("hfldData_htqkxz").Text
+	strdatajk=Replace(strdatajk,Chr(10),"")
+	strdatajk=Replace(strdatajk,Chr(13),"")
+	
+	If strdatajk &lt;&gt; "" Then 
+		Set vResultsfk=jsonReader2.Parse(strdatajk)
+		vPiecesfk = vResultsfk.Items
+		
+		If vPiecesfk("items").count&lt;&gt; 0 Then	
+			For i=0 To vPiecesfk("items").count-1
+				Dim newjsonarry As New Converjsonarray
+				Dim newjsonarry2 As New Converjsonarray
+				Dim newjsonarry3 As New Converjsonarray	
+				strHTunid = CStr(vPiecesfk("items").items(CInt(i)).items("htunid"))	
+				str2 = CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_"))
+				strHang = arr(i)
+				Set htdoc = htxxvw.Getdocumentbykey(strHTunid, True)
+				If Not htdoc Is Nothing Then
+					Dim strdataht As String 
+					Dim vResultsht As Variant
+					Dim vPiecesht As Variant
+					strdataht=htdoc.Getfirstitem("hfldData_1").Text
+					strdataht=Replace(strdataht,Chr(10),"")
+					strdataht=Replace(strdataht,Chr(13),"")
+					Set vResultsht=jsonReader2.Parse(strdataht)
+					vPiecesht = vResultsht.Items
+
+					fkcount = vPiecesht("items").count
+					'MsgBox "fkcount=" +  CStr(fkcount)
+					
+					'更新执行信息表内容
+					Dim strdatazx As String 
+					Dim vResultszx As Variant
+					Dim vPieceszx As Variant
+					Dim zxdoc As NotesDocument
+					Dim sjcount As Integer
+					
+					Set zxdoc = htxxdb.Getdocumentbyunid(htdoc.fldZXunid(0))
+					If Not zxdoc Is Nothing Then
+						'MsgBox "************" + CStr(zxdoc.fldWDunid(0))
+						strdatazx=zxdoc.Getfirstitem("hfldData_htxm").Text
+						strdatazx=Replace(strdatazx,Chr(10),"")
+						strdatazx=Replace(strdatazx,Chr(13),"")
+						Set vResultszx=jsonReader2.Parse(strdatazx)
+						vPieceszx = vResultszx.Items						
+						
+						Dim str6 As String
+						Dim arrxm() As String
+						Dim arr3  As Variant
+						Dim m As Integer
+						m=0
+						For j=0 To vPieceszx("items").count-1							
+							str6 = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+	
+							If str6&lt;&gt;"" Then
+								If InStr(str6,"小计") &lt;= 0 Then
+									ReDim  Preserve arrxm(1+m)
+									arrxm(m) = CStr(Trim(vPieceszx("items").items(CInt(j)).items("xm")))
+									'MsgBox "arrxm(m)_xm=" +CStr(arrxm(m))
+									m = m + 1
+								End If
+							End If
+						Next
+
+						arr3 = ArrayUnique(arrxm)
+						sjcount = CInt(UBound(arr3))
+
+						If CInt(fkcount) = CInt(sjcount) Then
+							'MsgBox "xmxmmxmxmxmttttttttttt"
+							If vPieceszx("items").count&lt;&gt; 0 Then
+								For j=0 To vPieceszx("items").count-1
+									Dim jsonarryobj2 As New Converjsonobject
+									Dim jsonarryobj4 As New Converjsonobject
+									Dim strzfbl As String	
+									Dim str3 As String				
+									str3 = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+									strzfbl = CStr(Format(((CDbl(strHang)/CDbl(str3))*100),"Fixed"))+"%"
+									If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")=""  Then
+										If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strHang)) Then
+											'MsgBox "cccccccccc"	
+											Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+											Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+											Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+											Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+											Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+											Call jsonarryobj2.Additem("syje", "0")
+											Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+											Call jsonarryobj2.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+											Call jsonarryobj2.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+											Call jsonarryobj2.Additem("zfbl", CStr(strzfbl))
+											Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+											Call jsonarryobj2.Additem("fq", "")
+											Call jsonarryobj2.Additem("xz", "true")
+											Call newjsonarry2.Additem(jsonarryobj2)
+										Else
+											'MsgBox "xmxmmxmxppppppppppppp"
+											Dim strsyje As String
+											strsyje = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strHang),"fixed"))										
+											
+											Call jsonarryobj4.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+											Call jsonarryobj4.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+											Call jsonarryobj4.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+											Call jsonarryobj4.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+											Call jsonarryobj4.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+											Call jsonarryobj4.Additem("syje", "0")
+											Call jsonarryobj4.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+											Call jsonarryobj4.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+											Call jsonarryobj4.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+											Call jsonarryobj4.Additem("zfbl", CStr(strzfbl))
+											Call jsonarryobj4.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+											Call jsonarryobj4.Additem("fq", "")
+											Call jsonarryobj4.Additem("xz", "true")
+											Call newjsonarry2.Additem(jsonarryobj4)
+											
+											Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+											Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+											Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+											Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+											Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+											Call jsonarryobj2.Additem("syje", strsyje)
+											Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+											Call jsonarryobj2.Additem("zfje", "")
+											Call jsonarryobj2.Additem("zfsj", "")
+											Call jsonarryobj2.Additem("zfbl", "")
+											Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+											Call jsonarryobj2.Additem("fq", "true")
+											Call jsonarryobj2.Additem("xz", "")
+											Call newjsonarry2.Additem(jsonarryobj2)
+										End If
+										
+									Else
+										'MsgBox "ddddddddddd"
+										Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))
+										Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))								
+										Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj2.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+										Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj2.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+										Call jsonarryobj2.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+										Call jsonarryobj2.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+										Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj2.Additem("fq", vPieceszx("items").items(CInt(j)).items("fq"))
+										Call jsonarryobj2.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+										Call newjsonarry2.Additem(jsonarryobj2)
+									End If
+								Next
+								Call newjsonobj2.Additem("items", newjsonarry2)
+								strnewdata2=newjsonobj2.Tojson()
+								'MsgBox CStr(strnewdata2)
+								Call zxdoc.Replaceitemvalue("hfldData_htxm", strnewdata2)
+								'zxdoc.fldBqzfje = strHang
+								'If zxdoc.fldLjzfje_xm(0)="" Then
+									'zxdoc.fldLjzfje_xm = "0.00"
+								'End If
+								'zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strHang),"fixed")
+								'zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+								Call zxdoc.Save(True,False)
+							End If
+						Else
+							'MsgBox "010100101001010099999"					
+							Dim strxm As String
+							Dim tt As String
+							For j=0 To vPieceszx("items").count-1				
+								If str2 = CStr(vPieceszx("items").items(CInt(j)).items("_dynid_")) Then
+									If CStr(vPieceszx("items").items(CInt(j)).items("xm")) &lt;&gt; "" Then
+										strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+										strxm = strxm + "（小计）"
+									End If
+								End If
+							Next
+							'MsgBox "strxmduohang项目=" + CStr(strxm)
+							For j=0 To vPieceszx("items").count-1				
+								If strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm")) Then						
+									tt = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+								End If
+							Next
+							'MsgBox "多行合同约定金额xm=" + CStr(tt)
+							
+							For j=0 To vPieceszx("items").count-1
+								Dim jsonarryobj3 As New Converjsonobject
+								Dim jsonarryobj5 As New Converjsonobject
+								Dim strzfbl3 As String	
+								
+								strzfbl3 = CStr(Format(((CDbl(strHang)/CDbl(tt))*100),"Fixed"))+"%"
+								'MsgBox "strzfbl3=" + CStr(strzfbl3)					
+								If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")="" Then
+									'MsgBox "syjexm=" + Str(vPieceszx("items").items(CInt(j)).items("syje"))
+									'MsgBox "hangxm=" + CStr(CDbl(strHang))
+									If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strHang)) Then
+										'MsgBox "fffffff"			
+										Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje","0")
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+										Call jsonarryobj3.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj3.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "")
+										Call jsonarryobj3.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									Else
+										Dim strsyje2 As String
+										strsyje2 = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strHang),"fixed"))
+										'MsgBox "剩余金额——xm： " + CStr(strsyje2)
+										Call jsonarryobj5.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj5.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj5.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj5.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj5.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj5.Additem("syje", "0")
+										Call jsonarryobj5.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj5.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+										Call jsonarryobj5.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj5.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj5.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj5.Additem("fq", "")
+										Call jsonarryobj5.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj5)
+										
+										Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje", strsyje2)
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", "")
+										Call jsonarryobj3.Additem("zfsj", "")
+										Call jsonarryobj3.Additem("zfbl", "")
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "true")
+										Call jsonarryobj3.Additem("xz", "")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									End If
+
+								Else
+									'MsgBox "ggggggggggg"
+									Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+									Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+									Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+									Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+									Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+									Call jsonarryobj3.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+									Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+									Call jsonarryobj3.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+									Call jsonarryobj3.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+									Call jsonarryobj3.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+									Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+									Call jsonarryobj3.Additem("fq", "")
+									Call jsonarryobj3.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+									Call newjsonarry3.Additem(jsonarryobj3)
+								End If
+							Next
+							Call newjsonobj3.Additem("items", newjsonarry3)
+							strnewdata3=newjsonobj3.Tojson()
+							'MsgBox CStr(strnewdata3)
+							Call zxdoc.Replaceitemvalue("hfldData_htxm", strnewdata3)
+							'zxdoc.fldBqzfje = strHang
+							'If zxdoc.fldLjzfje_xm(0)="" Then
+								'zxdoc.fldLjzfje_xm = "0.00"
+							'End If
+							'zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strHang),"fixed")
+							'zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+							Call zxdoc.Save(True,False)
+							
+						End If															
+					End If								
+				End If					
+			Next
+			
+		End If
+	End If	
+	
+	Exit Sub
+	
+errorHandle:
+	MsgBox "fnSelectDuoHang_htxm错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</lotusscript></code><code event='fnSelectDuoHang'><lotusscript>Sub fnSelectDuoHang(session As NotesSession,docMain As NotesDocument,arr As Variant)
+	On Error GoTo errorHandle
+	
+	'选择多行项目付款信息情况
+	
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonobj2 As New Converjsonobject	
+	Dim newjsonobj3 As New Converjsonobject		
+	Dim jsonReader2 As New Jsonreader
+	
+	Dim jsonobj As New Converjsonobject
+	Dim strdatajk As String 
+	Dim vResultsfk As Variant
+	Dim vPiecesfk As Variant
+	Dim i As Integer
+	Dim strHTunid As String
+	Dim htdb As NotesDatabase
+	Dim path As String
+	Dim htdc As NotesDocumentCollection
+	Dim htdoc As NotesDocument
+	Dim str2 As String
+	Dim j As Integer
+	Dim strnewdata As String
+	Dim strnewdata2 As String
+	Dim strnewdata3 As String
+	Dim strHang As String
+	Dim fkcount As Integer
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+	
+	Set htdb = session.Getdatabase(strHTName,  strApp + "/htsp.nsf")
+	Set htxxdb = session.Getdatabase(strHTName,strApp + "/htxx.nsf")
+	Set htxxvw = htxxdb.Getview("vwContractByRefKey")
+	path = fnGetAppNameFromAppDbPath(htdb.Filepath)
+	'获取合同审批数据库所在服务器域名
+	Dim aParam As Variant
+	Dim strHost As String
+	Dim clapp As New clApp(path,aParam) 
+	strHost = clapp.getAppHost()
+	
+	strdatajk=docMain.Getfirstitem("hfldData_htqkxz").Text
+	strdatajk=Replace(strdatajk,Chr(10),"")
+	strdatajk=Replace(strdatajk,Chr(13),"")
+	
+	If strdatajk &lt;&gt; "" Then 
+		Set vResultsfk=jsonReader2.Parse(strdatajk)
+		vPiecesfk = vResultsfk.Items
+		
+		If vPiecesfk("items").count&lt;&gt; 0 Then	
+			For i=0 To vPiecesfk("items").count-1
+				Dim newjsonarry As New Converjsonarray
+				Dim newjsonarry2 As New Converjsonarray
+				Dim newjsonarry3 As New Converjsonarray	
+				strHTunid = CStr(vPiecesfk("items").items(CInt(i)).items("htunid"))	
+				str2 = CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_"))
+				strHang = arr(i)
+
+				Set htdoc = htxxvw.Getdocumentbykey(strHTunid, True)
+				If Not htdoc Is Nothing Then
+					Dim strdataht As String 
+					Dim vResultsht As Variant
+					Dim vPiecesht As Variant
+					strdataht=htdoc.Getfirstitem("hfldData_1").Text
+					strdataht=Replace(strdataht,Chr(10),"")
+					strdataht=Replace(strdataht,Chr(13),"")
+					Set vResultsht=jsonReader2.Parse(strdataht)
+					vPiecesht = vResultsht.Items
+
+					fkcount = vPiecesht("items").count
+					'MsgBox "fkcount=" +  CStr(fkcount)
+					
+					'更新执行信息表内容
+					Dim strdatazx As String 
+					Dim vResultszx As Variant
+					Dim vPieceszx As Variant
+					Dim zxdoc As NotesDocument
+					Dim sjcount As Integer
+					
+					Set zxdoc = htxxdb.Getdocumentbyunid(htdoc.fldZXunid(0))
+					'MsgBox CStr(htdoc.fldZXunid(0))
+					If Not zxdoc Is Nothing Then
+						'MsgBox "222222"
+						'MsgBox "************" + CStr(zxdoc.fldWDunid(0))
+						strdatazx=zxdoc.Getfirstitem("hfldData").Text
+						strdatazx=Replace(strdatazx,Chr(10),"")
+						strdatazx=Replace(strdatazx,Chr(13),"")
+						Set vResultszx=jsonReader2.Parse(strdatazx)
+						vPieceszx = vResultszx.Items						
+					
+						Dim str6 As String
+						Dim arrxm() As String
+						Dim m As Integer
+						m=0
+						For j=0 To vPieceszx("items").count-1							
+							str6 = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+
+							If str6&lt;&gt;"" Then
+								If InStr(str6,"小计") &lt;= 0 Then
+									ReDim  Preserve arrxm(1+m)
+									arrxm(m) = CStr(Trim(vPieceszx("items").items(CInt(j)).items("xm")))
+									m = m + 1
+								End If
+							End If
+						Next
+						
+						Dim arr3  As Variant
+						arr3 = ArrayUnique(arrxm)
+						sjcount = CInt(UBound(arr3))
+						'MsgBox "sjcount=" +  CStr(sjcount)
+						
+						If CInt(fkcount) = CInt(sjcount) Then
+							'MsgBox "11ttttttttttt"
+							If vPieceszx("items").count&lt;&gt; 0 Then
+								For j=0 To vPieceszx("items").count-1
+									Dim jsonarryobj2 As New Converjsonobject
+									Dim jsonarryobj4 As New Converjsonobject
+									Dim strzfbl As String	
+									Dim str3 As String				
+									str3 = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+									strzfbl = CStr(Format(((CDbl(strHang)/CDbl(str3))*100),"Fixed"))+"%"
+									If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")=""  Then
+										If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strHang)) Then
+											'MsgBox "cccccccccc"	
+											Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+											Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+											Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+											Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+											Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+											Call jsonarryobj2.Additem("syje", "0")
+											Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+											Call jsonarryobj2.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+											Call jsonarryobj2.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+											Call jsonarryobj2.Additem("zfbl", CStr(strzfbl))
+											Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+											Call jsonarryobj2.Additem("fq", "")
+											Call jsonarryobj2.Additem("xz", "true")
+											Call newjsonarry2.Additem(jsonarryobj2)
+										Else
+											'MsgBox "ppppppppppppp"
+											Dim strsyje As String
+											strsyje = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strHang),"fixed"))										
+											
+											Call jsonarryobj4.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+											Call jsonarryobj4.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+											Call jsonarryobj4.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+											Call jsonarryobj4.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+											Call jsonarryobj4.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+											Call jsonarryobj4.Additem("syje", "0")
+											Call jsonarryobj4.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+											Call jsonarryobj4.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+											Call jsonarryobj4.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+											Call jsonarryobj4.Additem("zfbl", CStr(strzfbl))
+											Call jsonarryobj4.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+											Call jsonarryobj4.Additem("fq", "")
+											Call jsonarryobj4.Additem("xz", "true")
+											Call newjsonarry2.Additem(jsonarryobj4)
+											
+											Call jsonarryobj2.Additem("xm", "")	
+											Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+											Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+											Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+											Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+											Call jsonarryobj2.Additem("syje", strsyje)
+											Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+											Call jsonarryobj2.Additem("zfje", "")
+											Call jsonarryobj2.Additem("zfsj", "")
+											Call jsonarryobj2.Additem("zfbl", "")
+											Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+											Call jsonarryobj2.Additem("fq", "true")
+											Call jsonarryobj2.Additem("xz", "")
+											Call newjsonarry2.Additem(jsonarryobj2)
+										End If
+										
+									Else
+										'MsgBox "ddddddddddd"
+										Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))
+										Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))								
+										Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj2.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+										Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj2.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+										Call jsonarryobj2.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+										Call jsonarryobj2.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+										Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj2.Additem("fq", vPieceszx("items").items(CInt(j)).items("fq"))
+										Call jsonarryobj2.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+										Call newjsonarry2.Additem(jsonarryobj2)
+									End If
+								Next
+								Call newjsonobj2.Additem("items", newjsonarry2)
+								strnewdata2=newjsonobj2.Tojson()
+								Call zxdoc.Replaceitemvalue("hfldData", strnewdata2)
+								zxdoc.fldBqzfje = strHang
+								If zxdoc.fldLjzfje_xm(0)="" Then
+									zxdoc.fldLjzfje_xm = "0.00"
+								End If
+								zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strHang),"fixed")
+								zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+								Call zxdoc.Save(True,False)
+							End If
+						Else
+							'MsgBox "0101001010010100"					
+							Dim strxm As String
+							Dim tt As String
+							For j=0 To vPieceszx("items").count-1				
+								If str2 = CStr(vPieceszx("items").items(CInt(j)).items("_dynid_")) Then
+									If CStr(vPieceszx("items").items(CInt(j)).items("xm")) &lt;&gt; "" Then
+										strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+										strxm = strxm + "（小计）"
+									End If
+								End If
+							Next
+							'MsgBox "struohang=" + CStr(strxm)
+							For j=0 To vPieceszx("items").count-1				
+								If strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm")) Then						
+									tt = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+								End If
+							Next
+							'MsgBox "多行合同约定金额=" + CStr(tt)
+							
+							For j=0 To vPieceszx("items").count-1
+								Dim jsonarryobj3 As New Converjsonobject
+								Dim jsonarryobj5 As New Converjsonobject
+								Dim strzfbl3 As String	
+								
+								strzfbl3 = CStr(Format(((CDbl(strHang)/CDbl(tt))*100),"Fixed"))+"%"
+								'MsgBox "strzfbl3=" + CStr(strzfbl3)					
+								If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")="" Then
+									If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strHang)) Then
+										'MsgBox "fffffff"			
+										Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))								
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje","0")
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+										Call jsonarryobj3.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj3.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "")
+										Call jsonarryobj3.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									Else
+										Dim strsyje2 As String
+										strsyje2 = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strHang),"fixed"))
+										'MsgBox "剩余金额： " + CStr(strsyje2)
+										Call jsonarryobj5.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj5.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj5.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj5.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj5.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj5.Additem("syje", "0")
+										Call jsonarryobj5.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj5.Additem("zfje", CStr(Format(CDbl(strHang),"fixed")))
+										Call jsonarryobj5.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj5.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj5.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj5.Additem("fq", "")
+										Call jsonarryobj5.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj5)
+										
+										Call jsonarryobj3.Additem("xm", "")	
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje", strsyje2)
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", "")
+										Call jsonarryobj3.Additem("zfsj", "")
+										Call jsonarryobj3.Additem("zfbl", "")
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "true")
+										Call jsonarryobj3.Additem("xz", "")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									End If
+
+								Else
+									'MsgBox "xmggggggggggg"
+									Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+									Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))								
+									Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+									Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+									Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+									Call jsonarryobj3.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+									Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+									Call jsonarryobj3.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+									Call jsonarryobj3.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+									Call jsonarryobj3.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+									Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+									Call jsonarryobj3.Additem("fq", "")
+									Call jsonarryobj3.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+									Call newjsonarry3.Additem(jsonarryobj3)
+								End If
+							Next
+							Call newjsonobj3.Additem("items", newjsonarry3)
+							strnewdata3=newjsonobj3.Tojson()
+							'MsgBox CStr(strnewdata3)
+							Call zxdoc.Replaceitemvalue("hfldData", strnewdata3)
+							zxdoc.fldBqzfje = strHang
+							If zxdoc.fldLjzfje_xm(0)="" Then
+								zxdoc.fldLjzfje_xm = "0.00"
+							End If
+							zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strHang),"fixed")
+							zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+							Call zxdoc.Save(True,False)
+							
+						End If															
+					End If								
+				End If					
+			Next
+			
+		End If
+	End If	
+	
+	Exit Sub
+	
+errorHandle:
+	MsgBox "fnSelectDuoHang错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</lotusscript></code><code event='fnSelectOne_htxm'><lotusscript>Sub fnSelectOne_htxm(session As NotesSession,docMain As NotesDocument,strTotal As String)
+	On Error GoTo errorHandle
+	
+	'选择一行项目付款信息情况
+	Dim newjsonarry As New Converjsonarray
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonarry2 As New Converjsonarray
+	Dim newjsonobj2 As New Converjsonobject
+	Dim newjsonarry3 As New Converjsonarray
+	Dim newjsonobj3 As New Converjsonobject						
+	Dim jsonReader2 As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+	Dim strdatajk As String 
+	Dim vResultsfk As Variant
+	Dim vPiecesfk As Variant
+	Dim i As Integer
+	Dim strHTunid As String
+	Dim htdb As NotesDatabase
+	Dim path As String
+	Dim htdc As NotesDocumentCollection
+	Dim htdoc As NotesDocument
+	Dim str2 As String
+	Dim j As Integer
+	Dim strnewdata As String
+	Dim strnewdata2 As String
+	Dim strnewdata3 As String
+	Dim fkcount As Integer
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+
+	Set htdb = session.Getdatabase(strHTName, strApp + "/htsp.nsf")
+	Set htxxdb = session.Getdatabase(strHTName, strApp + "/htxx.nsf")
+	Set htxxvw = htxxdb.Getview("vwContractByRefKey")
+	path = fnGetAppNameFromAppDbPath(htdb.Filepath)
+	'获取合同审批数据库所在服务器域名
+	Dim aParam As Variant
+	Dim strHost As String
+	Dim clapp As New clApp(path,aParam) 
+	strHost = clapp.getAppHost()
+	
+	strdatajk=docMain.Getfirstitem("hfldData_htqkxz").Text
+	strdatajk=Replace(strdatajk,Chr(10),"")
+	strdatajk=Replace(strdatajk,Chr(13),"")
+	
+	If strdatajk &lt;&gt; "" Then 
+		Set vResultsfk=jsonReader2.Parse(strdatajk)
+		vPiecesfk = vResultsfk.Items
+		
+		If vPiecesfk("items").count&lt;&gt; 0 Then	
+			For i=0 To vPiecesfk("items").count-1
+				strHTunid = CStr(vPiecesfk("items").items(CInt(i)).items("htunid"))	
+				str2 = CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_"))
+				Set htdoc = htxxvw.Getdocumentbykey(strHTunid, True)
+				If Not htdoc Is Nothing Then
+					
+					Dim strdataht As String 
+					Dim vResultsht As Variant
+					Dim vPiecesht As Variant
+					strdataht=htdoc.Getfirstitem("hfldData_1").Text
+					strdataht=Replace(strdataht,Chr(10),"")
+					strdataht=Replace(strdataht,Chr(13),"")
+					Set vResultsht=jsonReader2.Parse(strdataht)
+					vPiecesht = vResultsht.Items					
+					fkcount = vPiecesht("items").count
+					
+					'更新执行信息表内容
+					Dim strdatazx As String 
+					Dim vResultszx As Variant
+					Dim vPieceszx As Variant
+					Dim zxdoc As NotesDocument
+					Dim sjcount As Integer
+					Dim x As Integer
+					Dim blyj() As String
+					Dim arr As Variant
+					Dim strTmp As String
+					Dim m As Integer
+					
+					Set zxdoc = htxxdb.Getdocumentbyunid(htdoc.fldZXunid(0))
+					If Not zxdoc Is Nothing Then
+						'MsgBox "zhixing存在"
+						strdatazx=zxdoc.Getfirstitem("hfldData_htxm").Text
+						strdatazx=Replace(strdatazx,Chr(10),"")
+						strdatazx=Replace(strdatazx,Chr(13),"")
+						Set vResultszx=jsonReader2.Parse(strdatazx)
+						vPieceszx = vResultszx.Items
+						
+						Dim str6 As String
+						Dim arrxm() As String
+						Dim n As Integer
+						n=0
+						For j=0 To vPieceszx("items").count-1							
+							str6 = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+							If str6&lt;&gt;"" Then
+								If InStr(str6,"小计") &lt;= 0 Then
+									ReDim  Preserve arrxm(1+n)
+									arrxm(n) = CStr(Trim(vPieceszx("items").items(CInt(j)).items("xm")))
+									'MsgBox "arrxm(n)=" +CStr(arrxm(n))
+									n = n + 1
+								End If
+							End If
+						Next
+						
+						Dim arr3  As Variant
+						arr3 = ArrayUnique(arrxm)
+						sjcount = CInt(UBound(arr3))
+						'MsgBox "sjcount=" +  CStr(sjcount)	
+						
+						If CInt(fkcount) = CInt(sjcount) Then
+							'MsgBox "44444466666666777777777"
+							For j=0 To vPieceszx("items").count-1
+								Dim jsonarryobj2 As New Converjsonobject
+								Dim jsonarryobj4 As New Converjsonobject
+								Dim strzfbl As String	
+								Dim str3 As String				
+								str3 = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+								strzfbl = CStr(Format(((CDbl(strTotal)/CDbl(str3))*100),"fixed"))+"%"
+								'MsgBox "strzfbl=" + CStr(strzfbl)
+								If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")="" Then
+									
+									If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strTotal)) Then
+										'MsgBox "12121212"	
+										Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj2.Additem("syje", "0")
+										Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj2.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										Call jsonarryobj2.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj2.Additem("zfbl", CStr(strzfbl))
+										Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj2.Additem("fq", "")
+										Call jsonarryobj2.Additem("xz", "true")
+										Call newjsonarry2.Additem(jsonarryobj2)
+									Else
+										'MsgBox "3443434343"
+										Dim strsyje As String
+										strsyje = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strTotal),"fixed"))										
+										
+										Call jsonarryobj4.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj4.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj4.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj4.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj4.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj4.Additem("syje", "0")
+										Call jsonarryobj4.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj4.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										Call jsonarryobj4.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj4.Additem("zfbl", CStr(strzfbl))
+										Call jsonarryobj4.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj4.Additem("fq", "")
+										Call jsonarryobj4.Additem("xz", "true")
+										Call newjsonarry2.Additem(jsonarryobj4)
+										
+										Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj2.Additem("htydje",vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj2.Additem("bxsqfkje",vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj2.Additem("syje", strsyje)
+										Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj2.Additem("zfje", "")
+										Call jsonarryobj2.Additem("zfsj", "")
+										Call jsonarryobj2.Additem("zfbl", "")
+										Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj2.Additem("fq", "true")
+										Call jsonarryobj2.Additem("xz", "")
+										Call newjsonarry2.Additem(jsonarryobj2)
+									End If
+									
+								Else
+									'MsgBox "3434343434"
+									Call jsonarryobj2.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))
+									Call jsonarryobj2.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))									
+									Call jsonarryobj2.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+									Call jsonarryobj2.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+									Call jsonarryobj2.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+									Call jsonarryobj2.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+									Call jsonarryobj2.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+									Call jsonarryobj2.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+									Call jsonarryobj2.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+									Call jsonarryobj2.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+									Call jsonarryobj2.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+									Call jsonarryobj2.Additem("fq", vPieceszx("items").items(CInt(j)).items("fq"))
+									Call jsonarryobj2.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+									Call newjsonarry2.Additem(jsonarryobj2)
+								End If
+							Next
+							Call newjsonobj2.Additem("items", newjsonarry2)
+							strnewdata2=newjsonobj2.Tojson()
+							'MsgBox CStr(strnewdata2)
+							Call zxdoc.Replaceitemvalue("hfldData_htxm", strnewdata2)
+							'MsgBox "zxdoc.fldBqzfje=" + CStr(zxdoc.fldBqzfje(0))
+							'zxdoc.fldBqzfje = strTotal
+							'If zxdoc.fldLjzfje_xm(0)="" Then
+								'zxdoc.fldLjzfje_xm = "0.00"
+							'End If
+							'zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strTotal),"fixed")
+							'zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+							Call zxdoc.Save(True,False)
+						Else
+							'MsgBox "000000888888999999995555"
+							Dim strxm As String
+							Dim tt As String
+							For j=0 To vPieceszx("items").count-1				
+								If str2 = CStr(vPieceszx("items").items(CInt(j)).items("_dynid_")) Then
+									If CStr(vPieceszx("items").items(CInt(j)).items("xm")) &lt;&gt; "" Then
+										strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm"))
+										strxm = strxm + "（小计）"
+									End If
+								End If
+							Next
+							'MsgBox "strxm_xm=" + CStr(strxm)
+							For j=0 To vPieceszx("items").count-1				
+								If strxm = CStr(vPieceszx("items").items(CInt(j)).items("xm")) Then	
+									'MsgBox "yyyyyyyyyyy"						
+									tt = CStr(vPieceszx("items").items(CInt(j)).items("htydje"))
+								End If
+							Next
+							'MsgBox "合同总约定金额xm=" + CStr(tt)
+							
+							For j=0 To vPieceszx("items").count-1
+								Dim jsonarryobj3 As New Converjsonobject
+								Dim jsonarryobj5 As New Converjsonobject
+								Dim strzfbl3 As String	
+
+								strzfbl3 = CStr(Format(((CDbl(strTotal)/CDbl(tt))*100),"Fixed"))+"%"																
+								'MsgBox "strzfbl3=" + CStr(strzfbl3)	
+								
+								If str2 = vPieceszx("items").items(CInt(j)).items("_dynid_") And vPieceszx("items").items(CInt(j)).items("xz")="" Then
+									'MsgBox "syje78.00=" + CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje")))
+									'MsgBox "hang78=" + CStr(CDbl(strTotal))
+									If CStr(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))) = CStr(CDbl(strTotal)) Then
+										'MsgBox "fffffff"			
+										Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))								
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje","0")
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										'MsgBox CStr(Format(CStr(docMain.fldFlowOverRQ(0)),"YYYY-MM-DD"))			
+										Call jsonarryobj3.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj3.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "")
+										Call jsonarryobj3.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									Else
+										Dim strsyje2 As String
+										strsyje2 = CStr(Format(CDbl(vPieceszx("items").items(CInt(j)).items("syje"))-CDbl(strTotal),"fixed"))
+										'MsgBox "3333333333"
+										Call jsonarryobj5.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj5.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj5.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj5.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj5.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj5.Additem("syje", "0")
+										Call jsonarryobj5.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj5.Additem("zfje", CStr(Format(CDbl(strTotal),"fixed")))
+										Call jsonarryobj5.Additem("zfsj", CStr(Format(CStr(Now),"YYYY-MM-DD")))
+										Call jsonarryobj5.Additem("zfbl", CStr(strzfbl3))
+										Call jsonarryobj5.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj5.Additem("fq", "")
+										Call jsonarryobj5.Additem("xz", "true")
+										Call newjsonarry3.Additem(jsonarryobj5)
+										
+										Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+										Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+										Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+										Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+										Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+										Call jsonarryobj3.Additem("syje", strsyje2)
+										Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+										Call jsonarryobj3.Additem("zfje", "")
+										Call jsonarryobj3.Additem("zfsj", "")
+										Call jsonarryobj3.Additem("zfbl", "")
+										Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+										Call jsonarryobj3.Additem("fq", "true")
+										Call jsonarryobj3.Additem("xz", "")
+										Call newjsonarry3.Additem(jsonarryobj3)
+									End If				
+								Else
+									'MsgBox "ggggggggggg"
+									Call jsonarryobj3.Additem("xm", vPieceszx("items").items(CInt(j)).items("xm"))	
+									Call jsonarryobj3.Additem("htid", vPieceszx("items").items(CInt(j)).items("htid"))							
+									Call jsonarryobj3.Additem("htydje", vPieceszx("items").items(CInt(j)).items("htydje"))
+									Call jsonarryobj3.Additem("jstj", vPieceszx("items").items(CInt(j)).items("jstj"))
+									Call jsonarryobj3.Additem("bxsqfkje", vPieceszx("items").items(CInt(j)).items("bxsqfkje"))
+									Call jsonarryobj3.Additem("syje",vPieceszx("items").items(CInt(j)).items("syje"))
+									Call jsonarryobj3.Additem("bxsqfkbl", vPieceszx("items").items(CInt(j)).items("bxsqfkbl"))
+									Call jsonarryobj3.Additem("zfje", vPieceszx("items").items(CInt(j)).items("zfje"))
+									Call jsonarryobj3.Additem("zfsj", vPieceszx("items").items(CInt(j)).items("zfsj"))
+									Call jsonarryobj3.Additem("zfbl", vPieceszx("items").items(CInt(j)).items("zfbl"))
+									Call jsonarryobj3.Additem("_dynid_", vPieceszx("items").items(CInt(j)).items("_dynid_"))
+									Call jsonarryobj3.Additem("fq", "")
+									Call jsonarryobj3.Additem("xz", vPieceszx("items").items(CInt(j)).items("xz"))
+									Call newjsonarry3.Additem(jsonarryobj3)
+								End If
+							Next
+							Call newjsonobj3.Additem("items", newjsonarry3)
+							strnewdata3=newjsonobj3.Tojson()
+							'MsgBox CStr(strnewdata3)
+							'MsgBox "666666666"
+							Call zxdoc.Replaceitemvalue("hfldData_htxm", strnewdata3)
+							'MsgBox "****" + CStr(zxdoc.fldBqzfje(0))
+							'zxdoc.fldBqzfje = strTotal
+							'If zxdoc.fldLjzfje_xm(0)="" Then
+								'zxdoc.fldLjzfje_xm = "0.00"
+							'End If
+							'zxdoc.fldLjzfje_xm = Format(CDbl(zxdoc.fldLjzfje_xm(0)) + CDbl(strTotal),"fixed")
+							'zxdoc.fldLjzfbl_xm = CStr(Format((CDbl(zxdoc.fldLjzfje_xm(0))/CDbl(zxdoc.fldHtTotal(0))*100),"fixed"))+"%"
+							Call zxdoc.Save(True,False)
+						End If
+						
+					End If
+					
+				End If							
+			Next
+		End If
+	End If	
+	
+	Exit Sub
+	
+errorHandle:
+	MsgBox "fnSelectOne_htxm错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='8EAD9F00BACA1CAC4825812300165452'>
+<agentmodified><datetime>20170517T113701,08+08</datetime></agentmodified>
+<agentrun><datetime>20170627T090400,48+08</datetime></agentrun>
+<runlog>Started running agent 'agtgengxinht_xm|流程结束更新合同信息和执行信息表' on 2017-06-27 09:04:00
+Ran LotusScript code
+Done running agent 'agtgengxinht_xm|流程结束更新合同信息和执行信息表' on 2017-06-27 09:04:00
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092020,59+08</datetime></item></agent>
+

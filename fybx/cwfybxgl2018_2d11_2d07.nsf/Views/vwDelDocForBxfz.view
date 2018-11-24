@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwDelDocForBxfz' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' showinmenu='false' allowdocselection='true'
+ publicaccess='false' designerversion='8.5.3' unreadmarks='standard' onopengoto='lastopened'
+ onrefresh='displayindicator' headers='beveled' opencollapsed='false' showresponsehierarchy='false'
+ showmargin='true' shrinkrows='true' extendlastcolumn='false' showhierarchies='false'
+ unreadcolor='maroon' rowlinecount='5' headerlinecount='1' rowspacing='1.25'
+ haslinkcolumn='true' bgcolor='white' altrowcolor='#efefef' totalscolor='blue'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false' formatnoteid='0111FC1BA62CF386482579E40025A9D0'>
+<noteinfo noteid='19e' unid='5B11C5059B7AC28B48257CE8003317D8' sequence='55'>
+<created><datetime>20140530T171804,40+08</datetime></created>
+<modified><datetime>20181107T195613,18+08</datetime></modified>
+<revised><datetime>20181024T085440,79+08</datetime></revised>
+<lastaccessed><datetime>20181107T195613,18+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195613,18+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+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
+sJcpL0iHzyKJqvoEAAQABAAEAA==
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' hidedetailrows='false' itemname='fldQiCaoRQ' width='28.1250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' hidden='true'><columnheader title='date'><font style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+NgAJACwAzBjxVZmeWPEN0A8vUyTz3E4ROiwxbVgCHbo1Ua3mptR1FrqwNLyA6AQABAAEAAQA
+</formula></code></column>
+<column sort='descending' resort='both' hidedetailrows='false' itemname='$62'
+ width='36.5000' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='true'><font size='9pt'/><columnheader title='日期'><font
+ style='bold'/></columnheader><datetimeformat show='datetime' date='yearmonthday'
+ fourdigityear='true' time='hourminutesecond' zone='never' dateformat='yearmonthdayweekday'
+ dayformat='twodigitday' monthformat='twodigitmonth' yearformat='fourdigityear'
+ weekdayformat='shortname' dateseparator1='-' dateseparator2='-' dateseparator3=' '
+ timeseparator=':' timeformat24='true' preference='usersetting'/><numberformat
+ format='general' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='value'><formula compiled='true'>
+NgAJACwAzqQZZk+Wp3P7fLw2XO4gHkFRtdcquxM+7Z8uhbKNcW8ocl/2rgWNiAQABAAEAAQA
+</formula></code></column>
+<column resort='both' hidedetailrows='false' listseparator='comma' itemname='fldSubject'
+ width='29' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='true'><font size='9pt'/><columnheader title='标题'><font
+ style='bold'/></columnheader><datetimeformat legacy='true' show='date' date='yearmonthday'
+ time='hourminutesecond' zone='never'/><numberformat legacy='true' format='general'
+ digits='2' punctuated='false' parens='false' percent='false' bytes='false'/></column>
+<column resort='both' hidedetailrows='false' listseparator='comma' itemname='$61'
+ width='30' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='true' formatdatatype='datetime'><font size='9pt'/><columnheader
+ title='处理状态'><font style='bold'/></columnheader><datetimeformat legacy='true'
+ show='date' date='yearmonthday' time='hourminute' zone='never'/><numberformat
+ legacy='true' format='general' digits='2' punctuated='false' parens='false'
+ percent='false' bytes='false'/><code event='value'><formula compiled='true'>
+NgIJACwCoZZ0XbXiRQ4K7AKp2o5Wqf0jzxSA0+B3WQAH1HqijCg4cInbrrD350YrS0a24SrX6gPx
+mrG6ud6jQG/o/FGzYbWUosubxSO2UfBO6vV3UlHv98We08RKf62tvNnZozvboKrWOF1d4QbiwFxd
+RA7kIpRIf3Z2si1pqsxD+ybi6V2eIWVGuncOJc2OIikwp96oS6hARzjeBT91S89APL8fvoOkHPI+
+uYrbqtrInk2+bj9XmCCDuV+0Mbpz8o/rUwjX3i0KLRSgomxZ+dit4B9k01RfOGGmsT5yMDlpL84y
+hK3n010jhRRqz7d4i47FooKyrZR68SHY7+E40fYwl3LKnABUb4N4JhZokc9TGU2OKBkkop/eR3yh
+k/KX/4zIgVCJwPjvvF4XbUgZFwtXFLHsk3YSW49rPPVL8Q0Nww5MUDAgow4Jalod4W3QjcM9d1KG
+gyipoZjIOK88Cfd5+H4r5wAYGYhpC8hEm9uGeh/yBiHurYgZ5CiAZOf/K9fNb23pyLW33sCUGCGO
+LVV2hfp7vbQLp6VQNoACGBnyCjs+Vq/KfpVR6QgYVE8oE9jgYvjPBv8+AIq7kz8efpPddkuFwAWi
+QikNotJN4n/GzUzxzyVRNiazZ1Dhk6He5R9WZbCE9u3ZKlkrUVHfE1SHRnCkU8e/4bWLKiI8fvQI
+VBcnWJAFz5vgeB0AkrWzvGrcEJR0febLLSQF3q8dwiNoTtwtnl2U/CIUrIg9BAAEAAQABAA=
+</formula></code></column>
+<column hidedetailrows='false' itemname='$57' width='27' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='当前处理人'><font style='bold'/></columnheader><code event='value'><formula
+ compiled='true'>
+PgMJADQDcd6X/nNEw9u6T+gxX3ESv3lYKJ62YS+S7JtRzDxVbgdfwOLXBZEWsVM498s8i34kStGr
+G+7Y7aiqfMhv2AbbBjE2Mrh0us9aD+0zUiHOPFwhfCz+t/cXLgl56elJvYXokii5UIGo68ZJXDi4
+AZsP9MMy/fnqJ9yGOpBGbOFACGHm3L0LEyRgLKlztZPFmDU8kZmhc0PiQj7Rtgb09FPKX27HZY4I
+TttXg+LKlU5+iW9J2/6ehHcnT3KvkE+qtPGlPTS+H/SYLcxEbZ5XmSMLkb2cl+T+zEUhT8dAJA/G
+YDNqou107iDxJQvqLh/NajZjh1diHeEdraLj5Xu8aUvqVisQ7MJ2rqqwxlt+N3Yjpvu0KIlroL/F
+drO+L8pXIn2ANOAD66v5y4XzX8LJaQa7AxxNw/i/88O7fx0qMACMTV5xbOhl5HF6Pkm0IRZWNv9p
+CZL2hHUU4G/5lt9/A0gxqbENANI12bXhkIh1TERGulBpMSSgMHcdXV4ZEYAXKJ2xxtszIgxIDMzp
+RowmvFrQFnt4kMUVnzzFLEwp1gPlWf4hmVcdNpPEzwXXADfDzY9+heWnZ9ESxxw5YSDj5d4R+Hhe
+2J/6VvsCwOsf79EqIY0cvRHw2cytkzdB92v03H/RXlK+Kci/GZyQulMxYLz2EE7YTWThhSIZP99Z
+W513ythQnHUePNwfBOMtUkmcy05IHvsbAx+u+LcADKYc+S/SPzLo4trL4x+VCOym/4kBJdHxRs4I
+PHR5VpHr2HROdFYRyeWD1/KxVm0hZ3c/mLxrNsGb1ZZEWJLpXck6BEw5wGWqpUEJ3uXiGh+sRJoZ
+6UjgLZNzbT7lQn/SmANixC6WJUsx2cSrXyQT/Qg+QXubYZgdr3vs2tVaLegxtmc1s98AI2votHmB
+aE1B0RYAhfJmC2kbfzDDBl/gCC5ol6n70zid+VJvguwwxJOfItbONAq4ZBqYLXT2gNZDOcBbl3YK
+dWs3v4Thx/V+YQV9/wyVGHF3dp5vjz76DdyU9lDPOFTy2IVKfKlhdBw0g9U46bcF2frSBrYCwjIS
+wG741Sj6kJrgTNa0HbsQMVGf/omFZ5+VBAAEAAQABAA=
+</formula></code></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,55+08</datetime></item></view>
+

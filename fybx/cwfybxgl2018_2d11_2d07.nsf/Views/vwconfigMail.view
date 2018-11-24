@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwconfigMail' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ showinmenu='false' allowdocselection='true' publicaccess='false' designerversion='8.5.3'
+ unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator' headers='beveled'
+ opencollapsed='false' showresponsehierarchy='true' showmargin='true' shrinkrows='false'
+ extendlastcolumn='false' showhierarchies='false' unreadcolor='black' rowlinecount='1'
+ headerlinecount='1' rowspacing='1' haslinkcolumn='true' bgcolor='white' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='13a' unid='0C9C3EDFDA3735C548257DAD002FD35A' sequence='57'>
+<created><datetime>20141213T164222,98+08</datetime></created>
+<modified><datetime>20181107T195612,28+08</datetime></modified>
+<revised><datetime>20181024T085439,39+08</datetime></revised>
+<lastaccessed><datetime>20181107T195612,28+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195612,28+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+DgEJAAQBq/K994E/QEyfsR03vxQLhZaQ0YPVvFZW8LxINwm9hJIAmO+XCwnH/W5zhaNLdMdm5U/E
+qznoyt7A3cMGmTBdGbKbvhSMGwKahi+ZC2W4vzrVvG2SzXMQxAFC/hGj+66H44k2VJfqz0Erbm4p
+/WomlRo6FX1S20t8g0CymzmFDC88qUIaouiE0ah6GZcnNUS1e6J8RxdMJOuo4UMl/9SoUmawzBhd
+RoWZWB3GozZBjJ05jpqzCyIjbW/zIrr/28MV+hVbdDek8peVmN25OcV8hIFjnGt7puNRhZ41ySeR
+ic9+dvGLs9wBe7xUoLbgxiFRbg9QcuVevqi0RYY9qlekBAQABAAEAAQA
+</formula></code>
+<column sort='ascending' hidedetailrows='false' itemname='strCzlx' width='10.7500'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='true'><columnheader title='&lt;span data-string-id="indiplatform.tylc.czlx">操作类型&lt;/span>'><font
+ size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='$5' width='10.7500' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.yjtz">邮件通知&lt;/span>'><font
+ size='9pt' style='bold'/></columnheader><code event='value'><formula compiled='true'>
+vgAJALQAXtTzWt/F3sRpSYqOa8aeHZnncvxWrsOo6u/PDxyEJtK96FeVfb3fX4Lquht3H4w9tv7e
+RiOSB8sNhRSrwAcMNh+2u3z1YRX8WD1He34gMRlqG86c06wcfg9yvPrPpultJ2LKgEo7U3vbNuB7
+C6t5JkRPTtodH2MjXBlxlwT2laHXFqu7P0ZLgegh+sh4aVlwZXZ7QG466xf56gayApJf/ffA0HcJ
+fAuftUQEiKwq+jAEAAQABAAEAA==
+</formula></code></column>
+<column hidedetailrows='false' itemname='strMs' width='75' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.miaos">描述&lt;/span>'><font
+ size='9pt' style='bold'/></columnheader></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210734,83+08</datetime></item></view>
+

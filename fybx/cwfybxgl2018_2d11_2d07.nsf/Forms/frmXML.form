@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmXML' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ treatashtml='true' publicaccess='false' designerversion='8.5.2' comment='以XML格式显示流转信息'
+ renderpassthrough='true'>
+<noteinfo noteid='3ea' unid='B1CA0B3CB04FE75A4825701800276336' sequence='57'>
+<created><datetime>20050606T151013,02+08</datetime></created>
+<modified><datetime>20181107T195622,46+08</datetime></modified>
+<revised><datetime>20181024T085446,39+08</datetime></revised>
+<lastaccessed><datetime>20181107T195622,46+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195622,46+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='htmlhead'><formula
+ compiled='true'>
+ZgAJAFwA2R4VkjrQaImSJszHM/ALjlYafkn60q85Uf6wsihPFm14ZPGTMWscrWATN0ZxZc2+gvsT
+sX/rq2JO5V2huSXgetjqHWaE5rqS7mv+mYzxaIySCHVPCf/xpAQABAAEAAQA
+</formula></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'>&lt;?xml version="1.0" encoding="gb2312" ?&gt;</par>
+<par def='1'>&lt;rundata subject="<computedtext><code event='value'><formula
+ compiled='true'>
+hgAJAHwADDaxAIJvAa5fM6eQS30/rLLhURFld5RxLuaYDOr5ZuXqQWZGjcz6yA3J6OAwjKsQ5s51
+GBxRK+miGrQeAkT/Qds22DrgCfweg8M3hDfVGdxG5V69cq3hnrzGpP2++NmmQeiDWGWd9EEPE2AG
+MtRAMpaROUYwqDApBAAEAAQABAA=
+</formula></code></computedtext>" unid="<computedtext><code
+ event='value'><formula compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></computedtext>" isfinish="<computedtext
+><code event='value'><formula compiled='true'>
+VgAJAEwAGai3FyTkkWDKP134OgffH8qFw6VMYqS3WFe7h3ZZbx2vVDB983WuEYnQRg5cCR9jgDxp
+GdmQUe14Etf0ndaxH7NSQMu36ljwBAAEAAQABAA=
+</formula></code></computedtext>"&gt;</par>
+<par def='1'>&lt;curitem user="<computedtext><code event='value'><formula
+ compiled='true'>
+pgEJAJwBeP3RRafxKO5TEPUwv3IW5jV1a3M2+7DzlfHqmNp2Ez5qaGBNDLLa/HRbJliLV3jBbWOz
+FPJ8ZRfhx8fadDzu9P+oeF6sVuoF3DwgDyGT9vXtMNioHVfL6+8JXzbGmE/LaMoSYNGV1gkW/i8g
+UCVwqR8raLTqvR4+iEQVG9xZ3EpmBXJtAyxqhjiz1wxzBXBmNHREMAaCXy2kSqbIz6qJVqERQy/x
+mbBz970BYdAzXwXa3o1bwILx9cGPdC9Jsxu3SyNqg9+McDx2jsDWLsHA8bPPls/U/0m6TH5ULD+h
+NNtjOgo/GC6yEHr4X8WBp0ondFeHkt5WbJOxw5ZYaV7+rP/hhVcLMoU8xW7e/uiOgD87sdZRRRsR
+hSoKZuQ6RPgupWCuc6bRbGJ5UulrCScHoqrtA0C8dZBqI6XgTcTjN4T5Nw540wtE2DJYK/P54y++
+en+2c6XgnYmirTIqtFwIL5lD+fGJ7o2lZ9ujOGAOTfmvQQXesjBXi6xvJrmi1eAW62GxyNuxMr4R
+eilERJ67sgDOcPDq/9FnBAAEAAQABAA=
+</formula></code></computedtext>" alldealer="<computedtext
+><code event='value'><formula compiled='true'>
+zgEJAMQBpfyINI+TiTj5Fjs/WDAKzqp1711J60PfZay0LutFm20Td5tCRGdVsMpyX/5SCNDCAWnd
+RmsCpFyTH5K2KSBwzKPHWL/GTsJNClyk3LgHmxpwgv56d7Pl62tToC0n69og1SmYDUUsBJadE5D3
+piGShf5Zf+80P4UbkNklHnLbx0lnlsPQhNRIY0HDeq/aVQCof4+ZTsJL1E+ptJ8nltl39MMxpBve
+looTtNVUZ0jVEAVtYN2dbwjIZ7YjDXGncqsj3EEhZQ62fk944LU/nL3iPZ2oMlNfe2IVgYZdZPJj
+iRYnGHiIQsjxIWHlRU+7hG0tLCg1Isd/rHaL2cqdEU/tJMbeHb2SVf5PKBst1aMQbWnQCFiGqfDq
+m8dQRa7FMlZyVWlEsU1oQfu33pEHLR98j1PWjkSHIRNzKrRywDJAvVqy4lEWHcKBCnDRZMshs9NM
+488A4BjCLeYznuWuzncppDKHFv3HdMPEvLEAddWcSgwM5FF6E/OFo8kFqU+GM5KG0Rbz9r2UCzhG
+lFidIRNMf3IebSajAjpeXz7KUyFlCa/qiXWuy/xSkB0pj+z3nb247u8tgekhFPEPrZlq732wtQQA
+BAAEAAQA
+</formula></code></computedtext>" stat="<computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwAVBid/ps1zVfOwrkQ0+Pk2P0HasdYUNmtBAAEAAQABAA=
+</formula></code></computedtext>" flownum="<computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA8B9vbeO3xkw5r/u+xgINvkhJNlZdK30tBAAEAAQABAA=
+</formula></code></computedtext>" /&gt;</par>
+<par def='1'><field type='richtext' kind='editable' name='fullhistory'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'>&lt;/rundata&gt;</par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20060920T160526,97+08</datetime></item>
+<item name='$MimeType' sign='true'><text>text/xml;charset:gb2312</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmXML</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,49+08</datetime></item></form>
+

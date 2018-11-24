@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwSubDocByParentRefKey' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' showinmenu='false' defaultdesign='true' allowdocselection='true'
+ publicaccess='false' designerversion='8.5.3' language='zh-CN' comment='显示非流程结束文档'
+ unreadmarks='standard' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='false' showmargin='true'
+ shrinkrows='true' extendlastcolumn='false' showhierarchies='false' unreadcolor='maroon'
+ rowlinecount='5' headerlinecount='1' rowspacing='1.25' haslinkcolumn='true'
+ bgcolor='white' altrowcolor='#efefef' totalscolor='blue' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='14a' unid='34B7207E4CC201C148257CE7002DF469' sequence='55'>
+<created><datetime>20140529T162156,89+08</datetime></created>
+<modified><datetime>20181107T195612,42+08</datetime></modified>
+<revised><datetime>20181024T085504,40+08</datetime></revised>
+<lastaccessed><datetime>20181107T195612,42+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195612,42+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+bgAJAGQA8ROAdu0iID1d8/1si9cxL0cRlmQqXZYrSCCjGKlK90KrM3znyBOzEDl4e+sgKjnwrBIK
+H+vK7jj33vVI8oeA8bhkij5w4YRL+tU+tEnIlyj06yrDDs6RqB9nk5LioE8LBAAEAAQABAA=
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='strParentDocRefKey'
+ width='31.1250' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='false'><columnheader title='strParentDocRefKey'><font
+ size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' listseparator='comma' itemname='fldSubject'
+ width='31.7500' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='true' twisties='true'><font size='9pt'/><columnheader
+ title='标题'><font style='bold'/></columnheader><datetimeformat legacy='true'
+ show='date' date='yearmonthday' time='hourminutesecond' zone='never'/><numberformat
+ legacy='true' format='general' digits='2' punctuated='false' parens='false'
+ percent='false' bytes='false'/></column>
+<item name='$TYPE'><text>$SUBVIEW</text></item>
+<item name='$LastBuildTime' sign='true'><datetime>19990726T175344,55+08</datetime></item>
+<item name='$BabelInfo' sign='true'><text>00000172</text></item>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210734,93+08</datetime></item></view>
+

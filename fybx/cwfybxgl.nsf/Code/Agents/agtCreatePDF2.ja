@@ -1,0 +1,2885 @@
+<?xml version='1.0' encoding='utf-8'?>
+<agent name='agtCreatePDF2' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3' publicaccess='false' designerversion='8.5.3'
+ restrictions='fulladminunrestricted'>
+<noteinfo noteid='11a16' unid='482581B6000911FF4825816000347459' sequence='14'>
+<created><datetime>20170717T173256,57+08</datetime></created>
+<modified><datetime>20181025T014913,11+08</datetime></modified>
+<revised><datetime>20181024T091951,70+08</datetime></revised>
+<lastaccessed><datetime>20181025T014913,10+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T182722,00+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092057,96+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='all'/><code event='action'><javaproject class='JavaAgent.class'
+ codepath='d:\Lotus\notes\Data'><java name='JBeesBase64.java'>/*
+ * 创建日期 2006-1-16
+ *
+ * TODO 要更改此生成的文件的模板，请转至
+ * 窗口 － 首选项 － Java － 代码样式 － 代码模板
+ */
+
+/**
+ * base64加密以及解密程序
+ * @author yangbo
+ */
+public class JBeesBase64 {
+    private final byte[] enc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".getBytes();
+    private final byte pad = (byte)'=';
+    final   static   String   encodingChar   =   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"; 
+    /**
+     * 默认构造函数
+     */
+    public JBeesBase64(){
+    }
+    
+    /**
+     * 对字符串加密
+     * @param strInput 	输入的字符串
+     * @return String   加密后的字符串
+     */
+    public String encode(String strInput) {
+        if(strInput == null) {
+            return null;
+        }
+        String temp = (new sun.misc.BASE64Encoder()).encode(strInput.getBytes());
+        byte[] strB = temp.getBytes();
+        int i=0;
+        for(i=0;i&lt;strB.length;i++){
+            if(strB[i]==43){
+                strB[i]=0;
+            }
+            
+        }
+        String s = new String(strB);
+        s = s.replaceAll(new String(new byte[]{13,10}),"");
+        s = s.replaceAll(new String(new byte[1]), "@`1^1@");
+        s = s.replaceAll("&amp;", "@`2^1@");
+        s = s.replaceAll("#", "@`3^1@");
+        s = s.replaceAll("/", "@`4^1@");
+        s = s.replaceAll("=", "@`5^1@");
+        return s;
+    }
+    
+    /**
+     * 对字符串解密
+     * @param strInput 输入的字符串
+     * @throws java.lang.Exception Excetion
+     * @return String  解密后的字符串
+     */
+    public String decode(String strInput) throws Exception{
+        if(strInput==null){
+            return null;
+        }
+        byte[] strIn = strInput.getBytes();
+        //int si=0;
+        int si;
+        for(si=0;si&lt;strIn.length;si++){
+            if(strIn[si]==94){
+                strIn[si]=0;
+            }
+            si++;
+        }
+        String s = new String(strIn);
+        s = s.replaceAll(new String(new byte[1]),"");
+        s = s.replaceAll("@`11@", "+");
+        s = s.replaceAll("@`21@", "&amp;");
+        s = s.replaceAll("@`31@", "#");
+        s = s.replaceAll("@`41@", "/");
+        s = s.replaceAll("@`51@", "=");
+        byte in[] = s.getBytes();
+        
+        int len = in.length;
+        int loop = len / 4;
+        int remainder = len % 4;
+        if(remainder != 0) throw new Exception();
+        byte[] out;
+        if(in[len - 2] == pad) out = new byte[loop * 3 - 2];
+        else if(in[len - 1] == pad) out = new byte[loop * 3 -1];
+        else out = new byte[loop * 3];
+        
+        for(int i = 0; i &lt; loop; i++) {
+            byte index0 = getIndex(in[i * 4 ]);
+            byte index1 = getIndex(in[i * 4 + 1]);
+            if(index0 == - 1 || index1 == -1) throw new Exception();
+            out[i * 3 ] = (byte)((index0 &lt;&lt; 2) | (index1 &gt;&gt; 4));
+            if(in[i * 4 + 2] == pad) break;
+            else{
+                index0 = getIndex(in[i * 4 + 2]);
+                if(index0 == -1) throw new Exception();
+                out[i * 3 + 1] = (byte)((index1 &lt;&lt; 4) | ( index0 &gt;&gt; 2));
+            }
+            
+            if(in[i * 4 + 3] == pad) break;
+            else {
+                index1 = getIndex(in[i * 4 + 3]);
+                if(index1 == -1) throw new Exception();
+                out[i * 3 + 2] = (byte)((index0 &lt;&lt; 6) | index1);
+            }
+        }
+        
+        return new String(out);
+    }
+
+    private byte getIndex(byte b) {
+        for(int i = 0; i &lt; enc.length; i++)
+            if(b == enc[i]) return (byte)i;
+        return -1;
+    }
+
+    /** 
+     * Returns   the   base   64   encoded   equivalent   of   a   supplied   string. 
+     * @param   source   the   string   to   encode 
+     * @return string  加密后密文
+     */ 
+   public static String encode2(String source) {
+		char[] sourceBytes = getPaddedBytes(source);
+		int numGroups = (sourceBytes.length + 2) / 3;
+		char[] targetBytes = new char[4];
+		char[] target = new char[4 * numGroups];
+
+		for (int group = 0; group &lt; numGroups; group++) {
+			convert3To4(sourceBytes, group * 3, targetBytes);
+			for (int i = 0; i &lt; targetBytes.length; i++) {
+				target[i + 4 * group] = encodingChar.charAt(targetBytes[i]);
+			}
+		}
+
+		int numPadBytes = sourceBytes.length - source.length();
+
+		for (int i = target.length - numPadBytes; i &lt; target.length; i++)
+			target[i] = '=';
+		return new String(target);
+	}
+
+	private static char[] getPaddedBytes(String source) {
+		char[] converted = source.toCharArray();
+		int requiredLength = 3 * ((converted.length + 2) / 3);
+		char[] result = new char[requiredLength];
+		System.arraycopy(converted, 0, result, 0, converted.length);
+		return result;
+	}
+
+	private static void convert3To4(char[] source, int sourceIndex,
+			char[] target) {
+		target[0] = (char) (source[sourceIndex] &gt;&gt;&gt; 2);
+		target[1] = (char) (((source[sourceIndex] &amp; 0x03) &lt;&lt; 4) | (source[sourceIndex + 1] &gt;&gt;&gt; 4));
+		target[2] = (char) (((source[sourceIndex + 1] &amp; 0x0f) &lt;&lt; 2) | (source[sourceIndex + 2] &gt;&gt;&gt; 6));
+		target[3] = (char) (source[sourceIndex + 2] &amp; 0x3f);
+	}
+
+	/** 
+	 *   Returns   the   plaintext   equivalent   of   a   base   64-encoded   string. 
+	 *   @param   source   a   base   64   string   (which   must   have   a   multiple   of   4   characters) 
+	 * 	@return string 解密后的明文
+	 */
+	public static String decode2(String source) {
+		//if   (source.length()%4   !=   0)   throw   new   RuntimeException(   "valid   Base64   codes   have   a   multiple   of   4   characters "   ); 
+		while (source.length() % 4 != 0)
+			source += "=";
+		int numGroups = source.length() / 4;
+		int numExtraBytes = source.endsWith("==") ? 2
+				: (source.endsWith("=") ? 1 : 0);
+		byte[] targetBytes = new byte[3 * numGroups];
+		byte[] sourceBytes = new byte[4];
+		for (int group = 0; group &lt; numGroups; group++) {
+			for (int i = 0; i &lt; sourceBytes.length; i++) {
+				sourceBytes[i] = (byte) Math.max(0, encodingChar.indexOf(source
+						.charAt(4 * group + i)));
+			}
+			convert4To3(sourceBytes, targetBytes, group * 3);
+		}
+		return new String(targetBytes, 0, targetBytes.length - numExtraBytes);
+	}
+
+	private static void convert4To3(byte[] source, byte[] target,
+			int targetIndex) {
+		target[targetIndex] = (byte) ((source[0] &lt;&lt; 2) | (source[1] &gt;&gt;&gt; 4));
+		target[targetIndex + 1] = (byte) (((source[1] &amp; 0x0f) &lt;&lt; 4) | (source[2] &gt;&gt;&gt; 2));
+		target[targetIndex + 2] = (byte) (((source[2] &amp; 0x03) &lt;&lt; 6) | (source[3]));
+	} 
+
+}
+</java><java name='JavaAgent.java'>import lotus.domino.*;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.text.*;
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.ibm.misc.BASE64Encoder;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.Cell;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.Table;
+import com.lowagie.text.pdf.AcroFields;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.FontSelector;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfFormField;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
+import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.jsoup.Jsoup;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+
+public class JavaAgent extends AgentBase {
+	final static String DYNAMICFIELDFLAG ="@"; //动态表格的域标志
+	static PDFExtCustom pdfcustom =null;
+	public void NotesMain() {
+		Session session = null;
+		AgentContext agentContext;
+		pdfcustom =new PDFExtCustom();
+
+		Database db = null; 
+		Agent agent = null;
+		lotus.domino.Document docCurrent  = null;
+		lotus.domino.Document paramDoc = null;
+		lotus.domino.Document note = null;
+		lotus.domino.Document docIndiDoc = null;
+		lotus.domino.Document tmpDoc = null;
+		View view = null; 
+		ViewEntryCollection vec = null;
+		ViewEntry ve = null;
+		ViewEntry tmpve = null;
+		String fileid;
+		String gwType = "";
+		InputStream isData = null;
+		byte[] ZWIMGBYTE;
+		byte[] FJIMGBYTE;
+		ByteArrayOutputStream mainDocStream = null;
+		ByteArrayOutputStream yjDocStream = null;
+		ByteArrayOutputStream resultDocStream = null;
+		MIMEEntity pdf = null;
+		MIMEHeader header = null; 
+		Stream stream = null;
+		boolean enablePdfTurnServices = false;
+		try {
+			session = getSession();			
+			agentContext = session.getAgentContext();
+			db = agentContext.getCurrentDatabase();
+			agent = agentContext.getCurrentAgent();
+			docCurrent = agentContext.getDocumentContext();
+			java.io.PrintWriter pw = getAgentOutput();
+			//判断是否启用了转换PDF服务开关
+			enablePdfTurnServices = mUtil.getConfigKey(session, db, "key_enablePdfTurnServices").equals("1");
+			//在页面上打印内容
+			if(docCurrent!=null){
+				String strPara = docCurrent.getItemValueString("query_string"); 
+				strPara = strPara.split("=")[1];
+				note = getdocumentbyunid(db,strPara);
+			} else {
+				paramDoc=db.getDocumentByID(agent.getParameterDocID());
+				if(isParamDoc(paramDoc)){
+					note = db.getDocumentByID(paramDoc.getItemValueString("docNoteid"));
+				}else{
+					note=paramDoc;
+				}
+			}			
+			if (note==null)	{
+				docCurrent.recycle();
+				db.recycle();
+				pw.println("Content-type: text/xml;Charset=gb2312");
+				pw.println("没找到主文档");
+				pw.flush();
+				pw.close();
+				System.out.println("没找到主文档");
+				return;
+			}
+
+			// =============检测是否已生成�1���DF,如有则删除。================
+			String mainUNID = note.getUniversalID();
+			String filename = "主表单" + mainUNID + ".pdf";
+			view = db.getView("(vwIndiDocs_Attach)");
+			vec = view.getAllEntriesByKey(note.getItemValueString("idx_MaindocUNID"));
+			ve = vec.getFirstEntry();
+			while( ve != null) {
+				tmpve = vec.getNextEntry(ve);
+				tmpDoc = ve.getDocument();
+				if (tmpDoc.getItemValueString("FileName").equals(filename)) {
+					vec.deleteEntry(ve);
+					tmpDoc.remove(false);
+					break;
+				}
+				recycle(tmpDoc);
+				recycle(ve);
+				ve=tmpve;
+			}
+			Date now = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String strTime1 = formatter.format(now);
+			// ===============生成附件文档====================
+			docIndiDoc = db.createDocument();
+			fileid = docIndiDoc.getUniversalID().substring(0, 20);
+
+			if(!enablePdfTurnServices){
+				// ============获取PDF模板和小图标文件流数组============================
+				String subform = note.getItemValueString("subform").toLowerCase();
+				String DATASHEET = subform + "_PDF.pdf";// 模板文件路径
+				isData =getPdfTemplateStream(db,subform);			
+				if(isData==null){
+					//System.out.println("未找到PDF模板:"+subform + "_PDF.pdf");
+					if(isParamDoc(paramDoc)){
+						paramDoc.replaceItemValue("PDFStatus", "未找到PDF模板");
+						paramDoc.save(true,false);
+					}
+					return ;
+				}				
+				InputStream ZWIMG;
+				InputStream FJIMG;
+				ZWIMG = this.getClass().getResourceAsStream("zw.png");
+				ZWIMGBYTE = new byte[ZWIMG.available()];
+				ZWIMG.read(ZWIMGBYTE);
+				ZWIMG.close();
+				BASE64Encoder encoder = new BASE64Encoder();// 对字节数组Base64编码
+				encoder.encode(ZWIMGBYTE);
+				FJIMG = this.getClass().getResourceAsStream("fj.png");
+				FJIMGBYTE = new byte[FJIMG.available()];
+				FJIMG.read(FJIMGBYTE);
+				FJIMG.close();
+				encoder.encode(FJIMGBYTE);
+
+				// ====================获取公文类型========================
+				String dbname = db.getFileName();
+				if (dbname.indexOf("fwgl") != -1) {
+					gwType = "发文处理单";
+				} else if (dbname.indexOf("swgl") != -1) {
+					gwType = "收文处理单";
+				} else if (dbname.indexOf("qbgl") != -1) {
+					gwType = "签报处理单";
+				} else if (dbname.indexOf("hqgl") != -1) {
+					gwType = "会签处理单";
+				} else{
+					gwType=db.getTitle();
+				}
+				mainDocStream = new ByteArrayOutputStream(); //主文档
+				fillTemplatePDF(session, db, note, mainDocStream, isData, gwType); // 填充PDF模板
+				isData.close();// 关闭流
+				yjDocStream = new ByteArrayOutputStream(); //意见
+				createYjPDF(session, db, note, yjDocStream, ZWIMGBYTE, FJIMGBYTE, vec); // 生成意见PDF
+				resultDocStream = new ByteArrayOutputStream(); //结果文档
+				CombinePDF(mainDocStream,yjDocStream,resultDocStream); // 合并PDF文档
+			} 			
+
+			docIndiDoc.replaceItemValue("Form", "frmIndiDocs");
+			docIndiDoc.replaceItemValue("FileName", filename);
+			docIndiDoc.replaceItemValue("FileUnid", fileid);
+			docIndiDoc.replaceItemValue("$PublicAccess", "1");
+			Item item = docIndiDoc.replaceItemValue("Author", "*");
+			item.setAuthors(true);
+			item.setSummary(true);
+			docIndiDoc.replaceItemValue("CREATEDTIME", strTime1);
+			docIndiDoc.replaceItemValue("MAINDOCUNID", note.getItemValueString("idx_MainDocUnid"));
+			String fileSizeFlag = "";
+			//将结果写入到notesStream中
+			stream = session.createStream();
+			if(!enablePdfTurnServices){
+				fileSizeFlag = "" + resultDocStream.size();
+				stream.write(resultDocStream.toByteArray());				
+			} else {
+				//进行pdf转换请求
+				if(sendTurnPdfRequest(session,db,note,stream)){
+					NumberFormat nf = new DecimalFormat("#");
+					fileSizeFlag = nf.format(stream.getBytes()/1024);					
+				}
+			}		
+			pw.println("Content-type: text/xml;Charset=gb2312");
+			//等于0表示转换失败
+			if(!fileSizeFlag.equals("")) {
+				String tmpstr = note.getItemValueString("idx_MainDocUnid")
+				+ "&lt;file_unid&gt;" + fileid + "&lt;/file_unid&gt;&lt;file_name&gt;"
+				+ filename + "&lt;/file_name&gt;&lt;file_size&gt;";
+				tmpstr = tmpstr
+				+ fileSizeFlag
+				+ "&lt;/file_size&gt;&lt;file_create&gt;"
+				+ strTime1
+				+ "&lt;/file_create&gt;&lt;file_update&gt;"
+				+ strTime1
+				+ "&lt;/file_update&gt;&lt;file_editmodel&gt;0&lt;/file_editmodel&gt;&lt;file_lockuser&gt;0&lt;/file_lockuser&gt;"
+				+ "&lt;CreateInfo&gt;系统自动创建" + strTime1 + "&lt;/CreateInfo&gt;"
+				+ "&lt;UpdateInfo&gt;系统于" + strTime1 + "创建.&lt;/UpdateInfo&gt;"
+				+ "&lt;CatNum&gt;0&lt;/CatNum&gt;&lt;Ext&gt;&lt;/Ext&gt;";			
+				docIndiDoc.replaceItemValue("querystring", tmpstr);
+				docIndiDoc.replaceItemValue("SaveOptions", "1");			
+				pdf = docIndiDoc.createMIMEEntity("body");
+				header = pdf.createHeader("content-disposition");
+				header.setHeaderVal("attachment;filename=\""+fileid+".pdf\"");
+				pdf.setContentFromBytes(stream, "application/pdf", MIMEEntity.ENC_IDENTITY_BINARY);
+				docIndiDoc.save(true, true);
+				if(isParamDoc(paramDoc)){
+					paramDoc.replaceItemValue("PDFStatus", "success");
+					paramDoc.save(true,false);
+				}
+				//提醒成功
+				pw.println("succeed");	
+			} else {
+				pw.println("PDF转换异常,请联系管理员!");
+				System.out.println("PDF转换异常,请联系管理员!");
+			}
+			//System.out.println("成功生成pdf!");
+			pw.flush();
+			pw.close();			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 回收资源
+			recycle(pdf);
+			recycle(header);
+			recycle(docIndiDoc);
+			recycle(paramDoc);			
+			recycle(note);
+			recycle(agent);
+			recycle(db);
+			recycle(session);
+			System.gc();
+		}
+	} 
+
+	/*
+	 * 通过http请求获取打印页面转换后的文件流
+	 * @param  session 会话对象,db 当前数据库,note 当前操作的业务文档,stream 输出流对象
+	 * @return boolean
+	 */
+	private boolean sendTurnPdfRequest(Session session,Database db,lotus.domino.Document note,Stream stream) {    	
+		//判断是否启用pdf转换服务
+		Database dbOaconfig = null;
+		Database dbIndinames = null;
+		View vwUserByUserID = null;
+		lotus.domino.Document docPro = null;
+		lotus.domino.Document userDoc = null;
+		try {
+			//获取PDF转换服务器配置信息
+			dbOaconfig = session.getDatabase("", "indishare/oaconfig.nsf");
+			//获取简要表配置文档
+			docPro = dbOaconfig.getProfileDocument("turnPdfSet","");
+			//获取用户名
+			String useName = docPro.getItemValueString("fldManager");
+			//获取用户名
+			String usePwd = docPro.getItemValueString("fldManagerPwd");
+			//获取数据路径
+			String dbpath = note.getItemValueString("dbPath");
+			//文档UNID
+			String docUnid =  note.getUniversalID();
+			//获取当前用户对象
+			Name tmpName = session.createName(useName);
+			//定义文档URL
+			String docUrl = "";
+			//用户登陆ID
+			String userId = "";
+			//获取归档用户信息
+			dbIndinames = session.getDatabase("", "indishare/indinames.nsf");
+			vwUserByUserID = dbIndinames.getView("vwUserByName");
+			userDoc = vwUserByUserID.getDocumentByKey(tmpName.getAbbreviated(), true);
+			if(null == userDoc){
+				System.out.println("归档管理员["+ useName +"]异常,无法生成PDF文件!");
+				return false;
+			} else {
+				userId = userDoc.getItemValueString("Userid");
+			}
+			//判断配置的用户是否对此文档有阅读权限,如果没有阅读权限则通过高权限方式进行访问
+			if(note.getItemValue("DocumentReaders").indexOf(tmpName.getCanonical()) &gt; -1){
+				//拼装打印页面URL
+				docUrl = getCurDbUrl(session,dbpath) + "/" + dbpath + "/vwprintcld/" + docUnid + "?openDocument";
+			} else {
+				//获取使用的子表单
+				String sfrmName = note.getItemValueString("subform");
+				//是否使用流程
+				String isfldFlow = "1";
+				if(note.hasItem("fldFlow")){
+					if(note.getItemValueInteger("fldFlow") != 1){
+						isfldFlow = "0";
+					}
+				}
+				//清理图片标记
+				String contentType = "2";
+				if(note.hasItem("fldSourceContentType")) {
+					contentType = ""+ note.getItemValueInteger("fldSourceContentType");
+				}
+				docUrl = getCurDbUrl(session,dbpath) + "/" + dbpath + "/frmprintcld?openform&amp;subform="+ sfrmName +"&amp;unid="+ docUnid + "&amp;turnpdf=1&amp;fldsourcecontenttype="+ contentType +"&amp;fldflow="+isfldFlow;				
+			}
+			//拼装用户身份验证信息
+			byte[] userAu = (userId+":"+usePwd).getBytes();
+			String userAuMsg = "Authorization=Basic+" + (new BASE64Encoder()).encodeBuffer(userAu);
+			String url = docPro.getItemValueString("fldServerUrl") + "/?url=" + URLEncoder.encode(docUrl) +"&amp;format=pdf&amp;delay="+ docPro.getItemValueString("fldDelay") + "&amp;headers="+ userAuMsg;
+			System.out.println(url);
+			//创建http请求
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			// optional default is GET
+			con.setRequestMethod("GET");
+			//add request header
+			con.setRequestProperty("User-Agent", "Mozilla/5.0");
+			//设置超时时间为20秒
+			con.setConnectTimeout(20000);
+			con.setReadTimeout(20000);
+			con.setDoOutput(true);
+			int responseCode = con.getResponseCode();
+			//判断返回状态为200表示转换成功
+			if(responseCode == 200){
+				InputStream inputStream = con.getInputStream();
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+				int readflag = inputStream.available();
+				if(readflag == 0){
+					readflag = 1024;
+				}
+				byte[] buf = new byte[readflag];
+				//将转换后的pdf文件以流的方式写入到stream对象中
+				while(true) {
+					int read = 0;
+					if (null != bufferedReader) {
+						read = inputStream.read(buf);
+					}
+					stream.write(buf);
+					if (read == -1) {
+						break;
+					}
+				}
+				inputStream.close();
+				bufferedReader.close();		
+				return  true;
+			}
+		} catch (Exception e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+			return false;
+		} finally {
+			// 回收资源
+			recycle(dbIndinames);
+			recycle(vwUserByUserID);
+			recycle(dbOaconfig);
+			recycle(docPro);
+			recycle(userDoc);
+		}
+		return false;
+	}
+
+	/*
+	 *	获取当前数据的Http URL
+	 *  @throws IOException
+	 *	@throws DocumentException
+	 */
+	private String getCurDbUrl(Session session,String dbpath) {
+		Database dbApp = null;
+		View vwApp = null;
+		View VwHostByServer = null;
+		lotus.domino.Document docAppServer = null;
+		lotus.domino.Document docApp = null;
+		Name nmUser = null;
+		String strApp = "";
+		String strPort = "";
+		String strUrl = "";
+		try{
+			dbApp = session.getDatabase("", "indishare/appmap.nsf");
+			vwApp = dbApp.getView("VwAppByName");
+			VwHostByServer = dbApp.getView("VwHostByServer"); 
+			
+			strApp = getAppNameFormDBPath(dbpath);
+			docApp = vwApp.getDocumentByKey(strApp,true);
+			if(null != docApp) {
+				strPort = docApp.getItemValueString("fldAppHttpport");
+				if(strPort.equals("80") ||  strPort.equals("")){
+					strUrl = docApp.getItemValueString("fldAppServerHost");
+				} else {
+					strUrl = docApp.getItemValueString("fldAppServerHost")+":" + strPort;
+				}
+				docAppServer = VwHostByServer.getDocumentByKey(docApp.getItemValueString("fldAppServer"));
+				if(null != docAppServer) {
+					if(docAppServer.getItemValueString("fldHttps").equals("1")) {
+						strUrl = "https://" + strUrl;
+					} else {
+						strUrl = "http://" + strUrl;
+					}
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();	
+		} finally {			
+			try {
+				if(docApp!=null){docApp.recycle();}
+				if(vwApp!=null){vwApp.recycle();}
+				if(VwHostByServer!=null){VwHostByServer.recycle();}
+				if(docAppServer!=null){docAppServer.recycle();}
+				if(nmUser!=null){nmUser.recycle();}
+				if(dbApp!=null){dbApp.recycle();}
+			} catch (NotesException e) {
+				// TODO 自动生成 catch 块
+				e.printStackTrace();
+			}
+		}
+		if(strUrl.equals("")){
+			strUrl = "Error";
+		}
+		return  strUrl;
+	}
+
+	private String getAppNameFormDBPath(String dbpath){
+		String strApp = "";	
+		dbpath = dbpath.replace("\\", "/");
+		if( dbpath.indexOf("/")!=0 ){
+			strApp = dbpath.substring(0, dbpath.indexOf("/"));
+		}
+		if( strApp.equals("") || strApp.equals("indishare") ){
+			strApp = "Error";
+		}
+		return strApp;
+	}
+
+	public static void recycle(lotus.domino.Base obj){
+		if(obj!=null){
+			try{
+				obj.recycle();
+				obj=null;
+			}catch(NotesException e){
+				e.printStackTrace();
+			}
+		}
+	}
+	public static boolean isParamDoc(lotus.domino.Document doc) throws NotesException{
+		return doc!=null &amp;&amp; doc.isProfile();  //简要表时作为参数文档
+	}
+	/**
+	 * 填充PDF模��
+	 * 
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
+	public static void fillTemplatePDF(Session session,Database db,lotus.domino.Document doc,ByteArrayOutputStream mainDocStream,java.io.InputStream isData,String gwType)
+	throws IOException, DocumentException, Exception {
+		PdfReader reader = new PdfReader(isData);
+		PdfStamper stamper = new PdfStamper(reader, mainDocStream);
+		fill(session,db,doc, stamper,gwType);
+		stamper.setFormFlattening(true);
+		stamper.close();		
+	}
+
+	/**
+	 * 将模板中的表单字段赋值
+	 */
+	public static void fill(Session session, Database db,
+			lotus.domino.Document doc, PdfStamper stamper, String gwType)
+	throws IOException, DocumentException, Exception {
+		AcroFields form = stamper.getAcroFields();
+		String strFieldName = "";
+
+		BaseFont bf = getZhFont(session);
+
+		FontSelector selector =getSelector(bf, 10, Font.NORMAL, Color.BLACK);
+		//		Font fontChinese =new Font(bf, 8, Font.NORMAL, Color.BLACK);
+
+		lotus.domino.Document yjDoc = null;
+		lotus.domino.Document signDoc = null;
+		Image yjimg = null;
+		Image signimg = null;
+		Database dbSign = session.getDatabase("", "indishare/signature.nsf");
+		View vwSign = dbSign.getView("signatures");
+		View vwSign_cn =  dbSign.getView("signatures_cn");
+
+		//初始化意见域解析对象，提取xml格式的意见域
+		YjFieldParse Yj_parse = new YjFieldParse(doc);
+
+		for(Iterator it = form.getFields().keySet().iterator();it.hasNext();){
+			strFieldName = (String) it.next();
+			AcroFields.Item pdfField = form.getFieldItem(strFieldName);
+			String pdfFieldFont = getPdfFieldFontSize(pdfField);
+			if(pdfFieldFont.equals("")){
+				pdfFieldFont = "10";
+			}			
+			FontSelector pdfFieldselector =getSelector(bf, Float.parseFloat(pdfFieldFont), Font.NORMAL, Color.BLACK);
+
+			form.setFieldProperty(strFieldName, "textfont", bf, null);
+			if(strFieldName.startsWith(DYNAMICFIELDFLAG)) { //以@开头的认为是动态表格
+				processDynamicTable(stamper,doc,strFieldName,selector);
+				continue;
+			}
+
+			if(doc.hasItem(strFieldName)) {
+				Item item = doc.getFirstItem(strFieldName);
+				Vector allvalues = doc.getItemValue(strFieldName);
+				String result = "";
+				boolean isYjField = Yj_parse.isYjField(strFieldName);
+				if (allvalues.size() &gt; 0 || isYjField) {
+
+					//form.setField(strFieldName, result);
+					// 特殊处理意见域
+					//生成一个与PDF模板中特殊意见域宽度相等的3行两列的表格，表格覆盖了意见域
+					//表格结构如下
+					/*|———————————————————————————|
+					 *|文字意见                                                    |
+					 *|———————————————————————————|
+					 *|手写意见                                                    |
+					 *|——————————————|————————————|	
+					 *|        签名      |日期                      |							
+					 *|______________|____________|
+					 */
+					if(isYjField){
+						float[] yjField = form.getFieldPositions(strFieldName);
+						Rectangle rect = new Rectangle(yjField[1], yjField[2],yjField[3], yjField[4]);
+						PdfContentByte cb = stamper.getOverContent((int) yjField[0]);
+						float[] widths = {0.4f, 0.6f}; //表格列的宽度比 项目可以根据实际情况修改
+						PdfPTable table = new PdfPTable(widths);
+						table.setTotalWidth(rect.getWidth());//设置表格的宽度与模板域相同
+						form.setField(strFieldName, "");
+
+						//解析意见域内容
+						ArrayList yjList = Yj_parse.parseYjField(strFieldName);
+						int yjLength = yjList.size();
+						for(int i=0;i&lt;yjLength;i++){
+
+							HashMap oneYjMap = (HashMap) yjList.get(i);
+							if(oneYjMap!=null){
+
+								signimg = null;
+								yjimg = null;
+								String userStr = "";
+
+								String yjStr = oneYjMap.get("yjStr").toString();
+								String UserNameStr = oneYjMap.get("userStr").toString();
+								String timeStr = oneYjMap.get("timeStr").toString();
+								String timeStrOri = oneYjMap.get("timeStrOri").toString();
+								String signdept = oneYjMap.get("signDept").toString();
+								String yjDocUnid = oneYjMap.get("SXPSUnid").toString();
+								String signDocVersion = oneYjMap.get("signImgVersion").toString();
+
+								Name userName = session.createName(UserNameStr);
+								userStr = userName.getCommon(); //记录用户简称
+								recycle(userName);
+
+								//手写批示
+								if(yjDocUnid!=""){
+									yjDoc = getdocumentbyunid(db,yjDocUnid);
+									if(yjDoc!=null){
+										Vector v = session.evaluate("@AttachmentNames",yjDoc);
+										String yjimgFilename = (String) v.firstElement();
+										EmbeddedObject eo = yjDoc.getAttachment(yjimgFilename);
+										InputStream isEO = eo.getInputStream();
+										byte[] yjimgdata = new byte[isEO.available()];
+										isEO.read(yjimgdata);
+										isEO.close();
+										BASE64Encoder encoder = new BASE64Encoder();
+										encoder.encode(yjimgdata);
+										yjimg = Image.getInstance(yjimgdata);
+										yjimg.scaleAbsoluteWidth(rect.getWidth());
+										recycle(eo);
+									}
+								}
+								//签名图片
+								if(signDocVersion!=""){
+									if(!"".equals(signDocVersion) || !"1".equals(signDocVersion)){
+										Vector v = new Vector();
+										v.addElement(UserNameStr);
+										v.addElement(Integer.valueOf(signDocVersion));
+										signDoc = vwSign_cn.getDocumentByKey(v,true);
+									}else{
+										signDoc = vwSign.getDocumentByKey(UserNameStr,true);
+									}
+									if(signDoc!=null){
+
+										Vector v = session.evaluate("@AttachmentNames",	signDoc);
+										String signFilename = (String) v.firstElement();
+										EmbeddedObject eo = signDoc.getAttachment(signFilename);
+										InputStream isEO = eo.getInputStream();
+										byte[] signimgdata = new byte[isEO.available()];
+										isEO.read(signimgdata);
+										isEO.close();
+										BASE64Encoder encoder = new BASE64Encoder();
+										encoder.encode(signimgdata);
+										signimg = Image.getInstance(signimgdata);
+										//signimg.scaleAbsoluteWidth(rect.getWidth()/6);
+										//signimg.scaleAbsolute(50, 30); //设置图片大小，项目可以进行定制
+										signimg.setAlignment(Element.ALIGN_RIGHT); //设置图片右对齐 ,项目可以进行定制		
+
+										pdfcustom.fnDealQianMingPicStyle(signimg);
+										recycle(eo);
+
+									} 
+								}
+
+								//处理意见写入域模板 ---begin
+								String strTemplateCustom=pdfcustom.fnGetAttitudeToFieldTemplate(strFieldName);
+								String strTemplate=strTemplateCustom;
+								if(strTemplate.length()&lt;1){
+									strTemplate = "&lt;table&gt;&lt;tr&gt;&lt;td colspan=\"2\"&gt;{yjtxt}&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=\"2\"&gt;{yjhandwrite}&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=\"right\"&gt;{usersignimg}&lt;/td&gt;&lt;td align=\"right\"valign=\"bottom\"&gt;{yjtime}&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;";
+								}
+								strTemplate = strTemplate.replaceAll("\n", "");
+
+								HashMap alignMap = new HashMap();
+								alignMap.put("right", new Integer(Element.ALIGN_RIGHT).toString() );
+								alignMap.put("left", new Integer(Element.ALIGN_LEFT).toString());
+								alignMap.put("center", new Integer(Element.ALIGN_CENTER).toString());
+
+								HashMap ValignMap = new HashMap();							
+								ValignMap.put("top", new Integer(Element.ALIGN_TOP).toString());
+								ValignMap.put("bottom", new Integer(Element.ALIGN_BOTTOM).toString());
+								ValignMap.put("middle", new Integer(Element.ALIGN_MIDDLE).toString());
+
+
+								HashMap contentMap = new HashMap();
+								contentMap.put("yjtxt",yjStr);
+
+								if(yjimg!=null){
+									contentMap.put("yjhandwrite",yjimg);
+								}
+								contentMap.put("usernameonly",userStr);
+								if(signimg!=null){
+									contentMap.put("usersignimg",signimg);
+								}else{
+									contentMap.put("usersignimg",userStr);
+								}
+
+								if(timeStr!=""){
+									contentMap.put("yjtime",timeStr);
+								}else{
+									contentMap.put("yjtime",timeStrOri);
+								}
+
+								contentMap.put("dept",signdept);
+
+								org.jsoup.nodes.Document htmldoc = Jsoup.parseBodyFragment(strTemplate);
+								org.jsoup.nodes.Element body =htmldoc.body();
+								org.jsoup.select.Elements rows = body.getElementsByTag("tr");
+								for(int ri=0;ri&lt;rows.size();ri++){
+
+									org.jsoup.nodes.Element row =rows.get(ri);
+									org.jsoup.select.Elements cols = row.getElementsByTag("td");
+									for(int ci=0;ci&lt;cols.size();ci++){
+										org.jsoup.nodes.Element  col = cols.get(ci);									
+										PdfPCell cell = new PdfPCell();
+										Paragraph paragraph =  new Paragraph();
+										cell.setBorder(0);
+										if(col.hasAttr("colspan")){
+											cell.setColspan(Integer.parseInt(col.attr("colspan")));
+										}
+										if(col.hasAttr("align")){
+											cell.setHorizontalAlignment(Integer.parseInt((String) alignMap.get(col.attr("align"))));
+											paragraph.setAlignment(Integer.parseInt((String) alignMap.get(col.attr("align"))));
+										}
+										if(col.hasAttr("valign")){
+											cell.setVerticalAlignment(Integer.parseInt((String) ValignMap.get(col.attr("valign"))));
+										}
+										String content = col.text();
+										content = content.trim();
+
+										char[] charArr = content.toCharArray();
+										String templateKey ="";
+										String tmpcontent ="";
+										boolean blnBegin =false;
+										boolean blnEnd =true;
+
+										for(int chri=0;chri&lt;charArr.length;chri++){ //处理td内容，根据对应的值往cell中填值（如{usernameonly} {yjtime:yyyy年MM月}）
+											char c = charArr[chri];
+											switch(c){
+											case '{':
+												//process content
+												blnBegin= true;
+												blnEnd = false;
+												if(tmpcontent.length()&gt;0){
+													paragraph.add(selector.process(tmpcontent));
+												}
+												tmpcontent ="";
+												break;
+											case '}':
+												//process key
+												blnBegin= false;
+												blnEnd = true;
+												if(templateKey.length()&gt;0){
+													int mIdx = templateKey.indexOf(":");
+													if(mIdx&gt;-1){ //yjtime
+														String fmt = templateKey.substring(mIdx+1); //"yyyy年MM月dd日"
+														templateKey = templateKey.substring(0,mIdx);														
+														if(templateKey.equalsIgnoreCase("yjtime")){
+
+															//guanjh forqc14762 当项目定制了落款样式时间，这时候下面的代码取不出来时间，直接使用默认时间
+															if(timeStr!=""){
+																timeStr = timeStr.replaceAll("-","/");
+																SimpleDateFormat sdfmt = new SimpleDateFormat();
+																Date dt = new Date(timeStr);
+																sdfmt.applyPattern(fmt);
+																timeStr = sdfmt.format(dt);
+																contentMap.put("yjtime",timeStr);
+															}else{
+																contentMap.put("yjtime",timeStrOri);
+															}
+														}
+													}
+													if(signimg!=null &amp;&amp; templateKey.equalsIgnoreCase("usersignimg")){														
+														cell.addElement(signimg);
+													}else if(yjimg!=null&amp;&amp; templateKey.equalsIgnoreCase("yjhandwrite")){
+														cell.addElement(yjimg);
+													}else if(contentMap.containsKey(templateKey)){
+
+														//项目定制字体样式扩展 guanjh 20160621 forqc14481
+														String[] arrExtParam = null ;
+														selector = pdfcustom.fnDealAttitudeToFieldStyle(selector,templateKey,arrExtParam);
+
+														paragraph.add(selector.process((String)contentMap.get(templateKey)));
+													}												
+												}
+
+												templateKey ="";
+												tmpcontent = "";
+												break;
+											default:
+												if(blnBegin&amp;&amp;!blnEnd){
+													templateKey+=c;
+												}
+											if(!blnBegin &amp;&amp; blnEnd){
+												tmpcontent += c; 
+											}
+											}
+
+										}
+										if(tmpcontent.length()&gt;0){
+											paragraph.add(selector.process(tmpcontent));
+										}
+										cell.addElement(paragraph);
+										table.addCell(cell);
+									}
+								}
+
+								recycle(yjDoc);
+								recycle(signDoc);
+
+							}
+						}
+						table.writeSelectedRows(0, -1, yjField[1],yjField[4], cb);
+						//处理意见写入域模板 ---End
+					}else {
+						//普通域
+						result = getItemValue(item);
+						
+						//�扛鲇蚨加靡桓鼍匦慰蚋哺牵乐钩鱿�adm in的情况
+						float[] range = form.getFieldPositions(strFieldName);
+						Rectangle rect0 = new Rectangle(range[1], range[2],range[3], range[4]);
+						PdfContentByte cb0 = stamper.getOverContent((int) range[0]);
+						float[] widths1 = {1f};
+						PdfPTable table0 = new PdfPTable(widths1);
+						table0.setTotalWidth(rect0.getWidth());
+						PdfPCell cell0= new PdfPCell();
+						cell0.setBorder(0);
+						cell0.setHorizontalAlignment(getPdfFieldAlignment(pdfField));
+
+						//项目定制字体样式扩展 guanjh 20150813 forbug9753
+						Map aParam_pdf = new HashMap();  
+						aParam_pdf.put("maindoc", doc);
+						pdfFieldselector = pdfcustom.fnDealNormalFieldWordStyle(pdfFieldselector,strFieldName,aParam_pdf);
+
+						Paragraph paragraph = new Paragraph(pdfFieldselector.process(result)); //pdftablecell 使用addelement 方法添加元?1???保?
+						paragraph.setAlignment(getPdfFieldAlignment(pdfField)); 
+						cell0.addElement(paragraph);					
+						table0.addCell(cell0);
+						table0.writeSelectedRows(0, -1, range[1],range[4], cb0);
+					}
+				}
+				recycle(item);
+			}
+		}
+		recycle(vwSign);
+		recycle(dbSign);
+		form.setField("Title", gwType); // 设置PDF文档的Title域
+	}
+
+
+	/**
+	 * 生成意见和流转信息临时pdf文件
+	 * @throws Exception 
+	 *
+	 */
+	public void createYjPDF(Session session,Database db,lotus.domino.Document note,ByteArrayOutputStream yjDocStream,byte[] ZWIMGBYTE,byte[] FJIMGBYTE,ViewEntryCollection vec) throws Exception {
+		com.lowagie.text.Document pdf_doc_yj = new com.lowagie.text.Document();
+		View view=null;
+		ViewEntry ve=null;
+		ViewEntry tmpve=null;
+		lotus.domino.Document indiDoc =null;
+		Database dbInfo=null;
+		lotus.domino.Document docInfo = null;
+		Database signDB=null;
+		View signVW=null;
+		lotus.domino.Document signDoc=null;
+		try {
+			PdfWriter.getInstance(pdf_doc_yj, yjDocStream);
+			pdf_doc_yj.open();
+			//使用中文字体 
+			BaseFont bf = getZhFont(session);
+
+			//			Font fontChinese = new Font(bf, 13, Font.BOLD, Color.BLACK);
+			FontSelector selector13 =getSelector(bf, 13, Font.BOLD, Color.BLACK);
+			//			Font font = new Font(bf, 10, Font.NORMAL, Color.BLACK);
+			FontSelector selector10 =getSelector(bf, 10, Font.NORMAL, Color.BLACK);
+			//			Font font_gray = new Font(bf, 10, Font.NORMAL, Color.GRAY);
+			FontSelector selector_gray =getSelector(bf, 10, Font.NORMAL, Color.GRAY);
+
+			// =====================添加内容============================ 
+
+			//项目定制正文附件区域
+			boolean blnZenwenFujian = pdfcustom.fnCreateZWFJArea(session, db, note, pdf_doc_yj);
+
+			if(!blnZenwenFujian){
+				pdf_doc_yj.add(new Paragraph(selector13.process("正文及附件\n"))); // 小标题
+				Image img_zw = Image.getInstance(ZWIMGBYTE);	
+				img_zw.scalePercent(80);
+				Image img_fj = Image.getInstance(FJIMGBYTE);
+				img_fj.scalePercent(80);
+				Table t1 = new Table(2);
+				t1.setWidths(new int[] { 5, 95 });
+				t1.setBorder(0);
+				t1.setPadding(3);
+				t1.setAlignment(Element.ALIGN_LEFT);
+				t1.setWidth(100);
+				// 获得正文附件文档，并进行处理。
+				ve = vec.getLastEntry();
+
+				while (ve != null) {
+					tmpve=vec.getPrevEntry(ve);
+					indiDoc= ve.getDocument();
+					String querystring = indiDoc.getItemValueString("querystring");
+					if (querystring.toLowerCase().indexOf("&lt;catnum&gt;-1&lt;/catnum&gt;") != -1) {
+						Cell imgcell = new Cell(new Chunk(img_zw, 0, -6));
+						Cell filenamecell = new Cell(selector10.process(indiDoc.getItemValueString("FileName")));
+						imgcell.setBorder(2);
+						filenamecell.setBorder(2);
+						t1.addCell(imgcell);
+						t1.addCell(filenamecell);
+					} else if (querystring.toLowerCase().indexOf(
+					"&lt;catnum&gt;0&lt;/catnum&gt;") != -1) {
+						Cell imgcell = new Cell(new Chunk(img_fj, 0, -6));
+						Cell filenamecell = new Cell(selector10.process(indiDoc.getItemValueString("FileName")));
+						imgcell.setBorder(2);
+						filenamecell.setBorder(2);
+						t1.addCell(imgcell);
+						t1.addCell(filenamecell);
+					}
+					recycle(indiDoc);
+					recycle(ve);
+					ve = tmpve;
+				}
+				pdf_doc_yj.add(t1);
+			}
+
+			//获取审批意见和流转信息，并进行处理 
+			String dbPath = note.getItemValueString("fldFlowInfo");
+			dbInfo = session.getDatabase("", dbPath);
+			view = dbInfo.getView("vwxml");
+			docInfo = view.getDocumentByKey(note.getItemValueString("fldMainKey"));
+			if(docInfo==null) return;
+
+
+			RichTextItem hisItem = (RichTextItem) docInfo.getFirstItem("fullhistory");
+			RichTextItem yjItem = (RichTextItem) docInfo.getFirstItem("fldyj");
+			String strHistory = "";
+			String strYj = "";
+			if (hisItem != null) {
+				strHistory = hisItem.getUnformattedText();
+			}
+			recycle(hisItem);
+			if (yjItem != null) {
+				strYj = yjItem.getUnformattedText();
+			}
+			recycle(yjItem);
+			recycle(docInfo);
+			// 拼成xml格式，以备解析
+			String strxml = "&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?&gt;"
+				+ "&lt;rundata&gt;" + "&lt;spyj&gt;" + strYj + "&lt;/spyj&gt;" + "&lt;flowinfo&gt;"
+				+ strHistory + "&lt;/flowinfo&gt;" + "&lt;/rundata&gt;";
+			// 解析xml
+			DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dombuilder = domfac.newDocumentBuilder();
+			InputStream is = new ByteArrayInputStream(strxml.getBytes("UTF-8"));
+			org.w3c.dom.Document domdoc = dombuilder.parse(is);
+
+			//审批意见区域项目自行以
+			boolean blnSpyj = pdfcustom.fnCreateSPYJArea(session, db, note, pdf_doc_yj);
+
+			if(!blnSpyj){
+				// 获取审批意见
+				pdf_doc_yj.add(Chunk.NEWLINE);
+				pdf_doc_yj.add(new Paragraph(selector13.process("审批意见\n"))); // 小标题
+				Table t2 = new Table(3);
+				int[] widtharr = { 5, 15, 80 };
+				t2.setWidths(widtharr);
+				t2.setBorder(0);
+				t2.setBorderColor(Color.gray);
+				t2.setPadding(3);
+				t2.setAlignment(Element.ALIGN_LEFT);
+				t2.setWidth(100);
+				// 获取签字库
+				signDB= session.getDatabase("", "indishare/signature.nsf");
+				signVW = signDB.getView("signatures");
+				NodeList yjitems = domdoc.getElementsByTagName("yjitem");
+
+				for (int i = 0; i &lt; yjitems.getLength(); i++) { //遍历所有yjitem
+
+					String user = "";
+					String userhqfk = "";
+					String abbUser = "";
+					String strAttName = "";
+					String time = "";
+					String stat = "";
+					String yj = "";
+					String yjtpfilename = "";
+					Image signimg=null;
+					Image yjimg=null;
+					Node yjitem = yjitems.item(i);
+					int ishqfk = 0;
+					Cell c1 = new Cell(String.valueOf(i + 1) + ".");				
+					Cell c3 = new Cell();
+					Cell c2 = new Cell();
+					c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					c1.setVerticalAlignment(Element.ALIGN_CENTER);
+					c1.setBorder(2);
+
+
+					c2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					c2.setBorder(2);
+
+					c3.setBorder(2);					
+					for (Node node = yjitem.getFirstChild(); node != null; node = node.getNextSibling()) {//单个yjitem
+
+						if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+
+							//存在会签反馈  subhqfk
+
+							NodeList subfkNodes = yjitem.getChildNodes();
+							for (int subNodes = 0; subNodes&lt;subfkNodes.getLength(); subNodes++) { //遍历 subhqfk
+
+								Node subfkTmpNode =subfkNodes.item(subNodes);
+
+								if (subfkTmpNode.getNodeName().equals("subhqfk")){								
+
+									ishqfk = 1;
+									if (node.getNodeName().equals("fkdep")) { //第一行新建一行，显示序号
+										String dept= node.getFirstChild().getNodeValue();	
+										if(dept.indexOf("/")&gt;-1){
+											dept = dept.substring(0,dept.indexOf("/"));
+										}
+										c1 = new Cell(String.valueOf(i + 1) + ".");				
+										c3 = new Cell();
+										c2 = new Cell();
+										c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+										c1.setVerticalAlignment(Element.ALIGN_CENTER);
+										c1.setBorder(2);
+
+										c2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+										c2.setBorder(2);
+										c2.add(selector10.process(dept));	
+										c3.setBorder(2);
+
+										t2.addCell(c1);
+										t2.addCell(c2);
+										t2.addCell(c3);
+									}//非部?欧蠢∈辈幌允拘蚝?
+
+									c1 = new Cell();				
+									c3 = new Cell();
+									c2 = new Cell();
+									c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+									c1.setVerticalAlignment(Element.ALIGN_CENTER);
+									c1.setBorder(2);
+
+									c2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+									c2.setBorder(2);
+									c3.setBorder(2);	
+
+									for (Node subnode = subfkTmpNode.getFirstChild(); subnode != null; subnode = subnode.getNextSibling()) {
+
+										node = subnode;
+										if (node.getNodeName().equals("user")) {
+											userhqfk = node.getFirstChild().getNodeValue();
+											Name nUser = session.createName(userhqfk);
+											userhqfk = nUser.getCommon();
+										}
+										if(node.getNodeName().equals("signature")){
+											if(node.hasChildNodes()){
+												String signature = node.getFirstChild().getNodeValue();
+												abbUser=mUtil.getPraString(signature, "username");
+												abbUser = new String(abbUser.getBytes(),"GB2312");
+												signDoc = signVW.getDocumentByKey(abbUser,true);
+												if (signDoc!=null){
+
+													Vector v = session.evaluate("@AttachmentNames", signDoc);
+													String signFilename =(String) v.firstElement();
+													EmbeddedObject eo = signDoc.getAttachment(signFilename);
+													InputStream isEO = eo.getInputStream();
+													byte[] signimgdata = new byte[isEO.available()];
+													isEO.read(signimgdata);
+													isEO.close();
+													recycle(eo);
+													recycle(signDoc);
+													BASE64Encoder encoder = new BASE64Encoder();
+													encoder.encode(signimgdata);
+													signimg = Image.getInstance(signimgdata);
+													signimg.scaleAbsolute(150, 50);
+												}
+											}
+										}
+										if (node.getNodeName().equals("time")) {
+											time = node.getFirstChild().getNodeValue();
+										}
+										if (node.getNodeName().equals("stat")) {
+											stat = node.getFirstChild().getNodeValue();
+										}
+										if (node.getNodeName().equals("yj")) {
+											yj = node.getFirstChild().getNodeValue();
+											yj = mUtil.fnProcessYjHTML(yj);
+										}
+										if (node.getNodeName().equals("yjtp")) {
+											if(node.hasChildNodes()){
+												yjtpfilename = node.getFirstChild().getNodeValue();
+												if(yjtpfilename != ""){
+													yjtpfilename = yjtpfilename.substring(yjtpfilename.lastIndexOf("/")+1);
+													for(ve=vec.getFirstEntry();ve!=null;){
+														tmpve=vec.getNextEntry(ve);
+														indiDoc = ve.getDocument();
+														Vector v = session.evaluate("@AttachmentNames", indiDoc);				
+														String yjimgFilename =(String) v.firstElement();
+														if(yjimgFilename.equalsIgnoreCase(yjtpfilename)) {
+															EmbeddedObject eo = indiDoc.getAttachment(yjimgFilename);
+															InputStream isEO = eo.getInputStream();
+															byte[] yjimgdata = new byte[isEO.available()];
+															isEO.read(yjimgdata);
+															isEO.close();
+															recycle(eo);
+															BASE64Encoder encoder = new BASE64Encoder();
+															encoder.encode(yjimgdata);
+															yjimg = Image.getInstance(yjimgdata);
+															yjimg.scaleAbsolute(150, 50);
+															break;
+														}
+														recycle(indiDoc);
+														recycle(ve);
+														ve=tmpve;
+													}
+												}
+											}
+
+										}
+
+									}
+									c3.addElement(selector10.process(""+yj + "\n"));
+									c3.addElement(selector_gray.process(stat + "   " + time));
+									// 获取当前环节所有的意见附??1???啤?
+									NodeList attNodes = subfkTmpNode.getChildNodes();
+									for (int iNodes = 0; iNodes&lt;attNodes.getLength(); iNodes++) {
+										Node attTmpNode =attNodes.item(iNodes);
+
+										if (attTmpNode.getNodeName().equals("yjatt")){
+											if (attTmpNode.getFirstChild()!=null){
+
+												strAttName = attTmpNode.getFirstChild().getFirstChild().getNodeValue();
+
+												if (strAttName != null &amp;&amp; strAttName.length()&gt;0) {
+
+													c3.add(new Chunk("\r\n"));
+													c3.add(selector10.process("意见附件："));
+													c3.add(selector10.process(mUtil.fnYjfjName(strAttName)));
+												}
+											}
+										}
+									}
+
+									if(signimg!=null){
+										signimg.scaleAbsolute(60, 40);
+										Phrase ph=new Phrase(new Chunk(signimg, 0, 0)); //?玦mg放入chunk，保证为inline方式
+										ph.add(selector10.process(":"));	
+										c2.add(ph);
+									}else{
+										c2.add(selector10.process(userhqfk + ":"));
+									}
+									if(yjimg!=null){
+										c3.add(new Chunk("\r\n\r\n\r\n"));
+										c3.add(new Chunk(yjimg,5,-5));
+									}
+
+									t2.addCell(c1);
+									t2.addCell(c2);
+									t2.addCell(c3);
+									signimg=null;
+									yjimg=null;
+
+								}
+
+							}
+							if (ishqfk==0){
+
+								if (node.getNodeName().equals("user")) {
+									user = node.getFirstChild().getNodeValue();
+									Name nUser = session.createName(user);
+									user = nUser.getCommon();
+								}
+								if(node.getNodeName().equals("signature")){
+									if(node.hasChildNodes()){
+										String signature = node.getFirstChild().getNodeValue();
+										abbUser=mUtil.getPraString(signature, "username");
+										abbUser = new String(abbUser.getBytes(),"GB2312");
+										signDoc = signVW.getDocumentByKey(abbUser,true);
+										if (signDoc!=null){
+
+											Vector v = session.evaluate("@AttachmentNames", signDoc);
+											String signFilename =(String) v.firstElement();
+											EmbeddedObject eo = signDoc.getAttachment(signFilename);
+											InputStream isEO = eo.getInputStream();
+											byte[] signimgdata = new byte[isEO.available()];
+											isEO.read(signimgdata);
+											isEO.close();
+											recycle(eo);
+											recycle(signDoc);
+											BASE64Encoder encoder = new BASE64Encoder();
+											encoder.encode(signimgdata);
+											signimg = Image.getInstance(signimgdata);
+											signimg.scaleAbsolute(150, 50);
+										}
+									}
+								}
+								if (node.getNodeName().equals("time")) {
+									time = node.getFirstChild().getNodeValue();
+								}
+								if (node.getNodeName().equals("stat")) {
+									stat = node.getFirstChild().getNodeValue();
+								}
+								if (node.getNodeName().equals("yj")) {
+									yj = node.getFirstChild().getNodeValue();
+									yj = mUtil.fnProcessYjHTML(yj);
+								}
+								if (node.getNodeName().equals("yjtp")) {
+									if(node.hasChildNodes()){
+										yjtpfilename = node.getFirstChild().getNodeValue();
+										if(yjtpfilename != ""){
+											yjtpfilename = yjtpfilename.substring(yjtpfilename.lastIndexOf("/")+1);
+											for(ve=vec.getFirstEntry();ve!=null;){
+												tmpve=vec.getNextEntry(ve);
+												indiDoc = ve.getDocument();
+												Vector v = session.evaluate("@AttachmentNames", indiDoc);				
+												String yjimgFilename =(String) v.firstElement();
+												if(yjimgFilename.equalsIgnoreCase(yjtpfilename)) {
+													EmbeddedObject eo = indiDoc.getAttachment(yjimgFilename);
+													InputStream isEO = eo.getInputStream();
+													byte[] yjimgdata = new byte[isEO.available()];
+													isEO.read(yjimgdata);
+													isEO.close();
+													recycle(eo);
+													BASE64Encoder encoder = new BASE64Encoder();
+													encoder.encode(yjimgdata);
+													yjimg = Image.getInstance(yjimgdata);
+													yjimg.scaleAbsolute(150, 50);
+													break;
+												}
+												recycle(indiDoc);
+												recycle(ve);
+												ve=tmpve;
+											}
+										}
+									}
+
+								}
+							}
+						}
+					}
+
+					if (ishqfk==0){
+						if(signimg!=null){
+							signimg.scaleAbsolute(60, 40);
+							Phrase ph=new Phrase(new Chunk(signimg, 0, 0)); //?玦mg放入chunk?1?Ｖの猧nline方式
+							ph.add(selector10.process(":"));	
+							c2.add(ph);
+						}else{
+							c2.add(selector10.process(user + ":"));
+						}
+						c3 = new Cell(selector10.process(yj + "\n"));
+						c3.addElement(selector_gray.process(stat + "   " + time));
+						// 获�〉鼻盎方谒械囊饧郊啤�
+						NodeList attNodes = yjitem.getChildNodes();
+						for (int iNodes = 0; iNodes&lt;attNodes.getLength(); iNodes++) {
+							Node attTmpNode =attNodes.item(iNodes);
+							if (attTmpNode.getNodeName().equals("yjatt")){
+								strAttName = attTmpNode.getFirstChild().getFirstChild().getNodeValue();
+								if (strAttName != null &amp;&amp; strAttName.length()&gt;0) {
+									c3.add(new Chunk("\r\n"));
+									c3.add(selector10.process("意见附件："));
+									c3.add(selector10.process(strAttName));
+								}
+							}
+						}
+						c3.setBorder(2);
+						if(yjimg!=null){
+							c3.add(new Chunk("\r\n\r\n\r\n"));
+							c3.add(new Chunk(yjimg,5,-5));
+						}
+						t2.addCell(c1);
+						t2.addCell(c2);
+						t2.addCell(c3);
+						signimg=null;
+						yjimg=null;
+					}
+
+				}
+				pdf_doc_yj.add(t2);
+
+				// 获取流转信息
+				pdf_doc_yj.add(Chunk.NEWLINE);
+				pdf_doc_yj.add(new Paragraph(selector13.process("流转信息\n"))); // 小标题
+				Table t3 = new Table(4);
+				t3.setWidths(new int[] { 5, 30, 45, 20 });
+				t3.setBorder(0);
+				t3.setPadding(3);
+				t3.setAlignment(Element.ALIGN_LEFT);
+				t3.setWidth(100);
+				NodeList flowinfoitems = domdoc.getElementsByTagName("item");
+				for (int i = 0; i &lt; flowinfoitems.getLength(); i++) {
+					String user = "";
+					String time = "";
+					String stat = "";
+					Node flowinfoitem = flowinfoitems.item(i);
+					if (flowinfoitem.getNodeType() == Node.ELEMENT_NODE) {
+						user = flowinfoitem.getAttributes().getNamedItem("user").getNodeValue();
+						Name nUser = session.createName(user);
+						user = nUser.getCommon();
+						recycle(nUser);
+						time = flowinfoitem.getAttributes().getNamedItem("time").getNodeValue();
+						stat = flowinfoitem.getAttributes().getNamedItem("stat").getNodeValue();
+					}
+					Cell c1 = new Cell(new Chunk(String.valueOf(i + 1) + "."));
+					c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					c1.setBorder(2);
+					Cell c2 = new Cell(new Chunk(time));
+					c2.setHorizontalAlignment(Element.ALIGN_LEFT);
+					c2.setBorder(2);
+					Cell c3 = new Cell(selector10.process(stat));
+					c3.setHorizontalAlignment(Element.ALIGN_LEFT);
+					c3.setBorder(2);
+					Cell c4 = new Cell(selector10.process(user));
+					c4.setHorizontalAlignment(Element.ALIGN_LEFT);
+					c4.setBorder(2);
+
+					t3.addCell(c1);
+					t3.addCell(c2);
+					t3.addCell(c3);
+					t3.addCell(c4);
+				}
+				pdf_doc_yj.add(t3);
+			}
+
+			//知会,修改记录 start
+			String strKeyValue = "";
+			strKeyValue = mUtil.getConfigKey(session,db,"key_showPdfPanel");			
+			if(strKeyValue != ""){
+				String[] types = strKeyValue.split(",");
+				String strZhihuiTable = "";
+				String strXgjlTable = "";
+				String strZhihui = "zhihui";
+				String strXgjl = "xgjl";
+				if(types.length == 2){
+					//知会记录
+					String[] zhihuis = types[0].split("\\|");
+					strZhihuiTable = fnGetZhihuiTable(session, db, note);
+					if((zhihuis.length == 2) &amp;&amp; (zhihuis[0].equals(strZhihui)) &amp;&amp; (zhihuis[1].equals("1")) &amp;&amp; !"".equals(strZhihuiTable)){
+						// 获取流转信息
+						pdf_doc_yj.add(Chunk.NEWLINE);
+						pdf_doc_yj.add(new Paragraph(selector13.process(note.getItemValueString("fldBtnZhihui")+"记录\n"))); // 小标题
+						combineTableToPDFDoc(session, pdf_doc_yj,strZhihuiTable);
+					}
+					//修改记录
+					String[] xgjls = types[1].split("\\|");
+					strXgjlTable = fnGetXgjlTable(session, db, note);
+					if(xgjls.length == 2 &amp;&amp; xgjls[0].equals(strXgjl) &amp;&amp; xgjls[1].equals("1") &amp;&amp; !"".equals(strXgjlTable)){
+						pdf_doc_yj.add(Chunk.NEWLINE);
+						pdf_doc_yj.add(new Paragraph(selector13.process("修改记录\n"))); // 小标题
+						combineTableToPDFDoc(session, pdf_doc_yj, strXgjlTable);
+					}
+				}
+			}			
+			//知会,修改记录 end
+			//项目扩展
+			String strExtTable = "";
+			strExtTable = pdfcustom.fnGetTableExtInfo(session, db, note);
+			if(strExtTable != ""){
+				String[] strTables = strExtTable.split("^!^");
+				for(int ti=0;ti&lt;strTables.length;ti++){
+					org.jsoup.nodes.Document htmldoc = Jsoup.parseBodyFragment(strTables[ti]);
+					org.jsoup.nodes.Element body = htmldoc.body();
+					org.jsoup.select.Elements titles = body.getElementsByTag("title");
+					if(titles.size()&gt;=1){
+						org.jsoup.nodes.Element title = titles.get(0);
+						String content = title.text();
+						content = content.trim();
+						pdf_doc_yj.add(Chunk.NEWLINE);
+						pdf_doc_yj.add(new Paragraph(selector13.process(content+"\n"))); // 小标题
+					}
+					combineTableToPDFDoc(session, pdf_doc_yj, strTables[ti]);
+				}
+			}
+			domdoc = null;
+			is.close();
+			dombuilder = null;
+			pdf_doc_yj.close();
+
+		} catch (Exception e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+			e.getMessage();
+		}finally{
+			pdf_doc_yj.close();
+			recycle(vec);
+			recycle(view);
+			recycle(dbInfo);
+			recycle(signVW);
+			recycle(signDB);
+		}
+	}
+	/**
+	 * 功能函数
+	 */
+	public void combineTableToPDFDoc(Session session, com.lowagie.text.Document pdf_doc_yj, String Table) throws Exception {
+		HashMap alignMap = new HashMap();
+		alignMap.put("right", new Integer(Element.ALIGN_RIGHT).toString() );
+		alignMap.put("left", new Integer(Element.ALIGN_LEFT).toString());
+		alignMap.put("center", new Integer(Element.ALIGN_CENTER).toString());
+
+		HashMap ValignMap = new HashMap();							
+		ValignMap.put("top", new Integer(Element.ALIGN_TOP).toString());
+		ValignMap.put("bottom", new Integer(Element.ALIGN_BOTTOM).toString());
+		ValignMap.put("middle", new Integer(Element.ALIGN_MIDDLE).toString());
+
+		BaseFont bf = getZhFont(session);
+		FontSelector selector =getSelector(bf, 10, Font.NORMAL, Color.BLACK);
+		//初始化html doc
+		org.jsoup.nodes.Document htmldoc = Jsoup.parseBodyFragment(Table);
+		org.jsoup.nodes.Element body = htmldoc.body();
+		org.jsoup.select.Elements rows = body.getElementsByTag("tr");
+		//表格各列宽度
+		int[] widtharr = null ;
+		String[] width = null;
+		org.jsoup.select.Elements divs = body.getElementsByTag("div");
+		if(divs.size()&gt;=1){
+			org.jsoup.nodes.Element div = divs.get(0);
+			if(div.hasAttr("widths")){
+				width = div.attr("widths").split(",");
+			}
+		}
+		if(width.length &gt; 0){
+			widtharr = new int[width.length];
+			for(int wi=0;wi&lt;width.length;wi++){
+				widtharr[wi] = Integer.parseInt(width[wi]);
+			}
+		}else{
+			widtharr = new int[]{30,30,40};
+		}
+		Table table = new Table(widtharr.length);
+		table.setWidths(widtharr);
+		table.setBorder(0);
+		table.setPadding(3);
+		table.setAlignment(Element.ALIGN_LEFT);
+		table.setWidth(100);
+		//循环所有tr
+		for(int ri=0;ri&lt;rows.size();ri++){
+			org.jsoup.nodes.Element row = rows.get(ri);
+			org.jsoup.select.Elements cols = row.getElementsByTag("td");
+			//循环每一行的td
+			for(int ci=0;ci&lt;cols.size();ci++){
+				org.jsoup.nodes.Element col = cols.get(ci);
+				Cell cell = new Cell();
+				Paragraph paragraph = new Paragraph();
+				cell.setBorder(2);
+				if(col.hasAttr("colspan")){
+					cell.setColspan(Integer.parseInt(col.attr("colspan")));
+				}
+				if(col.hasAttr("align")){
+					cell.setHorizontalAlignment(Integer.parseInt((String) alignMap.get(col.attr("align"))));
+					paragraph.setAlignment(Integer.parseInt((String) alignMap.get(col.attr("align"))));
+				}
+				if(col.hasAttr("valign")){
+					cell.setVerticalAlignment(Integer.parseInt((String) ValignMap.get(col.attr("valign"))));
+				}
+				String content = col.text();
+				content = content.trim();
+				paragraph.add(selector.process(content));
+				cell.addElement(paragraph);
+				table.addCell(cell);
+			}
+		}
+		pdf_doc_yj.add(table);
+	}
+	public static String fnGetZhihuiTableV1(Session session,Database db, lotus.domino.Document note){
+		String strRet="";
+		Name userName;
+		try {
+			String tipZhihui=note.getItemValueString("fldBtnZhihui");
+			String tipZhihuibb=note.getItemValueString("fldBtnZhihuibb");
+			String notifydocid=note.getItemValueString("strNotifyUnid");
+			if("".equals(notifydocid)){
+				return strRet;
+			}
+			lotus.domino.Document doc=getdocumentbyunid(db,notifydocid);
+			if(doc==null){
+				return strRet;
+			}
+			//CN=sunxz/O=smartdot^2015-02-07 18:35:35^临时工/smartdot^杜胜/smartdot,CN=sunxz/O=smartdot^2015-02-07 18:36:04^admin/smartdot,CN=杜胜/O=smartdot^2015-02-07 20:32:12^admin/smartdot
+			Item item= doc.getFirstItem("fldRecord");
+			String sTmp=item.getText();
+			sTmp=sTmp.replaceAll("\n", "").replaceAll("\r", "");
+			String[] arrAllNotifyInfo=sTmp.split(","); 
+			item.recycle();
+			//CN=杜胜/O=smartdot~2015-02-07 20:31:31^CN=杜胜/O=smartdot~2015-02-07 20:32:13
+			item= doc.getFirstItem("strReadHistory");
+			String[] arrReadHistory = null; 
+			if(item!=null){
+				sTmp=item.getText();
+				sTmp=sTmp.replaceAll("\n", "").replaceAll("\r", "");
+				arrReadHistory=sTmp.split("\\^"); 
+				item.recycle();
+			}
+			//[{"from":"CN=sunxz/O=smartdot","time":"2015-02-07 18:36:04","to":"CN=admin/O=smartdot","replytime":"2015-02-07 18:36:47","attitude":"反对"},{"from":"CN=sunxz/O=smartdot","time":"2015-02-07 18:35:35","to":"CN=杜胜/O=smartdot","replytime":"2015-02-07 18:38:29","attitude":""}]
+			item= doc.getFirstItem("strReadHistoryYj");
+			String strReadHistoryYj=item.getText();
+			strReadHistoryYj=strReadHistoryYj.replaceAll("\n", "").replaceAll("\r", "");
+			boolean isJson=strReadHistoryYj.startsWith("[");
+			int yjarlen;
+			String[]  arrReadHistoryYj = null;
+			JsonArray jsonArray = null ;
+			if(!isJson){
+				if(strReadHistoryYj.equals("")){
+					yjarlen=0;
+				}else{
+					arrReadHistoryYj=strReadHistoryYj.split("^");
+					yjarlen=arrReadHistoryYj.length;
+				}
+			}else{        
+				JsonParser jp = new JsonParser();
+				JsonObject jo = (JsonObject)jp.parse("{'items':"+strReadHistoryYj+"}");
+				jsonArray = jo.getAsJsonArray("items");
+				yjarlen=jsonArray.size();
+
+			}
+			for (int i = arrAllNotifyInfo.length-1; i &gt;-1; i--) {
+				String strNotifyInfo = arrAllNotifyInfo[i];
+				String[] arrNotifyInfo = strNotifyInfo.split("\\^");//CN=sunxz/O=smartdot^2015-02-07 18:35:35^临时工/smartdot^杜胜/smartdot,
+				userName = session.createName(arrNotifyInfo[0]);
+				String userfrom=userName.getCommon();
+				userName.recycle();
+				for (int j=arrNotifyInfo.length-1;j&gt;=2;j--){
+
+					userName = session.createName(arrNotifyInfo[j]);
+					String userto=userName.getCommon();
+					String usertoabb=userName.getAbbreviated();
+					userName.recycle();
+
+					String rowhtml = "&lt;tr&gt;&lt;td&gt;"+userfrom+"&lt;/td&gt;&lt;td&gt;于&lt;/td&gt;&lt;td&gt;" + arrNotifyInfo[1] + "&lt;/td&gt;&lt;td&gt;"+tipZhihui+"给&lt;/td&gt;"+"&lt;td&gt;" + userto+ "&lt;/td&gt;";
+					String stat="未阅";
+					if(arrReadHistory!=null){
+						for(int rhi=0;rhi&lt;arrReadHistory.length;rhi++){
+							String[] arrReadUserinfo = arrReadHistory[rhi].split("~");
+							userName = session.createName(arrReadUserinfo[0]);
+							String userreadabb=userName.getAbbreviated();
+							userName.recycle();
+							if(usertoabb.equals(userreadabb)){
+								// 发送知会时间
+								Date fszhDate = new Date(arrNotifyInfo[1].replace("-","/"));
+								// 阅读时间 
+								Date ydzhDate = new Date(arrReadUserinfo[1].replace("-","/"));
+								if(fszhDate.before(ydzhDate) ){
+									// 如果发送时间晚于阅读时间则表示已阅
+									stat ="已阅"+"("+arrReadUserinfo[1]+")";
+									break;
+								}
+							}
+						}
+					}				
+
+					//处理意见
+					String rowdate = arrNotifyInfo[1];
+
+					for(int k=yjarlen-1;k&gt;-1;k-- ){
+						String yjUser ;
+						String yjDate ;
+						String yjContent;
+						if(!isJson){
+							String yjrow = arrReadHistoryYj[k];
+							String[] arrYjrow = yjrow.split("~");
+							yjUser = arrYjrow[0];
+							yjDate = arrYjrow[1];
+							yjContent = arrYjrow[2];
+						}else{
+							JsonObject yjrow = (JsonObject)jsonArray.get(k);
+							yjUser = yjrow.get("to").getAsString();
+							yjDate = yjrow.get("replytime").getAsString();
+							yjContent = yjrow.get("attitude").getAsString();
+						}
+						userName = session.createName(yjUser);
+						yjUser=userName.getAbbreviated();
+						userName.recycle();
+						if(yjUser.equals(usertoabb)){
+							if(new Date(yjDate.replace("-","/")).after( new Date(rowdate.replace("-","/")))){
+								stat=tipZhihuibb+"("+yjContent+" "+yjDate+")";
+								break;
+							}
+						}
+					}
+					rowhtml += "&lt;td&gt;"+stat+"&lt;/td&gt;&lt;/tr&gt;";
+					strRet = rowhtml+strRet;
+				}
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+		}
+		if(!strRet.equals("")){
+			strRet="&lt;table&gt;"+strRet+"&lt;/table&gt;&lt;div widths='10,5,25,10,15,35'&gt;&lt;/div&gt;";
+		}
+		return strRet;
+	}
+	public static String fnGetZhihuiTable(Session session,Database db, lotus.domino.Document note){
+		View view=null;
+		ViewEntryCollection vec=null;
+		ViewEntry ve=null;
+		lotus.domino.Document doc=null;
+		ViewEntry tmpve=null;
+		Database dbInfo=null;
+		String strRet="";
+		String strKey;
+		String dbPath;
+		String dbPathMdoc;
+		ArrayList listCat = new ArrayList();
+		Name userName;
+
+		try {
+			String key_ZhihuiV2=note.getItemValueString("key_ZhihuiV2");
+			if(!key_ZhihuiV2.equals("1")){
+				return fnGetZhihuiTableV1(session,db,note);
+			}
+			dbPath = note.getItemValueString("fldFlowInfo");
+			dbPathMdoc=session.getCurrentDatabase().getFilePath();
+			dbPathMdoc=dbPathMdoc.replace("\\", "/");
+			dbInfo = session.getDatabase("", dbPath);
+			view=dbInfo.getView("vwDsForShow");
+			strKey=dbPathMdoc+"/"+note.getItemValueString("fldMainKey");
+			vec=view.getAllEntriesByKey(strKey);
+			if(vec.getCount()&gt;0){
+				strRet="&lt;table&gt;";
+				ve=vec.getFirstEntry();
+				while (ve != null) {
+					tmpve=vec.getNextEntry(ve);
+					doc= ve.getDocument();
+
+					String cattpl = "&lt;tr&gt;&lt;td&gt;{user}&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;{time}&lt;/td&gt;&lt;td&gt;{yj}&lt;/td&gt;&lt;/tr&gt;";
+					String rowtpl = "&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;{user}&lt;/td&gt;&lt;td&gt;{stat}&lt;/td&gt;&lt;td&gt;{time}&lt;/td&gt;&lt;td&gt;{yj}&lt;/td&gt;&lt;/tr&gt;";
+
+					String fromkey =doc.getItemValueString("strFrom_key");
+					//发起人
+					String fromuser=doc.getItemValueString("nmFrom");
+					userName = session.createName(fromuser);
+					fromuser=userName.getCommon();
+					//被知会人
+					String touser=doc.getItemValueString("nmTo");
+					userName = session.createName(touser);
+					touser=userName.getCommon();
+					//发起人意见
+					String fromyj=doc.getItemValueString("strFrom_attitude");
+					//被知会人反馈意见
+					String toyj=doc.getItemValueString("strTo_attitude");
+					//?⑵鹗奔?
+					Item dtitm=doc.getFirstItem("dtFromtime");
+					String formtime=getItemValue(dtitm);
+					recycle(dtitm);
+					//被知会人状态，办毕时间
+					String totime="";
+					String stat=doc.getItemValueString("stat");
+					String statzh="";
+					if(stat.equals("0")){
+						statzh="待阅";
+					}else if(stat.equals("1")){
+						statzh="已阅";
+						dtitm=doc.getFirstItem("dtReadtime");
+						totime=getItemValue(dtitm);
+					}else if(stat.equals("2")){
+						statzh=note.getItemValueString("fldBtnZhihuibb");
+						dtitm=doc.getFirstItem("dtReplytime");
+						totime=getItemValue(dtitm);
+					}else if(stat.equals("3")){
+						statzh="已撤回";
+					}
+
+					//发起人信息，list中没有fromkey时，要写两条，一条发起人的，一条被知会人的
+					if(!listCat.contains(fromkey)){
+						listCat.add(fromkey);
+						cattpl=cattpl.replace("{user}", fromuser);
+						cattpl=cattpl.replace("{time}", formtime);
+						cattpl=cattpl.replace("{yj}", fromyj);
+						strRet+=cattpl;
+					}
+
+					//?恢崛诵畔?
+
+					rowtpl=rowtpl.replace("{user}", touser);					
+					rowtpl=rowtpl.replace("{stat}", statzh);					
+					rowtpl=rowtpl.replace("{time}", totime);
+					rowtpl=rowtpl.replace("{yj}", toyj);
+					strRet+=rowtpl;
+
+					recycle(userName);
+					recycle(doc);
+					recycle(ve);
+					ve = tmpve;
+				}
+				strRet+="&lt;/table&gt;&lt;div widths='10,10,10,35,35'&gt;&lt;/div&gt;";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			recycle(vec);
+			recycle(view);
+			recycle(dbInfo);
+		}
+		return strRet;
+	}
+	//获取修改记录
+	public static String fnGetXgjlTable(Session session,Database db ,lotus.domino.Document note){
+		String xgjlHtml = "";
+		Name nm = null;
+		try {
+			if(note!=null){
+				String xgjl = note.getFirstItem("fldChangeInfor").getText();
+				if(!"".equals(xgjl)){
+					xgjl = xgjl.replaceAll("[\\n\\r]", "");	//替换回车换行符
+					xgjlHtml = "&lt;table width=100% align=center class='OpinionTab2'&gt;";
+					xgjlHtml += xgjl;
+					xgjlHtml += "&lt;/table&gt;";
+					org.jsoup.nodes.Document docXgjl = Jsoup.parseBodyFragment(xgjlHtml);
+					org.jsoup.nodes.Element body = docXgjl.body();
+					//处理title
+					org.jsoup.select.Elements tds = body.select("td[title]");
+					int i=0;
+					int len = tds.size();
+					for(;i&lt;len;i++){
+						org.jsoup.nodes.Element td = tds.get(i);
+						String title = td.attr("title");
+						String content = td.text();
+						td.removeAttr("title");
+						td.html(content+"("+title+")");
+					}
+					//处理人员姓名
+					org.jsoup.select.Elements spans = body.select("span.userName");
+					i=0;
+					len = spans.size();
+					for(;i&lt;len;i++){
+						org.jsoup.nodes.Element span = spans.get(i);
+						String name = span.text();
+						nm = session.createName(name);
+						span.html(nm.getCommon());
+					}
+					xgjlHtml = body.html();
+					xgjlHtml += "&lt;div widths='10,50,20,20'&gt;&lt;/div&gt;";
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(nm!=null){
+				try {
+					nm.recycle();
+				} catch (NotesException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return xgjlHtml;
+	}
+
+	/**
+	 * 合并PDF文档
+	 */
+	public void CombinePDF(ByteArrayOutputStream mainDocStream,ByteArrayOutputStream yjDocStream,ByteArrayOutputStream resultDocStream) {
+		ByteArrayOutputStream[] ostreamArray = { mainDocStream, yjDocStream };
+		com.lowagie.text.Document pdfdoc = null;
+		try {
+			pdfdoc = new Document(new PdfReader(mainDocStream.toByteArray()).getPageSize(1));
+			PdfCopy copy = new PdfCopy(pdfdoc, resultDocStream);
+			//			copy.setCompressionLevel(9);
+			pdfdoc.open();
+			for (int i = 0; i &lt; ostreamArray.length; i++) {
+				PdfReader reader = new PdfReader(ostreamArray[i].toByteArray());
+				int n = reader.getNumberOfPages();
+				for (int j = 1; j &lt;= n; j++) {
+					pdfdoc.newPage();
+					PdfImportedPage page = copy.getImportedPage(reader, j);
+					copy.addPage(page);
+				}
+			}
+			//			pdfdoc.compress =true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pdfdoc.close();
+		}
+	}
+
+	public static String getItemValue(Item item) throws NotesException { //获取域的值
+		Vector allvalues = item.getValues();
+		String sigleValue ="";
+		String result="";
+		int index_un;
+		Name tmpName;
+
+		StringBuffer sb = new StringBuffer();
+		Session session = item.getParent().getParentDatabase().getParent();
+		int itemType = item.getType();
+		if (allvalues.size() &gt; 0) {
+			Iterator iterator = allvalues.iterator();
+			while(iterator.hasNext()) {
+				sigleValue = iterator.next().toString();
+				if(sigleValue.trim().length()&lt;1) continue;
+
+				switch (itemType) {
+				case Item.AUTHORS:
+				case Item.NAMES:
+				case Item.READERS:
+					index_un = sigleValue.indexOf("&lt;span class='userName'&gt;");
+					if (index_un!=-1){ // by sunxz 处理：&lt;span class='userName'&gt;admin/smartdot&lt;/span&gt; 2014-1-6 14:26:23
+						sigleValue=sigleValue.replaceAll("&lt;span class='userName'&gt;", "");
+						String[] sv=sigleValue.split("&lt;/span&gt;");
+						tmpName = session.createName(sv[0]);
+						sb.append(tmpName.getCommon()+sv[1]).append(",");
+					}else{
+						tmpName = session.createName(sigleValue);
+						sb.append(tmpName.getCommon()).append(",");
+					}
+					recycle(tmpName);
+					break;
+				case Item.DATETIMES:
+					if(sigleValue.length()&gt;=23) { //包含时区信息时去掉
+						sigleValue=sigleValue.substring(0,sigleValue.length()-4); //去掉时区信息 2013/07/30 09:15:22 ZE8
+					}
+					sb.append(sigleValue).append(","); 
+					break;
+				default:
+					index_un = sigleValue.indexOf("&lt;span class='userName'&gt;");
+				if (index_un!=-1){ // by sunxz 处理：&lt;span class='userName'&gt;admin/smartdot&lt;/span&gt; 2014-1-6 14:26:23
+					sigleValue=sigleValue.replaceAll("&lt;span class='userName'&gt;", "");
+					String[] sv=sigleValue.split("&lt;/span&gt;");
+					tmpName = session.createName(sv[0]);
+					sigleValue=tmpName.getCommon()+sv[1];
+					recycle(tmpName);
+				}
+				sigleValue=sigleValue.replaceAll("&lt;br&gt;", "\n");//过滤html 
+				sb.append(sigleValue).append(","); 
+				break;
+				}
+			}
+			if(sb.lastIndexOf(",")&gt;-1){
+				result =  sb.substring(0, sb.lastIndexOf(","));	
+			}						
+		}
+		return result;		
+	}
+	public static BaseFont getZhFont(Session session) throws DocumentException, IOException, NotesException {
+		String sep = System.getProperty("file.separator");
+		String dr= session.getEnvironmentString("Directory",true);
+		String fontFile = dr+sep+"domino"+sep+"html"+sep+"simsun.ttc";
+
+		//		BaseFont bf = BaseFont.createFont( fontFile+",1",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED); //这种方式会导致生成的pdf文件有9M+
+		BaseFont bf = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);   //直接使用itextasian中的字体
+
+		return bf;
+	}
+
+	public static FontSelector getSelector(BaseFont bf,float size,int style,Color color) {
+		//?袢⊙≡衿鳎ü醚≡衿髯远碜址械挠⑽?
+		//添??桓鲇⑽牡拇?理，来保证英文字符用英文显蕜1?		//使用selector.precess处理字符串
+		FontSelector selector = new FontSelector();		
+		selector.addFont(FontFactory.getFont(FontFactory.TIMES_ROMAN, size,style,color)); 
+		selector.addFont(new Font(bf, size, style, color));
+		return selector;
+	}
+	public static String getPdfFieldFontSize(AcroFields.Item fldItem) {
+		//从pdf域中获取原来的样式
+		PdfDictionary merged = (PdfDictionary) fldItem.merged.get(0); //getMerged( 0 );
+		//		  PdfDictionary merged = (PdfDictionary) fldItem.getValue(0); //getMerged( 0 );
+		PdfString defaultApp = merged.getAsString( PdfName.DA );
+		String appStr = defaultApp.toString().toLowerCase(); //样式?纠? 0 0 0 rg /he 11 tf
+		String font="";
+		String [] arr=appStr.split(" ");
+		if(arr.length==7){
+			font = arr[5];
+		}
+		//		  System.out.println("font:"+font);
+		return font;
+	}
+
+	/** 
+	 * get AcroFields.Item align 
+	 *  
+	 * @param item 
+	 * @return 
+	 */  
+	public static int getPdfFieldAlignment(AcroFields.Item item) {  
+		int res = Element.ALIGN_LEFT;  
+		try {  
+			PdfNumber nfl = ((PdfDictionary) item.merged.get(0)).getAsNumber(PdfName.Q);  
+			switch (nfl.intValue()) {  
+			case PdfFormField.Q_CENTER:  
+				res = Element.ALIGN_CENTER;  
+				break;  
+			case PdfFormField.Q_RIGHT:  
+				res = Element.ALIGN_RIGHT;  
+				break;  
+			case PdfFormField.Q_LEFT:  
+			default:  
+				res = Element.ALIGN_LEFT;  
+			}  
+		} catch (NullPointerException e) {  
+			res = Element.ALIGN_LEFT;  
+		} finally {  
+			return res;  
+		}  
+	}  
+	public static void processDynamicTable(PdfStamper stamper,lotus.domino.Document doc,String pdfFieldName,FontSelector selector) throws NotesException, IOException, DocumentException {
+		//处理动?砀?将占位文本框中的位置替换成对应的表格
+		AcroFields form = stamper.getAcroFields();
+		AcroFields.Item pdfItem = form.getFieldItem(pdfFieldName);
+
+		String defaultValue =form.getField(pdfFieldName); 
+
+		//从基础配置中获取列配置
+		String [] allConfig = null;
+		float [] colWidth = null; //列宽
+		String [] colName = null; //列的域名
+		String [] colTitle = null; //?械奶崾拘畔?
+		if(defaultValue!=null &amp;&amp; defaultValue.trim().length()&gt;0) { //System.out.println("$$$:" + defaultValue);
+			//包含了如下格式的配置信息： 域名:提示文字：宽度
+			//			defaultValue="[@_no:序号:5%,@name:姓名:25%,@dep:部门:25%,@cert:证件类型:10%,@certtext:证件号码:10%,@datetime:时间:25%]";
+			allConfig =defaultValue.replace("[", "").replace("]", "").split(",");
+			int len=allConfig.length;
+			colWidth = new float[len];
+			colName =new String[len];
+			colTitle = new String[len];
+			for(int i=0;i&lt;len;i++) {
+				String [] tmpArr = allConfig[i].split(":");
+				colName[i] = tmpArr[0];
+				colTitle[i] = tmpArr[1];
+				colWidth[i]=new Float(tmpArr[2].replace("%", "")).floatValue()/100;		//System.out.print(colWidth[i]);		
+			}
+		}else {
+			//如果后续动态表格将表头信息存入，pdf中不需要设置
+			allConfig = null;
+		}
+
+		//生成表格--
+		//		使用cell的text模式，通过defaultcell控制表?竦难剑跎俅?
+		float[] flagPosition = form.getFieldPositions(pdfFieldName);
+		Rectangle rect = new Rectangle(flagPosition[1], flagPosition[2],flagPosition[3], flagPosition[4]);
+		PdfContentByte cb = stamper.getOverContent((int) flagPosition[0]);
+		PdfPTable table = new PdfPTable(colWidth);
+		table.setTotalWidth(rect.getWidth());//设置表格的宽度
+		table.getDefaultCell().setBorder(Rectangle.BOX);		//设置默认的单元格边框
+		table.getDefaultCell().setBorderColor(Color.black);		//设置默认的单元格颜色
+		table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE); //垂直居中
+		//		form.removeField(pdfFieldName);
+
+		table.setKeepTogether(true);
+		table.setSplitLate(false);
+
+		//生成表头
+		Paragraph paragraph =null; 		 
+		for(int i=0;i&lt;colTitle.length;i++) {
+			table.addCell(selector.process(colTitle[i]));
+		}
+		table.setHeaderRows(1); //表头，分页时可重复显示 
+
+		//获取动态表格数据
+
+		String fieldName = pdfFieldName.substring( DYNAMICFIELDFLAG.length()); //note 中的域名，去掉开头的@
+		Item noteItem = doc.getFirstItem(fieldName);
+		String dataStr ="";
+		//		if(noteItem.getType() == Item.RICHTEXT) {
+		dataStr=noteItem.getText();
+		//格式："{\"items\":[{\"name\":\"企划领导/smartdot\",\"dep\":\"企划部/主应用\",\"datetime\":\"2013-07-11 10:00\",\"cert\":\"身份证\",\"certtext\":\"23432432\",\"others\":\"法萨芬\"},{\"name\":\"企划员工/smartdot\",\"dep\":\"企划部/主应用\",\"datetime\":\"2013-07-26 12:00\",\"cert\":\"军官证\",\"certtext\":\"334434343\",\"others\":\"佛\"}]}";
+		//		}
+		noteItem.recycle();
+		if(dataStr.trim().length()&lt;1) return;
+		dataStr = dataStr.replaceAll("\n", "").replaceAll("\r", "");
+
+		//生成表格内容
+		JsonObject ob = new JsonObject();         
+		JsonParser jp = new JsonParser();
+		JsonObject jo = (JsonObject)jp.parse(dataStr);
+		if(!jo.has("items")) return ;
+		JsonArray jsonArray = jo.getAsJsonArray("items");
+		for (int k = 0; k &lt; jsonArray.size(); k++) {
+			//行
+			JsonElement je= jsonArray.get(k);
+			JsonObject eleJsonObject = je.getAsJsonObject();   
+			for(int i=0;i&lt;colName.length;i++) {
+				//列
+				String name =colName[i];
+				//@_no的域认为是序号列的占位域
+				String value = "";
+				if(name.equalsIgnoreCase(DYNAMICFIELDFLAG+"_no")) {
+					value= new Integer(k+1).toString();
+				}else{
+					if(eleJsonObject.has(name.substring(DYNAMICFIELDFLAG.length()))) {
+						value=eleJsonObject.get(name.substring(DYNAMICFIELDFLAG.length())).getAsString();
+					} 						
+				}
+				table.addCell(selector.process(value));
+			}			
+		}	
+		//展示数据
+		//		table.writeSelectedRows(0, -1, flagPosition[1],flagPosition[4], cb); //直接输入到流，会覆盖原来模板中占位域下方的内容
+		Rectangle rct = PageSize.A4; 
+		//使用columntext保证生成的动态表格不会覆盖模板中占位域下方的内容，当内容超过占位?虻母叨仁弊远忠?
+		ColumnText ct = new ColumnText(cb);
+		// 		ct.setFilledWidth(flagPosition[3]-flagPosition[1]);
+		//      ct.setAlignment(Element.ALIGN_CENTER);        	
+		ct.addElement(table);      
+		int status = ColumnText.START_COLUMN;		
+		int pageNumber =1;
+
+		while (ColumnText.hasMoreText(status)) {  
+			if(pageNumber==1) {
+				ct.setSimpleColumn(0f, flagPosition[2],rct.getRight(), flagPosition[4]); 
+			}else {
+				ct.setSimpleColumn(0f, rct.getBottom()+20,rct.getRight(), rct.getTop()-20); //从下一页开始，超出的宽度与原来一致，上???的空白
+			}
+			status = ct.go();  //写到当前页
+			if(ColumnText.hasMoreText(status)) {
+				stamper.insertPage(++pageNumber,  PageSize.A4); 
+				ct.setCanvas(stamper.getOverContent(pageNumber)); //准备为下一页内容
+			}
+		} 
+
+	}
+
+	public InputStream getPdfTemplateStream(Database db,String subform) throws  IOException, NotesException {
+		//获取pdf模板stream
+		InputStream isData = null;
+		String DATASHEET = subform + "_PDF.pdf";// 模板文件路径
+		isData = this.getClass().getResourceAsStream(DATASHEET);
+		if(isData==null){
+			Form fm = db.getForm(subform+"_edit");	//尝试用其他名字找一次			
+			if(fm!=null){
+				String fname = fm.getName();
+				Vector aliases = fm.getAliases();
+				if(fname.toLowerCase().replaceAll("_edit", "").equalsIgnoreCase(subform)){ //当前使用的表单名 尝试用别名查找
+					Iterator it  = aliases.iterator();
+					while(it.hasNext()){
+						String alis  = it.next().toString();
+						int idx  = alis.lastIndexOf("_");
+						if(idx&gt;0){
+							DATASHEET = alis.substring(0, idx)+"_PDF.pdf";
+							isData = this.getClass().getResourceAsStream(DATASHEET);
+							if(isData==null){
+								break;
+							}
+						}
+					}
+				}else{
+					int idx  = fname.lastIndexOf("_");
+					if(idx&gt;0){
+						DATASHEET = fname.substring(0,idx).toLowerCase()+"_PDF.pdf";
+						isData = this.getClass().getResourceAsStream(DATASHEET);
+					}
+				}	
+				fm.recycle();
+			}			
+		}	
+
+		return isData;
+	} 
+
+	public static lotus.domino.Document getdocumentbyunid(Database db,String unid){
+		lotus.domino.Document doc = null;
+		try{
+			doc = db.getDocumentByUNID(unid);
+		}catch(NotesException e){
+
+		}
+		return doc;
+	}
+}</java><java name='YjFieldParse.java'>import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.jsoup.Jsoup;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import com.lowagie.text.Image;
+
+import lotus.domino.Database;
+import lotus.domino.Document;
+import lotus.domino.Item;
+import lotus.domino.Name;
+import lotus.domino.NotesException;
+import lotus.domino.RichTextItem;
+
+public class YjFieldParse {
+	
+	//存意见XML中所有意见域的名称
+	private ArrayList fieldNames;
+	private Document doc = null;
+	private org.w3c.dom.Document domdoc_yj = null;
+	
+	/**
+	 * 构造函数
+	 * 传入待归档的文档，进行xml格式意见域初始化数据读取
+	 * @param doc
+	 */
+	public YjFieldParse(Document doc){
+		
+		this.doc = doc;
+		
+		String str_rtfYjFieldXml = "";
+		RichTextItem rtfYjFieldXML = null;
+		String strxml = "";
+		
+		NodeList yjitems = null;
+		Node node_yjitem = null;
+		int yjitems_length = 0;
+		fieldNames = new ArrayList();
+		
+		try{
+			
+			//意见域改造，用富文本域存储，避免意见超32k报错问题
+			if(doc.getItemValueString("key_yjFieldSaveAsRTF").equals("1")){
+				if(doc.getFirstItem("rtfYjFieldXML").getType()==1){
+					rtfYjFieldXML = (RichTextItem)doc.getFirstItem("rtfYjFieldXML");
+					str_rtfYjFieldXml = rtfYjFieldXML.getUnformattedText();
+					strxml = "&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?&gt;"
+						+ "&lt;rundata&gt;" + str_rtfYjFieldXml + "&lt;/rundata&gt;";
+					DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
+					DocumentBuilder dombuilder = domfac.newDocumentBuilder();
+					InputStream is = new ByteArrayInputStream(strxml.getBytes("UTF-8"));
+					this.domdoc_yj = dombuilder.parse(is);
+					
+					yjitems = this.domdoc_yj.getElementsByTagName("yjtofield");
+					yjitems_length = yjitems.getLength();
+					
+					for(int k = 0; k &lt; yjitems_length; k++){
+						node_yjitem = yjitems.item(k);
+						String node_fieldName =  node_yjitem.getAttributes().item(0).getNodeValue();
+						this.fieldNames.add(node_fieldName.toLowerCase());
+					}
+				}
+			}
+			
+		} catch (NotesException e){
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean isYjField(String strFieldName){
+		
+		Item item = null;
+		try{
+			String tmpFieldName = "";
+			//xml意见域校验
+			tmpFieldName = strFieldName.toLowerCase();
+
+			if(this.fieldNames.contains(tmpFieldName)){
+				return true;
+			}else{
+				//table意见域校验
+				if(this.doc.hasItem(tmpFieldName)) {
+					item = this.doc.getFirstItem(tmpFieldName);
+					if(item.getText().indexOf("&lt;tr&gt;&lt;td&gt;") != -1){
+						return true;
+					}
+				}
+			}
+		}catch (NotesException e){
+			e.printStackTrace();
+		}finally{
+			item = null;
+			//mUtil.recycle(item);
+		}
+		return false;
+	}
+	
+	//在确认已经是意见域的情况下，调用此方法解析意见域，返回需要的值
+	public ArrayList parseYjField(String strFieldName){
+		
+		ArrayList result= new ArrayList();
+		Node node_yjitem = null;
+		int numOrder = 0;
+		String yjTable = "";
+		Item item = null;
+		String tmpFieldName = strFieldName.toLowerCase();
+		try{
+			
+			if(this.fieldNames.contains(tmpFieldName)){
+				numOrder = this.fieldNames.indexOf(tmpFieldName);
+				node_yjitem = this.domdoc_yj.getElementsByTagName("yjtofield").item(numOrder);
+				//对xml格式的意见进行解析&lt;yjtofield&gt;&lt;yjtab&gt;&lt;/yjtab&gt;&lt;yjtab&gt;&lt;/yjtab&gt;&lt;/yjtofield&gt;
+				result = parseXmlYjField(node_yjitem);
+			}else{
+				item = doc.getFirstItem(tmpFieldName);
+				yjTable = item.getText();
+				//对table格式的意见进行解析&lt;table&gt;&lt;/table&gt;&lt;table&gt;&lt;/table&gt;
+				result = parseTableYjField(yjTable);
+			}
+			
+		}catch (NotesException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	private ArrayList parseXmlYjField(Node node_yjitem){
+		ArrayList result = new ArrayList();
+		HashMap oneYjMap = new HashMap();
+		Element nodeyjitem = null;
+		Element nodeOneYj = null;
+		int yj_length = 0;
+		String strTable = "";
+		
+		try{
+
+			nodeyjitem = (org.w3c.dom.Element)node_yjitem;
+			yj_length = nodeyjitem.getElementsByTagName("yjtab").getLength();
+
+			//循环解析每一条意见 &lt;yjtab&gt;&lt;/yjtab&gt;
+			for(int i=0;i&lt;yj_length;i++){
+				nodeOneYj = (org.w3c.dom.Element)node_yjitem.getChildNodes().item(i);
+
+				//是会签反馈定制扩展，则为table
+				if(nodeOneYj.hasAttribute("dephqfk") &amp;&amp; nodeOneYj.hasAttribute("dephqfkcustom")){
+					strTable = nodeOneYj.getTextContent();
+					oneYjMap = parseOneTableYj(strTable);
+				}else{
+					oneYjMap = parseOneXmlYj(nodeOneYj);
+				}
+				result.add(oneYjMap);
+
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	private ArrayList parseTableYjField(String yjTable){
+		
+		ArrayList result= new ArrayList();
+		HashMap oneYjMap = new HashMap();
+		String[] strarray = null;
+		int yj_length = 0;
+		String strTable = "";
+		
+		try{
+			strarray = yjTable.split("&lt;/table&gt;"); 
+			yj_length = strarray.length;
+
+			//循环解析每一条意见&lt;table&gt;&lt;/table&gt;
+			for (int i = 0; i &lt; yj_length; i++) {	
+				strTable = strarray[i]+"&lt;/table&gt;";
+				oneYjMap = parseOneTableYj(strTable);
+				result.add(oneYjMap);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	//处理xml意见域里的具体的一条意见
+	private HashMap parseOneXmlYj(Element nodeOneYj){
+		HashMap result= new HashMap();
+		
+		String res_yj = ""; //意见
+		String res_yjtp = ""; //手写批示
+		String[] res_yjatt = null; //意见附件名称
+		String res_signpic = ""; //签字图片
+		String res_signature = ""; //落款
+		String res_user = ""; //落款
+		String res_time = ""; //处理时间
+		String res_dep = "";
+		String yjStr = "";
+		String UserNameStr = "";
+		String Version = "";
+		String timeStrOri = "";
+		String UNIDStr = "";
+
+		try{
+			//------字段取值------begin------
+
+			res_user = getSubNodeValue(nodeOneYj,"user");
+
+			res_yj = getSubNodeValue(nodeOneYj,"yj");
+			res_yj = mUtil.fnProcessYjHTML(res_yj);
+			yjStr = res_yj;
+
+			res_yjtp = getSubNodeValue(nodeOneYj,"yjtp");
+
+			NodeList nl = nodeOneYj.getElementsByTagName("yjatt");
+			if(nl!=null &amp;&amp; nl.item(0)!=null  &amp;&amp; nl.item(0).hasChildNodes()){
+				int len_ln = nl.getLength();
+				String [] arr = new String[len_ln];
+				for( int nlns=0 ; nlns&lt;len_ln ; nlns++ ){
+					arr[nlns] = nl.item(nlns).getFirstChild().getFirstChild().getNodeValue();
+				}
+				res_yjatt = arr;
+				String fileNames = Arrays.toString(res_yjatt);
+				yjStr = yjStr+"\n意见附件:"+fileNames.substring(1,fileNames.length()-1);
+			}
+
+			res_signpic = getSubNodeValue(nodeOneYj,"signpic");
+			res_signature = getSubNodeValue(nodeOneYj,"signature");
+			res_time = getSubNodeValue(nodeOneYj,"time");
+			res_dep = getSubNodeValue(nodeOneYj,"depinfo");
+
+			//------字段取值------end------
+
+			result.put("yjStr",yjStr);
+			result.put("timeStr",res_time);
+
+			final String sxpsFlag = "(vwIndiDocs_Attach)/"; //手写批示的标记
+			if(res_yjtp!=""){
+				UNIDStr = res_yjtp;
+				UNIDStr = UNIDStr.substring(UNIDStr.indexOf(sxpsFlag)+sxpsFlag.length());
+				UNIDStr = UNIDStr.substring(0,UNIDStr.indexOf("/"));
+			}
+			result.put("SXPSUnid", UNIDStr);
+			String div_yjhtml = res_signature.replaceAll("&amp;lt;","&lt;").replaceAll("&amp;gt;","&gt;");
+			org.jsoup.nodes.Document yjhtmldiv = Jsoup.parseBodyFragment(div_yjhtml);
+			org.jsoup.nodes.Element yjbody = yjhtmldiv.body();
+
+			if(res_signpic!=""){
+
+				String src = res_signpic;
+				src = src.replaceAll("&amp;amp;", "&amp;");
+				UserNameStr = mUtil.getPraString(src, "username");
+				Version = mUtil.getPraString(src, "version");
+				timeStrOri = yjbody.text().trim();
+
+			} else {
+				UserNameStr = res_user;
+				timeStrOri = yjbody.text().replace(UserNameStr,"").trim();
+
+			}
+			result.put("signDept", res_dep);
+			result.put("userStr", UserNameStr);
+			result.put("signImgVersion", Version);
+			result.put("timeStrOri",timeStrOri);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	//处理table意见域里的具体的一条意见
+	private HashMap parseOneTableYj(String yjTable){
+		
+		HashMap result= new HashMap();
+		org.jsoup.nodes.Element signyjrow = null;
+		String yjStr = "";
+		String timeStr = "";
+		String timeStrOri = "";
+		String Version = "";
+		String signdept = "";
+		String UNIDStr = "";
+		String yjfjTitle = "";
+		String UserNameStr = "";
+		org.jsoup.nodes.Document yjhtmldoc = null;
+		org.jsoup.nodes.Element yjbody = null;
+		org.jsoup.select.Elements yjrows = null;
+		org.jsoup.nodes.Element txtyjrow = null;
+		org.jsoup.nodes.Element attyjrow = null;
+		org.jsoup.nodes.Element yjfjEle = null;
+		
+		try{
+			yjhtmldoc = Jsoup.parseBodyFragment(yjTable);
+			yjbody =yjhtmldoc.body();
+
+			yjrows = yjbody.getElementsByTag("tr"); 
+			txtyjrow = yjrows.get(0);  //文本意见行
+			attyjrow = yjrows.get(1);  //手写批示及意见附件行
+			signyjrow = yjrows.get(2); // 签名及日期行 
+
+			yjStr = txtyjrow.text();
+			yjStr = mUtil.fnProcessYjHTML(yjStr);
+
+			// &lt;a onclick="makeDialog('手写批示','/devapp/tylcnew.nsf/(vwIndiDocs_Attach)/48257D77000C925348257D9D0011A4DC/$file/130615315630478700O.png'),objDialog.attr('width','690px'),objDialog.attr('height','345px')"&gt;&lt;img src="/indishare/oaresource.nsf/images/tablet-icon.png" title="点击此处查看手写批示" height="32" width="32"&gt;
+			final String sxpsFlag = "(vwIndiDocs_Attach)/"; //手写批示的标记
+			org.jsoup.select.Elements sxpsEles =attyjrow.select("a[onclick*="+sxpsFlag+"]");
+			if(sxpsEles.size()&gt;0){
+				org.jsoup.nodes.Element sxpsEle = sxpsEles.first();
+				// 手写批示附件文档UNID
+				UNIDStr = sxpsEle.attr("onclick");
+				UNIDStr = UNIDStr.substring(UNIDStr.indexOf(sxpsFlag)+sxpsFlag.length());
+				UNIDStr = UNIDStr.substring(0,UNIDStr.indexOf("/"));
+			}
+			result.put("SXPSUnid", UNIDStr);
+			
+			final String yjfjFlag = "javascript:OpenMyFile("; //意见附件的标记
+			org.jsoup.select.Elements yjfjEles =attyjrow.select("a[href*="+yjfjFlag+"]");
+			if(yjfjEles.size()&gt;0){
+				yjfjEle = yjfjEles.first();
+				//意见附件
+				yjfjTitle = yjfjEle.attr("title");
+				yjStr = yjStr+"\n意见附件:"+mUtil.fnYjfjName(yjfjTitle);
+			}
+			result.put("yjStr",yjStr);
+			
+			//&lt;img height="50px" src="/indishare/signature.nsf/agtReturnSign?openagent&amp;username=lichuang/smartdot&amp;version=1" alt="lichuang" title="lichuang" /&gt;
+			final String signFlag = "agtReturnSign?openagent"; //签名图片的标记
+			org.jsoup.select.Elements signEles =signyjrow.select("img[src*="+signFlag+"]");
+			if(signEles.size()&gt;0){
+				org.jsoup.nodes.Element signEle = signEles.first();
+				String src = signEle.attr("src");
+				src = src.replaceAll("&amp;amp;", "&amp;");
+				UserNameStr = mUtil.getPraString(src, "username");
+				Version = mUtil.getPraString(src, "version");
+				//guanjh forqc14762 当项目定制了落款样式时间，这时候下面的代码取不出来时间，直接使用默认时间
+				timeStrOri = signyjrow.text().trim();
+
+			} else {
+				
+				yjbody.select("table").first().attr("data-user");
+				org.jsoup.select.Elements ryEles =signyjrow.select("span.userName");
+				if(ryEles.size()&gt;0){
+					UserNameStr = ryEles.first().text();
+				}else{
+					UserNameStr=yjbody.select("table").first().attr("data-user");
+				}
+
+				//guanjh forqc14762 当项目定制了落款样式时间，这时候下面的代码取不出来时间，直接使用默认时间
+				timeStrOri = signyjrow.text().replace(UserNameStr, "").trim();
+
+			}
+			result.put("userStr", UserNameStr);
+			result.put("signImgVersion", Version);
+			result.put("timeStrOri",timeStrOri);
+
+			org.jsoup.select.Elements signDeptEles =signyjrow.select("span.sign-dept");
+			if(signDeptEles.size()&gt;0){
+				signdept = signDeptEles.first().text();
+			}
+			result.put("signDept",signdept);
+
+			String strSignInnerTxt = signyjrow.text(); //直接获取innerText 根据正则表达式提取日期
+			String dataPatter = "(\\d{1,4}[-|\\/]\\d{1,2}[-|\\/]\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2})"; //日期2014-11-28 18:00:28 格式
+			Pattern p = Pattern.compile(dataPatter);
+			Matcher matcher = p.matcher(strSignInnerTxt);
+			if(matcher.find()) {							
+				timeStr=matcher.group(1);
+			}
+			result.put("timeStr",timeStr);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+	
+
+	
+	//xml取属性值
+	private String getSubNodeValue(Element nodeOneYj,String strKeyName){
+		
+		String res_signpic = "";
+		try{
+			NodeList nl = nodeOneYj.getElementsByTagName(strKeyName);
+			if(nl!=null &amp;&amp; nl.item(0)!=null  &amp;&amp; nl.item(0).hasChildNodes()){
+				res_signpic = nl.item(0).getFirstChild().getNodeValue();
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return res_signpic;
+	}
+	
+	
+}
+</java><java name='mUtil.java'>import lotus.domino.Database;
+import lotus.domino.Document;
+import lotus.domino.Item;
+import lotus.domino.NotesException;
+import lotus.domino.Session;
+import lotus.domino.View;
+
+public class mUtil { 
+	/*
+	 * 获取配置的参数
+	 * @ session		session会话
+	 * @ db		当前数据库
+	 * @ strKey		查找的key
+	 */
+	public static String getConfigKey(Session session,Database db,String strKey) throws NotesException {
+		Database dbTar = null; 
+		View vw = null;
+		Document docProfile = null; 
+		Document docKey = null;
+		Item itemKey = null; 
+		String strRet = "";
+		
+		try {
+			String DBPath = db.getFilePath();
+			String App = "";
+			DBPath = DBPath.replace("\\\\", "/");
+			App = strLeft(DBPath,"/");
+			
+			//模块参数
+			docProfile = db.getProfileDocument("ManagerSet","");
+			if(null != docProfile){
+				itemKey = docProfile.getFirstItem(strKey);				
+			}
+			if(itemKey != null){
+				strRet = itemKey.getText();
+			}
+			
+			//应用参数
+			if(strRet == ""){
+				dbTar = session.getDatabase("", App + "/appconfig.nsf");
+				if(null!=dbTar &amp;&amp; dbTar.isOpen()){
+					vw = dbTar.getView("vwappconfig");
+					docKey = vw.getDocumentByKey(strKey);
+					if(docKey != null){
+						itemKey = docKey.getFirstItem("value");
+						if(itemKey != null){
+							strRet = itemKey.getText();
+						}
+					}
+				}				
+			}
+			//oaconfig,系统参数
+			if(strRet == ""){
+				dbTar = session.getDatabase("", "indishare/oaconfig.nsf");
+				if(null!=dbTar &amp;&amp; dbTar.isOpen()){
+					vw = dbTar.getView("vwconfigforcoding");
+					docKey = vw.getDocumentByKey(strKey);
+					if(docKey != null){
+						itemKey = docKey.getFirstItem("value");
+						if(itemKey != null){
+							strRet = itemKey.getText();
+						}
+					}
+				}				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			recycle(itemKey);
+			recycle(docKey);
+			recycle(vw);
+		}
+		return strRet;
+	}
+	
+	public static String strLeft(String text, String subtext) {
+        if(!hasText(text) || !hasText(subtext)) {  
+            return "";  
+        }          
+        int find = text.indexOf(subtext);  
+        return (find!=-1) ? text.substring(0, find) : "";  
+    }  
+	
+	private static boolean hasText(String text) {  
+        return (text!=null) &amp;&amp; (!"".equals(text));  
+    }
+	
+	public static void recycle(lotus.domino.Base obj) {
+		if(obj != null){
+			try {
+				obj.recycle();
+				obj = null;
+			} catch (NotesException e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static String fnProcessYjHTML(String yj){
+		String yjstr="";
+		try{
+			yjstr= yj.replaceAll("&amp;lt", "&lt;");
+			yjstr= yjstr.replaceAll("&amp;gt", "&gt;");
+			yjstr= yjstr.replaceAll("&lt;br&gt;", "\n");
+			yjstr= yjstr.replaceAll("&amp;nbsp;", " ");
+			yjstr= yjstr.replaceAll("NoAttitude_Handler", "");
+			//是否有秘书代录 yjstr（&lt;span class='userName'&gt;admin/smartdot&lt;/span&gt; 代录）
+			int index_un = yj.indexOf("&lt;span class='userName'&gt;"); 
+			int index_dl = yj.indexOf("代录");
+			if(index_un!=-1 &amp;&amp; index_dl!=-1){
+				yj = yj.replaceAll("&lt;span class='userName'&gt;", "");//yjstr（admin/smartdot&lt;/span&gt; 代录）
+				yj = yj.replaceAll("&lt;/span", "");//yjstr（admin/smartdot 代录）
+				String[] sv = yj.split("（");//[yjstr,admin/smartdot ?迹
+				String yjpart = sv[0];//yjstr
+				String namedlpart = sv[1];//admin/smartdot 代录）
+				String[] svndl = namedlpart.split("/");
+				String strname = svndl[0];
+				yjstr = yjpart+"（"+strname+" 代录）";
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return yjstr;		
+	}
+	
+	
+	public static String fnYjfjName(String yjfjname){ //意见附件名称
+		String [] arr=yjfjname.split("_");
+		if(arr.length==4){
+			return arr[3];
+		}
+		return yjfjname;	
+	}
+	
+	/*
+	 * 获取指定类Url传参参数
+	 * @ strRes		传入的字符串
+	 * @ strPra		传入的参数名称
+	 * @ strRet		返回的值
+	 */
+
+	public static String getPraString(String strRes,String strPra){
+		String strRet= "";
+		try{
+			String strTmp = "";
+			strTmp = strRes;
+			int iPosS;
+			int iPosE;
+			iPosS = strTmp.indexOf("&amp;" + strPra + "=");
+
+			if (iPosS != -1){
+				strRet = strRes.substring(iPosS+1, strRes.length());
+				iPosS = strRet.indexOf("=");
+				iPosE = strRet.indexOf("&amp;");
+				if(iPosE != -1){
+					strRet = strRet.substring(iPosS+1,iPosE);
+				}else{
+					strRet = strRet.substring(iPosS+1,strRet.length());
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return strRet;
+	}
+}
+</java><javaresource name='fj.png'>
+iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAA1xpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
+bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
+eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEz
+NDM0MiwgMjAxMC8wMS8xMC0xODowNjo0MyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo
+dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw
+dGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEu
+MC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVz
+b3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1N
+Ok9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMTgwMTE3NDA3MjA2ODExQTI1NERCMjlGRDBC
+OUUwNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2Q0I1NEFEQjVGQjIxMUUxODVBNURDN0VC
+QkVFQjFEMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2Q0I1NEFEQTVGQjIxMUUxODVBNURD
+N0VCQkVFQjFEMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1Ij4gPHhtcE1N
+OkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDMzN0RGRENFOTVFRTExMUE3
+QjdBMUI2QTY2RDFDMDciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDE4MDExNzQwNzIwNjgx
+MUEyNTREQjI5RkQwQjlFMDUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94Onht
+cG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7eWhP8AAACHUlEQVR42mJgIAjYmIBEORDvguJoBuKA
+0CwGBu4UKAdoCP9aoJgCM1a1nHKhDKz8vxhY+EwZmFikGf6+7YTK/GdgE+FkYGUVY8LQJKjGy8DG
+mgGUfMLAzlbGwMbWhGoopz4DG8d1TI1sbBUMbOw9DOzsKUB6KcOX+58ZpPQhLpPQ5QHKazN8unuF
+BUWTnKkcw/+/2kBWDxAXMvz96wEWZ2EpYpA1vgZkWTEw/50I9SyKbc1Am2qBuB7IbmF4dvEfg5qN
+BJDtCHT2TSDWYHh6YRvYLJgeVl0ns3///38HMv8w/GMQ/Xtt/yGQODMbaxtQtgbI7Pj/91/5P6h6
+uEZODs4GIJUIxFP+/v1b+hUUThZ+FkD2L5Dv/jH8v/Xl9LY7DMgaZV0iQ4AKjjAwMLIDuZ+e7V/5
+QME9lvH371+NQH7S//8Mi3///uP7BclXLLoh2Yx/fv3K/P33tzcTE5MGMzPz52dACS4uzqL/fzk2
+AZlxf///m3lr89yvyMHBxMPNZcbLx3v0ztYFP25tnneBi5Pri1lM0U5uTm4+fj7eTUA5a6Cmleix
+xsLPy6MApG/DBM4un1gDY3vkNC7+8+dvJbbExcTPx3dHRFDQAF0ioWGqixA//9s9M5ouY9W4sq3w
+LFCBTOnk5T4wwYqpq2yALinn4eauwZX0GUFE1bTVHOxsbA2srKyGjIwM/379+Xv7568ftW0ZoR9x
+aQQIMAB9OKVvr6kRCAAAAABJRU5ErkJggg==
+</javaresource><javaresource name='zw.png'>
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACEUlEQVQ4jY2SUUhTURjH//fOSS8K
+Th9KSzARJmxte8mXMPQ9lkggiSyMjSBDhLESH3wUhuRDBhk02EtPPUQQ7GWbrpIVsajsrR0rtik1
+hM1dd+/uuffzZbst2sb+8Od/OIfvO78PPgFVmQKmDQCX0J6+aEFt6Z+bG6urPmpTJr8pXqsTqulL
+p9NbjDEwxuD1erF/IGPrxR5YttCcg5AwzteXl+9ouk5c0wy7FyMtSdyLETLVCF6Hw09SqRRi0Sic
+Lhd+HCh4FWWwjfTi1kocOgH3HyaNtI30IvLmF8Rqg6d3NzfvXZ2chGd+HjoRLpzthCxxjA71oFLW
+cG18EMTJyNGhHsgSNxr4Hi8sPNqJxRAOhaDrOvYzMsqSCs4Jog58+pbHcH8XUtXknFCW1L8Et4PB
+pSsTE7jp8UAjwvlzZpyUOFRVh1kUsL2bhcvah53dLJzWPqiqjpNSHcGzQGDjbTyO5+EwNCL8zFQM
+ArMgIpHMwWG1IJHMwWm1GASGxubm/MeVCh1JkuEBR4jyeU6Hh/J/zuc5DThC1HAPpmdnkclw+Fe2
+8XnvT9M1EIS6PbBPTT0oKAr9LhZbuqAoJE6L72p1HTWCl+vrax8SCTDG4J6ZQTajNfz14nAnUGnw
+0GW3rxU5pyNZbuki5ySMC+/rCSwA+o+Vr4Pdlzs+Nh24XiV8B2ADkBMAnAHQXTdOu+IAiqeMcKSm
+UCArmQAAAABJRU5ErkJggg==
+</javaresource>
+<sharedlibraryref name='libItext'/>
+<sharedlibraryref name='libPDFResources'/>
+<sharedlibraryref name='LibPdfApi'/>
+<sharedlibraryref name='LibPdfExtCustom'/></javaproject></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170717T155038,98+08</datetime></agentmodified></rundata>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item>
+<item name='$POID'><datetime>20181024T091951,70+08</datetime></item></agent>
+

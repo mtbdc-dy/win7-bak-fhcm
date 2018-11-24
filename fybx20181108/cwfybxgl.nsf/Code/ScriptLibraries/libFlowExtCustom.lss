@@ -1,0 +1,1549 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library libFlowCustom
+	Created 2014-2-24 by admin/smartdot
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+Use "libFlowExtBase"
+Use "wsforewm"
+Use "liberp_xm"
+
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Public Class FlowCustom As FlowExtBase
+Declare Sub Initialize
+Declare Sub suhysqflowover(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+Declare Sub fnGetYcsq(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+Declare Sub fnGetHTXX(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument)
+Declare Sub subxflowover(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+Declare Sub fnGetXZYC(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+Declare Sub fnGetXZHT(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument)
+Declare Sub fnGetZXXX(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument)
+Declare Sub suGetskrxx_xm(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Dim profiledoc As NotesDocument
+Dim strHTName As String
+Dim strApp As String
+Public Class FlowCustom As FlowExtBase
+	Public Sub suFlowopenCustomExt(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument,docProfile As NotesDocument,docFlow As NotesDocument)
+		On Error GoTo errorhandle
+		'调用基类的缺省函数
+		Call FlowExtBase.. suFlowopenCustomExt (session, dbCurrent,note,docProfile ,docFlow)
+		'自定义代码
+		
+		If note.flownum(0)=0 Then
+			'如果当前的节点为起草节点，需要根据当前用户名查找用户的所有借款单。
+			Dim currname As NotesName
+			Dim strcurrname As String 
+			Dim jkdb As NotesDatabase
+			Dim jkview As NotesView
+			Dim jkdoccoll As NotesDocumentCollection
+			Dim jkdoc As NotesDocument
+			Dim newjsonobj As New Converjsonobject
+			Dim newjsonarry As New Converjsonarray
+			Dim appPath As String 
+			appPath=StrLeftBack(note.dbPath(0),"/")
+			Set jkdb=session.Getdatabase("",appPath+"/cwjiekgl.nsf")
+		    strcurrname=session.Effectiveusername
+		    Dim m As Integer
+		    m=0
+		    Dim strxh As String 
+		    Dim strjkrq As String 
+		    Dim strjkdbh As String 
+		    Dim strjkyt As String 
+		    Dim strsqje As String
+			Dim strnewdata As String 
+			Dim strjkunid As String 
+			Dim strurl As String 
+			Dim strhkpzunid As String 
+		    If jkdb.Isopen Then
+		    	Set jkview=jkdb.Getview("vwDocByAllforhkpzbyUname")
+		    	Set jkdoccoll=jkview.Getalldocumentsbykey(strcurrname)
+		    	Set jkdoc=jkdoccoll.Getfirstdocument()
+		    	While Not jkdoc Is Nothing 
+		    		'获取信息
+			    	Dim newjsonobjarry As new Converjsonobject
+		    		strjkunid=jkdoc.fldMainDocUnid(0)
+			    	strhkpzunid=jkdoc.Universalid
+			    	strurl="/"+jkdoc.dbPath(0)+"/vwDocByAllforhkpz/"+strhkpzunid+"?openDocument"
+			    	strxh=CStr(m)
+			    	m=m+1
+			    	strjkrq=jkdoc.fldjkrq_xm(0)
+			    	strjkdbh=jkdoc.fldFwbh(0)
+			    	strjkyt=jkdoc.fldjiekyt_xm(0)
+			    	strsqje=cstr(Format(cdbl(jkdoc.fldsqje_xm(0)),"Fixed"))
+			    	
+			    	'添加信息到动态表格中去
+			    	Call newjsonobjarry.Additem("xh", strxh)
+			    	Call newjsonobjarry.Additem("jkrq", strjkrq)
+			    	Call newjsonobjarry.Additem("jkdbh", strjkdbh)
+			    	Call newjsonobjarry.Additem("jkyt", strjkyt)
+			    	Call newjsonobjarry.Additem("sqje", strsqje)
+			    	Call newjsonobjarry.Additem("ljurl", strurl)
+			    	Call newjsonobjarry.Additem("jkunid", strjkunid)
+			    	Call newjsonobjarry.Additem("hkpzunid", strhkpzunid)
+			    	Call newjsonarry.Additem(newjsonobjarry)		        
+		    		Set jkdoc=jkdoccoll.Getnextdocument(jkdoc)
+		    	Wend
+			    Call newjsonobj.Additem("items", newjsonarry)
+			    strnewdata=newjsonobj.Tojson()
+			    Dim item As NotesItem
+			    Dim richitem As NotesRichTextItem
+			    If note.Hasitem("hfldData_jk") Then
+			    	Set item=note.Getfirstitem("hfldData_jk")
+			    	Call item.Remove()
+		    	End If
+			    Set richitem=note.Createrichtextitem("hfldData_jk")
+			    Call richitem.Appendtext(strnewdata)
+			    'Call note.Replaceitemvalue("hfldData_jk", strnewdata)
+		    End If
+			'通过是否驾驶员报销和是否有用车库来获取用车申请文档
+			Call fnGetYcsq(session,dbCurrent,note)
+			REM 2018-10-26 add by zhoujb 用于流程起草环节关联预付款申请单 		
+			Dim yfkdb As NotesDatabase
+			Dim yfkview As NotesView
+			Dim yfkdoccoll As NotesDocumentCollection
+			Dim yfkdoc As NotesDocument
+			Dim newjsonobjyfk As New Converjsonobject
+			Dim newjsonarryyfk As New Converjsonarray
+			Dim strDepid As String
+			strDepid = note.fldNiGaoDW_id(0)
+			Dim stryfkxh As String 
+			Dim stryfksqrq As String 
+			Dim stryfkdbh As String 
+			Dim stryfkyt As String 
+			Dim stryfksqje As String
+			Dim strnewdatayfk As String 
+			Dim stryfkkunid As String 
+			Dim strurlyfk As String 
+			Dim stryfkkpzunid As String
+			appPath=StrLeftBack(note.dbPath(0),"/")			
+			Set yfkdb=session.Getdatabase("",appPath+"/fylyfsq.nsf")
+			Dim i As Integer
+			i=0
+			If yfkdb.Isopen Then
+			    Set yfkview=yfkdb.Getview("vwDocByAllforyfkdwbyDep_xm")
+			    Set yfkdoccoll=yfkview.Getalldocumentsbykey(strDepid)
+			    
+			    'MsgBox yfkdoccoll.Count
+			    Set yfkdoc=yfkdoccoll.Getfirstdocument()
+			    While Not yfkdoc Is Nothing
+				    Dim newjsonobjarryyfk As New Converjsonobject		    
+				    stryfkkunid=yfkdoc.fldMainDocUnid(0)
+				    stryfkkpzunid=yfkdoc.Universalid
+				    strurlyfk="/"+yfkdoc.dbPath(0)+"/vwDocByAllforhkpz/"+stryfkkpzunid+"?openDocument"
+				    stryfkxh=CStr(i)
+				    i=i+1
+				    stryfksqrq=yfkdoc.fldjkrq_xm(0)
+				    stryfkdbh=yfkdoc.fldFwbh(0)
+				    stryfkyt=yfkdoc.fldjiekyt_xm(0)
+				    stryfksqje=CStr(Format(CDbl(yfkdoc.fldjkje_xm(0)),"Fixed"))
+				    %REM 
+				     MsgBox "MainDocUnid=="+stryfkkunid
+				     MsgBox "unid=="+stryfkkpzunid
+				     MsgBox "strurl=="+strurlyfk
+				     MsgBox "申请日期=="+stryfksqrq
+				     MsgBox "预付款编号=="+stryfkdbh
+				     MsgBox "用处=="+stryfkyt
+				     MsgBox "付款金额=="+stryfksqje
+				     %end rem 
+				    '添加信息到动态表格中去
+				    Call newjsonobjarryyfk.Additem("xh", stryfkxh)
+				    Call newjsonobjarryyfk.Additem("yfkrq", stryfksqrq)
+				    Call newjsonobjarryyfk.Additem("yfkdbh", stryfkdbh)
+				    Call newjsonobjarryyfk.Additem("jkyc", stryfkyt)
+				    Call newjsonobjarryyfk.Additem("sqje", stryfksqje)
+				    Call newjsonobjarryyfk.Additem("ljurl", strurlyfk)
+				    Call newjsonobjarryyfk.Additem("jkunid", stryfkkunid)
+				    Call newjsonobjarryyfk.Additem("hkpzunid", stryfkkpzunid)
+				    Call newjsonarryyfk.Additem(newjsonobjarryyfk)
+				    
+				    Set yfkdoc=yfkdoccoll.Getnextdocument(yfkdoc)
+			    Wend
+			    Call newjsonobjyfk.Additem("items", newjsonarryyfk)
+			    strnewdatayfk=newjsonobjyfk.Tojson()
+			    Dim item1 As NotesItem
+			    Dim richitem1 As NotesRichTextItem
+			    If note.Hasitem("hfldData_yfk") Then
+				    Set item1=note.Getfirstitem("hfldData_yfk")
+				    Call item1.Remove()
+			    End If
+			    Set richitem1=note.Createrichtextitem("hfldData_yfk")
+			    Call richitem1.Appendtext(strnewdatayfk)
+		    End If 
+			
+		End If
+		Call suGetskrxx_xm(session,dbCurrent,note)
+		%REM
+					'办公费报销关联合同付款项目
+		Dim docPro As NotesDocument
+		Dim strHTFWName As string
+		Set docPro = dbCurrent.Getprofiledocument("ManagerSet")
+		strHTFWName = docPro.fldContractFWQ(0)
+		'MsgBox "strHTFWName=" + CStr(strHTFWName)
+		If strHTFWName <> "" Then
+			If note.subform(0) = "sfrmBanGongfeebx" Or note.subform(0) = "sfrmBanGongypfeebx" Or note.subform(0) = "sfrmYouDianfeebx"  Or note.subform(0) = "sfrmXiuLifeebx"  Or note.subform(0) = "sfrmQiTafeebx"  Then
+				If note.flownum(0)=0 Then		
+					Call fnGetZXXX(session,dbCurrent,note)	'从执行信息表中获取记录				
+				End If
+			End If
+		End If
+		%END REM
+
+		
+		Exit Sub
+errorhandle:
+		'showerror("suFlowopenCustomExt")
+		MsgBox "suFlowopenCustomExt has error: " + CStr(Error()) + " at line: " + CStr(Erl())
+	End Sub
+	Public Sub suFlowFirstSubmitCustomExt(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument,docFlow As NotesDocument,nmCurUser As NotesName)
+		On Error GoTo errorhandle
+		'调用基类的缺省函数
+		Call FlowExtBase.. suFlowFirstSubmitCustomExt (session, dbCurrent,note,docFlow,nmCurUser)
+		'自定义代码
+		Dim strewm As String 
+		Dim strurlewm As String 
+		Dim aParam As Variant
+		Dim clapp As New ClApp(note.appname(0),aParam)
+		Dim strurlnew As String 
+		strurlnew=clapp.Apphost+"/"+note.dbPath(0)+"/0/"+note.fldunid(0)+"?opendocument"
+		Dim ewm As New Qrcodews_n0
+		Dim xsdstr As New  Xsd_string
+		xsdstr.Setvaluefromstring(strurlnew)
+		Dim xsdewm As New Xsd_string
+		Set  xsdewm=ewm.Getqrcode(xsdstr)
+		strewm=xsdewm.Getvalueasstring()
+		Dim ewmpath As String 
+        ewmpath="http://runqian.ppm.cn/qrcode/"+strewm
+		note.fldewmpath_xm=ewmpath
+		
+		MsgBox "==========note.subform(0)==========="+note.subform(0)
+		If LCase(note.subform(0)) = "sfrmnewzhaodaifeebx" Then
+			If note.flownum(0)=0 And  CStr(note.fldIsAssJD(0))="1" Then
+				'MsgBox "==="+note.flownum(0)
+				Dim strJdPath As String
+				Dim strJdunid As String
+				
+				'strJdPath = Replace(dbCurrent.Filepath,"\","/")
+				'strJdPath = Replace(strJdPath,"gfcwgl/cwfybxgl","jdgl_gf")
+				strJdPath= StrLeftBack(dbCurrent.Filepath,"/")
+				strJdPath= StrLeftBack(strJdPath,"/")
+				strJdPath =strJdPath+"/jdgl_gf.nsf"
+				
+				'MsgBox "===strJdPath:"+strJdPath
+				strJdunid = note.fldJdunid(0)
+				'MsgBox "===strJdunid:"+strJdunid
+				Dim dbJd As NotesDatabase
+				Dim docJd As NotesDocument
+				Set dbJd = session.Getdatabase(dbCurrent.Server, strJdPath)
+				If dbJd.Isopen Then
+					Set docJd = dbJd.getdocumentbyunid(strJdunid)
+					If Not docJd Is Nothing Then						
+						docJd.fldSFGL="4"
+						Call docJd.save(True,False)
+					End If
+					
+				End If
+			End If
+		End If
+		Exit Sub
+		
+errorhandle:
+		showerror("suFlowFirstSubmitCustomExt")
+
+	End Sub
+	Public Sub suOnTrashExitCustomExt(docMain As NotesDocument,nmCurUser As NotesName,aParam List As Variant)
+	%REM
+    作废退出前调用的扩展函数---- agtweb2trash
+     
+    参数说明：
+    docMain     当前文档
+    nmCurUser   当前用户
+	%END REM
+		On Error GoTo errorhandle
+		Dim session As New NotesSession
+		Dim dbCurrent As NotesDatabase
+		Set dbCurrent=session.Currentdatabase
+		If LCase(docMain.subform(0)) = "sfrmnewzhaodaifeebx" Then
+			'MsgBox "==="+note.flownum(0)
+			Dim strJdPath As String
+			Dim strJdunid As String
+			
+			'strJdPath = Replace(dbCurrent.Filepath,"\","/")
+			'strJdPath = Replace(strJdPath,"gfcwgl/cwfybxgl","jdgl_gf")
+			
+			strJdPath= StrLeftBack(dbCurrent.Filepath,"/")
+			strJdPath= StrLeftBack(strJdPath,"/")
+			strJdPath =strJdPath+"/jdgl_gf.nsf"
+			
+			'MsgBox "===strJdPath:"+strJdPath
+			strJdunid = docMain.fldJdunid(0)
+			'MsgBox "===strJdunid:"+strJdunid
+			Dim dbJd As NotesDatabase
+			Dim docJd As NotesDocument
+			Set dbJd = session.Getdatabase(dbCurrent.Server, strJdPath)
+			If dbJd.Isopen Then
+				Set docJd = dbJd.getdocumentbyunid(strJdunid)
+				If Not docJd Is Nothing Then						
+					docJd.fldSFGL="0"
+					Call docJd.save(True,False)
+				End If
+				
+			End If
+		End If
+	
+	
+	Exit Sub
+    errorhandle:
+	showerror("suOnTrashExitCustomExt")
+    End Sub
+	Public Sub suFlowDealCustomExt(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument,docFlow As NotesDocument,nmCurUser As NotesName)
+		On Error GoTo errorhandle
+		'调用基类的缺省函数
+		Call FlowExtBase.. suFlowDealCustomExt (session, dbCurrent,note,docFlow,nmCurUser)
+		'自定义代码
+		Dim strqcr As NotesName
+		Dim strje As String
+		Set strqcr = New NotesName(note.fldNiGaoRen(0))
+		MsgBox(CDbl(note.fldBaoxiaoje_xm(0)))
+		strje = CStr(Format(CDbl(note.fldBaoxiaoje_xm(0)),"fixed"))
+		
+		note.fldSubject =  CStr(strqcr.Common)+"的"+CStr(note.fldbaoxxm_xm(0))+"报销申请(报销金额："+CStr(strje) +")"
+		
+		'判断当前节点是否有“财务初审扩展域”
+		If note.fldbaoxxm_xm(0)<>"会议费" Then
+		If note.fldCwChuShen(0)="yes" Then'如果有“财务初审扩展域的话，重新赋一个标示位”
+			note.fldCwChuShenFlag="1"
+		End If
+		End if
+		MsgBox "note.flowNum_beforSubmit(0)="+note.flowNum_beforSubmit(0)
+		If note.flowNum_beforSubmit(0)=0 then
+		Dim itemnew As NotesItem
+		Dim jsonReader As New Jsonreader
+		Dim jsonobj As New Converjsonobject
+		Dim strdatajk As String 
+		Dim vresult As Variant
+		strdatajk=note.Getfirstitem("hfldData_jk").Text
+		strdatajk=Replace(strdatajk,Chr(10),"")
+		strdatajk=Replace(strdatajk,Chr(13),"")
+		Set jsonobj=jsonReader.Parse(strdatajk)
+		vresult=jsonobj.Items 
+		Dim jsonobjnew As New Converjsonobject
+		
+		Dim jsonarry As New Converjsonarray
+	    Dim itemrich As NotesRichTextItem
+	
+	    Dim item As NotesItem
+
+	    If note.Hasitem("hfldData_jkxz") Then
+	    	Set item=note.Getfirstitem("hfldData_jkxz")
+	    	Call item.Remove()
+	    End If
+			Set itemrich=note.Createrichtextitem("hfldData_jkxz")
+		If note.fldxzid_xm(0)<>""then
+		ForAll i In note.fldxzid_xm
+			'对选中的关联借款文档重新放到新的datajson中
+			Dim jsonarryobj As New Converjsonobject
+			Call jsonarryobj.Additem("xh", vresult("items").items(CInt(i)).items("xh"))
+			Call jsonarryobj.Additem("jkrq", vresult("items").items(CInt(i)).items("jkrq"))
+			Call jsonarryobj.Additem("jkdbh", vresult("items").items(CInt(i)).items("jkdbh"))
+			Call jsonarryobj.Additem("jkyt", vresult("items").items(CInt(i)).items("jkyt"))
+			Call jsonarryobj.Additem("sqje", vresult("items").items(CInt(i)).items("sqje"))
+			Call jsonarryobj.additem("jkunid",vresult("items").items(CInt(i)).items("jkunid"))
+			Call jsonarryobj.additem("ljurl",vresult("items").items(CInt(i)).items("ljurl"))
+			Call jsonarryobj.additem("hkpzunid",vresult("items").items(CInt(i)).items("hkpzunid"))
+			Call jsonarry.Additem(jsonarryobj)
+		End ForAll
+	    End If
+		Call jsonobjnew.Additem("items", jsonarry)
+		Dim newstrdata As String 
+			
+		newstrdata=jsonobjnew.Tojson()
+			MsgBox "newstrdata==" +newstrdata
+			'Call note.Replaceitemvalue("hfldData_jkxz", newstrdata)
+		Call itemrich.Appendtext(newstrdata)
+			'用车关联
+			'Call fnGetXZYC(session,dbCurrent,note)
+			'2018-10-30 add by zhoujb 加入关联的预付款报销流程提交时的重置
+			Dim itemnew1 As NotesItem
+			Dim jsonReader1 As New Jsonreader
+			Dim jsonobj1 As New Converjsonobject
+			Dim strdatajk1 As String 
+			Dim vresult1 As Variant
+			Dim fldxzidforyfk_xm As String
+			Dim varxzid As Variant
+			If note.Hasitem("hfldData_yfkxz") Then
+		    strdatajk1=note.Getfirstitem("hfldData_yfk").Text
+		    strdatajk1=Replace(strdatajk1,Chr(10),"")
+		    strdatajk1=Replace(strdatajk1,Chr(13),"")
+		    
+		    Set jsonobj1=jsonReader1.Parse(strdatajk1)
+		    vresult1=jsonobj1.Items 
+		    Dim jsonobjnew1 As New Converjsonobject
+		    Dim jsonarry1 As New Converjsonarray
+		    Dim itemrich1 As NotesRichTextItem
+		    Dim item1 As NotesItem
+		    If note.Hasitem("hfldData_yfkxz") Then
+			    Set item1=note.Getfirstitem("hfldData_yfkxz")
+			    Call item1.Remove()
+		    End If
+		    Set itemrich1=note.Createrichtextitem("hfldData_yfkxz")
+		    If note.fldxzidforyfk_xm(0)<>""Then
+			    fldxzidforyfk_xm = Replace(note.fldxzidforyfk_xm(0),"yfk_","")
+			    MsgBox fldxzidforyfk_xm
+			    varxzid = Split(fldxzidforyfk_xm,"*")
+			    ForAll m In varxzid
+				    '对选中的关联借款文档重新放到新的datajson中
+				    Dim jsonarryobj1 As New Converjsonobject
+				    
+				    MsgBox "xuhao="+vresult1("items").items(CInt(m)).items("xh")
+				    MsgBox "yfkrq="+vresult1("items").items(CInt(m)).items("yfkrq")
+				    MsgBox "yfkdbh="+vresult1("items").items(CInt(m)).items("yfkdbh")
+				    MsgBox "jkyc="+vresult1("items").items(CInt(m)).items("jkyc")
+				    MsgBox "sqje="+vresult1("items").items(CInt(m)).items("sqje")
+				    MsgBox "jkunid="+vresult1("items").items(CInt(m)).items("jkunid")
+				    MsgBox "ljurl="+vresult1("items").items(CInt(m)).items("ljurl")
+				    MsgBox "hkpzunid="+vresult1("items").items(CInt(m)).items("hkpzunid")
+				    Call jsonarryobj1.Additem("xh", vresult1("items").items(CInt(m)).items("xh"))
+				    Call jsonarryobj1.Additem("yfkrq", vresult1("items").items(CInt(m)).items("yfkrq"))
+				    Call jsonarryobj1.Additem("yfkdbh", vresult1("items").items(CInt(m)).items("yfkdbh"))
+				    Call jsonarryobj1.Additem("jkyc", vresult1("items").items(CInt(m)).items("jkyc"))
+				    Call jsonarryobj1.Additem("sqje", vresult1("items").items(CInt(m)).items("sqje"))
+				    Call jsonarryobj1.additem("jkunid",vresult1("items").items(CInt(m)).items("jkunid"))
+				    Call jsonarryobj1.additem("ljurl",vresult1("items").items(CInt(m)).items("ljurl"))
+				    Call jsonarryobj1.additem("hkpzunid",vresult1("items").items(CInt(m)).items("hkpzunid"))
+				    Call jsonarry1.Additem(jsonarryobj1)
+			    End ForAll
+		    End If
+		    Call jsonobjnew1.Additem("items", jsonarry1)
+		    Dim newstrdata1 As String 
+		    newstrdata1=jsonobjnew1.Tojson()
+		    MsgBox "newstrdata1=="+newstrdata1
+		    'Call note.Replaceitemvalue("hfldData_jkxz", newstrdata)
+		    Call itemrich1.Appendtext(newstrdata1)
+			End If
+				
+				'用车关联
+				Call fnGetXZYC(session,dbCurrent,note)
+		End If
+		
+		
+
+
+		
+		
+		'办公费报销流程提交后将选择的合同付款项目放到域hfldData_htqkxz中
+		Dim docPro As NotesDocument
+		Dim strHTFWName As String
+		Set docPro = dbCurrent.Getprofiledocument("ManagerSet")
+		strHTFWName = docPro.fldContractFWQ(0)
+		If strHTFWName <> "" Then
+			If note.subform(0) = "sfrmBanGongfeebx" Or note.subform(0) = "sfrmBanGongypfeebx" Or note.subform(0) = "sfrmYouDianfeebx"  Or note.subform(0) = "sfrmXiuLifeebx"  Or note.subform(0) = "sfrmQiTafeebx" Or note.subform(0) = "sfrmQiTafeebxformjzj" Then
+				Call fnGetXZHT(session,dbCurrent,note)
+			End If
+		End If
+		If LCase(note.subform(0)) = "sfrmnewzhaodaifeebx" Then
+			If note.flownum(0)=0 And  CStr(note.fldIsAssJD(0))="1"  Then
+				
+				Dim strJdPath As String
+				Dim strJdunid As String
+				
+				'strJdPath = Replace(dbCurrent.Filepath,"\","/")
+				'strJdPath = Replace(strJdPath,"gfcwgl/cwfybxgl","jdgl_gf")
+				
+				strJdPath= StrLeftBack(dbCurrent.Filepath,"/")
+				strJdPath= StrLeftBack(strJdPath,"/")
+				strJdPath =strJdPath+"/jdgl_gf.nsf"
+				
+				strJdunid = note.fldJdunid(0)
+				
+				'MsgBox "===fldJiedtime:"+note.fldJiedtime(0)
+				Dim dbJd As NotesDatabase
+				Dim docJd As NotesDocument
+				Set dbJd = session.Getdatabase(dbCurrent.Server, strJdPath)
+				If dbJd.Isopen Then
+					Set docJd = dbJd.getdocumentbyunid(strJdunid)
+					If Not docJd Is Nothing Then						
+						docJd.fldSFGL="4"
+						Call docJd.save(True,False)
+					End If
+					
+				End If
+			End If
+		End If	
+		
+		Exit Sub
+errorhandle:
+		showerror("suFlowDealCustomExt")
+
+	End Sub
+	Public Sub suFlowoverCustomExt(session As NotesSession,dbCurrent As NotesDatabase,docMain As NotesDocument,docProfile As NotesDocument,docFlow As NotesDocument,nmCurUser As NotesName,strStat As String)           
+		On Error GoTo errorhandle           
+		'调用基类的缺省函数      
+		Call FlowExtBase.. suFlowoverCustomExt (session, dbCurrent,docMain,docProfile,docFlow,nmCurUser,strStat)        
+		If docMain.fldbaoxxm_xm(0)="会议费" Then
+			'如果是会议费报销需要先去查找会议费申请单，查找冻结文档，查找预算考核和预算项目，进行修改。
+			Call suhysqflowover(session,dbCurrent,docMain)
+		Else
+			Call subxflowover(session,dbCurrent,docMain)
+		End If
+		Dim docPro As NotesDocument
+		Dim strHTFWName As String
+		Set docPro = dbCurrent.Getprofiledocument("ManagerSet")
+		strHTFWName = docPro.fldContractFWQ(0)
+		If strHTFWName <> "" Then
+			If docMain.subform(0) = "sfrmBanGongfeebx" Or docMain.subform(0) = "sfrmBanGongypfeebx" Or docMain.subform(0) = "sfrmYouDianfeebx"  Or docMain.subform(0) = "sfrmXiuLifeebx"  Or docMain.subform(0) = "sfrmQiTafeebx" Or docMain.subform(0) = "sfrmQiTafeebxformjzj"  Then
+				If docMain.fldShifht(0) = "是" Then
+					Dim Agent2 As NotesAgent
+
+					Set Agent2 = dbCurrent.GetAgent("agtgengxinht_xm")
+					Call Agent2.RunOnServer(docMain.Noteid)
+				End If
+			End If
+		End If
+			'发送凭证
+		Call sendProcessERP_xm(docMain,dbCurrent)	
+		Exit Sub
+errorhandle:       
+		showerror("suFlowoverCustomExt")   
+	End Sub
+	Public Sub suOnFlowSubmitExitCustomExt(docMain As NotesDocument,nmCurUser As NotesName,aParam List As Variant)
+		%REM
+	流转提交退出前调用的扩展函数---- agtCreattToDo
+	参数说明：
+	docMain		当前文档
+	nmCurUser	当前用户
+		%END REM
+		On Error GoTo errorhandle
+		Dim mjzjbx As String 
+		Dim session As New NotesSession
+		Dim dbCurrent As NotesDatabase
+		Set dbCurrent=session.Currentdatabase
+		mjzjbx="否"
+		If docMain.subform(0)="sfrmQiTafeebxformjzj" Then
+			mjzjbx=docMain.fldShifmjzj_xm(0)
+		End If
+		'是否有预算库
+		Dim sfysk As String 
+		sfysk=docMain.fldifhaveysk_xm(0)
+		Dim sfglys As String
+		sfglys=docMain.fldifglys_xm(0)
+		MsgBox "sfysk=" + CStr(sfysk)
+		MsgBox "sfglys=" + CStr(sfglys)
+		If sfysk="是" And sfglys<>"否" Then
+			MsgBox "docMain.fldbaoxxm_xm(0)=" + CStr(docMain.fldbaoxxm_xm(0)) 
+			MsgBox "docMain.fldisyjdbx_xm(0)=" + CStr(docMain.fldisyjdbx_xm(0)) 
+			MsgBox "mjzjbx=" + CStr(mjzjbx)
+		If docMain.fldbaoxxm_xm(0)<>"会议费" And docMain.fldisyjdbx_xm(0)<>"1" And mjzjbx<>"是" then
+			MsgBox "docMain.fldCwChuShenFlag(0)=" +  CStr(docMain.fldCwChuShenFlag(0))
+		If docMain.fldCwChuShenFlag(0)="1" Then
+		MsgBox "00000"
+			Dim agent As  NotesAgent
+			Set agent=dbCurrent.Getagent("agtCreatDjDoc")
+			Call agent.RunOnServer(docMain.Noteid)
+			docMain.fldCwChuShenFlag="0"
+		End If
+		End If
+		End If
+		
+		If CStr(docMain.fldLastFlownum(0))="0" Then
+			If docMain.fldbaoxxm_xm(0)="会议费" Then
+				'首次提交需要将选择的会议费申请赋值，其他人不能再选择
+				Dim agent1 As NotesAgent
+				Set agent1 = dbCurrent.Getagent("agtFlagSubmitedHyys_xm")
+				Call agent1.RunOnServer(docMain.Noteid)
+			End If
+		End If
+		
+		'文档提交后往还款凭证和借款单（预付款）文档增加下一环节处理人读者域，让用户有权限查看
+		Dim agent2 As NotesAgent
+		Set agent2 = dbCurrent.Getagent("agtZhuiJiaReaders_xm")
+		Call agent2.RunOnServer(docMain.Noteid)
+		
+		Set agent2 = dbCurrent.Getagent("agtZhuiJiaReaders_jd_xm")
+		Call agent2.RunOnServer(docMain.Noteid)
+		
+		'文档提交后往合同执行信息文档和合同文档增加下一环节处理人读者域，让用户有权限查看
+		Dim docPro As NotesDocument
+		Dim strHTFWName As String
+		Dim agent3 As NotesAgent
+		Set docPro = dbCurrent.Getprofiledocument("ManagerSet")
+		strHTFWName = docPro.fldContractFWQ(0)
+		If strHTFWName <> "" Then
+			If CStr(docMain.fldShifht(0)) = "是" Then		
+				Set agent3 = dbCurrent.Getagent("agtZhuiJiaReadersForHT_xm")
+				Call agent3.RunOnServer(docMain.Noteid)
+			End If
+		End If
+		
+		Exit Sub
+errorhandle:
+		showerror("suOnFlowSubmitExitCustomExt")
+
+	End Sub
+	Public Sub suOnMgrCheZhuanExitCustomExt(docMain As NotesDocument,nmCurUser As NotesName,aParam List As Variant)
+		%REM
+	管理员撤转退出前调用的扩展函数---- agSaveSelBranch（到起草或流程结束）、agtFlowDeal
+	参数说明：
+	docMain		当前文档
+	nmCurUser	当前用户
+		%END REM
+		On Error GoTo errorhandle
+		'如果管理员撤转到起草节点或者财务初审节点需要删除冻结文档，并将可用预算加回。
+		Dim session As New NotesSession
+		Dim dbCurrent As NotesDatabase
+		Set dbCurrent=session.Currentdatabase
+		Dim mjzjbx As String 
+		mjzjbx="否"
+		If docMain.subform(0)="sfrmQiTafeebxformjzj" Then
+			mjzjbx=docMain.fldShifmjzj_xm(0)
+		End If
+		'是否有预算库
+		Dim sfysk As String 
+		sfysk=docMain.fldifhaveysk_xm(0)
+		Dim sfglys As String
+		sfglys=docMain.fldifglys_xm(0)
+		If sfysk="是" And sfglys<>"否" Then
+		If docMain.fldbaoxxm_xm(0)<>"会议费" And docMain.fldisyjdbx_xm(0)<>"1" And mjzjbx<>"是" then
+			If  docMain.fldCwChuShen(0)="yes" Or docMain.flownum(0)=0 Or docMain.fldDelDongJie(0)="yes" Then
+			Dim agent As  NotesAgent
+			Set agent=dbCurrent.Getagent("agtDeleteDjwd")
+			Call agent.RunOnServer(docMain.Noteid)
+		End If
+		End If
+		End if
+		If docMain.fldbaoxxm_xm(0)="会议费" Then
+			If docMain.flownum(0)=0 Then
+				'首次提交需要将选择的会议费申请赋值，其他人不能再选择
+				Dim appPath As String 
+				Dim dbhysq As NotesDatabase 
+				Dim dochysq As NotesDocument
+				Dim strhysqunid As String 
+				Dim viewhysq As NotesView
+				appPath=StrLeftBack(docMain.dbPath(0),"/")
+				strhysqunid=docMain.fldhysqunid(0)
+				Set dbhysq=session.Getdatabase("", appPath+"/cwhyfysqgl.nsf")
+				Set viewhysq=dbhysq.Getview("vwDocPublishedByHyUnid")
+				Set dochysq=viewhysq.Getdocumentbykey(strhysqunid)
+				If Not dochysq Is Nothing Then
+					dochysq.fldBaoxjs="0" '将会议费用申请设置为未报销结束
+					Call dochysq.save(True,False)
+				End If
+			End If
+		End If
+		If LCase(docMain.subform(0)) = "sfrmnewzhaodaifeebx" Then
+			If docMain.flownum(0)=0  And CStr(docMain.fldIsAssJD(0))="1" Then
+
+				Dim strJdPath As String
+				Dim strJdunid As String
+				
+				'strJdPath = Replace(dbCurrent.Filepath,"\","/")
+				'strJdPath = Replace(strJdPath,"gfcwgl/cwfybxgl","jdgl_gf")
+				strJdPath= StrLeftBack(dbCurrent.Filepath,"/")
+				strJdPath= StrLeftBack(strJdPath,"/")
+				strJdPath =strJdPath+"/jdgl_gf.nsf"
+				
+				strJdunid = docMain.fldJdunid(0)
+				Dim dbJd As NotesDatabase
+				Dim docJd As NotesDocument
+				Set dbJd = session.Getdatabase(dbCurrent.Server, strJdPath)
+				If dbJd.Isopen Then
+					Set docJd = dbJd.getdocumentbyunid(strJdunid)
+					If Not docJd Is Nothing Then
+						Dim nmJdr As New NotesName(docJd.fldJdr_xm(0))
+						docJd.fldSFGL="0"
+						Call docJd.save(True,False)
+					End If
+					
+				End If
+			End If
+		End If
+		Exit Sub
+errorhandle:
+		showerror("suOnMgrCheZhuanExitCustomExt")
+	End Sub
+	Public Sub suOnUndoExitCustomExt(docMain As NotesDocument,nmCurUser As NotesName,aParam List As Variant)
+		%REM
+	撤回退出前调用的扩展函数---- agtUnDo
+	参数说明：
+	docMain		当前文档
+	nmCurUser	当前用户
+		%END REM
+		On Error GoTo errorhandle
+		'如果撤回到起草节点或者财务初审节点需要删除冻结文档，并将可用预算加回。
+		Dim session As New NotesSession
+		Dim dbCurrent As NotesDatabase
+		Set dbCurrent=session.Currentdatabase
+		Dim mjzjbx As String 
+		mjzjbx="否"
+		If docMain.subform(0)="sfrmQiTafeebxformjzj" Then
+			mjzjbx=docMain.fldShifmjzj_xm(0)
+		End If
+		'是否有预算库
+		Dim sfysk As String 
+		sfysk=docMain.fldifhaveysk_xm(0)
+		Dim sfglys As String
+		sfglys=docMain.fldifglys_xm(0)
+		If sfysk="是" And sfglys<>"否" Then
+		If docMain.fldbaoxxm_xm(0)<>"会议费" And docMain.fldisyjdbx_xm(0)<>"1" And mjzjbx<>"是" then
+			If  docMain.fldCwChuShen(0)="yes" Or docMain.flownum(0)=0 Or docMain.fldDelDongJie(0)="yes" Then
+			Dim agent As  NotesAgent
+			Set agent=dbCurrent.Getagent("agtDeleteDjwd")
+			Call agent.RunOnServer(docMain.Noteid)
+		End If
+		End If
+		End if
+		If CStr(docMain.flownum(0))="0" Then
+			If docMain.fldbaoxxm_xm(0)="会议费" Then
+				'首次提交需要将选择的会议费申请赋值，其他人不能再选择
+				Dim agent1 As NotesAgent
+				Set agent1 = dbCurrent.Getagent("agtFlagSubmitedHyys_xm")
+				Call agent1.RunOnServer(docMain.Noteid)
+			End If
+		End If
+		
+		If LCase(docMain.subform(0)) = "sfrmnewzhaodaifeebx" Then
+			If docMain.flownum(0)=0 And CStr(docMain.fldIsAssJD(0))="1" Then
+
+				Dim strJdPath As String
+				Dim strJdunid As String
+				
+				'strJdPath = Replace(dbCurrent.Filepath,"\","/")
+				'strJdPath = Replace(strJdPath,"gfcwgl/cwfybxgl","jdgl_gf")
+				strJdPath= StrLeftBack(dbCurrent.Filepath,"/")
+				strJdPath= StrLeftBack(strJdPath,"/")
+				strJdPath =strJdPath+"/jdgl_gf.nsf"
+				strJdunid = docMain.fldJdunid(0)
+				Dim dbJd As NotesDatabase
+				Dim docJd As NotesDocument
+				Set dbJd = session.Getdatabase(dbCurrent.Server, strJdPath)
+				If dbJd.Isopen Then
+					Set docJd = dbJd.getdocumentbyunid(strJdunid)
+					If Not docJd Is Nothing Then
+						MsgBox "chehuidocJB OK"
+						docJd.fldSFGL="0"
+						Call docJd.save(True,False)
+					End If
+					
+				End If
+			End If
+		End If
+		Exit Sub
+errorhandle:
+		showerror("suOnUndoExitCustomExt")
+	End Sub
+	Public Sub suOnFlowDenyExitCustomExt(docMain As NotesDocument,nmCurUser As NotesName,aParam List As Variant)
+		%REM
+	流程处理人驳回退出前调用的扩展函数---- agtFlowDeny
+	参数说明：
+	docMain		当前文档
+	nmCurUser	当前用户
+		%END REM
+		On Error GoTo errorhandle
+		'如果驳回到起草节点或者财务初审节点需要删除冻结文档，并将可用预算加回。
+		Dim session As New NotesSession
+		Dim dbCurrent As NotesDatabase
+		Set dbCurrent=session.Currentdatabase
+		Dim mjzjbx As String 
+		mjzjbx="否"
+		
+		
+		If LCase(docMain.subform(0)) = "sfrmnewzhaodaifeebx" Then
+			
+			If docMain.flownum(0)=0 And CStr(docMain.fldIsAssJD(0))="1" Then
+				Dim strJdPath As String
+				Dim strJdunid As String
+				
+				'strJdPath = Replace(dbCurrent.Filepath,"\","/")
+				'strJdPath = Replace(strJdPath,"gfcwgl/cwfybxgl","jdgl_gf")
+				strJdPath= StrLeftBack(dbCurrent.Filepath,"/")
+				strJdPath= StrLeftBack(strJdPath,"/")
+				strJdPath =strJdPath+"/jdgl_gf.nsf"
+				'MsgBox "BOHUIstrJdPath="+strJdPath
+				
+				strJdunid = docMain.fldJdunid(0)
+				
+				Dim dbJd As NotesDatabase
+				Dim docJd As NotesDocument
+				Set dbJd = session.Getdatabase(dbCurrent.Server, strJdPath)
+				If dbJd.Isopen Then
+					
+					Set docJd = dbJd.getdocumentbyunid(strJdunid)
+					
+					If Not docJd Is Nothing Then
+						'MsgBox "bohui:docJB OK"
+						docJd.fldSFGL="0"
+						Call docJd.save(True,False)
+					Else
+						MsgBox "bohui:docJB error"
+					End If
+					
+				End If
+			Else
+				MsgBox "bohui:docMain.flownum!=0"
+			End If
+			
+		End If
+		
+		
+		
+		If docMain.subform(0)="sfrmQiTafeebxformjzj" Then
+			mjzjbx=docMain.fldShifmjzj_xm(0)
+		End If
+		'是否有预算库
+		Dim sfysk As String 
+		sfysk=docMain.fldifhaveysk_xm(0)
+		Dim sfglys As String
+		sfglys=docMain.fldifglys_xm(0)
+		If sfysk="是" And sfglys<>"否" Then
+		If docMain.fldbaoxxm_xm(0)<>"会议费" And docMain.fldisyjdbx_xm(0)<>"1" And mjzjbx<>"是" Then
+			If  docMain.fldCwChuShen(0)="yes" Or docMain.flownum(0)=0 Or docMain.fldDelDongJie(0)="yes" Then
+			Dim agent As  NotesAgent
+			Set agent=dbCurrent.Getagent("agtDeleteDjwd")
+			Call agent.RunOnServer(docMain.Noteid)
+		End If
+		End If
+		End if
+		If docMain.fldbaoxxm_xm(0)="会议费" Then
+			If docMain.flownum(0)=0 then
+			'首次提交需要将选择的会议费申请赋值，其他人不能再选择
+			Dim appPath As String 
+			Dim dbhysq As NotesDatabase 
+			Dim dochysq As NotesDocument
+			Dim strhysqunid As String 
+			Dim viewhysq As NotesView
+			appPath=StrLeftBack(docMain.dbPath(0),"/")
+			strhysqunid=docMain.fldhysqunid(0)
+			Set dbhysq=session.Getdatabase("", appPath+"/cwhyfysqgl.nsf")
+			Set viewhysq=dbhysq.Getview("vwDocPublishedByHyUnid")
+			Set dochysq=viewhysq.Getdocumentbykey(strhysqunid)
+			If Not dochysq Is Nothing Then
+				dochysq.fldBaoxjs="0" '将会议费用申请设置为未报销结束
+				Call dochysq.save(True,False)
+			End If
+			End if
+		End If
+		
+		Exit Sub
+errorhandle:
+		showerror("suOnFlowDenyExitCustomExt")
+	End Sub
+	
+	
+	
+	%REM
+	文档暂存调用的扩展函数，在代理agtSaveDraft最后调用
+	
+	参数说明：
+	session 	代理会话
+	dbCurrent 	当前数据库
+	note		当前文档
+	nmCurUser	当前用户
+	
+	%END REM
+
+	Public Sub suSaveDraftCustomExt(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument,nmCurUser As NotesName)
+		
+		On Error GoTo errorhandle
+		'调用基类的缺省函数
+		Call FlowExtBase.. suSaveDraftCustomExt (session, dbCurrent,note,nmCurUser)
+		'自定义代码
+		Call sendProcessERP_xm(note,dbcurrent)
+		MsgBox "报销支付============================================================="
+		REM 财务项目改造 2018-11-04 tianyq@smartdot.com add
+		REM 根据strUpdateTodoRequest_xm的值是否为yes，来选择是否更新当前用户的待办文档
+		If note.strUpdateTodoRequest_xm(0) = "yes" Then
+			'找到当前用户的待办，并变为不可见
+			Dim dbIndiNames As NotesDatabase
+			Dim vwRegUserByFullName As NotesView
+			Dim docUser As NotesDocument
+			Dim strTodoServer As String
+			Dim strTodoFile As String
+			Dim dbTodo As NotesDatabase
+			Dim vwTodoDocbyMainkey As NotesView
+			Dim docTodo As NotesDocument
+			
+			Set dbIndiNames = session.Getdatabase(Dbcurrent.Server, "indishare/indinames.nsf", False)
+			Set vwRegUserByFullName = dbIndiNames.Getview("vwRegUserByFullName")
+			Set docUser = vwRegUserByFullName.Getdocumentbykey(nmCurUser.Canonical, True)
+			
+			If Not docUser Is Nothing Then
+				strTodoServer = docUser.todoServer(0)
+				strTodoFile = docUser.todoFile(0)
+				
+				Set dbTodo = session.getdatabase(strTodoServer,strTodoFile,False)
+				If Not dbTodo Is Nothing Then
+					Set vwTodoDocbyMainkey = dbTodo.Getview("vwTodoDocbyMainkey")
+					If Not vwTodoDocbyMainkey Is Nothing Then
+						Set docTodo = vwTodoDocbyMainkey.Getdocumentbykey(note.fldMainKey(0),True)
+						
+						REM 修改当前环节用户的待办文档为 已办(0)
+						Call docTodo.Replaceitemvalue("fldIsTodo", "0")
+						Call docTodo.Replaceitemvalue("fldIsDone", "1")
+						Call docTodo.Save(True, True)
+						
+						'最后将strUpdateTodoRequest_xm恢复为空
+						note.strUpdateTodoRequest_xm = ""
+					End If
+				End If
+			End If
+		End If
+		MsgBox "2报销支付============================================================="
+		Exit Sub
+errorhandle:
+		showerror("suSaveDraftCustomExt")
+
+	End Sub
+	
+End Class
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	
+End Sub
+
+
+
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:suhysqflowover:1:8
+Sub suhysqflowover(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+	%REM
+		1、获取会议费用申请文档，报销结束标志位，以后会议报销不能选到此会议费用
+		2、获取会议费用冻结文档，将冻结修改为占用。
+		3、获取预算考核和预算项目明细，进行修改。
+	%END REM
+	On Error GoTo errhanlde
+	Dim agent As NotesAgent
+	If note.fldisyjdbx_xm(0)<>"1" Then
+	  Set agent=db.Getagent("agthybxflowover")
+	  Call agent.Runonserver(note.Noteid)
+	Else
+	  Set agent=db.Getagent("agtbxflowoverforyjd")
+	  Call agent.Runonserver(note.Noteid)
+	End if
+	Exit sub
+errhanlde:
+End Sub
+
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:fnGetYcsq:1:8
+Sub fnGetYcsq(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+	On Error GoTo errhandle
+	'如果当前的节点为起草节点，需要根据当前用户名查找用户的所有借款单。
+	If note.fldifhaveyck_xm(0)="是" And note.fldbaoxxm_xm(0)="驾驶员出车费" Then
+	Dim currname As NotesName
+	Dim strcurrname As String 
+	Dim ycdb As NotesDatabase
+	Dim ycview As NotesView
+	Dim ycdoccoll As NotesDocumentCollection
+	Dim ycdoc As NotesDocument
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonarry As New Converjsonarray
+	Dim appPath As String 
+	appPath=StrLeftBack(note.dbPath(0),"/")
+	appPath=StrLeftBack(appPath,"/")
+	Dim appPathnew As String
+	appPathnew=StrRight(appPath,"/")
+	If appPathnew="dep46" Then
+		appPath=Replace(appPath,"dep46","dep2791")
+	End If
+	Set ycdb=session.Getdatabase("",appPath+"/ycgl_gf.nsf")
+	strcurrname=session.Effectiveusername
+	Dim m As Integer
+	m=0
+	Dim strxh As String 
+	Dim strycrq As String 
+	Dim strclname As String 
+	Dim strfyhj As String 
+	'Dim strsqje As String
+	Dim strcltime As String 
+	Dim strclpard As String 
+	Dim strnewdata As String 
+	Dim strycunid As String 
+	Dim strurl As String 
+	'Dim strhkpzunid As String 
+	If ycdb.Isopen Then
+		Set ycview=ycdb.Getview("vwDocByPublishedbyjsy")
+		Set ycdoccoll=ycview.Getalldocumentsbykey(strcurrname)
+		Set ycdoc=ycdoccoll.Getfirstdocument()
+		While Not ycdoc Is Nothing 
+			'获取信息
+			Dim newjsonobjarry As New Converjsonobject
+			strycunid=ycdoc.fldunid(0)
+			strurl="/"+ycdoc.dbPath(0)+"/0/"+strycunid+"?openDocument"
+			strxh=CStr(m)
+			m=m+1
+			strclname=ycdoc.fldSubject(0)
+			strcltime=CStr(ycdoc.fldYcTime(0))
+			strclpard=ycdoc.fldCarNo1(0)
+			If CStr(ycdoc.numzfeiyong(0))<>""Then
+			strfyhj=CStr(Format(CDbl(ycdoc.numzfeiyong(0)),"Fixed"))
+			Else
+			strfyhj="0.00"
+			End if
+			'添加信息到动态表格中去
+			Call newjsonobjarry.Additem("xh", strxh)
+			Call newjsonobjarry.Additem("carname", strclname)
+			Call newjsonobjarry.Additem("cctime", strcltime)
+			Call newjsonobjarry.Additem("carpard", strclpard)
+			Call newjsonobjarry.Additem("fyhj", strfyhj)
+			Call newjsonobjarry.Additem("ljurl", strurl)
+			Call newjsonobjarry.Additem("ycunid", strycunid)
+			Call newjsonarry.Additem(newjsonobjarry)
+			Set ycdoc=ycdoccoll.Getnextdocument(ycdoc)
+		Wend
+		Call newjsonobj.Additem("items", newjsonarry)
+		strnewdata=newjsonobj.Tojson()
+		Dim item As NotesItem
+		Dim richitem As NotesRichTextItem
+		If note.Hasitem("hfldData_yc") Then
+			'Set item=note.Getfirstitem("hfldData_yc")
+			'Call item.Remove()
+			Call note.Removeitem("hfldData_yc")
+		End If
+		Set richitem=note.Createrichtextitem("hfldData_yc")
+		Call richitem.Appendtext(strnewdata)
+		'Call note.Replaceitemvalue("hfldData_jk", strnewdata)
+	End If
+	End If
+	Exit Sub
+errhandle:
+	showerror("fnGetYcsq")
+End Sub
+
+
+
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:fnGetHTXX:1:8
+Sub fnGetHTXX(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument)
+	On Error GoTo errorHandle
+	
+	'如果当前的节点为起草节点，需要根据当前用户名查找用户的所有合同信息库中合同单的项目付款明细。
+	Dim htdb As NotesDatabase
+	Dim currname As NotesName
+	Dim strcurrname As String 
+	Dim vw As NotesView
+	Dim qkdc As NotesDocumentCollection
+	Dim qkdoc As NotesDocument
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonarry As New Converjsonarray
+	Dim path As String
+	Dim htvw As NotesView
+	Dim htdc As NotesDocumentCollection
+	Dim htdoc As NotesDocument
+	Dim strxh As String 
+	Dim strqkrq As String 
+	Dim strxmmc As String 
+	Dim strxmnr As String 
+	Dim strqkje As String
+	Dim strnewdata As String 
+	Dim strqkunid As String 
+	Dim strurl As String 
+	Dim strZX As String
+	Dim zxdoc As NotesDocument
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+	Dim m As Integer
+	m=0
+	
+	Set profiledoc =  dbCurrent.Getprofiledocument("ManagerSet")
+	strHTName = profiledoc.fldContractFWQ(0)
+	strApp = profiledoc.fldContractApp(0)
+	
+	Set htdb = session.Getdatabase(strHTName, strApp + "/htsp.nsf")
+	Set htxxdb = session.Getdatabase(strHTName,strApp + "/htxx.nsf")
+	path = fnGetAppNameFromAppDbPath(htdb.Filepath)
+	'获取合同审批数据库所在服务器域名
+	Dim aParam As Variant
+	Dim strHost As String
+	Dim clapp As New clApp(path,aParam) 
+	strHost = clapp.getAppHost()
+	
+	If htdb.Isopen Then
+		'MsgBox "rrrrrrrrrrr"
+	Else
+		'MsgBox "数据库未连通"
+	End If
+	
+	Set htvw = htdb.Getview("vwDocByPublishedByJBR")
+	Set htxxvw = htxxdb.Getview("vwDocByPublishedByJBRhtxx")	'合同签署后
+	'set currname = New NotesName(note.nmsqr_xm(0))
+	Set currname = New NotesName(session.Effectiveusername)
+	strcurrname = currname.Canonical
+	'MsgBox CStr(strcurrname)
+	
+	Set htdc = htxxvw.Getalldocumentsbykey(strcurrname, True)
+	'MsgBox "合同信息库文档数：" + CStr(htdc.Count)
+	Set htdoc = htdc.Getfirstdocument()
+	While Not htdoc Is Nothing 
+		'获取信息
+		strZX = htdoc.fldZXunid(0)
+		'MsgBox "strZX=" + CStr(strZX)
+		If strZX <> "" Then
+			Set zxdoc = htxxdb.Getdocumentbyunid(strZX)
+			If Not zxdoc Is Nothing Then
+				'MsgBox "执行信息文档存在"
+				
+				strqkunid=zxdoc.fldWDunid(0)
+				strurl=strHost + "/" +Replace(htxxdb.filepath,"\","/")+"/0/"+strqkunid+"?editDocument&count=20&view=vwzxxxb"
+				'MsgBox strurl
+				
+				Dim jsonReader As New Jsonreader
+				Dim jsonobjfk As New Converjsonobject
+				Dim strdatafk As String
+				Dim vResultsfk As Variant
+				Dim vPiecesfk As Variant
+				Dim i As Integer
+				Dim jsonobjnewfk As New Converjsonobject				
+				Dim jsonarryfk As New Converjsonarray
+				
+				strdatafk=htdoc.Getfirstitem("hfldData_1").Text	'执行信息表中付款动态行
+				strdatafk=Replace(strdatafk,Chr(10),"")
+				strdatafk=Replace(strdatafk,Chr(13),"")
+				Set vResultsfk = jsonReader.Parse(strdatafk) 
+				vPiecesfk = vResultsfk.Items
+				'MsgBox CStr(vPiecesfk("items").count)
+				If vPiecesfk("items").count<> 0 Then								
+					For i=0 To vPiecesfk("items").count-1
+						Dim newjsonobjarry As New Converjsonobject
+						If vPiecesfk("items").items(CInt(i)).items("xz") = "" Then						
+							Call newjsonobjarry.Additem("htxh", CStr(m))
+							Call newjsonobjarry.Additem("htmc", CStr(htdoc.strContractName(0)))
+							Call newjsonobjarry.Additem("htbh", CStr(htdoc.strContractNum(0)))
+							Call newjsonobjarry.Additem("htunid", CStr(htdoc.strRefKey(0)))
+							Call newjsonobjarry.Additem("xm", CStr(vPiecesfk("items").items(CInt(i)).items("xm")))
+							'MsgBox CStr(CStr(vPiecesfk("items").items(CInt(i)).items("htydje")))
+							Call newjsonobjarry.Additem("htydje", CStr(vPiecesfk("items").items(CInt(i)).items("htydje")))
+							Call newjsonobjarry.Additem("jstj", CStr(vPiecesfk("items").items(CInt(i)).items("jstj")))
+							Call newjsonobjarry.Additem("sqzfje", CStr(vPiecesfk("items").items(CInt(i)).items("sqzfje")))
+							Call newjsonobjarry.Additem("ljurl", strurl)
+							'MsgBox  "------------" + CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_"))
+							Call newjsonobjarry.Additem("xz", CStr(vPiecesfk("items").items(CInt(i)).items("xz")))
+							Call newjsonobjarry.Additem("_dynid_", CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_")))
+							Call newjsonarry.Additem(newjsonobjarry)
+							m = m + 1
+						End If
+					Next
+				End If
+			Else
+				MsgBox "执行文档不存在"
+			End If
+		End If	
+		Set htdoc = htdc.Getnextdocument(htdoc)			
+	Wend
+	Call newjsonobj.Additem("items", newjsonarry)
+	strnewdata=newjsonobj.Tojson()
+	Call note.Replaceitemvalue("hfldData_htqk", strnewdata)
+	
+	Exit Sub
+	
+errorHandle:
+	MsgBox "fnGetHTXX错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:subxflowover:1:8
+Sub subxflowover(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+	%REM
+		1、获取会议费用申请文档，报销结束标志位，以后会议报销不能选到此会议费用
+		2、获取会议费用冻结文档，将冻结修改为占用。
+		3、获取预算考核和预算项目明细，进行修改。
+	%END REM
+	On Error GoTo errhanlde
+	Dim agent As NotesAgent
+	Dim mjzjbx As String 
+	mjzjbx="否"
+	If note.subform(0)="sfrmQiTafeebxformjzj" Then
+		mjzjbx=note.fldShifmjzj_xm(0)
+	End If
+	If mjzjbx<>"是" then
+	If note.fldisyjdbx_xm(0)<>"1" then
+	  Set agent=db.Getagent("agtbxflowover")
+	  Call agent.Runonserver(note.Noteid)
+	Else
+	  Set agent=db.Getagent("agtbxflowoverforyjd")
+	  Call agent.Runonserver(note.Noteid)
+	End If
+	End if
+	Exit Sub
+errhanlde:
+End Sub
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:fnGetXZYC:1:8
+Sub fnGetXZYC(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+	On Error GoTo errorHandle
+	If note.fldifhaveyck_xm(0)="是" And note.fldbaoxxm_xm(0)="驾驶员出车费" Then
+	Dim itemnew As NotesItem
+	Dim jsonReader As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+	Dim strdatajk As String 
+	Dim vresult As Variant
+	strdatajk=note.Getfirstitem("hfldData_yc").Text
+	strdatajk=Replace(strdatajk,Chr(10),"")
+	strdatajk=Replace(strdatajk,Chr(13),"")
+	Set jsonobj=jsonReader.Parse(strdatajk)
+	vresult=jsonobj.Items 
+	Dim jsonobjnew As New Converjsonobject
+	
+	Dim jsonarry As New Converjsonarray
+	Dim itemrich As NotesRichTextItem
+	Dim item As NotesItem
+	
+	If note.Hasitem("hfldData_ycxz") Then
+		Call note.Removeitem("hfldData_ycxz")
+	End If
+	Set itemrich=note.Createrichtextitem("hfldData_ycxz")
+	If note.fldxzycid_xm(0)<>""Then
+		ForAll i In note.fldxzycid_xm
+			'对选中的关联借款文档重新放到新的datajson中
+			Dim jsonarryobj As New Converjsonobject
+			Call jsonarryobj.Additem("xh", vresult("items").items(CInt(i)).items("xh"))
+			Call jsonarryobj.Additem("carname", vresult("items").items(CInt(i)).items("carname"))
+			Call jsonarryobj.Additem("cctime", vresult("items").items(CInt(i)).items("cctime"))
+			Call jsonarryobj.Additem("carpard", vresult("items").items(CInt(i)).items("carpard"))
+			Call jsonarryobj.Additem("fyhj", vresult("items").items(CInt(i)).items("fyhj"))
+			Call jsonarryobj.Additem("ljurl", vresult("items").items(CInt(i)).items("ljurl"))
+			Call jsonarryobj.Additem("ycunid", vresult("items").items(CInt(i)).items("ycunid"))
+			Call jsonarry.Additem(jsonarryobj)
+		End ForAll
+	End If
+	Call jsonobjnew.Additem("items", jsonarry)
+	Dim newstrdata As String 
+	newstrdata=jsonobjnew.Tojson()
+	'Call note.Replaceitemvalue("hfldData_jkxz", newstrdata)
+	Call itemrich.Appendtext(newstrdata)
+	End If
+	Exit Sub
+errorHandle:
+	showerror("fnGetXZYC")
+End Sub
+
+'++LotusScript Development Environment:2:2:fnGetXZHT:1:8
+Sub fnGetXZHT(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument)
+	On Error GoTo errorHandle
+	
+	'流程提交后记录选中合同的付款项目明细
+	If CStr(note.flownum(0)) = "0" Then
+		If CStr(note.fldShifht(0)) = "是" Then
+			Dim itemnew As NotesItem
+			Dim jsonReader2 As New Jsonreader
+			Dim jsonobj As New Converjsonobject
+			Dim strdatajk As String 
+			Dim vresult As Variant
+			strdatajk=note.Getfirstitem("hfldData_htqk").Text
+			strdatajk=Replace(strdatajk,Chr(10),"")
+			strdatajk=Replace(strdatajk,Chr(13),"")
+			Set jsonobj=jsonReader2.Parse(strdatajk)
+			vresult=jsonobj.Items 
+			Dim jsonobjnew As New Converjsonobject			
+			Dim jsonarry As New Converjsonarray
+			
+			
+			If note.fldhtxzid_xm(0)<>"" Then
+				ForAll j In note.fldhtxzid_xm
+					'MsgBox CStr(j)
+					'对选中的合同单文档重新放到新的datajson中
+					Dim jsonarryobj As New Converjsonobject
+					Call jsonarryobj.Additem("xh", vresult("items").items(CInt(j)).items("xh"))
+					Call jsonarryobj.Additem("htmc", vresult("items").items(CInt(j)).items("htmc"))
+					Call jsonarryobj.Additem("htbh", vresult("items").items(CInt(j)).items("htbh"))
+					Call jsonarryobj.Additem("htunid", vresult("items").items(CInt(j)).items("htunid"))
+					Call jsonarryobj.Additem("xm", vresult("items").items(CInt(j)).items("xm"))
+					Call jsonarryobj.Additem("htydje", vresult("items").items(CInt(j)).items("htydje"))
+					Call jsonarryobj.Additem("jstj", vresult("items").items(CInt(j)).items("jstj"))
+					Call jsonarryobj.Additem("sqzfje", vresult("items").items(CInt(j)).items("sqzfje"))
+					Call jsonarryobj.Additem("syje", vresult("items").items(CInt(j)).items("syje"))
+					Call jsonarryobj.Additem("ljurl", vresult("items").items(CInt(j)).items("ljurl"))
+					Call jsonarryobj.Additem("xz", vresult("items").items(CInt(j)).items("xz"))
+					Call jsonarryobj.Additem("_dynid_", vresult("items").items(CInt(j)).items("_dynid_"))
+					Call jsonarry.Additem(jsonarryobj)
+				End ForAll
+				Call jsonobjnew.Additem("items", jsonarry)
+				Dim newstrdata As String 
+				newstrdata=jsonobjnew.Tojson()
+				Call note.Replaceitemvalue("hfldData_htqkxz", newstrdata)
+			Else
+				Call note.Replaceitemvalue("hfldData_htqkxz", "")
+			End If
+			
+		End If
+	End If
+	
+	Exit Sub
+	
+errorHandle:
+	MsgBox "fnGetXZHT错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:fnGetZXXX:1:8
+Sub fnGetZXXX(session As NotesSession,dbCurrent As NotesDatabase,note As NotesDocument)
+	On Error GoTo errorHandle
+	
+	'如果当前的节点为起草节点，需要根据当前用户名查找用户的所有合同信息库中合同单的项目付款明细。
+	Dim htdb As NotesDatabase
+	Dim currname As NotesName
+	Dim strcurrname As String 
+	Dim vw As NotesView
+	Dim qkdc As NotesDocumentCollection
+	Dim qkdoc As NotesDocument
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonarry As New Converjsonarray
+	Dim path As String
+	Dim htvw As NotesView
+	Dim htdc As NotesDocumentCollection
+	Dim htdoc As NotesDocument
+	Dim strxh As String 
+	Dim strqkrq As String 
+	Dim strxmmc As String 
+	Dim strxmnr As String 
+	Dim strqkje As String
+	Dim strnewdata As String 
+	Dim strqkunid As String 
+	Dim strurl As String 
+	Dim strZX As String
+	Dim zxdoc As NotesDocument
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+
+	Dim m As Integer
+	m=0
+	
+	Set profiledoc =  dbCurrent.Getprofiledocument("ManagerSet")
+	strHTName = profiledoc.fldContractFWQ(0)
+	strApp = profiledoc.fldContractApp(0)
+	'MsgBox "strHTName=" +  CStr(strHTName)
+	'MsgBox "strApp=" +  CStr(strApp)
+	Set htdb = session.Getdatabase(strHTName, strApp + "/htsp.nsf")
+	Set htxxdb = session.Getdatabase(strHTName, strApp + "/htxx.nsf")
+	path = fnGetAppNameFromAppDbPath(htdb.Filepath)
+	'获取合同审批数据库所在服务器域名
+	Dim aParam As Variant
+	Dim strHost As String
+	Dim clapp As New clApp(path,aParam) 
+	strHost = clapp.getAppHost()
+	
+	If htdb.Isopen Then
+		'MsgBox "rrrrrrrrrrr"
+	Else
+		'MsgBox "数据库未连通"
+		Exit Sub
+	End If
+	
+	Set htvw = htdb.Getview("vwDocByPublishedByJBR")
+	Set htxxvw = htxxdb.Getview("vwDocByPublishedByJBRhtxx")	'合同签署后
+	'set currname = New NotesName(note.nmsqr_xm(0))
+	Set currname = New NotesName(session.Effectiveusername)
+	strcurrname = currname.Canonical
+	'MsgBox CStr(strcurrname)
+	
+	Set htdc = htxxvw.Getalldocumentsbykey(strcurrname, True)
+	'MsgBox "合同信息库文档数：" + CStr(htdc.Count)
+	Set htdoc = htdc.Getfirstdocument()
+	While Not htdoc Is Nothing 
+		'获取信息
+		strZX = htdoc.fldZXunid(0)
+		'MsgBox "strZX=" + CStr(strZX)
+		If strZX <> "" Then
+			Set zxdoc = htxxdb.Getdocumentbyunid(strZX)
+			If Not zxdoc Is Nothing Then
+				MsgBox "执行信息文档存在"
+				
+				strqkunid=zxdoc.fldWDunid(0)
+				strurl=strHost + "/" +Replace(htxxdb.filepath,"\","/")+"/0/"+strqkunid+"?editDocument&count=20&view=vwzxxxb"
+				'MsgBox strurl
+				
+				Dim jsonReader As New Jsonreader
+				Dim jsonobjfk As New Converjsonobject
+				Dim strdatafk As String
+				Dim vResultsfk As Variant
+				Dim vPiecesfk As Variant
+				Dim i As Integer
+				Dim jsonobjnewfk As New Converjsonobject				
+				Dim jsonarryfk As New Converjsonarray
+				
+				'strdatafk=zxdoc.Getfirstitem("hfldData").Text	'执行信息表中付款动态行
+				strdatafk=zxdoc.Getfirstitem("hfldData_htxm").Text	'执行信息表中付款动态行
+				'MsgBox CStr(strdatafk)
+				strdatafk=Replace(strdatafk,Chr(10),"")
+				strdatafk=Replace(strdatafk,Chr(13),"")
+				Set vResultsfk = jsonReader.Parse(strdatafk) 
+				vPiecesfk = vResultsfk.Items
+				'MsgBox CStr(vPiecesfk("items").count)
+				
+				If vPiecesfk("items").count<> 0 Then								
+					For i=0 To vPiecesfk("items").count-1
+						Dim newjsonobjarry As New Converjsonobject
+						If vPiecesfk("items").items(CInt(i)).items("xz") = "" And InStr(vPiecesfk("items").items(CInt(i)).items("xm"),"小计")<=0 Then						
+							Call newjsonobjarry.Additem("xh", CStr(m))
+							Call newjsonobjarry.Additem("htmc", CStr(htdoc.strContractName(0)))
+							Call newjsonobjarry.Additem("htbh", CStr(htdoc.strContractNum(0)))
+							Call newjsonobjarry.Additem("htunid", CStr(htdoc.strRefKey(0)))
+							Call newjsonobjarry.Additem("xm", CStr(vPiecesfk("items").items(CInt(i)).items("xm")))
+							'MsgBox CStr(CStr(vPiecesfk("items").items(CInt(i)).items("htydje")))
+							Call newjsonobjarry.Additem("htydje", CStr(vPiecesfk("items").items(CInt(i)).items("htydje")))
+							Call newjsonobjarry.Additem("jstj", CStr(vPiecesfk("items").items(CInt(i)).items("jstj")))
+							Call newjsonobjarry.Additem("sqzfje", CStr(vPiecesfk("items").items(CInt(i)).items("bxsqfkje")))
+							Call newjsonobjarry.Additem("syje", CStr(vPiecesfk("items").items(CInt(i)).items("syje")))
+							Call newjsonobjarry.Additem("ljurl", strurl)
+							'MsgBox  "------------" + CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_"))
+							Call newjsonobjarry.Additem("xz", CStr(vPiecesfk("items").items(CInt(i)).items("xz")))
+							Call newjsonobjarry.Additem("_dynid_", CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_")))
+							Call newjsonarry.Additem(newjsonobjarry)
+							m = m + 1
+						End If
+					Next
+				End If
+			Else
+				MsgBox "执行文档不存在"
+			End If
+		End If	
+		Set htdoc = htdc.Getnextdocument(htdoc)			
+	Wend
+	
+	Call newjsonobj.Additem("items", newjsonarry)
+	strnewdata=newjsonobj.Tojson()
+	'MsgBox CStr(strnewdata)
+	Call note.Replaceitemvalue("hfldData_htqk", strnewdata)
+	
+	Exit Sub
+	
+errorHandle:
+	MsgBox "fnGetZXXX错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:2:suGetskrxx_xm:1:8
+Sub suGetskrxx_xm(session As NotesSession,db As NotesDatabase,note As NotesDocument)
+	%REM
+		2018-10-28 页面打开带出收款人信息 add by zhoujb 
+	%END REM
+	On Error GoTo errhanlde
+	Dim skdb As NotesDatabase
+	Dim skview As NotesView
+	Dim skdoc As NotesDocument
+	Dim appPath As String
+	If note.Hasitem("fldSkrxx_xm") Then	
+		Dim nmSkr As New  NotesName(note.fldSkrxx_xm(0))
+		appPath=StrLeftBack(note.dbPath(0),"/")
+		Set skdb = session.Getdatabase("",appPath+"/jcsjwh.nsf")
+		Set skview = skdb.Getview("vwskdwzhxxwh")
+		Set skdoc =  skview.Getdocumentbykey(nmSkr.Common, True)
+		note.fldSkzhxx_xm = skdoc.fldSkzhxx_xm(0)
+		note.fldKhh_xm = skdoc.fldKhh_xm(0)
+		note.fldSkrxm_xm = skdoc.fldSkrmc_xm(0)
+	End If
+	Exit Sub
+errhanlde:
+	MsgBox "suGetskrxx_xm错误" + CStr(Error()) + " at line: " + 	CStr(Erl())
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+

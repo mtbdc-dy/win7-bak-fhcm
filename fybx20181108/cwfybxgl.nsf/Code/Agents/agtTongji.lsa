@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtTongji' alias='领导费用统计' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3' publicaccess='false' designerversion='8.5.3'
+ restrictions='unrestricted'>
+<noteinfo noteid='12d2a' unid='48258072000E0C3F4825806D00341732' sequence='204'>
+<created><datetime>20161116T172858,10+08</datetime></created>
+<modified><datetime>20181025T014921,33+08</datetime></modified>
+<revised><datetime>20181024T091958,25+08</datetime></revised>
+<lastaccessed><datetime>20181025T014921,32+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T102128,53+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092104,50+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtTongji
+	Created 2016-11-16 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "CommonLib"
+Use "applib"
+Use "libTongji"
+
+
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errohandle
+	
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim note As NotesDocument
+	Set note=session.Documentcontext
+	Set db=session.Currentdatabase
+
+	If (db.IsFTIndexed) Then
+		If(db.lastmodified&gt;db.lastftindexed) Then
+			Call db.UpdateFTIndex(False)
+		End If
+	Else 
+		Call db.UpdateFTIndex (True) 
+	End If
+
+    
+	REM 按钮处理
+	fnHead note
+	REM 表头处理
+	suTableHead note
+	REM 检索差旅费文档
+	Call suSearchdoc(db,note)
+	Exit sub
+errohandle:
+	showerror("agttongji")
+End Sub
+
+</lotusscript></code><code event='suTableHead'><lotusscript>Sub suTableHead ( note )
+	On Error GoTo errhanle
+	Dim strDept	As	String 
+	Dim strTitle	As	String
+	Dim strTemp2 As String
+	Dim liContent List As String
+	Dim nname As NotesName
+	Set nname = New NotesName(note.fldLeadersName_xm(0))
+	strTitle=nname.common+note.datKaishirq(0)+"至"+note.datJieshurq(0)+ "的费用统计表"
+	
+	%rem
+	strTitle	=	note.strTitle(0)
+	If note.datKaishirq(0) &lt;&gt; "" And note.datJieshurq(0) &lt;&gt; "" &lt;&gt; ""Then
+		liContent("kaishi") = note.datKaishirq(0)
+		liContent("jieshu") = note.datJieshurq(0)
+		liContent("title") = strTitle
+		strTitle =  geti18nStringWithContext("indioffice.gdzcgl.kszjs", "${kaishi}至${jieshu}${title}", liContent)
+	End If
+	%end rem
+	'Print |&lt;body topmargin=0 leftmargin=0 rightmargin=0&gt;|
+	'Print |&lt;br&gt;&lt;br&gt;|
+	'Print |&lt;table id='excel' border=0  width=95% align=center&gt;|
+	'Print |&lt;tr &gt; &lt;td style='font-weight:bold;font-size:12pt;text-align:center' colspan=2&gt;|+ strTitle + |&lt;/td&gt;&lt;/tr&gt;|
+	'Print |&lt;tr &gt; &lt;td colspan=2&gt;|
+	'Print |&lt;br&gt;|
+	Print |&lt;div id='excel'  class='tb-void'&gt;|
+	Print |&lt;table class='tb-result' align="center" &gt;|
+	Print |&lt;caption&gt;|+strTitle+|&lt;/caption&gt;|
+	Print |&lt;tr&gt;|
+	strTemp2 = geti18nString("indioffice.gdzcgl.xuhao", "序号")
+	Print |  &lt;th width='5%' style='border:1px solid #000'&gt;| + strTemp2 + |&lt;/th&gt;|
+	strTemp2 = geti18nString("indioffice.gdzcgl.fylx", "费用类型")
+	Print |  &lt;th width='10%' style='border:1px solid #000'&gt;| + strTemp2 + |&lt;/th&gt;|
+	strTemp2 = geti18nString("indioffice.gdzcgl.sqr", "报销单号")	
+	Print |  &lt;th width='10%' style='border:1px solid #000'&gt;| + strTemp2 + |&lt;/th&gt;|
+	strTemp2 = geti18nString("indioffice.gdzcgl.sqrq", "报销时间")		
+	Print |  &lt;th width='8%' style='border:1px solid #000'&gt;| + strTemp2 + |&lt;/th&gt;|
+	strTemp2 = geti18nString("indioffice.gdzcgl.fyje", "费用金额")
+	Print |  &lt;th width='15%' style='border:1px solid #000'&gt;| + strTemp2 + |&lt;/th&gt;|
+    Print |&lt;/tr&gt;|
+	
+	Exit Sub
+errhanle:
+	showerror("suTableHead")
+End Sub
+
+</lotusscript></code><code event='suSearchdoc'><lotusscript>Sub suSearchdoc(db As NotesDatabase,note As NotesDocument)
+	On Error GoTo errhandle
+	Dim leadername As String 
+	Dim viewcl As NotesView
+	Dim viewzd As NotesView
+	Dim viewcg As NotesView
+	Dim viewpx As NotesView
+	leadername=note.fldLeadersName_xm(0)
+	Set viewcl=db.Getview("vwDocByPublishedforldcc")
+	Set viewzd=db.Getview("vwDocByPublishedforldywzd")
+	Set viewcg=db.Getview("vwDocByPublishedforldcg")
+	Set viewpx=db.Getview("vwDocByPublishedforldpx")
+	
+	Dim query1,query2,query3,query4 As String 
+	query1=| form = "frmWebFlow" &amp;  flownum=9999 &amp; @IsNotMember("已归档";stat)&amp; fldbaoxxm_xm="差旅费" |
+	query1=query1+|&amp;@contains(fldclfbxr_xm;"|+leadername+|")&amp;fldSqrq_xm&gt;=@Date([|+note.datKaishirq(0)+|])&amp;fldSqrq_xm&lt;=@Date([|+note.datJieshurq(0)+|])|
+	Dim doccoll As NotesDocumentCollection
+	Set doccoll=db.Search(query1,Nothing,0)
+	Dim bxjecl As Double
+	bxjecl=0
+	Dim doc As NotesDocument
+	Dim jsonobj As new Converjsonobject
+	Dim jsonreader As New Jsonreader
+	Dim strdata As String 
+	Dim vresult As Variant
+	Dim i As Integer
+	Dim j As Integer
+	j=0
+	Set doc=doccoll.Getfirstdocument()
+	While Not doc Is Nothing 
+		strdata=doc.Getfirstitem("hfldData").Text
+		Set jsonobj=jsonreader.Parse(strdata)
+		vresult=jsonobj.Items
+		If vresult("items").count&lt;&gt;0 Then
+			For i=0 To vresult("items").count-1 
+				If vresult("items").items(i).items("ccperson")=leadername Then
+				  j=j+1
+					If(CStr(vresult("items").items(i).items("xiaoji"))&lt;&gt;"") Then
+						bxjecl=bxjecl+CDbl(vresult("items").items(i).items("xiaoji"))
+					End If
+				  Print |&lt;tr valign="top"&gt;|
+				  Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + CStr(j) + |&lt;/td&gt;|
+				  Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;差旅费&lt;/td&gt;|
+				  Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldFwbh(0)+ |&lt;/td&gt;|
+				  Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldSqrq_xm(0) + |&lt;/td&gt;|
+				  Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + vresult("items").items(i).items("xiaoji") + |&lt;/td&gt;|
+				  Print |&lt;/tr&gt;|
+				End if
+			Next
+		End If
+		Set doc=doccoll.Getnextdocument(doc)
+	Wend
+	Dim noname As New NotesName(leadername)
+	query2=| form = "frmWebFlow" &amp;  flownum=9999 &amp; @IsNotMember("已归档";stat)&amp; fldbaoxxm_xm="业务招待费" |
+	query2=query2+|&amp;@contains(fldNiGaoRen;"|+noname.Canonical+|")&amp;fldSqrq_xm&gt;=@Date([|+note.datKaishirq(0)+|])&amp;fldSqrq_xm&lt;=@Date([|+note.datJieshurq(0)+|])|
+	Set doccoll=db.Search(query2,Nothing,0)
+	Set doc=doccoll.Getfirstdocument()
+
+	While Not doc Is Nothing 
+		j=j+1
+		bxjecl=bxjecl+CDbl(doc.fldBaoxiaoje_xm(0))
+		Print |&lt;tr valign="top"&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + CStr(j) + |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;业务招待费&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldFwbh(0)+ |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldSqrq_xm(0) + |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldBaoxiaoje_xm(0) + |&lt;/td&gt;|
+		Print |&lt;/tr&gt;|
+		Set doc=doccoll.Getnextdocument(doc)
+	Wend
+	query3=| form = "frmWebFlow" &amp;  flownum=9999 &amp; @IsNotMember("已归档";stat)&amp; fldqtfylxtext_xm="出国人员费" |
+	query3=query3+|&amp;@contains(fldBaoxiaoRen_xm;"|+leadername+|")&amp;fldSqrq_xm&gt;=@Date([|+note.datKaishirq(0)+|])&amp;fldSqrq_xm&lt;=@Date([|+note.datJieshurq(0)+|])|
+	MsgBox query3
+	Set doccoll=db.Search(query3,Nothing,0)
+	Set doc=doccoll.Getfirstdocument()
+
+	While Not doc Is Nothing 
+		j=j+1
+		bxjecl=bxjecl+CDbl(doc.fldBaoxiaoje_xm(0))
+		Print |&lt;tr valign="top"&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + CStr(j) + |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;出国人员费&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldFwbh(0)+ |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldSqrq_xm(0) + |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldBaoxiaoje_xm(0) + |&lt;/td&gt;|
+		Print |&lt;/tr&gt;|
+		Set doc=doccoll.Getnextdocument(doc)
+	Wend
+	query4=| form = "frmWebFlow" &amp;  flownum=9999 &amp; @IsNotMember("已归档";stat)&amp; fldqtfylxtext_xm="培训费" |
+	query4=query4+|&amp;@contains(fldBaoxiaoRen_xm;"|+leadername+|")&amp;fldSqrq_xm&gt;=@Date([|+note.datKaishirq(0)+|])&amp;fldSqrq_xm&lt;=@Date([|+note.datJieshurq(0)+|])|
+	Set doccoll=db.Search(query4,Nothing,0)
+	Set doc=doccoll.Getfirstdocument()
+
+	While Not doc Is Nothing 
+		j=j+1
+		bxjecl=bxjecl+CDbl(doc.fldBaoxiaoje_xm(0))
+		Print |&lt;tr&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + CStr(j) + |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;培训费&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldFwbh(0)+ |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldSqrq_xm(0) + |&lt;/td&gt;|
+		Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + doc.fldBaoxiaoje_xm(0) + |&lt;/td&gt;|
+		Print |&lt;/tr&gt;|
+		Set doc=doccoll.Getnextdocument(doc)
+	Wend
+	Print |&lt;tr&gt;|
+	Print |  &lt;td  style='border:1px solid #000;text-align:right' colspan=4&gt;| +"合计" + |&lt;/td&gt;|
+	Print |  &lt;td  style='border:1px solid #000;text-align:center'&gt;| + CStr(format(bxjecl,"Fixed")) + |&lt;/td&gt;|
+	Print |&lt;/tr&gt;|
+	Exit Sub
+errhandle:
+	showerror("suSearchdoc")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='7FA00B144216248A482583310012A307'>
+<agentmodified><datetime>20181025T014921,33+08</datetime></agentmodified>
+<agentrun><datetime>20181025T112335,94+08</datetime></agentrun>
+<runlog>Started running agent 'agtTongji|领导费用统计' on 2018-10-25 11:23:33
+Ran LotusScript code
+Done running agent 'agtTongji|领导费用统计' on 2018-10-25 11:23:35
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T091958,25+08</datetime></item></agent>
+

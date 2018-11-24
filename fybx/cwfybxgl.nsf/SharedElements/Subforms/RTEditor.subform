@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='RTEditor' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ designerversion='8.5.3' comment='编辑器子表单'>
+<noteinfo noteid='352' unid='24E82365A51161B548257A3F000D2600' sequence='55'>
+<created><datetime>20120718T102336,96+08</datetime></created>
+<modified><datetime>20181025T014915,05+08</datetime></modified>
+<revised><datetime>20181024T085443,74+08</datetime></revised>
+<lastaccessed><datetime>20181025T014915,04+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010757,13+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' hide='notes web'/>
+<par def='1'><run><font style='bold' color='navy'/>编辑器(</run><run><font style='bold'
+ color='navy'/>Rich Text Editor)</run><run><font size='9pt' style='bold' name='宋体'
+ pitch='variable' truetype='true' familyid='0' color='navy'/>固定域</run><run
+><font style='bold' color='navy'/>：</run></par>
+<table widthtype='fixedleft' refwidth='7.4806in'><border style='double' width='2px'
+ color='#5f5f5f'/><tablecolumn width='2.3625in'/><tablecolumn width='5.1181in'/>
+<tablerow>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='3' align='center' leftmargin='0.0104in' hide='web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='3'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>控件域名称</run></par></tablecell>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='4' align='center' leftmargin='0.0104in' hide='web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='4'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>描述</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center'>
+<pardef id='6' leftmargin='0.0104in' hide='web' keepwithnext='true' keeptogether='true'/>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='navy'/>基本属性表格，按照需要修改</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='7' leftmargin='0.0104in' hide='web' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font size='9pt'/><field type='text' kind='editable' name='RTE_editable'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+JgAJABwAy5J5YFLu5D0DIE0jmEFo8cebch4pJGFzBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/></run></par></tablecell>
+<tablecell valign='center'>
+<pardef id='8' leftmargin='0.0104in' hide='web' keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>编辑器是否可编辑</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt'/><field type='text' kind='editable' name='RTE_Height'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+JgAJABwAy5J5YFLu5D1OARbadgwriWy98NSf4PzwBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/></run></par></tablecell>
+<tablecell>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>编辑器高度</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt'/><field type='text' kind='editable' name='RTE_Width'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+JgAJABwAy5J5YFLu5D3bB8NP82VEe6/Nd6+IXdEBBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/></run></par></tablecell>
+<tablecell>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>编辑器宽度</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt'/><field type='text' kind='editable' name='RTE_DBPath'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+DgEJAAQB1XfYNgJDvsgqh3VNE66i8vWf978sefzoZjTCg2meuQYcL8BIGvFG6DmEh5waqWrBcaTr
+bfnBcBEpTEClD/n4Dj+OrJlfAhO17kFXkcAk7J1oiJ6Z6encaqqsUd4K4p7Tc0a+hwKToDAqiG8M
+Z959mXkbW6OBjtBj1EBYhhxMNgkaO9tvjYan5QPCmV/uudUrxFu34KFxd6JNGbBdffFSLCFb6j5E
+HfNU0KuEAVXKIlRLP3ru+V3Fw1n4hajT0EldQGcW9/BH2BTLbrmw3QOKRrFdZvRYMu1EXznJVr8t
+0nipdu37q9y1qZID/xkbm7U4tC75rrg2K9V1AwNVzOOWpQQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell>
+<tablecell>
+<pardef id='9' leftmargin='0.0104in' hide='web' tabs='L3.8938in L4.3938in L4.8938in L5.3938in L5.8938in L6.3938in L6.8938in L7.3938in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>编辑器所在数据库的完整路径</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='10' leftmargin='0.0104in' hide='read print web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='10'><run><font size='9pt'/><field type='text' kind='editable' name='RTE_MainDocID'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/></run></par></tablecell>
+<tablecell>
+<pardef id='11' leftmargin='0.0104in' hide='web' tabs='L7.2875in L7.7875in L8.2875in L8.7875in L9.2875in L9.7875in L10.2875in L10.7875in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='11'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>伪UNID</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt'/><field type='text' kind='editable' name='RTE_ToolbarSet'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell>
+<tablecell>
+<pardef id='12' leftmargin='0.0104in' hide='web' keepwithnext='true' keeptogether='true'/>
+<par def='12'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>编辑器工具栏，保留空值使用默认工具栏 zhaofx 2006-08-04</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='13' hide='read print web' keepwithnext='true' keeptogether='true'/>
+<par def='13'><run><font size='9pt'/><field type='text' kind='editable' name='RTE_PathType'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL25DSeh3mf7PLwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell>
+<tablecell>
+<pardef id='14' hide='web' keepwithnext='true' keeptogether='true'/>
+<par def='14'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>保存图片的路径方式，0：相对路径，1：绝对路径 wxk 2006-08-04</run></par></tablecell></tablerow></table>
+<pardef id='15' leftmargin='1in' hide='edit notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='15'><run html='true'>&lt;</run><run html='true'><font name='@Gungsuh'
+ pitch='variable' truetype='true' familyid='10'/>textarea</run><run html='true'> name="Body" id="rtStore"&gt;</run></par>
+<par def='15'><run html='true'><font name='@Gungsuh' pitch='variable' truetype='true'
+ familyid='10'/>&lt;/textarea&gt;</run></par>
+<par def='15'><run html='true'>&lt;</run><run html='true'><font name='@Gungsuh'
+ pitch='variable' truetype='true' familyid='10'/>div</run><run html='true'> name="divBody" id="divRtStore" style="display:none"&gt;</run></par>
+<pardef id='16' leftmargin='1in' rightmargin='69%' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><parstyle
+ name='html'><font size='10pt' color='black' name='face27'/></parstyle></pardef>
+<par def='16'><run html='true'> </run><run html='true'><font name='Arial'
+ pitch='variable' truetype='true' familyid='20'/><field type='richtext' kind='editable'
+ name='Body' htmlid='rtStore'><code event='htmlattributes'><formula compiled='true'>
+LgAJACQA0xXSKoIwTrzztKlYYywzcpkuCmQiy0s2Ey9Iddof5qQEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run html='true'> </run></par>
+<par def='15'><run html='true'><font name='@Gungsuh' pitch='variable' truetype='true'
+ familyid='10'/>&lt;/div&gt;</run></par>
+<pardef id='17' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='17'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/> &lt;LINK REL='stylesheet' HREF='/</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA9t6HEzhn5CJ5gs0y73+GhgknpG20+L4sBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font name='Arial' pitch='variable' truetype='true' familyid='20'/>/editorpage.css</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font name='Arial' pitch='variable' truetype='true' familyid='20'/> ' TYPE='text/css'&gt;</run></par>
+<par def='17'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>&lt;script type='text/javascript' src='/</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA9t6HEzhn5CJ5gs0y73+GhgknpG20+L4sBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font name='Arial' pitch='variable' truetype='true' familyid='20'/>/</run><run
+ html='true'><font name='Arial' pitch='variable' truetype='true' familyid='20'/>indieditor.js</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font name='Arial' pitch='variable' truetype='true' familyid='20'/>' id="indiEditorJs"&gt;&lt;/script&gt;</run></par>
+<pardef id='18' leftmargin='1in' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><parstyle
+ name='html'><font size='10pt' color='black' name='face27'/></parstyle></pardef>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>&lt;script&gt;</run><run html='true'><font name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>indiEditor.init({</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	fieldName:"Body",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	height:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+JgAJABwA9t6HEzhn5CIm9YPrOs5z6Vpq1kl3k9I0BAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	toolbar:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+LgAJACQAtj3AHvPBrIU+MnU2sAiKQQFHqI9MudRiloxFUPX2gW8EAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	width:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+JgAJABwA9t6HEzhn5CIiFNsIx1rIH6VObobbx+VqBAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	pathType:"</run><run html='true'><font size='9pt'/><computedtext
+><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp81sv5EeD5oud8/LK1wDHue30aLHn/L2w4kEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	mainDocId:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+LgAJACQAtj3AHvPBrIXgu+AxY7a2yeXfSVYyOzwwDaqVonM6mdoEAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	fromDb:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+RgAJADwAjmsCjL0uuXDOuzKdkw5cQW4yTLpk6g/e8BobyULbw980SyGgS3A2hNhg7ZdYWox0fEgn
+V99Q8E4EAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	docEditable:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+HgAJABQA0ptVxdg3z3yc1rvu+lANEgQABAAEAAQA
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	editable:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+LgAJACQAxlObK2ryBUW6Vre6mmsoHu8UL2oKW/h4B6IZJoOTwy4EAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>",</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>	rteEditable:"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+NgAJACwA36X/XRiqV+rK1as+bcChdvGpJLeycfi5edmFLebEP6KLJu0U5dag/AQABAAEAAQA
+</formula></code></computedtext></run><run html='true'><font
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>"</run></par>
+<par def='18'><run html='true'><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>})&lt;/script&gt; </run></par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20060804T175228,43+08</datetime></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>RTEditor</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,95+08</datetime></item></subform>
+

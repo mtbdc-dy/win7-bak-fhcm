@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtCheckCysforbx' alias='校验报销金额是否超过预算' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='1836' unid='48258072000E0C3F4825806700140BC7' sequence='63'>
+<created><datetime>20161110T113857,35+08</datetime></created>
+<modified><datetime>20181107T195906,27+08</datetime></modified>
+<revised><datetime>20181024T092020,76+08</datetime></revised>
+<lastaccessed><datetime>20181107T195906,27+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195906,27+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092127,01+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtgetdepid
+	Created 2016-11-2 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+    Dim dbys As NotesDatabase
+    Dim curdb As NotesDatabase
+    Dim db As NotesDatabase
+    
+    Dim viewys As NotesView
+    Dim viewyskh As NotesView
+    Dim viewysxm As NotesView
+    
+    Dim doc As NotesDocument
+    
+	Dim docys As NotesDocument
+    Dim doccolysxm   As NotesDocumentCollection
+    Dim docyskh As NotesDocument
+    
+    Dim viewyjdys As NotesView
+    Dim docyjdys As NotesDocument
+    
+    Dim strdepid As String
+    Dim strnd As String 
+    Dim strfylx As String 
+    Dim strxmbh As String 
+	Dim strfyzj As String 
+	Dim strzxys As String 
+    Dim strappPath As String 
+    Set db=session.Currentdatabase
+    Set doc=session.Documentcontext
+	strdepid=Getrefvalue(doc.Query_string_Decoded(0),"deptid=")
+	strnd=Getrefvalue(doc.Query_string_Decoded(0),"sqnd=")
+	strfylx=Getrefvalue(doc.Query_string_Decoded(0),"fylx=")
+	strxmbh=Getrefvalue(doc.Query_string_Decoded(0),"xmbh=")
+	strfyzj=Getrefvalue(doc.Query_string_Decoded(0),"feezj=")
+	strzxys=Getrefvalue(doc.Query_string_Decoded(0),"zxys=")
+	strappPath=Getrefvalue(doc.Query_string_Decoded(0),"strappPath=")
+	
+	Dim strkey As String 
+	strkey=strdepid+"+"+strnd+"+"+strfylx
+	Dim strflag As String 
+	strflag="0"
+	'获取预算库
+    Set dbys=session.Getdatabase("",strappPath+"/cwfyysgl.nsf")
+    If dbys.Isopen Then
+    	Dim kyybyszs,kyzxyszs As Double
+    	kyybyszs="0.00"
+    	kyzxyszs="0.00"
+	    Set viewyjdys=dbys.Getview("vwDocforyjdyswcs")
+	    '根据key获取一季度完成文档
+	    Set docyjdys=viewyjdys.Getdocumentbykey(strkey)
+	    If Not docyjdys Is Nothing Then
+		    If docyjdys.Hasitem("FLDBNYBYSWCS_XM") Then
+			    kyybyszs=kyybyszs+CDbl(docyjdys.FLDBNYBYSWCS_XM(0))
+		    End If
+		    If docyjdys.hasitem("fldbnzxyswcs_xm") Then
+			    kyzxyszs=kyzxyszs+CDbl(docyjdys.fldbnzxyswcs_xm(0))
+		    End If
+	    End If
+	    '获取预算视图
+	    Set viewys=dbys.Getview("vwDocByPublishedforndysbybm")
+	    '根据key获取预算文档
+	    Set docys=viewys.Getdocumentbykey(strkey)
+	    If Not docys Is Nothing Then
+        	'获取预算考核视图
+        	Set viewyskh=dbys.Getview("vwDocByPublishedNdyskhbyunid")
+        	'根据预算文档获取预算考核文档
+        	Set docyskh=viewyskh.Getdocumentbykey(docys.fldunid(0))
+        	If Not docyskh Is Nothing then
+        	'获取可用一般预算数
+        	 'Dim kyybyszs As Double
+	         kyybyszs=CDbl(docyskh.fldbnybyshdzj_xm(0))-CDbl(docyskh.fldbnybyswcszj_xm(0))-CDbl(docyskh.fldbnybysdj(0))-kyybyszs
+	        '获取专项可用预算数
+	         'Dim kyzxyszs As Double
+	         kyzxyszs=CDbl(docyskh.fldbnzxyshdzj_xm(0))-CDbl(docyskh.fldbnzxyswcszj_xm(0))-CDbl(docyskh.fldbnzxysdj(0))-kyzxyszs
+	         '本次申请的预算额度
+	        	Dim bcysze As Double
+	        	bcysze=CDbl(strfyzj)
+	        	'判断是否专项预算
+	        	If  strzxys="1" then
+		        	If kyzxyszs&lt;bcysze Then
+	         	strflag="1"
+	            Else
+	         	strflag="0"
+	            End If
+	         Else
+		        If kyybyszs&lt;bcysze Then
+			        strflag="2"
+		        Else
+			        strflag="0"
+		        End If
+	         End If
+	         Else 
+              strflag="3" '没有找到预算文档
+	        End If
+	        Else 
+              strflag="3" '没有找到预算文档
+        End If
+    End If
+    Dim jsonobj As  Converjsonobject
+	Set jsonobj=New Converjsonobject
+	Call jsonobj.Additem("items",strflag)
+	Print |Content-Type:text/plain;Charset=GB2312|
+	Print jsonobj.Tojson()
+	Exit sub
+errorhandle:
+	showerror("agtCheckCys")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='0999F3E1CE92718648258332002CCBC0'>
+<agentmodified><datetime>20181025T014920,03+08</datetime></agentmodified>
+<agentrun><datetime>20181107T111422,94+08</datetime></agentrun>
+<runlog>Started running agent 'agtCheckCysforbx|校验报销金额是否超过预算' on 2018-11-07 11:14:22
+Ran LotusScript code
+Done running agent 'agtCheckCysforbx|校验报销金额是否超过预算' on 2018-11-07 11:14:22
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092020,76+08</datetime></item></agent>
+

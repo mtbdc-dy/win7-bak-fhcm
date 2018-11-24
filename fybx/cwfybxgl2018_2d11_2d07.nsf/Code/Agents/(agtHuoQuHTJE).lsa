@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='(agtHuoQuHTJE)' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='15fa' unid='5140B2FFF9768BA948258176004FF0EC' sequence='14'>
+<created><datetime>20170808T223310,20+08</datetime></created>
+<modified><datetime>20181107T195858,59+08</datetime></modified>
+<revised><datetime>20181024T091958,28+08</datetime></revised>
+<lastaccessed><datetime>20181107T195858,59+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195858,59+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092104,53+08</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtGetZhihuiPerson
+	Created 2014-6-18 by admin/lyxs
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+Use "libFlowCustom"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errLabel
+	
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim note As NotesDocument
+	Dim doc As NotesDocument
+	Dim profiledoc As notesDocument
+	Dim strUnid As String
+	Dim strResult As String
+	Dim strHTName As String
+	Dim strApp As String
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+	
+	strResult=""
+	Set dbCurrent = session.Currentdatabase
+	Set note = session.Documentcontext
+	
+	Set profiledoc =  dbCurrent.Getprofiledocument("ManagerSet")
+	strHTName = profiledoc.fldContractFWQ(0)
+	strApp = profiledoc.fldContractApp(0)
+	Set htxxdb = session.Getdatabase(strHTName, strApp + "/htxx.nsf")
+	Set htxxvw = htxxdb.Getview("vwContractByRefKey")
+	strUnid = UnEscape(getRefValue(note.Query_string_Decoded(0),"fldhtbh="))
+	'MsgBox "合同编号：" + CStr(strUnid)
+	Set doc = htxxvw.Getdocumentbykey(strUnid, true)
+	If Not doc Is Nothing Then
+		MsgBox CStr(doc.numPriceLower(0))
+		strResult = CStr(CDbl(doc.numPriceLower(0))) + "&amp;&amp;" + CStr(doc.strPriceUpper(0))
+	End If
+			
+	'MsgBox "strResult=" + strResult
+	Print |Content-Type:application/text;charset=UTF-8;|
+	Print strResult
+	
+	Exit Sub
+errLabel:
+	'showError "Initialize"
+	MsgBox "agtHuoQuUnid has error: " + CStr(Error()) + " at line: " + CStr(Erl())
+End Sub
+
+</lotusscript></code><code event='gnGetDep'><lotusscript>Function gnGetDep(strTemp As String) As String	
+%REM
+	根据当前用户获取其所在部门
+%END REM
+	
+		Dim session As New NotesSession
+		Dim indidb As NotesDatabase
+		Dim indivw As NotesView
+		Dim indidoc As NotesDocument
+		Dim strDep As String
+		Dim arr As Variant
+		Dim str2 As String
+		Dim profile As NotesDocument
+		Dim strbumen As String
+		Dim dbCurrent As NotesDatabase
+		
+		Set dbCurrent = session.Currentdatabase
+		Set profile = dbCurrent.Getprofiledocument("ManagerSet")
+		strbumen = profile.fldDepName_xm(0)	
+		strbumen = StrLeft(strbumen,"/")
+		'MsgBox "strbumen=" + CStr(strbumen)
+		
+		strDep = ""
+		Set indidb = session.Getdatabase("","indishare/indinames.nsf")
+		Set indivw = indidb.Getview("vwABbyName")
+		Set indidoc = indivw.Getdocumentbykey(strTemp, True)
+		If Not indidoc Is Nothing Then
+			strDep = indidoc.DepFullname(0)
+			'MsgBox CStr(strDep)
+			If InStr(strDep,strbumen) &gt; 0 Then
+				'MsgBox "444444444"
+				str2 = StrLeft(strDep,"/" + strbumen)				
+				'MsgBox "str2=" + CStr(str2)
+				If InStr(str2,"/") &gt; 0 Then
+					strDep = StrRightBack(str2,"/")
+				Else
+					strDep = str2
+				End If
+			Else
+				strDep = strDep
+			End If
+		End If
+		'MsgBox "strDep= " + CStr(strDep)
+		gnGetDep = strDep
+
+End Function
+
+
+
+
+
+
+
+
+</lotusscript></code><code event='UnEscape'><lotusscript>Function UnEscape( sInput As String ) As String
+'解码在WEB上用编码(escape)后的字符串
+	
+	On Error GoTo eh
+	
+	'输出字符串
+	Dim sOutput As String
+	sOutput = ""
+	'原字符串中尚未处理的部分
+	Dim sRemain As String
+	sRemain = sInput
+	
+	Dim iPos As Integer
+	
+	While InStr( sRemain, "%" ) &gt; 0
+		
+		iPos = InStr( sRemain, "%" )
+		sOutput = sOutput + Left( sRemain, iPos-1 )
+		sRemain = Right( sRemain, Len(sRemain)-iPos+1 )
+		
+		If Left(sRemain, 2) = "%u" Then	'这表示下一个需要处理的是汉字，4位编码
+			
+			sOutput = sOutput + UChr(CLng( "&amp;H" + Mid(sRemain, 3, 4) ) )
+			sRemain = Right( sRemain, Len(sRemain)-6 )
+		Else
+			
+			sOutput = sOutput + UChr(CLng( "&amp;H" + Mid(sRemain, 2, 2) ) )
+			sRemain = Right( sRemain, Len(sRemain)-3 )
+			
+		End If		
+	Wend
+	
+	sOutput = sOutput + sRemain
+	UnEscape = sOutput
+	
+	Exit Function	
+eh:	
+	UnEscape = sInput
+	MsgBox "line:" + CStr(Erl()) + " msg:" + Error()
+	
+End Function
+
+</lotusscript></code><code event='urlDecode'><lotusscript>
+Function urlDecode(strTemp As String,strCharset) As String	
+%REM
+	URL解码函数
+	strTemp		需要解码的字符串
+	strCharset	字符集	
+%END REM
+	
+	
+	If strTemp &lt;&gt; "" Then		
+		Dim ns As New NotesSession
+		Dim doc As NotesDocument		
+		Set doc=ns.CurrentDatabase.CreateDocument()		
+		doc.fldTemp = strTemp	
+		
+		Dim vrnTemp As Variant
+		'Msgbox |@URLDecode("| &amp; strCharset &amp; |";"| + strTemp +|")|
+		vrnTemp = Evaluate(|@URLDecode("| &amp; strCharset &amp; |";fldTemp)|,doc)
+		urlDecode = vrnTemp(0)
+	Else
+		urlDecode = strTemp
+	End If
+	
+End Function
+
+</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='FFD1A0102FFBF10D4825808300315B9C'>
+<agentmodified><datetime>20170516T112211,90+08</datetime></agentmodified>
+<agentrun><datetime>20170717T161711,82+08</datetime></agentrun>
+<runlog>Started running agent 'agtHuoQuHTJE' on 2017-07-17 16:17:11
+Ran LotusScript code
+Done running agent 'agtHuoQuHTJE' on 2017-07-17 16:17:11
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T091958,28+08</datetime></item></agent>
+

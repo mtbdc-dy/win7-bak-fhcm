@@ -1,0 +1,329 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmWebPaint' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='3f6' unid='F4C818BBB4DC7959482579B30047E294' sequence='57'>
+<created><datetime>20120229T210510,60+08</datetime></created>
+<modified><datetime>20181107T195622,65+08</datetime></modified>
+<revised><datetime>20181024T085445,20+08</datetime></revised>
+<lastaccessed><datetime>20181107T195622,65+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195622,65+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webqueryopen'><formula
+ compiled='true'>
+PgAJADQAAeR/IdtLwhOcReR7KQgjurfcoBmFdZ6dagfsj8V83IGYHR4mOakrLQgGB39wJ4BZBAAE
+AAQABAA=
+</formula></code><code event='htmlhead'><formula compiled='true'>
+lgAJAIwAyD5lU442AveSddOism24VuwURZw1W8prwNGxN2cyYnl8da/F2YzNH19/k8PNu+9WGatc
+P3BY9ekv8t/XqtzUgAxkKFJ01rnHTBfoo8zREs15k8FZOfzPffmSJObkDtny6F5+EsvHv1Yrv8JG
+0hhxD2Jkwwc/q/xMoOkX+tFpYS+Gtw/GGyUMmgQABAAEAAQA
+</formula></code><code
+ event='jsheader' for='web'><javascript>smartdot.i18n.requireLocalization("indiplatform.tylc");
+
+function SePen(){
+	document.getElementById("mypaint-pen").style.background = "#81bae7";
+	document.getElementById("mypaint-eraser").style.background = "#bfbfbf";
+	var mypaint=document.getElementById("mypaint");
+	mypaint.Content.Control.SetPen()
+}
+
+function SetEraser(){
+	document.getElementById("mypaint-eraser").style.background = "#81bae7";
+	document.getElementById("mypaint-pen").style.background = "#bfbfbf";
+	var mypaint=document.getElementById("mypaint");
+	mypaint.Content.Control.SetEraser()
+}
+
+function SetClear(){
+	document.getElementById("mypaint-pen").style.background = "#81bae7";
+	document.getElementById("mypaint-eraser").style.background = "#bfbfbf";
+	var mypaint=document.getElementById("mypaint");
+	mypaint.Content.Control.ClearPaint()
+}
+
+function ClosePaint() {
+	var mypaint=document.getElementById("mypaint");
+	
+  	var strNodeInfo=parent.document.getElementsByName("idx_Sequence")[0]
+   	mypaint.Content.Control.SetCurrentNode(strNodeInfo.value);
+   	
+     var mmid=parent.document.getElementById("idx_MainDocUNID")
+     mypaint.Content.Control.SetMMid(mmid.value);
+     
+     var fid=document.forms[0].idx_AttachUnid.value;
+     if(fid!=""){
+     	parent.document.getElementsByName("idx_AttachCurrUnid")[0].value=fid;
+    		mypaint.Content.Control.SetUnid(fid);
+     }    
+     mypaint.Content.Control.SaveDraw();  
+
+}
+
+function  SaveDrawSucceed(sender,args){
+         
+	 	if( typeof(parent.ShowPngCustom)==="function"){
+			parent.ShowPngCustom(args.FilePath);
+		 } 
+		 if( typeof(parent.PaintCloseCustom)==="function"){
+			parent.PaintCloseCustom(sender,args);
+		 } 
+		 parent.WebPaintLocalPath=args.FilePath; 	
+		//暂存，撤回等操作，清空手写控件后，将判断是否填写意见域置为空 
+		if(args.FilePath=="&amp;deleteoldfile&amp;"){
+			if(parent.dojo.byId("strExistPaint")){
+				parent.dojo.byId("strExistPaint").value = "";
+			}
+			
+		} 		 
+		 //关闭手写批示 
+	 	 parent.fnShowSx(false);
+	}
+function webpaint_pluginloaded(sender,args){
+ 	var mypaint=document.getElementById("mypaint");
+	mypaint.Content.Control.FilePathed =SaveDrawSucceed
+	if( parent.WebPaintLocalPath!=""){
+		mypaint.Content.Control.LoadDraw(parent.WebPaintLocalPath); 
+	} 
+	SePen();
+
+}
+function fnLarger(){
+	var iframe = parent.document.getElementById('ifrWebPaint');
+	var mypaint=document.getElementById("mypaint");
+	var wrap = document.getElementById("mypaint-wrap");
+	var mypaintdiv = document.getElementById("mypaintdiv");	
+
+	wrap.style.overflowY='auto';
+
+	var step=100;
+	var maxW = 1300;
+	var maxH = 1200; //超过后无法手写
+	var w = mypaint.offsetWidth+step;
+	var h = mypaint.offsetHeight+step;
+
+	h =Math.min(h,maxH);
+	mypaint.style.width= w+'px';
+	mypaint.style.height=h+'px';
+	mypaintdiv.style.height=h+'px';
+
+}</javascript></code>
+<body><richtext>
+<pardef id='1' align='center'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;div style="display:none"&gt;表单所有隐藏域信息</run></par>
+<pardef id='2' hide='notes'/>
+<par def='2'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='idx_MainDocUNID' htmlid='idx_MainDocUNID'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+NgAJACwAVATYQgZVSvNAjs4Vvn2G9zbHEbEsqM6VJlD+RCeEP4HCEG3Uo0rw8wQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='red' name='宋体' pitch='variable' truetype='true' familyid='0'/><field
+ type='text' kind='computedfordisplay' name='query_string'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQAq0EbI5kfp83YGdPAeoORNpgoAFILJupPJVmxZsRBVNoEAAQABAAEAA==
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='14' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/><field type='text' kind='editable' name='idx_AttachUnid'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='21' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'> </run><run
+ html='true'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='28' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='3' hide='web'/><subformref name='sfrmDojo'/>
+<pardef id='4' align='center' leftmargin='1in'><code event='hidewhen' enabled='false'><formula
+ compiled='true'>
+NgAJACwA36X/XRiqV+ov2mOGfZTCiQXVuIgKgC71PGZ51A6SbrGnECmU+T4OrwQABAAEAAQA
+</formula></code></pardef>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/></run><run html='true'><font size='9pt'
+ color='red' name='宋体' pitch='variable' truetype='true' familyid='0'/><sharedfieldref
+ name='str_webPaintHeight'/></run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0' color='red'/></run><run html='true'><font
+ size='9pt' color='red' name='宋体' pitch='variable' truetype='true' familyid='0'/><sharedfieldref
+ name='str_webPaintWidth'/></run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0' color='red'/></run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;/div&gt;</run></par>
+<pardef id='5' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="mypaint-wrap" style="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+HgEJABQBESwrXMj4f+g3unzUfREHbXuq8A6xHwrpbXwlFd95lgJATHFeVLInSIDF1c7CMnW0Ypwm
+ijwxLhmQOyphaJ3qxB0lQP4JLza2C/RVFRTdjJu0PwXyMMLRoG/vP2oSVl2OGyHdYDkLtCIqXI/F
+wwVcvp8bAn21PLnseJc5jTaY8oHr77tpEpdR5OUpyNzdOk7u5OXmH9cksIrqJwDQQfJEJRx6/5F8
+k0GVD6MwojD97PliO4GZuH9mJxdPx4AZZm6Fd8QvXxrdI4u5I64EM2Y1PbXOdcQf/ATvPScnfK4X
+ItZcC7jC9iwvb+VSPFYoKYVDP5LSrTZ1OWMxcwmUZ3IsPiaCZjsymRVXSjXnQrfhVKMEAAQABAAE
+AA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='maroon'/>"&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="mypanit-btn" class="btn btn-key" onSelectStart="return false;" onClick="ClosePaint</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>();</run><run html='true'><font size='9pt' color='maroon'/>"</run><run
+ html='true'><font size='9pt' color='maroon'/>&gt;&lt;span id="mypaint-btn-content" class="btn-content"</run><run
+ html='true'><font size='9pt' color='maroon'/> data-string-id="indiplatform.tylc.bcps"&gt;保存批示&lt;/span&gt;&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="</run><run
+ html='true'><font name='Courier New' pitch='fixed' truetype='true' familyid='30'
+ color='maroon'/>mypaint-pen</run><run html='true'><font size='9pt' color='maroon'/>" class="btn btn-key"  data-string-id="indiplatform.tylc.setpen"  onClick="</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>SePen();</run><run html='true'><font size='9pt' color='maroon'/>"&gt;钢笔&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="</run><run
+ html='true'><font name='Courier New' pitch='fixed' truetype='true' familyid='30'
+ color='maroon'/>mypaint-eraser</run><run html='true'><font size='9pt' color='maroon'/>" class="btn btn-key" data-string-id="indiplatform.tylc.seteraser"  onClick="Set</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>Eraser();</run><run html='true'><font size='9pt' color='maroon'/>"&gt;橡皮&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="</run><run
+ html='true'><font name='Courier New' pitch='fixed' truetype='true' familyid='30'
+ color='maroon'/>mypaint-</run><run html='true'><font size='9pt' color='maroon'/>pensize" class="btn btn-key" data-string-id="indiplatform.tylc.pensize"&gt;笔粗:&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="</run><run
+ html='true'><font name='Courier New' pitch='fixed' truetype='true' familyid='30'
+ color='maroon'/>mypaint-clear</run><run html='true'><font size='9pt' color='maroon'/>" class="btn btn-key"  data-string-id="indiplatform.tylc.setclear" onClick="SetClear</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>();</run><run html='true'><font size='9pt' color='maroon'/>"&gt;清空&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div id="</run><run
+ html='true'><font size='9pt' color='maroon'/>mypanit-btn-larger" class="btn btn-key"  data-string-id="indiplatform.tylc.zgqy" title="增高手写区域" onClick="</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>fnLarger</run><run html='true'><font size='9pt' color='maroon'/>()</run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'
+ color='maroon'/>;</run><run html='true'><font size='9pt' color='maroon'/>"&gt;增高区域&lt;/div&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;div </run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>id="mypaintdiv"</run><run
+ html='true'><font size='9pt' color='maroon'/>&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>&lt;object id="mypaint" data="</run><urllink showborder='false'
+ href='data:application/x-silverlight-2'><run html='true'><font size='9pt'
+ name='}' pitch='fixed' truetype='false' familyid='0' color='system'/>data:application/x-silverlight-2</run></urllink><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>," style="visibility:visible;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+HgEJABQBESwrXMj4f+g3unzUfREHbXuq8A6xHwrpbXwlFd95lgJATHFeVLInSIDF1c7CMnW0Ypwm
+ijwxLhmQOyphaJ3qxB0lQP4JLza2C/RVFRTdjJu0PwXyMMLRoG/vP2oSVl2OGyHdYDkLtCIqXI/F
+wwVcvp8bAn21PLnseJc5jTaY8oHr77tpEpdR5OUpyNzdOk7u5OXmH9cksIrqJwDQQfJEJRx6/5F8
+k0GVD6MwojD97PliO4GZuH9mJxdPx4AZZm6Fd8QvXxrdI4u5I64EM2Y1PbXOdcQf/ATvPScnfK4X
+ItZcC7jC9iwvb+VSPFYoKYVDP5LSrTZ1OWMxcwmUZ3IsPiaCZjsymRVXSjXnQrfhVKMEAAQABAAE
+AA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>" type="application/x-silverlight-2"&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='navy'/>		   &lt;param name="onload" value="webpaint_pluginloaded"/&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>		  &lt;param name="source" value="/WebPaint.xap</run><run
+ html='true'><font color='red'/><computedtext><code event='value'><formula
+ compiled='true'>
+5gIJANwCn2ZKdPZv8TakAKjCNdp45pdYMQu0nVoVyuUVzIIgd2ZuZRSuYnu9qw+otBdICq503hD6
+1bqK5MDFAPA6Yc4AIHXNrotXLOcHsmUxkwbvtg3Li5p7W8CnUC/JZYQBBl4Sx/3/u2MLp7h9tJL3
+jdC/koP71TsvPDn6XMk/jllpZ9ZINqrigGfWLx5R9+5e6tg0A+2lBMSQv0g94v3WX3vK3INFmMDh
+4/EC+c8WTZvtAieuDw60j4f/yKMDOToa+3jAiLyqiVlYLfDzTyKgBEU1HRwWpKSQZRDdGOE3ndqs
+QZ55BxJplVma4Pc85o0X4FsC+1CY8HWba+CDbuXjtGJ9UOWEA4vjIKYERVom+tL5TafTZiHdmeCs
+CnNyGDTidVDe2RBKSZa6OfoYiqFuEIox4GnUeBYta8snpLkPTaIbCqQ5AOCOhlblhguvAYSA1heg
+F8IPVQvrpYX1AwclsyOKdgNYyIah3kgGHeG3ZIjYtSchC6bUs3LW/eP/I13+p3a3wYBEN0JS85FZ
+57/KbRRbToPMHpuT+hUMrNHdTIQ3Zc9naaV3b859P1BfVy5g7+Dq/9qcv7y5vGsPLrKvjePwQkln
+6GITdweRuF/vVn7pr6mV9CxtSL4aJxV/FwIdTnq5gSxuxVNnVxx72Vc1TRVPLwFXChpREI93/uV6
+tP7mX7nPDG1W9oDFm6QizStzkOcAFnf2Bdazbh6h8QDxvsNRUa9yPOE20I1rkKN4Wh6wNhiXX3QU
+cn+sNG5ww3hSkVYTXhcM/lGqScZ0W5iGp6PKqFZdaQhhSVw3cqerx71kox2ZgEMU1Uk0Fj3C6muK
+v8FktwEeKbMBFw5tnCITvRYGTugo6wRWEJluryynMYi6jvemUQqnF0VWUp6eE/ih4ufr5b2zv4nk
+MtMtosAd28WetOi2NLJ7HjKiDnIneyFcxCiR1bG6Iw5uPkcmuvvROuWrwWCmFpXfKOcEAAQABAAE
+AA==
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>"/&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>		  &lt;param name="onError" value="onSilverlightError" /&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>                &lt;param name="initParams" value="</run><run
+ html='true'><font color='red'/><computedtext><code event='value'><formula
+ compiled='true'>
+3gIJANQCnmO7ifpEdSimqqWRgmgBCbw+JL/g31Z/QmTr/stovw5dOmO/4qV0Zhb51Cxw4ZMlSNs3
+ba5eeeGautS2BHuZPpP9b0bikn0YZrdDy6hgGMBvNNkLVaL1CbP4xHKx0x/Z3XaPaMUDa6QBfqmq
+xjqPI8Zj0obJTUmVzkMWK+YtGylkQFeHAKccjs/tENxHk6d1cjvPqB87V7e48K1lrhV4kOfFqaUi
+TDl4BsPf70mt+HbM4jxGmg7hkn8WpDeO4G/QtnHM8DVCW3Da6mjzWpkYqWyBEDJy+vjWgw349LTk
+8sWvlV5J1hGxmWcZe6697/p2udQ01DuHpFo6YmaLl1hkqu67KvfBRvZ7hrpkBv649hFAgh4YBLm5
+3R10euYfpL6NwVDdt7v3VtGnPEdpTccO6DgMwGaYUZ1iLc4yxKEt6Z0XFfT5JJ/nwmUNNIQeKJ/n
+n7eIcEKiN8aceh3DvhiAnSQEaa8N9i0kElSVJ0IZjX+8mr9EfG+DRlOHi4pureSRFrrwR6E78/8D
+ZnoR0YCplf2QP8cxn0xSabe4TINkWF/N383TRRRuXRTeuVt6VuG95/0SVDQD4LcLFJZB8Lt4q1V5
+IrCmRpDGOxBL6XijCqkMqe0c24bzLsIxshtAKiWqqg/VIlg9REW3H/plSWZUeZom5VFyUi8CJH43
+JFK2HtP9KBLWDeqCDGgOH2W9yoTDG7eEPdp2+IRIIxE45IxMzdshVM9ZwnlLJSHE3Kjg9NE1bNx3
+IBThth8K3SD9B2N2Cz1qW2pOnrZhrzgK9osF3WWiY9PZHwDLUWO/CnviS0DqH8FCJroSgj/EwlYM
+T73YSpaCPJuSpRATTtGu8MyZpt6jpRF3O8ZlJ8IWSC2vHkFfE1e8U8QCjOKlwREfrx1KxNFEoO2N
+bLllF1fcX15ugPYE1Ly5iB4nkqFhjl4Eft7/0Vezsrqj7vNKa0S0kk0nBAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>,</run><run
+ html='true'><font size='9pt' color='navy'/>Language=</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp81Wsq16n3fg2yeboLmtOcmtCSIgMCglf5EEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>,</run><run html='true'><font size='9pt' name='}' pitch='fixed'
+ truetype='false' familyid='0'/>showtoolbar=true,defaultsize=1,UserName=</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+JgAJABwAh9tfB+g2tyIKzGowNbxFiZ35lzIy4LGRBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>,DbPath=</run><run
+ html='true'><font size='9pt'/><computedtext><code event='value'><formula
+ compiled='true'>
+RgAJADwAjmsCjL0uuXDOuzKdkw5cQW4yTLpk6g/e8BobyULbw980SyGgS3A2hNhg7ZdYWox0fEgn
+V99Q8E4EAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>,DocForm=</run><run
+ html='true'><font size='9pt'/><computedtext><code event='value'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NW+sN1lapvjtb+fAXXKcqxsqw6XGBzzfi4EAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>,XmlData=</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/><field
+ type='richtext' kind='computed' name='idx_XmlData'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQAq0EbI5kfp833S/jcGDHT3RcT6NVBYwOkmB9fnuUiUvYEAAQABAAEAA==
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='44' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='}'
+ pitch='fixed' truetype='false' familyid='0'/>"/&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>		  &lt;param name="background" value="transparent" /&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>		  &lt;param name="windowless" value="true" /&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>		  &lt;param name="minRuntimeVersion" value="5.0.61118.0" /&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>		  &lt;param name="autoUpgrade" value="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+FgMJAAwD0ykC3jFS5LVI9whbJVSdDDgCkQ9CkXVUkekWPfOsDAAi7Bactb8QRD+YqP+8siAvw/0T
+GpZcTmMokXdCXEKqo/cXRRjA4DRB7cfbMzvUIb1hA73FjJLw7XPKqmUpKhIHBcrzPdlWsPuKpdsz
+Kpw//PWz8y1KkwPfYO0SLoqeccqGnUqRvQDrk+fbTuGFl3SwtnZXTxAx2grVOTNSK42m8hOW+LqS
+9OT2xioIpREeLTqmKl0/kl61XMEs6TP8fQUxmDINlvjpvMzJkK+ObHUXENqrAJIjOhv8n05hHaEE
+cI9wX65KDap/ZPmBCfOWBxfu4s8DwC+0MbfJwHXmsFQAR05GL3XZ4VxtHTMUAIU7onYjdWtJgl7f
++Rrf+9nCmZlw86ogLs/D6iRQvWa8B/05LRBvpVJ1SKOw6QjEgjuz+oA5ApTnRf0CiCF58MqOUHFt
+2BLklWqNMRhY2Q4bAVzr9k0WZCSJJ3kHqybVjI2Ny5FvHuONf3VdXNpBCUEDm/NPbOoSpUfRyhZm
+yg6AhEZ2CnQmf3Xc9Uy6IebxBufLJELpz4JuTsRii0oMnj0ABKaUrptrMHCR0sReLP6dSvxTVW+l
+2Qm5NA4iXnZ0dyGr5EfasiQGgMDKGhC9CDvw3/HYrNPZxjy9l+XuIi/vAtcZgEiOxFqIB7DgzEzf
+phW+jNQYaecrtlt7OMOhY7raRGDH7/2gftdXPlZ0ncxFG63jz+n571VvPI2TWuBLIOiw+22aqTT9
+zPaSkONN2Ak3e5yWF+Gbc7fmiLU8EmUee1i+qtHMW8eNpcOS0GHk1/y43Lu23Jn9l4muUXVpf28f
+NfxID3GxfjiMNvw6QEEOwsek2Y6VwNCqylgPkL7ci9Bk+bMYPxrs8cGGwSw96HrbxGyeAgl6C6ur
+TkkFyWCrjUv2eh/zBLpx+QvDTODSIQYuQ6vs6Kz9d1XzQOWeTc+vzd3iI+CZmobKGpuE3RAYbGNl
+FEiJA7I3a5rg6jp5fB95nkqxOosi/wkc/+6hv46E7XyK5gYMbLfRib0EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='}' pitch='fixed' truetype='false' familyid='0'/>" /&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' name='}' pitch='fixed' truetype='false'
+ familyid='0'/>&lt;/object&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;/div</run><run
+ html='true'><font size='9pt' color='maroon'/>&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='maroon'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmWebPaint</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,55+08</datetime></item></form>
+

@@ -1,0 +1,51 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+Option Public
+Option Explicit
+
+Use "CommonLib" 
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Function fnGetAppUts As String
+
+'++LotusScript Development Environment:2:5:(Declarations):0:2
+
+'++LotusScript Development Environment:2:1:fnGetAppUts:1:8
+Function fnGetAppUts As String
+%REM
+'『函数功能』
+'	获取当前服务器平台更新时间，并返回时间戳参数 (uts=201408202124)
+'『参数』
+	serverName 预留参数,服务器名称,为空则取当前服务器	
+'『作者』	
+'	wangwz 	慧点科技 2014-12-16
+modify by mamq 2015-01-26 应用的时间戳从当前应用的ioconfig取
+%END REM
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim domDb As NotesDatabase
+	Dim docUts As NotesDocument
+	Dim retUts As String
+	Dim curDb As NotesDatabase
+	Dim appName As String
+
+	retUts = |uts=|
+	Set curDb = session.Currentdatabase
+	appName = Replace(curDb.filepath,"\","/")
+	
+	Dim var As Variant
+	var=Evaluate(|@DbLookup("";"":"indishare/indinames.nsf";"vmUserApp";@Name([Abbreviate];@UserName);3)|)
+	appName=var(0)
+	'Set domDb = session.Getdatabase("",StrLeft(appName,"/")+"/ioconfig.nsf")
+	Set domDb = session.Getdatabase("",appName+"/ioconfig.nsf")
+	If domDb.Isopen Then
+		Set docUts = domDb.Getview("vwUpdateInfo").Getfirstdocument()
+		If Not docUts Is Nothing Then
+			retUts = retUts & docUts.fldUpdateTime(0)
+		End If
+	End If
+	fnGetAppUts = retUts
+	Exit Function
+errorhandle:
+	showerror("fnGetPlatformUts")
+End Function

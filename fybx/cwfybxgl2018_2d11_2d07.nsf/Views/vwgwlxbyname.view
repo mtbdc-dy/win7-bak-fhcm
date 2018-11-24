@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwgwlxbyname' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ showinmenu='false' allowdocselection='true' publicaccess='false' designerversion='8.5.3'
+ comment='公文类型维护' unreadmarks='standard' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='false' showmargin='true'
+ shrinkrows='true' extendlastcolumn='false' showhierarchies='false' unreadcolor='maroon'
+ rowlinecount='5' headerlinecount='1' rowspacing='1.25' haslinkcolumn='true'
+ bgcolor='white' altrowcolor='#efefef' totalscolor='blue' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false' formatnoteid='D3F32663C661963548256A1B001ECCD5'>
+<noteinfo noteid='12e' unid='352BB8E241E0654A482579A80052C9A3' sequence='55'>
+<created><datetime>20120218T230415,71+08</datetime></created>
+<modified><datetime>20181107T195612,17+08</datetime></modified>
+<revised><datetime>20181024T085439,29+08</datetime></revised>
+<lastaccessed><datetime>20181107T195612,17+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195612,17+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+ZgEJAFwBYZ6X9JRECxkSZqjqSt8WxQ6uapSiMQ6Zh56G3ElEhMl9saeDQhryTQ6457LgSHEumNxj
+2UWfrUigJJrzXN4EC5CX/JpqTtAk0p732GcHBYLyexU+6GCIW9DT3dy2iaDbG5pKXPBfA68UkZX4
+F5MH/c/KYJaLICZSh7QxMYdL5R+H91q8KLxgYII4vvHe7o7hVBZ38qTYQBqCsyGduFQc6tVjzHLF
+nfPnQ0y7uogtxPuVAXBj1PoSchd56AUkevc+fRTTS/rLHfypnTZdNeco7qm2nxW5r793oX9E1TgT
+DPNRMGUAUW1llU3hjDCx35jIhI5VeUQ2TpEvS3KlUmk90L/RVJF/37R383XwXFO8Nxz42dMd/8PA
+7PUN8pxO1fW5CoeGmyZ2p2V8O1Hk0tQYX4g0ImJ6vskp+m9JOEZhRaNKA+YdzFkiCLwSMbjADVMX
+m3QFKSiNOmsEAAQABAAEAA==
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' hidedetailrows='false' itemname='$68' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='排序号'><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+LgAJACQA4duePMlz+wOApfKWjh2C65Llrn+2+VQ01ABrhE8Ny/YEAAQABAAEAA==
+</formula></code></column>
+<column hidedetailrows='false' itemname='fldfwlx' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='业务类型'><font style='bold'/></columnheader><code event='value'><formula
+ compiled='true'>
+LgAJACQA6lxRPOOC2v9wXVebmXA6eHIyHsmiUg1Uc+KHSlpJmP4EAAQABAAEAA==
+</formula></code></column>
+<column hidedetailrows='false' itemname='$64' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='默认流程'><font style='bold'/></columnheader><code event='value'><formula
+ compiled='true'>
+VgAJAEwAyQG8/eoEd53nTTB6DVvVLkKjBWnxRbmptb5l7T9xXRCoJVnIid0QpyFUlI9beP2kA9Zy
+vQmvhMxUNt5YDzXfY29g6g2A4kWhBAAEAAQABAA=
+</formula></code></column>
+<column hidedetailrows='false' itemname='subform' width='17.6250' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='业务处理单'><font style='bold'/></columnheader><code event='value'><formula
+ compiled='true'>
+LgAJACQA6lxRPOOC2v90/xFfACKbTrntnAHWQxg7PYQNnxWJt1sEAAQABAAEAA==
+</formula></code></column>
+<column hidedetailrows='false' itemname='$63' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='UNID'><font style='bold'/></columnheader><code event='value'><formula
+ compiled='true'>
+JgAJABwA4AfhnAqnIhEe0yeSj86k9cOZLhMGrVXjBAAEAAQABAA=
+</formula></code></column>
+<column hidedetailrows='false' itemname='fldsubformzw' width='18.7500' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='业务处理单中文名'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='fldshuoming_disp' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='说明'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='flowdbpath' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='流程数据库'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='flowrefkey' width='32' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='流程版本关键字'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='flowid' width='32' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='FlowID'><font style='bold'/></columnheader></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210734,77+08</datetime></item></view>
+

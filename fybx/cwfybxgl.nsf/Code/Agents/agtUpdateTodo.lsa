@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtUpdateTodo' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3' publicaccess='false' designerversion='8.5.3'
+ restrictions='fulladminunrestricted'>
+<noteinfo noteid='846' unid='6EDB24B3768B264E48257E7600297767' sequence='49'>
+<created><datetime>20150702T153255,43+08</datetime></created>
+<modified><datetime>20181025T014921,37+08</datetime></modified>
+<revised><datetime>20181024T085456,92+08</datetime></revised>
+<lastaccessed><datetime>20181025T014921,36+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133250,36+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085603,76+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='all'/>
+<rundata processeddocs='0' exitcode='0' agentdata='ECC4F83AE0468BB148258331002DEA53'>
+<agentmodified><datetime>20181025T014921,37+08</datetime></agentmodified>
+<agentrun><datetime>20181107T195615,29+08</datetime></agentrun>
+<runlog>Started running agent 'agtUpdateTodo' on 2018-11-07 19:56:14
+Running on all documents in database: 9593 total
+Found 9593 document(s) that match search criteria
+Ran LotusScript code
+Done running agent 'agtUpdateTodo' on 2018-11-07 19:56:15
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210746,61+08</datetime></item>
+<item name='$POID'><datetime>20181024T085456,92+08</datetime></item></agent>
+

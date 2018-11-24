@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<agent name='生成pdf文件' alias='agtCreatePDF' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='6d2' unid='D1001C40EF1AF50348257AD100370457' sequence='48'>
+<created><datetime>20121211T180055,91+08</datetime></created>
+<modified><datetime>20181107T195756,72+08</datetime></modified>
+<revised><datetime>20181024T085457,29+08</datetime></revised>
+<lastaccessed><datetime>20181107T195756,72+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195756,72+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085604,13+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='all'/><code event='action'><javaproject class='JavaAgent.class'
+ codepath='c:\Program Files (x86)\IBM\Notes\Data'><javaresource name='fj.png'>
+iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAA1xpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
+bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
+eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEz
+NDM0MiwgMjAxMC8wMS8xMC0xODowNjo0MyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo
+dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw
+dGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEu
+MC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVz
+b3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1N
+Ok9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMTgwMTE3NDA3MjA2ODExQTI1NERCMjlGRDBC
+OUUwNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2Q0I1NEFEQjVGQjIxMUUxODVBNURDN0VC
+QkVFQjFEMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2Q0I1NEFEQTVGQjIxMUUxODVBNURD
+N0VCQkVFQjFEMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1Ij4gPHhtcE1N
+OkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDMzN0RGRENFOTVFRTExMUE3
+QjdBMUI2QTY2RDFDMDciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDE4MDExNzQwNzIwNjgx
+MUEyNTREQjI5RkQwQjlFMDUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94Onht
+cG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7eWhP8AAACHUlEQVR42mJgIAjYmIBEORDvguJoBuKA
+0CwGBu4UKAdoCP9aoJgCM1a1nHKhDKz8vxhY+EwZmFikGf6+7YTK/GdgE+FkYGUVY8LQJKjGy8DG
+mgGUfMLAzlbGwMbWhGoopz4DG8d1TI1sbBUMbOw9DOzsKUB6KcOX+58ZpPQhLpPQ5QHKazN8unuF
+BUWTnKkcw/+/2kBWDxAXMvz96wEWZ2EpYpA1vgZkWTEw/50I9SyKbc1Am2qBuB7IbmF4dvEfg5qN
+BJDtCHT2TSDWYHh6YRvYLJgeVl0ns3///38HMv8w/GMQ/Xtt/yGQODMbaxtQtgbI7Pj/91/5P6h6
+uEZODs4GIJUIxFP+/v1b+hUUThZ+FkD2L5Dv/jH8v/Xl9LY7DMgaZV0iQ4AKjjAwMLIDuZ+e7V/5
+QME9lvH371+NQH7S//8Mi3///uP7BclXLLoh2Yx/fv3K/P33tzcTE5MGMzPz52dACS4uzqL/fzk2
+AZlxf///m3lr89yvyMHBxMPNZcbLx3v0ztYFP25tnneBi5Pri1lM0U5uTm4+fj7eTUA5a6Cmleix
+xsLPy6MApG/DBM4un1gDY3vkNC7+8+dvJbbExcTPx3dHRFDQAF0ioWGqixA//9s9M5ouY9W4sq3w
+LFCBTOnk5T4wwYqpq2yALinn4eauwZX0GUFE1bTVHOxsbA2srKyGjIwM/379+Xv7568ftW0ZoR9x
+aQQIMAB9OKVvr6kRCAAAAABJRU5ErkJggg==
+</javaresource><javaresource
+ name='zw.png'>
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACEUlEQVQ4jY2SUUhTURjH//fOSS8K
+Th9KSzARJmxte8mXMPQ9lkggiSyMjSBDhLESH3wUhuRDBhk02EtPPUQQ7GWbrpIVsajsrR0rtik1
+hM1dd+/uuffzZbst2sb+8Od/OIfvO78PPgFVmQKmDQCX0J6+aEFt6Z+bG6urPmpTJr8pXqsTqulL
+p9NbjDEwxuD1erF/IGPrxR5YttCcg5AwzteXl+9ouk5c0wy7FyMtSdyLETLVCF6Hw09SqRRi0Sic
+Lhd+HCh4FWWwjfTi1kocOgH3HyaNtI30IvLmF8Rqg6d3NzfvXZ2chGd+HjoRLpzthCxxjA71oFLW
+cG18EMTJyNGhHsgSNxr4Hi8sPNqJxRAOhaDrOvYzMsqSCs4Jog58+pbHcH8XUtXknFCW1L8Et4PB
+pSsTE7jp8UAjwvlzZpyUOFRVh1kUsL2bhcvah53dLJzWPqiqjpNSHcGzQGDjbTyO5+EwNCL8zFQM
+ArMgIpHMwWG1IJHMwWm1GASGxubm/MeVCh1JkuEBR4jyeU6Hh/J/zuc5DThC1HAPpmdnkclw+Fe2
+8XnvT9M1EIS6PbBPTT0oKAr9LhZbuqAoJE6L72p1HTWCl+vrax8SCTDG4J6ZQTajNfz14nAnUGnw
+0GW3rxU5pyNZbuki5ySMC+/rCSwA+o+Vr4Pdlzs+Nh24XiV8B2ADkBMAnAHQXTdOu+IAiqeMcKSm
+UCArmQAAAABJRU5ErkJggg==
+</javaresource>
+<sharedlibraryref name='libItext'/>
+<sharedlibraryref name='libPDFResources'/>
+<sharedlibraryref name='LibPdfExtCustom'/>
+<sharedlibraryref name='LibPdfApi'/></javaproject></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20171213T175047,82+08</datetime></agentmodified></rundata>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,95+08</datetime></item>
+<item name='$POID'><datetime>20181024T085457,29+08</datetime></item></agent>
+

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtGetmjzjfylxbyzxm' alias='根据募集资金主项目获取子项目' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='12cfa' unid='48258072000E0C3F48258084003C9211' sequence='23'>
+<created><datetime>20161209T190135,53+08</datetime></created>
+<modified><datetime>20181025T014920,73+08</datetime></modified>
+<revised><datetime>20181024T092019,92+08</datetime></revised>
+<lastaccessed><datetime>20181025T014920,72+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T102128,07+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092126,17+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtGetfylxbylb
+	Created 2016-11-13 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+use "commonlib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errhanlde
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim notecoll As NotesDocumentCollection
+	Dim note As NotesDocument
+	Dim view As NotesView
+	Dim doc As NotesDocument
+	Dim jsonobj As New Converjsonobject
+	Dim jsonarry As new Converjsonarray
+	Dim strmainproject As String 
+    Set doc=session.Documentcontext
+	strmainproject=GetRefValue(doc.Query_string_Decoded(0),"mainproject=")
+	Set db=session.Currentdatabase()
+	Set view=db.Getview("vwZiXiangMuXinxiByMainxm")
+	Set notecoll=view.Getalldocumentsbykey(strmainproject)
+	Set note=notecoll.Getfirstdocument()
+	While Not note Is Nothing 
+		 Dim jsonarryobj As new Converjsonobject
+		 Call jsonarryobj.Additem("xmmc", note.fldXiangMuName_xm(0))
+		'Call  jsonarryobj.Additem("xmbh", note.strXiangmubh(0))
+		Call jsonarry.Additem(jsonarryobj)
+		Set note=notecoll.Getnextdocument(note)
+	Wend
+	Call jsonobj.Additem("items", jsonarry)
+	Print |Content-Type:text/plain;Charset=GB2312|
+	MsgBox jsonobj.Tojson()
+	Print jsonobj.Tojson()
+
+	Exit sub
+errhanlde:
+	showerror("agtGetmjzjfylxbyzxm")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170227T094905,58+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20181024T092019,92+08</datetime></item></agent>
+

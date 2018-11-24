@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='并发审批20分钟提示' alias='sfrmBfCountDownWarnning' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='282' unid='2D36B51AED54227148257BF20035CE53' sequence='55'>
+<created><datetime>20130926T174742,27+08</datetime></created>
+<modified><datetime>20181025T014917,71+08</datetime></modified>
+<revised><datetime>20181024T085442,32+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,70+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010801,01+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>dojo.addOnLoad(function(){
+	var tsnr = dojo.byId("bfcountdown_tsnr");
+	if(tsnr){
+		var time = tsnr.getAttribute("time");
+		tsnr.innerHTML = smartdot.i18n.getString("indiplatform.tylc.tsnr",tsnr.innerHTML,{"time":time});
+	}
+})</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen' enabled='false'><formula compiled='true'>
+NgAJACwAphgKQCL50qyZ9Sy0t6uDKsQjZtMPz8kWgVV3CCqs83tHWv17yG+LFwQABAAEAAQA
+</formula></code></pardef>
+<par def='1'><run html='true'><font color='green'/>//并发处理一人通过即可，提示信息展示</run></par>
+<pardef id='2' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwAphgKQCL50qyZ9Sy0t6uDKsQjZtMPz8kWgVV3CCqs83tHWv17yG+LFwQABAAEAAQA
+</formula></code></pardef>
+<par def='2'><run html='true'>&lt;div id="bfcountdown" class="bfcountdown_onload"&gt;</run></par>
+<par def='2'><run html='true'>&lt;span class="bfimgwarnning"&gt;&lt;/span&gt;</run></par>
+<par def='2'><run html='true'>&lt;span class="bfimgtimmer"&gt;&lt;/span&gt;</run></par>
+<par def='2'><run html='true'>&lt;span id="bfcountdown_tsnr" time="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+NgAJACwAVATYQgZVSvNwzmOQgJnFcYS5KXtOjvl9KiG314RiDjAtVycO9PngrQQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'>"&gt;</run></par>
+<pardef id='3' leftmargin='1in' firstlineleftmargin='1.2500in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwAphgKQCL50qyZ9Sy0t6uDKsQjZtMPz8kWgVV3CCqs83tHWv17yG+LFwQABAAEAAQA
+</formula></code></pardef>
+<par def='3'><run html='true'>&lt;span class="bfinfo"&gt;并发处理，编辑权将在&lt;/span&gt;</run></par>
+<par def='3'><run html='true'>&lt;span class="bftimmer"&gt;</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+NgAJACwAVATYQgZVSvNwzmOQgJnFcYS5KXtOjvl9KiG314RiDjAtVycO9PngrQQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'>分钟&lt;/span&gt;</run></par>
+<par def='3'><run html='true'>&lt;span class="bfinfo"&gt;后失效&lt;/span&gt;</run></par>
+<par def='2'><run html='true'>&lt;/span&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmBfCountDownWarnning</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,01+08</datetime></item></subform>
+

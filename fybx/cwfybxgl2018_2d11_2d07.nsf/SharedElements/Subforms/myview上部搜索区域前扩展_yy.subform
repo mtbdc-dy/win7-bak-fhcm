@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='myview上部搜索区域前扩展_yy' alias='sfrmmyviewSearch_Custom_Before_yy'
+ xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='c6e' unid='3BE19892EBC7FDF548258053001F2F06' sequence='48'>
+<created><datetime>20161021T134036,54+08</datetime></created>
+<modified><datetime>20181107T195829,71+08</datetime></modified>
+<revised><datetime>20181024T085503,50+08</datetime></revised>
+<lastaccessed><datetime>20181107T195829,71+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195829,71+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'> </run></par><subformref><code event='value'><formula
+ compiled='true'>
+PgAJADQAPNer3thaw4Mq1gzVRbsUkY9IcIuFN5UCXyx8NGeC8IfDdqaiMX/WNlAHl+v7n3Z1BAAE
+AAQABAA=
+</formula></code></subformref>
+<par def='1'><run html='true'> </run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmmyviewSearchBeforCustom</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,81+08</datetime></item></subform>
+

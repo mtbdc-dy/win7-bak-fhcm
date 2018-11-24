@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='changePage' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='7' comment='dimino自带翻页按钮' renderpassthrough='true'>
+<noteinfo noteid='28e' unid='4F6CB6913F2694AD48257BD4001FE576' sequence='55'>
+<created><datetime>20130827T134823,58+08</datetime></created>
+<modified><datetime>20181107T195616,37+08</datetime></modified>
+<revised><datetime>20181024T085443,72+08</datetime></revised>
+<lastaccessed><datetime>20181107T195616,37+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195616,37+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><button width='2in' widthtype='maximum' maxlines='1' wraptext='true'
+ bgcolor='system' htmlstyle='display:none' name='FrontPage'><code event='click'><formula
+ compiled='true'>
+PgAJADQAH3af4aYskU/dqDuBjbtzetPBDqyFZlmmrSuvawMiFg03fhUGUctcOSSD0OhP3cFLBAAE
+AAQABAA=
+</formula></code>&lt;</button><button width='2in' widthtype='maximum'
+ maxlines='1' wraptext='true' bgcolor='system' htmlstyle='display:none' name='NextPage'><code
+ event='click'><formula compiled='true'>
+NgAJACwA9uT5NkQzVMdTfSHrnHZRevx/t7h39oW8E+kJ8+pkaEd2rcr1xr+t1wQABAAEAAQA
+</formula></code>&gt;</button></par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20060816T093341,57+08</datetime></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>changePage</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,43+08</datetime></item></subform>
+

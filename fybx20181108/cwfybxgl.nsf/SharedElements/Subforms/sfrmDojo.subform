@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmDojo' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ publicaccess='true' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='31e' unid='482570380028AE28482575770022717B' sequence='60'>
+<created><datetime>20090312T141612,75+08</datetime></created>
+<modified><datetime>20181025T014915,37+08</datetime></modified>
+<revised><datetime>20181024T085443,50+08</datetime></revised>
+<lastaccessed><datetime>20181025T014915,36+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010757,33+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>dojo.require("smartdot.form.Button");</javascript></code>
+<body><richtext>
+<pardef id='1' hide='web'/>
+<par def='1'><run html='true'><sharedfieldref name='update_timestamp'/></run><run
+ html='true'><sharedfieldref name='sysLanguage'/></run><run html='true'><sharedfieldref
+ name='HTTP_cookie'/></run><run html='true'><sharedfieldref name='Path_Info'/></run><run
+ html='true'> </run><field type='text' kind='computedfordisplay' name='$$HTMLHead'><code
+ event='defaultvalue'><formula compiled='true'>
+7gEJAOQBjMqGBLaeH/fnn/Ru5DTIljoozVchtTGYk6DEXLBgqNz482pubXhPOxRoXEyQT1QAcs+r
+/KgOftoRP7kJRxx4DJVRzliU5GsK60K4rFZ6m6zSCNunQ8ZlAmr6LwbU/c35BO/+PlwOqXwcLwTz
+d7cPMfd0lBhnKCqiMA3Pz0dZkGdEqVC0kk5j7oz0GDfLfR5gY2gYVF49KAa89GS9DeaKA893yOqA
+d/hwvzvdYEvnqZbOg55KNKB4X1qbPBplF34MYSMpbFgDUs8Pg5M/UgFLpSSQsQvqRfARj95PjBBO
+mcaVei0BMN1hrLNlbB9L4UCQtu+tRRwXh9lp2TD0U4kg1tmzqtsoML8Dnk/jqnfAxd9MdF7xRkip
+40XUNvXzghCIH8yD22qmqD0YOxRek0MQgnqREbqd0ReLbPUcCJvt/PIY0/mThKKTaOdHmGgah6mi
+cn4QrscvX01zTe6Y7DA+QyoTygddUFl//hIPPHxP1NJMh2FwT2moBarZZywE8MKFA5pLA0WHJRrF
+Cm0hX+sZyDefna8FaQM/bgw9R9JqxVQRo+wYoonS2mNHygutJHp7kcCk8FfnEsGgjrqL09X4hqpx
+zwrE83hdb8tky1Dl3Bg0QlBpUJYFQM1xof2zEkplBAAEAAQABAA=
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='29' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><field type='text'
+ kind='computedfordisplay' name='$$HTMLTagAttributes'><code event='defaultvalue'><formula
+ compiled='true'>
+TgAJAEQANQ83bf1oJGs26wgHPuL7ekrzcx2FhN9Y6Yb6kexU8qmFxnqfUQjNJFbG902BpHD4KIK2
+SXWDEp+9vGanLb6CEAQABAAEAAQA
+</formula></code></field><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='35' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata> Dojo相关处理字表单</par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmDojo</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,17+08</datetime></item></subform>
+

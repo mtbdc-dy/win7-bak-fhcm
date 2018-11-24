@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmGetStart' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ publicaccess='false' designerversion='7' renderpassthrough='true'>
+<noteinfo noteid='502' unid='7C18D703B4237243482572EC00133780' sequence='57'>
+<created><datetime>20070531T112953,92+08</datetime></created>
+<modified><datetime>20181025T014913,95+08</datetime></modified>
+<revised><datetime>20181024T085453,18+08</datetime></revised>
+<lastaccessed><datetime>20181025T014913,94+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010752,41+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><embeddedview width='3.5000in' height='2in'><code event='value'><formula
+ compiled='true'>
+LgAJACQAIgPmHWb1O6R4J6JGq36C0clYNu15Th1uzjOjAwUeiy8EAAQABAAEAA==
+</formula></code></embeddedview></par>
+<par def='1'/><subformref name='changePage'/>
+<par def='1'><run><font color='red'/></run><computedtext><code event='value'><formula
+ compiled='true'>
+PgAJADQANWu2hsioTcXnE0/BRNMShMxawIDgI/O8kiscEYzxgJawiJsG86g3U1A9rfoi6oQsBAAE
+AAQABAA=
+</formula></code></computedtext></par>
+<par def='1'/></richtext></body>
+<item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmGetStart</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,77+08</datetime></item></form>
+

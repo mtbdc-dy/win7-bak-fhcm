@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtYs' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ hide='v3' runaswebuser='true' publicaccess='false' designerversion='8.5.3'
+ restrictions='fulladminunrestricted'>
+<noteinfo noteid='176a' unid='482581B6000911FF4825813100115D13' sequence='22'>
+<created><datetime>20170531T110939,39+08</datetime></created>
+<modified><datetime>20181107T195902,79+08</datetime></modified>
+<revised><datetime>20181024T091955,87+08</datetime></revised>
+<lastaccessed><datetime>20181107T195902,79+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195902,79+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092102,11+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='selected'/><code event='options'><lotusscript>%REM
+	Agent agtYs
+	Created 2017-5-31 by oanewadmin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	Print |okokokok|
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170531T111153,82+08</datetime></agentmodified>
+<runlog>Started running agent 'agtYs' on 2017-05-31 11:11:50
+ERROR: Unsupported trigger and search in the background or embedded agent
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T091955,87+08</datetime></item></agent>
+

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_NotifyOptions' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='34e' unid='838F9C14C027205948257CE6002BE57A' sequence='55'>
+<created><datetime>20140528T155927,94+08</datetime></created>
+<modified><datetime>20181107T195619,02+08</datetime></modified>
+<revised><datetime>20181024T085444,97+08</datetime></revised>
+<lastaccessed><datetime>20181107T195619,02+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195619,02+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='key_NotifyOptions'><code event='defaultvalue'><formula
+ compiled='true'>
+NgIJACwC3rknkB0FFT9SjZk44Ns/Thgg3b/EKoj+XZk3giOoVCcd3IeOhFfu7koPke/LNDgm2FIT
+U28ivDEeYN/Q4WGBNEEigtJO/2jBOYBFH23nwTNlU79rlUPngunOOFNTJ6BLYuL4bsxbn88zpErF
+hQBzpIBL3LpiTXmO7keH7f7PvT61uYQ495aWC+LHQ3X04aDJ9MpJPtYZFx6K2EBeJUI40k2vnmIz
+RWtqmIZrPI9kmmi+fCohomDFtcD4ifZqAyUKTOElmAaYx7eErGABKnr0Za2fqBXHdFOOmgZRt+gg
+R8ZuLG9lqe10zZ23FVMmGAuoeqk7Txa8JYZwM3nDupt0hDXfnnd6pqBSY+ZG4wRcEj8gOURxlTub
+0xzFfABifHuSK9PxJ6k4x+i5C32gTyzYrHn1Ihikh56eBrx6kDTc4UK9SaGDJpsdNjBBDxD9LQNg
+G8YrocmULC0S9um9gdGtlZ5IKxtN1Vg0ycAdI83UHSv2bl69TKlTBM2b2YJPtrtoZxPHUK1BqF8j
+GU7h6+P91vG6dx9+wQSkiJsStPa1GldUCqPy4jt4JzKjjcJvRvO9k/593c0iQQo+mnMHCGlYKKLv
+6PLXW0x5cjWH2MpFXL7XshGFxzld6If6MOl5ZAb1KqXy44WYhBxWTftnm/FUjbqmDr6UbMnWsTMc
+pC9qrKg4FJeowW+gU8Ukhbwk8q6OKPuwtUVd5huCiaqLFXAJigIKC/bfP7lDBAAEAAQABAA=
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,41+08</datetime></item></sharedfield>
+

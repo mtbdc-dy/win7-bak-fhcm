@@ -1,0 +1,1917 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library libWorkSchedule
+	Created 2014-4-1 by admin/smartdot
+	Description: Comments for Library
+%END REM
+Option Public
+Option Explicit
+
+Use "CommonLib"
+Use "AppLib"
+Use "libJsonReader"
+Use "libMailSend_noflow"
+Use "libFzjh"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Class Schedule_xm
+Declare Class Math_xm
+Declare Sub Initialize
+Declare Function fnGetScheduleObjByUser_xm(user As String) As Schedule_xm
+Declare Function fnGetDatesDifference_xm(strbegin, strend, units) As Variant
+Declare Function fnScheduleDiffByContext_xm(strbegin, strend, units, context As String) As Variant
+Declare Function fnGetScheduleByContext_xm(strbegin, strend, context As String) As Variant
+Declare Private Sub fnMailToManager_xm(isapp As Boolean)
+Declare Function fnGetDutyTime_xm As Variant
+Declare Sub fnInitSchedule_xm(user As String)
+Declare Function fnScheduleAdjust_xm(units As String, begin As NotesDateTime, duration As Variant) As NotesDateTime
+Declare Function fnScheduleAdjustByContext_xm(units As String, begin As NotesDateTime, duration As Variant, context As String) As NotesDateTime
+Declare Function fnGetDutyTimeByContext_xm(context As String) As Variant
+Declare Function fnGetSchedule_xm(strbegin, strend) As Variant
+Declare Function fnAdjustHourOfSameDay_xm(begin As NotesDateTime, dur As Variant)
+Declare Private Function fnScheduleDiff_xm(strbegin, strend, units,user As String) As Variant
+Declare Function fnGetDateLimitByUser_xm(strDate As String,strTime As String,struser As String,strBegintime As String) As String
+Declare Function fnGetTimeDiffOfSameDay_xm(dts As NotesDateTime, dte As NotesDateTime)
+Declare Private Function fnGetDatesDifferenceByUser_xm(strbegin, strend, units,user As String) As Variant
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Dim g_schedule_list_xm List As Variant
+Dim g_schedule_xm As Variant
+Dim g_commutingTime_xm As Variant
+Dim g_b_AllUseOneSchedule_xm As Boolean '
+
+
+%REM
+	Class Schedule
+	Description: Comments for Class
+%END REM
+Class Schedule_xm
+	Private oaconfigdb As NotesDatabase
+	Private appconfigdb As NotesDatabase
+	Private indinamesdb As NotesDatabase
+	Private addresstreedb As NotesDatabase
+
+	Private session As NotesSession
+	Private kqpzdb_xm As NotesDatabase  '考勤配置数据库 by wx 2016-10-21
+	Private dbcurrent_xm As NotesDatabase  '当前数据库 by wx 2016-10-21
+	
+	Private schedules As Variant
+	Private curschedule List As Variant
+	Private curcommutingtime As Variant
+	Private commutingtimeName As Variant
+	Private commutingtime As Variant
+	'是否初始化日历失败
+	Private boInitFail As Boolean
+	
+	Property Get Dutytime As Variant
+		Dutytime = Me.commutingtime
+	End Property
+	Property Get isInitFail As Boolean
+		isInitFail = me.boInitFail
+	End Property
+	
+	%REM
+		Sub New
+		Description: Comments for Sub
+	%END REM
+	Public Sub New(user As String)
+		On Error GoTo errorHandle
+		g_logger.info(|new 工作日历，user=|+user)
+		
+		Set ME.session = New NotesSession
+		Set ME.dbcurrent_xm = session.Currentdatabase  '当前数据库
+		Dim vwapp As NotesView
+		Dim docapp As NotesDocument
+		Dim appname As String		
+		Dim server As String
+		Dim isApp As Boolean
+		
+		Set ME.indinamesdb = session.Getdatabase("", "indishare/indinames.nsf")
+		If me.indinamesdb Is Nothing Then
+			me.boInitFail = True
+			g_logger.Warn("indinames数据库不存在，无法初始化工作日历")
+			GoTo sendMailto
+		End If
+		Set vwapp = ME.indinamesdb.Getview("vmUserApp")
+		If vwapp Is Nothing Then
+			me.boInitFail = True
+			g_logger.Warn("indinames vmUserApp不存在，无法初始化工作日历")
+			GoTo sendMailto
+		End If
+		Set docapp = vwapp.Getdocumentbykey(user, True)
+		'用户应用映射文档不存在，无法初始化
+		If docapp Is Nothing Then
+			me.boInitFail = True
+			g_logger.Warn("用户应用映射文档不存在，无法初始化工作日历")
+			GoTo sendMailto 
+		End If
+		
+		g_logger.Debug(|执行赋值appname = docapp.Getitemvalue("appName")(0)|)
+		appname = docapp.Getitemvalue("appName")(0)
+		g_logger.Debug(|appname = |+appname)
+		g_logger.Debug(|获取appname所在的服务器，赋值给server|)
+		server = fnGetDbServerOfApp(appname)
+		g_logger.Debug(|server=|+server)
+		
+		If server= "Error" Then Error 999,"未获取到"+appname+"的服务器" 
+		g_logger.Debug(|执行赋值Set ME.appconfigdb = session.Getdatabase( fnGetValidServer(server), appname+"/appconfig.nsf")|)
+		Set ME.appconfigdb = session.Getdatabase( fnGetValidServer(server), appname+"/appconfig.nsf")
+		Call g_logger.DebugWithVariable(|fnGetValidServer(server)=|,fnGetValidServer(server))
+		Set ME.oaconfigdb = session.Getdatabase("", "indishare/oaconfig.nsf")
+		Set ME.addresstreedb = session.Getdatabase("", "indishare/addresstree.nsf")
+		'考勤配置数据库 by wx 2016-10-21
+		Set ME.kqpzdb_xm = session.GetDatabase("",StrLeftBack(Replace(dbcurrent_xm.FilePath,"\","/"),"/")+"/kqpz.nsf")
+		'Set ME.kqpzdb_xm = session.Getdatabase( "", appname+"/kaoqin/kqpz.nsf")
+		'任何一个数据库不存在，无法初始化
+		If  Not ME.oaconfigdb.Isopen Or Not ME.addresstreedb.Isopen Or Not ME.kqpzdb_xm.Isopen Then
+			me.boInitFail = True
+			g_logger.warn( "oaconfig or addresstree数据库不存在，无法初始化工作日历")
+			GoTo sendMailto 
+		End If
+		
+		Dim vwuser As NotesView
+		Dim vwrule As NotesView
+		Dim vwtimerule As NotesView
+		Dim docuser As NotesDocument
+		Dim docrule As NotesDocument
+		Dim doctimerule As NotesDocument
+		
+		
+		g_logger.Debug(|执行赋值Set vwuser = ME.indinamesdb.Getview("vwUserByName")|)
+		Set vwuser = ME.indinamesdb.Getview("vwUserByName")
+		g_logger.Debug(|执行赋值Set vwrule = ME.oaconfigdb.Getview("vwScheduleMap")|)
+		Set vwrule = ME.oaconfigdb.Getview("vwScheduleMap")
+		g_logger.Debug(|执行赋值Set vwtimerule = ME.oaconfigdb.Getview("vwCommutingTimeMap")|)
+		Set vwtimerule = ME.oaconfigdb.Getview("vwCommutingTimeMap")
+		
+		'任何一个视图不存在，无法初始化
+		If vwuser Is Nothing Or vwrule Is Nothing Or vwtimerule Is Nothing Then
+			me.boInitFail = True
+			g_logger.warn( "indinames vwUserByName or oaconfig vwScheduleMap or oaconfig vwCommutingTimeMap视图不存在，无法初始化工作日历")
+			GoTo sendMailto 
+		End If
+		
+		g_logger.Debug(|执行赋值Set docuser = vwuser.Getdocumentbykey(user, True),user=|+user)
+		Set docuser = vwuser.Getdocumentbykey(user, True)
+		g_logger.Debug(|执行赋值Set docrule = vwrule.Getfirstdocument()|)
+		Set docrule = vwrule.Getfirstdocument()
+		g_logger.Debug(|执行赋值Set doctimerule = vwtimerule.Getfirstdocument()|)
+		Set doctimerule = vwtimerule.Getfirstdocument()
+		
+		'任何一个文档不存在，无法初始化
+		If docuser Is Nothing Or docrule Is Nothing Or doctimerule Is Nothing Then
+			me.boInitFail = True
+			g_logger.warn(  "用户文档  or 工作日历不存在，无法初始化工作日历")
+			GoTo sendMailto
+		End If
+		Dim rulesItem As NotesRichTextItem
+		g_logger.Debug(|执行赋值Set rulesItem = docrule.Getfirstitem("scheduleMap"),docrule.Universalid=|+docrule.Universalid)
+		Set rulesItem = docrule.Getfirstitem("scheduleMap")
+		'存储Json的域不存在，无法初始化
+		If rulesItem Is Nothing Then
+			me.boInitFail = True
+			g_logger.warn(  "工作日历文档scheduleMap域不存在，无法初始化工作日历")
+			GoTo sendMailto 
+		End If
+		Dim sJSON As String
+		Dim jsonReader As JSONReader
+		Dim vResult As Variant
+		Set jsonReader = New JSONReader
+		
+		Dim vwConfig As NotesView
+		Dim docConfig As NotesDocument
+		g_logger.Debug(|执行赋值Set vwConfig = ME.oaconfigdb.Getview("vwconfigforcoding")|)
+		Set vwConfig = ME.oaconfigdb.Getview("vwconfigforcoding")
+		'系统参数视图不存在，无法初始化
+		If vwConfig Is Nothing Then
+			me.boInitFail = True
+			g_logger.warn(  "系统参数视图vwconfigforcoding不存在，无法初始化工作日历")
+			GoTo sendMailto
+		End If 
+		g_logger.Debug(|执行赋值Set docConfig = vwConfig.Getdocumentbykey("key_AppWorkSchedule", True)|)
+		Dim configOn As Boolean
+		Set docConfig = vwConfig.Getdocumentbykey("key_AppWorkSchedule", True)
+		If docConfig Is Nothing Then
+			g_logger.Debug(|满足条件docConfig Is Nothing，执行赋值configOn = False|)
+			configOn = False
+		ElseIf docConfig.value(0)="1" Then
+			g_logger.Debug(|满足条件docConfig.value(0)="1"，执行赋值configOn = true|)
+			configOn = True
+		Else
+			g_logger.Debug(|满足条件else(key_AppWorkSchedule不存在或者未打开)，执行赋值configOn = false|)
+			configOn = False
+		End If
+		
+		g_logger.Debug(|执行赋值g_b_AllUseOneSchedule_xm=Not configOn|)
+		g_b_AllUseOneSchedule_xm=Not configOn
+		Call g_logger.DebugWithVariable(|g_b_AllUseOneSchedule_xm=|,g_b_AllUseOneSchedule_xm)
+		
+		g_logger.Debug(|判断是否满足条件configOn=true|)
+		If configOn Then
+			g_logger.Debug(|满足条件configOn=true,继续判断是否满足条件Not ME.appconfigdb.Isopen|)
+			If Not ME.appconfigdb.Isopen Then
+				me.boInitFail = True
+				g_logger.warn( "appconfig 数据库不存在，无法初始化工作日历")
+				GoTo sendMailto 
+			End If
+		End If
+		
+		g_logger.Debug(|执行赋值sJSON = rulesItem.Getunformattedtext()|)
+		sJSON = rulesItem.Getunformattedtext()
+		g_logger.Debug(|sJSON = |+sJSON)
+		g_logger.Debug(|执行赋值Set vResult = jsonReader.Parse(sJSON),|)
+		Set vResult = jsonReader.Parse(sJSON)
+		
+		g_logger.Debug(|判断是否满足条件configOn=true|)
+		If configOn Then
+			g_logger.Debug(|满足条件configOn=true，执行赋值Set vwrule = ME.appconfigdb.Getview("vwScheduleMap")|)
+			Set vwrule = ME.appconfigdb.Getview("vwScheduleMap")
+			g_logger.Debug(|判断是否满足条件vwrule Is Nothing |)
+			'应用工作日历视图不存在，无法初始化
+			If vwrule Is Nothing Then
+				g_logger.Debug(|满足条件vwrule Is Nothing |)
+				me.boInitFail = True
+				isApp = True
+				g_logger.warn( "应用工作日历视图vwScheduleMap不存在，无法初始化工作日历")
+				GoTo sendMailto 
+			End If
+			g_logger.Debug(|执行赋值Set docrule = vwrule.Getfirstdocument()|)
+			Set docrule = vwrule.Getfirstdocument()
+			g_logger.Debug(|判断是否满足条件Not docrule Is Nothing|)
+			If Not docrule Is Nothing Then
+				g_logger.Debug(|满足条件Not docrule Is Nothing|)
+				Dim sAppJSON As String
+				Dim vAppResult As Variant
+				g_logger.Debug(|执行赋值Set rulesItem = docrule.Getfirstitem("scheduleMap")|)
+				Set rulesItem = docrule.Getfirstitem("scheduleMap")
+				'应用存储Json域不存在，无法初始化
+				g_logger.Debug(|判断是否满足条件rulesItem Is Nothing |)
+				If rulesItem Is Nothing Then
+					g_logger.Debug(|满足条件rulesItem Is Nothing |)
+					me.boInitFail = True
+					isApp = True
+					g_logger.warn( "应用工作日历Json域scheduleMap不存在，无法初始化工作日历")
+					GoTo sendMailto 
+				End If
+				g_logger.Debug(|执行赋值sAppJSON = rulesItem.Getunformattedtext()|)
+				sAppJSON = rulesItem.Getunformattedtext()
+				g_logger.Debug(|sAppJSON = |+sAppJSON)
+				g_logger.Debug(|执行赋值Set vAppResult = jsonReader.Parse(sAppJSON)|)
+				Set vAppResult = jsonReader.Parse(sAppJSON)
+				Dim i As Integer
+				Dim oaDefault As Variant
+				g_logger.Debug(|判断是否满足条件vResult.Items(vResult.Count-1).GetItemValue("prop") = "default"|)
+				'缺省日历放在数组最后
+				If vResult.Items(vResult.Count-1).GetItemValue("prop") = "default" Then
+					g_logger.Debug(|满足条件，执行赋值Set oaDefault = vResult.Items(vResult.Count-1)|)
+					Set oaDefault = vResult.Items(vResult.Count-1)
+					g_logger.Debug(|调用vResult.RemoveItem(vResult.Count-1)|)
+					vResult.RemoveItem(vResult.Count-1)
+				End If
+				
+				g_logger.Debug(|开始循环For i=0 To vAppResult.Count-1|)
+				For i=0 To vAppResult.Count-1
+					g_logger.Debug(|调用Call vResult.addItem(vAppResult.Items(i))，i=|+CStr(i))
+					Call vResult.addItem(vAppResult.Items(i))
+				Next
+				g_logger.Debug(|结束循环For i=0 To vAppResult.Count-1|)
+				g_logger.Debug(|判断是否满足条件Not IsEmpty(oaDefault)|)
+				If Not IsEmpty(oaDefault) Then
+					g_logger.Debug(|满足条件Not IsEmpty(oaDefault)，调用Call vResult.addItem(oaDefault)|)
+					Call vResult.addItem(oaDefault)
+				End If
+			End If
+		End If
+		
+		g_logger.Debug(|判断是否满足条件configOn=false|)
+		If Not configOn Then
+			g_logger.Debug(|满足条件configOn=true，继续判断是否满足条件 vResult.Count >1|)
+			If vResult.Count >1 Then
+				g_logger.Debug(|满足条件 vResult.Count >1，执行赋值g_b_AllUseOneSchedule_xm=False|)
+				g_b_AllUseOneSchedule_xm=False
+			End If
+		End If
+		
+		g_logger.Debug(|根据vResult以及docuser,赋值ME.schedules|)
+		ME.schedules = getMapResult(vResult, docuser)
+		
+		g_logger.Debug(|执行赋值Set rulesItem = doctimerule.Getfirstitem("scheduleMap"),doctimerule.Universalid=|+doctimerule.Universalid)
+		Set rulesItem = doctimerule.Getfirstitem("scheduleMap")
+		g_logger.Debug(|判断是否满足条件rulesItem Is Nothing |)
+		'存储Json域不存在，无法初始化
+		If rulesItem Is Nothing Then
+			g_logger.Debug(|满足条件rulesItem Is Nothing |)
+			Me.boInitFail = True
+			g_logger.Warn( "工作日历Json域scheduleMap不存在，无法初始化工作日历")
+			GoTo sendMailto 
+		End If
+		g_logger.Debug(|执行赋值sJSON = rulesItem.Getunformattedtext()|)
+		sJSON = rulesItem.Getunformattedtext()
+		g_logger.Debug(|sJSON=|+sJSON)
+		g_logger.Debug(|判断是否满足条件configOn=true|)
+		If configOn Then
+			g_logger.Debug(|满足条件configOn=true，执行赋值Set vwtimerule = ME.appconfigdb.Getview("vwCommutingTimeMap")|)
+			Set vwtimerule = ME.appconfigdb.Getview("vwCommutingTimeMap")
+			g_logger.Debug(|判断是否满足条件vwtimerule Is Nothing |)
+			'视图不存在，无法初始化
+			If vwtimerule Is Nothing Then
+				g_logger.Debug(|满足条件vwtimerule Is Nothing |)
+				me.boInitFail = True
+				g_logger.warn( "应用工作日历视图vwCommutingTimeMap不存在，无法初始化工作日历")
+				GoTo sendMailto 
+			End If
+			g_logger.Debug(|执行赋值Set doctimerule = vwtimerule.Getfirstdocument()|)
+			Set doctimerule = vwtimerule.Getfirstdocument()
+			g_logger.Debug(|判断是否满足条件 Not doctimerule Is Nothing|)
+			If Not doctimerule Is Nothing Then
+				g_logger.Debug(|满足条件 Not doctimerule Is Nothing，执行赋值Set rulesItem = doctimerule.Getfirstitem("scheduleMap")|)			
+				Set rulesItem = doctimerule.Getfirstitem("scheduleMap")
+				g_logger.Debug(|判断是否满足条件 rulesItem Is Nothing|)
+				'应用存储Json域不存在，无法初始化
+				If rulesItem Is Nothing Then
+					g_logger.Debug(|满足条件 rulesItem Is Nothing|)
+					me.boInitFail = True
+					g_logger.Warn( "应用工作日历Json域scheduleMap不存在，无法初始化工作日历")
+					GoTo sendMailto 
+				End If
+				g_logger.Debug(|执行赋值sJSON = rulesItem.Getunformattedtext()|)
+				sJSON = rulesItem.Getunformattedtext()
+				g_logger.Debug(|sJSON = |+sJSON)
+			End If
+		End If
+		
+		g_logger.Debug(|执行赋值	Set vResult = jsonReader.Parse(sJSON)，sJSON = |+sJSON)
+		Set vResult = jsonReader.Parse(sJSON)
+		g_logger.Debug(|判断是否满足条件configOn=false|)
+		If Not configOn Then
+			g_logger.Debug(|满足条件configOn=true，继续判断是否满足条件 vResult.Count >1|)
+			If vResult.Count >1 Then
+				g_logger.Debug(|满足条件 vResult.Count >1，执行赋值g_b_AllUseOneSchedule_xm=False|)
+				g_b_AllUseOneSchedule_xm=False
+			End If
+		End If
+		
+		g_logger.Debug(|根据vResult和docUser，赋值ME.commutingtimeName|)
+		ME.commutingtimeName = getMapResult(vResult, docuser)(0)
+		
+		g_logger.Debug(|根赋值ME.commutingtime|)
+		ME.commutingtime = ME.getCommutingTime()
+sendMailto:
+		g_logger.Debug(|进入sendMailto断点，判断me.boInitFail是否为true |)
+		If me.boInitFail Then
+			g_logger.Debug(|满足条件me.boInitFail为true，发送初始化工作日历失败的邮件给mannager |)
+			Call fnMailToManager_xm(isapp)
+		End If
+		Exit Sub
+errorHandle:
+		ShowError " in New Schedule"
+	End Sub
+	
+	%REM
+		Function isInDep
+		Description: Comments for Function
+	%END REM
+	Private Function isInDep(target, source)
+		On Error GoTo errorHandle
+		
+		Dim vwdep As NotesView
+		Dim docdep As NotesDocument
+		g_logger.Debug(|执行赋值Set vwdep = ME.addresstreedb.Getview("vwDepByCode")|)
+		Set vwdep = ME.addresstreedb.Getview("vwDepByCode")
+		g_logger.Debug(|执行赋值Set docdep = vwdep.Getdocumentbykey(target, True)，target=|+target)
+		Set docdep = vwdep.Getdocumentbykey(target, True)
+		Dim deppath As Variant
+		g_logger.Debug(|执行赋值deppath = docdep.Getitemvalue("FLDDEPPATHNEW")|)
+		deppath = docdep.Getitemvalue("FLDDEPPATHNEW")
+		
+		Call g_logger.DebugWithVariable(|deppath=|,deppath)
+		Call g_logger.DebugWithVariable(|source=|,source)
+		
+		isInDep = Not IsNull(ArrayGetIndex(deppath, source))
+		
+		Exit Function
+errorHandle:
+		ShowError "isInDep"
+	End Function
+	
+	%REM
+		Function getMapResult
+		Description: Comments for Function
+	%END REM
+	Private Function getMapResult(map As Variant, userdoc As NotesDocument)
+		On Error GoTo errorHandle
+		g_logger.Info(|根据map和userdoc，获取匹配的工作日历|)
+		
+		Dim result As Variant
+		result = Split("")
+		Dim i As Integer
+		Dim prop, curVal As String
+		Dim rulevalue As Variant
+		Dim index As Variant
+		
+		g_logger.debug(|开始循环For i=0 To map.Count-1|)
+		For i=0 To map.Count-1
+			g_logger.debug(|i=|+CStr(i))
+			g_logger.debug(|执行赋值prop = map.Items(i).GetItemValue("prop")|)
+			prop = map.Items(i).GetItemValue("prop")
+			g_logger.debug(|prop=|+prop)
+			g_logger.debug(|执行赋值curVal = userdoc.Getitemvalue(prop)(0)|)
+			curVal = userdoc.Getitemvalue(prop)(0)
+			g_logger.debug(|curVal=|+curVal)
+			
+			g_logger.debug(|判断是否满足条件 prop="default" |)
+			If prop="default" Then
+				g_logger.debug(|满足条件 prop="default" ,判断是否满足条件UBound(result)>0 |)
+				If UBound(result)>0 Then
+					g_logger.debug(|满足条件UBound(result)>0，进入下次轮询 |)
+					GoTo nextfor
+				End If
+				g_logger.debug(|执行赋值result = ArrayAppend(result, map.Items(i).GetItemValue("schedule")) |)
+				result = ArrayAppend(result, map.Items(i).GetItemValue("schedule"))
+				g_logger.debug(|进入下次轮询 |)
+				GoTo nextfor
+			End If
+			
+			g_logger.debug(|判断是否满足条件 prop="FullName" |)
+			If prop="FullName" Then	
+				g_logger.debug(|满足条件 prop="FullName" ,执行赋值Dim tmpnm As New NotesName(curVal)，curVal=|+curVal)			
+				Dim tmpnm As New NotesName(curVal)
+				g_logger.debug(|执行赋值curVal = tmpnm.Abbreviated|)	
+				curVal = tmpnm.Abbreviated
+			End If
+			
+			g_logger.debug(|判断是否满足条件 prop="DepFullName" |)
+			If prop="DepFullName" Then
+				g_logger.debug(|满足条件 prop="DepFullName" ,调用Call map.Items(i).ReplaceItemValue("value", map.Items(i).GetItemValue("depcode"))|)
+				Call map.Items(i).ReplaceItemValue("value", map.Items(i).GetItemValue("depcode"))
+				g_logger.debug(|执行赋值curVal = userdoc.Getitemvalue("DepartmentCode")(0)|)
+				curVal = userdoc.Getitemvalue("DepartmentCode")(0)
+				g_logger.debug(|curVal=|+curVal)
+				g_logger.debug(|执行赋值rulevalue = FullTrim(Split(map.Items(i).GetItemValue("value"),","))|)
+				rulevalue = FullTrim(Split(map.Items(i).GetItemValue("value"),","))
+				Dim j As Integer
+				g_logger.debug(|开始循环For j=0 To UBound(rulevalue)|)
+				For j=0 To UBound(rulevalue)
+					g_logger.debug(|判断curval是否在rulevalue部门中|)
+					If isInDep(curVal, rulevalue(j)) Then
+						g_logger.debug(|curval是否在rulevalue部门中，执行赋值result = ArrayAppend(result, map.Items(i).GetItemValue("schedule")) |)
+						result = ArrayAppend(result, map.Items(i).GetItemValue("schedule"))
+						GoTo nextfor
+					End If
+				Next
+				g_logger.debug(|结束循环For j=0 To UBound(rulevalue)|)			
+			End If
+			g_logger.debug(|执行赋值rulevalue = FullTrim(Split(map.Items(i).GetItemValue("value"),","))|)
+			rulevalue = FullTrim(Split(map.Items(i).GetItemValue("value"),","))
+			g_logger.debug(|执行赋值index = ArrayGetIndex(rulevalue, curVal)|)
+			index = ArrayGetIndex(rulevalue, curVal)
+			g_logger.debug(|判断是否满足条件Not IsNull(index) |)
+			If Not IsNull(index) Then
+				g_logger.debug(|满足条件Not IsNull(index),执行赋值result = ArrayAppend(result, map.Items(i).GetItemValue("schedule")) |)
+				result = ArrayAppend(result, map.Items(i).GetItemValue("schedule"))
+			End If
+nextfor:
+		Next
+		g_logger.debug(|结束循环For i=0 To map.Count-1|)
+		
+		getMapResult = ArrayUnique(FullTrim(result))
+		Exit Function
+errorHandle:
+		ShowError "getMapResult"
+	End Function
+	
+	%REM
+		Sub mixin
+		Description: Comments for Sub
+	%END REM
+	Private Function mixin(target As Variant, source As Variant)
+		On Error GoTo errorHandle
+		Dim level List As Integer
+		level("workday") = 1
+		level("weekend") = 2
+		level("comp") = 3
+		level("statutory") = 4
+		
+		Dim curSchedule As Variant
+		Dim targetSchedule As Variant
+		ForAll v In source.Items
+			Set targetSchedule = target.GetItemValue(ListTag(v))
+			Set curSchedule = source.GetItemValue(ListTag(v))
+			If level(curSchedule.GetItemValue("type"))>level(targetSchedule.GetItemValue("type")) Then
+				Call target.ReplaceItemValue(ListTag(v), curSchedule)				
+			End If
+		End ForAll
+		Set mixin = target
+		Exit Function
+errorHandle:
+		ShowError "mixin"
+	End Function
+	
+	%REM
+		Function MergerSchedule
+		Description: Comments for Function
+	%END REM
+	Private Function MergerSchedule(arr As Variant)
+		On Error GoTo errorHandle
+		Dim i As Integer
+		Dim sJSON As String
+		Dim jsonReader As JSONReader
+		Dim vResults As Variant
+		Dim vReasult As New ConverJSONObject
+		vResults = Split("")
+		
+		For i=1 To UBound(arr)
+			Dim keys,types,isworkday As Variant
+			keys = arr(i).getItemValue("schedule_date")
+			types = arr(i).getItemValue("schedule_type")
+			isworkday = arr(i).getItemValue("schedule_isworkday")
+			
+			Dim j As Integer
+			For j=0 To UBound(keys)-1
+				Dim jsonobj As New ConverJSONObject
+				Call jsonobj.ReplaceItemValue("type", types(j))
+				Call jsonobj.ReplaceItemValue("isWorkDay", isworkday(j))
+				Call vReasult.ReplaceItemValue(keys(j), jsonobj)
+			Next
+			
+			vResults = ArrayAppend(vResults, vReasult)
+		Next
+		
+		Dim obj As Variant
+		Set obj = vResults(1)
+		
+		If UBound(vResults)>1 Then
+			For i=UBound(vResults) To 1 Step -1
+				Set obj = mixin(obj, vResults(i))
+			Next
+		End If
+		
+		Set MergerSchedule = obj
+		Exit Function
+errorHandle:
+		ShowError "MergerSchedule"
+	End Function
+	
+	%REM
+		Function getScheduleByYear
+		Description: Comments for Function
+	%END REM
+	Public Function getScheduleByYear(stryear As String)
+		On Error GoTo errorHandle
+		g_logger.info(|按年份获取工作日历,stryear=|+stryear)
+		g_logger.debug(|判断是否满足条件Not IsEmpty(ME.curschedule(stryear))|)
+		If Not IsEmpty(ME.curschedule(stryear)) Then
+			g_logger.debug(|满足条件Not IsEmpty(ME.curschedule(stryear)),执行赋值Set getScheduleByYear = ME.curschedule(stryear)|)
+			Set getScheduleByYear = ME.curschedule(stryear)
+			g_logger.debug(|退出函数|)
+			Exit Function
+		End If
+		Dim vReasult As New ConverJSONObject
+		Dim vwscheduleAll As NotesView
+		Dim doc As NotesDocument
+		Dim key,keys,types,isworkday,docs As Variant
+		Dim i As Integer,j As Integer
+		Dim tmpStr As String
+		'初始化变量
+		docs = Split("")
+		tmpStr = ""
+		g_logger.debug(|开始循环For i=0 To UBound(ME.schedules)|)
+		For i=0 To UBound(ME.schedules)
+			g_logger.debug(|i=|+CStr(i))
+			If tmpStr ="" Then
+				g_logger.debug(|tmpStr为空，执行赋值tmpStr = ME.schedules(i)|)
+				tmpStr = ME.schedules(i)
+			Else
+				g_logger.debug(|tmpStr不为空，执行赋值tmpStr = tmpStr + "#" + ME.schedules(i)|)
+				tmpStr = tmpStr + "#" + ME.schedules(i)
+			End If
+			g_logger.debug(|tmpStr=|+tmpStr)
+		Next 
+		g_logger.debug(|结束循环For i=0 To UBound(ME.schedules)|)
+		g_logger.debug(|根据strYeay和tmpStr，在所有日历视图中查找符合要求的日历文档，赋值给doc|)
+		'在所有日历视图中查找符合要求的日历文档
+		Set doc = getCurScheduleDoc(strYear,tmpStr)
+		
+		g_logger.debug(|判断是否满足条件Not doc Is Nothing|) 
+		If Not doc Is Nothing Then
+			g_logger.debug(|满足条件Not doc Is Nothing|)
+			g_logger.debug(|执行赋值keys = doc.getItemValue("schedule_date")|)
+			keys = doc.getItemValue("schedule_date")
+			Call g_logger.debugwithvariable(|keys=|,keys)
+			g_logger.debug(|执行赋值types = doc.getItemValue("schedule_type")|)
+			types = doc.getItemValue("schedule_type")
+			Call g_logger.debugwithvariable(|types=|,types)
+			g_logger.debug(|执行赋值isworkday = doc.getItemValue("schedule_isworkday")|)
+			isworkday = doc.getItemValue("schedule_isworkday")
+			Call g_logger.debugwithvariable(|isworkday=|,isworkday)
+			
+			Call g_logger.debug(|开始循环For j=0 To UBound(keys)|)
+			For j=0 To UBound(keys)
+				Call g_logger.debug(|j=|+CStr(j)+|调用Dim jsonobj As New ConverJSONObject|)
+				Dim jsonobj As New ConverJSONObject
+				Call g_logger.debug(|调用Call jsonobj.ReplaceItemValue("type", types(j))|)
+				Call jsonobj.ReplaceItemValue("type", types(j))
+				Call g_logger.debug(|调用Call jsonobj.ReplaceItemValue("isWorkDay", isworkday(j))|)
+				Call jsonobj.ReplaceItemValue("isWorkDay", isworkday(j))
+				Call g_logger.debug(|Call vReasult.ReplaceItemValue(keys(j), jsonobj)|)
+				Call vReasult.ReplaceItemValue(keys(j), jsonobj)
+			Next
+			Call g_logger.debug(|结束循环For j=0 To UBound(keys)|)
+			Call g_logger.debug(|执行赋值Set ME.curschedule(stryear) = vReasult|)
+			Set ME.curschedule(stryear) = vReasult
+			Call g_logger.debug(|将结果返回，Set getScheduleByYear = vReasult|)
+			'将结果集返回
+			Set getScheduleByYear = vReasult
+		Else
+			g_logger.debug(|不满足条件Not doc Is Nothing|)
+			g_logger.warn( |提示:未找到| & strYear & |年的工作日历[| & tmpStr & |],导致公文无法流转.请在"应用管理>参数及接口>系统工作日历>工作日历配置"中添加配置!|)
+			'给管理员发送邮件
+			Call fnMailToManager_xm(False)
+		End If
+		
+		Exit Function
+errorHandle:
+		ShowError "getScheduleByYear"
+	End Function
+	
+	%REM
+		Function getCurScheduleDoc
+		Description: 获取用户使用的日历配置文档
+	%END REM
+	Private Function getCurScheduleDoc(strYear As String,tmpStr As String) As NotesDocument
+		On Error GoTo errorHandle
+		
+		g_logger.Info(|获取用户使用的日历配置文档,strYear=|+strYear+|,tmpStr=|+tmpStr)
+		
+		Dim vwscheduleAll As NotesView
+		Dim doc As NotesDocument
+		Dim key As Variant		
+		'拼装索引关键字key值
+		g_logger.debug(|执行赋值key = Split(stryear + "," + tmpStr,",")|)
+		key = Split(stryear + "," + tmpStr,",")
+		g_logger.debug(|执行赋值Set vwscheduleAll = ME.oaconfigdb.Getview("vwScheduleAll")|)
+		Set vwscheduleAll = ME.oaconfigdb.Getview("vwScheduleAll")
+		Call g_logger.debugWithVariable(|执行赋值Set doc = vwscheduleAll.Getdocumentbykey(key, True),key=|,key)
+		Set doc = vwscheduleAll.Getdocumentbykey(key, True)
+		
+		Call g_logger.debug(|判断是否满足条件Not doc Is Nothing |)
+		If Not doc Is Nothing Then
+			Call g_logger.debug(|满足条件Not doc Is Nothing ,执行赋值Set getCurScheduleDoc = doc，doc.universalid=|+doc.Universalid)
+			Set getCurScheduleDoc = doc
+		Else
+			Call g_logger.debug(|不满足条件Not doc Is Nothing ,未找到doc，判断是否满足条件InStr(tmpStr,"#") > 1|)
+			'判断是否是合并的工作日历
+			If InStr(tmpStr,"#") > 1 Then
+				Call g_logger.debug(|满足条件InStr(tmpStr,"#") > 1|)
+				Dim sMath As New Math_xm
+				Dim tmpResult As Variant
+				Dim tempAry As Variant
+				Dim i,j As Integer
+				Dim strName As String
+				tempAry = Split(tmpStr,"#")
+				
+				Call g_logger.debugWithVariable(|对日历名称进行排列组合，赋值给tmpResult，要排列组合的tempAry=|,tempAry)
+				'对日历名称进行排列组合
+				Call sMath.Permute(tempAry,UBound(tempAry)+1,tmpResult)
+				
+				Call g_logger.debug(|遍历二维数组，开始循环For i = LBound(tmpResult, 1) To UBound(tmpResult,1)|)
+				'遍历二维数组
+				For i = LBound(tmpResult, 1) To UBound(tmpResult,1)
+					Call g_logger.debug(|i=|+CStr(i)+|，执行赋值strName = ""|)
+					strName = ""
+					Call g_logger.debug(|开始循环For j = LBound(tmpResult, 2) To UBound(tmpResult,2)|)
+					For j = LBound(tmpResult, 2) To UBound(tmpResult,2)
+						Call g_logger.debug(|j=|+CStr(j))
+						If strName = "" Then
+							Call g_logger.debug(|strName为空,执行赋值strName = tmpResult(i,j)|)
+							strName = tmpResult(i,j)
+						Else
+							Call g_logger.debug(|strName不为空,执行赋值strName = strName & "#" & tmpResult(i,j)|)
+							'将合并的日历名称按#字符分隔
+							strName = strName & "#" & tmpResult(i,j) 				
+						End If
+						Call g_logger.debug(|strName=|+strName)
+					Next j
+					Call g_logger.debug(|结束循环For j = LBound(tmpResult, 2) To UBound(tmpResult,2)|)
+					Call g_logger.debug(|判断是否满足条件strName <> "" And strName <> tmpStr ,strName=|+strName+|,tmpStr=|+tmpStr)
+					If strName <> "" And strName <> tmpStr Then
+						Call g_logger.debug(|满足条件,执行赋值key = Split(stryear + "," + strName,",")|)
+						'拼装索引关键字key值
+						key = Split(stryear + "," + strName,",")
+						Call g_logger.debugWithVariable(|执行赋值Set doc = vwscheduleAll.Getdocumentbykey(key, True),key=|,key)
+						Set doc = vwscheduleAll.Getdocumentbykey(key, True)
+						Call g_logger.debug(|判断是否满足条件Not doc Is Nothing |)
+						'如果找到日历文档则终止循环
+						If Not doc Is Nothing Then
+							Call g_logger.debug(|满足条件Not doc Is Nothing ,执行赋值Set getCurScheduleDoc = doc，doc.universalid=|+doc.Universalid)
+							Set getCurScheduleDoc = doc
+							Call g_logger.debug(|退出函数|)
+							Exit Function						
+						End If
+					End If 
+				Next i
+				Call g_logger.debug(|结束循环For i = LBound(tmpResult, 1) To UBound(tmpResult,1)|)
+			End If			
+		End If
+		
+		Exit Function
+errorHandle:
+		ShowError "getCurScheduleDoc"
+	End Function
+	
+	%REM
+		Function commutingTime
+		Description: Comments for Function
+	%END REM
+	Public Function getCommutingTime As Variant
+		On Error GoTo errorHandle
+		
+		g_logger.Info(|获取工作日历上下班时间|)
+		g_logger.debug(|判断是否满足条件Not IsEmpty(ME.curcommutingtime)|)
+		If Not IsEmpty(ME.curcommutingtime) Then
+			g_logger.debug(|满足条件Not IsEmpty(ME.curcommutingtime)，执行赋值getCommutingTime = ME.curcommutingtime，退出函数|)
+			getCommutingTime = ME.curcommutingtime
+			Exit Function
+		End If
+		
+		
+		Dim vwtime As NotesView
+		Dim doc As NotesDocument
+		g_logger.debug(|执行赋值Set vwtime = ME.oaconfigdb.Getview("vwCommutingTimeByName")|)
+		Set vwtime = ME.oaconfigdb.Getview("vwCommutingTimeByName")
+		g_logger.debug(|执行赋值Set doc = vwtime.Getdocumentbykey(ME.commutingtimeName, True)),ME.commutingtimeName=|+ME.commutingtimeName)
+		Set doc = vwtime.Getdocumentbykey(ME.commutingtimeName, True)
+		Dim vwkqpz_xm  As NotesView '考勤配置视图  by wx 2016-10-21
+		Dim kqpzdoc_xm  As NotesDocument '考勤配置文档  by wx 2016-10-21
+		'考勤配置视图 by wx 2016-10-21
+		g_logger.Debug(|执行赋值Set vwkqpz_xm = ME.kqpzdb_xm.Getview("vwBaseData")|)
+		Set vwkqpz_xm = ME.kqpzdb_xm.Getview("vwBaseData")
+		'考勤配置文档 by wx 2016-10-21
+		g_logger.Debug(|执行赋值Set kqpzdoc_xm = vwkqpz_xm.Getfirstdocument()|)
+		Set kqpzdoc_xm = vwkqpz_xm.Getfirstdocument()
+		
+		
+		
+		Dim result List As String
+		%REM
+			g_logger.debug(|判断是否满足条件Not doc Is Nothing |)
+		If Not doc Is Nothing Then
+			g_logger.debug(|满足条件Not doc Is Nothing ,doc.universalid=|+doc.Universalid)
+			g_logger.debug(|执行赋值result("amOn") = doc.Getitemvalue("AMOnDuty")(0)|)
+			result("amOn") = doc.Getitemvalue("AMOnDuty")(0)
+			g_logger.debug(|执行赋值result("amOff") = doc.Getitemvalue("AMOffDuty")(0)|)
+			result("amOff") = doc.Getitemvalue("AMOffDuty")(0)
+			g_logger.debug(|执行赋值result("pmOn") = doc.Getitemvalue("PMOnDuty")(0)|)
+			result("pmOn") = doc.Getitemvalue("PMOnDuty")(0)
+			g_logger.debug(|执行赋值result("pmOff") = doc.Getitemvalue("PMOffDuty")(0)|)
+			result("pmOff") = doc.Getitemvalue("PMOffDuty")(0)
+			g_logger.debug(|执行赋值result("dutyHours") = doc.Getitemvalue("DutyHours")(0)|)
+			result("dutyHours") = doc.Getitemvalue("DutyHours")(0)
+		Else
+		%END REM
+		g_logger.debug(|判断是否满足条件Not kqpzdoc_xm Is Nothing |)
+		'如果有文档就取考勤配置中的配置的上下班时间 by wx 2016-10-21
+		If Not kqpzdoc_xm Is Nothing Then
+			g_logger.debug(|满足条件Not kqpzdoc_xm Is Nothing ,kqpzdoc_xm.universalid=|+kqpzdoc_xm.Universalid)
+			g_logger.debug(|执行赋值result("amOn") = kqpzdoc_xm.Getitemvalue("datmorningsb_xm")(0)|)
+
+			If kqpzdoc_xm.Getitemvalue("datmorningsb_xm")(0) = "" Then
+				result("amOn") = "09:00:00"
+			Else
+				result("amOn") = kqpzdoc_xm.Getitemvalue("datmorningsb_xm")(0)
+			End If
+			g_logger.debug(|执行赋值result("amOff") = kqpzdoc_xm.Getitemvalue("datmorningxb_xm")(0)|)
+			If kqpzdoc_xm.Getitemvalue("datmorningxb_xm")(0) = "" Then
+				result("amOff") = "12:00:00"
+			Else
+				result("amOff") = kqpzdoc_xm.Getitemvalue("datmorningxb_xm")(0)
+			End If
+			'result("amOff") = kqpzdoc_xm.Getitemvalue("datmorningxb_xm")(0)
+			g_logger.debug(|执行赋值result("pmOn") = kqpzdoc_xm.Getitemvalue("dataftersb_xm")(0)|)
+			If kqpzdoc_xm.Getitemvalue("dataftersb_xm")(0) = "" Then
+				result("pmOn") = "13:00:00"
+			Else
+				result("pmOn") = kqpzdoc_xm.Getitemvalue("dataftersb_xm")(0)
+			End If
+			'result("pmOn") = kqpzdoc_xm.Getitemvalue("dataftersb_xm")(0)
+			g_logger.debug(|执行赋值result("pmOff") = kqpzdoc_xm.Getitemvalue("datafterxb_xm")(0)|)
+			If kqpzdoc_xm.Getitemvalue("datafterxb_xm")(0) = "" Then
+				result("pmOff") = "18:00:00"
+			Else
+				result("pmOff") = kqpzdoc_xm.Getitemvalue("datafterxb_xm")(0)
+			End If
+			'result("pmOff") = kqpzdoc_xm.Getitemvalue("datafterxb_xm")(0)
+			g_logger.debug(|执行赋值result("dutyHours") = kqpzdoc_xm.Getitemvalue("strGzsj_xm")(0)|)
+			If kqpzdoc_xm.Getitemvalue("strGzsj_xm")(0) = "" Then
+				result("dutyHours") = "8"
+			Else
+				result("dutyHours") = kqpzdoc_xm.Getitemvalue("strGzsj_xm")(0)
+			End If
+			'result("dutyHours") = kqpzdoc_xm.Getitemvalue("strGzsj_xm")(0)
+		Else
+			g_logger.debug(|不满足条件Not doc Is Nothing ,为result赋值缺省值|)
+			'如果未找到时间配置则使用默认配置来使公文正常流转
+			result("amOn") = "09:00:00"
+			result("amOff") = "12:00:00"
+			result("pmOn") = "13:00:00"
+			result("pmOff") = "18:00:00"
+			result("dutyHours") = "8"
+			
+			g_logger.Warn("提示：未找到工作时间配置文档[" & ME.commutingtimeName & "],使用系统缺省时间配置!")
+			Call fnMailToManager_xm(False)
+		End If
+		
+		Call g_logger.InfoWithVariable(|result结果赋值给ME.curcommutingtime，结果为|, result)
+		
+		ME.curcommutingtime = result
+		getCommutingTime = result
+		Exit Function
+errorHandle:
+		ShowError "getCommutingTime"
+	End Function
+	
+End Class
+'*************************************************
+Class Math_xm
+	'【说明】数学排列组合类
+	'【基本算法】   
+	'	排列：从n个元素中同时取r个元素的排列，记做P(n,r)。(当r=n时，   
+	'	我们称P(n,n)=n!为全排列)例如有集合OR={1,2,3,4},那么   
+	'   n = |OR| =  4,且规定r=3,那么P(4,3)就是:   
+	'	{1,2,3};   {1,2,4};   {1,3,2};   {1,3,4};   {1,4,2};   {1,4,3};   
+	'   {2,1,3};   {2,1,4};   {2,3,1};   {2,3,4};   {2,4,1};   {2,4,3};   
+	'   {3,1,2};   {3,1,4};   {3,2,1};   {3,2,4};   {3,4,1};   {3,4,2};   
+	'	{4,1,2};   {4,1,3};   {4,2,1};   {4,2,3};   {4,3,1};   {4,3,2}     
+	'	排列组合公式/排列组合计算公式
+	'		P(n,r)=n!/(n-r)!
+	'		C(n,r)=n!/(n-r)!/r!
+	'		n!=1*2*...*n 
+	Private   n   As   Integer
+	Private   m   As   Integer   
+	Private   pNum   As   Integer   
+	Private   used()   As   Integer   
+	Private   p()   As   String   
+	Private   Data   As   Variant   
+	Private   PData   As   Variant  
+	
+	'排列组合   
+	Public  Sub Permute(vData   As   Variant,   iPm   As   Integer,   vPData   As   Variant)              
+		Data   =   vData   
+		n   =   UBound(vData) - LBound(vData)   +   1   
+		If   iPm   <=   n   Then   
+			m   =   iPm   
+		Else   
+			m   =   n   
+		End   If   
+		ReDim   used(n   -   1)   
+		ReDim   p(m   -   1)
+		pNum   =   0
+		
+		ReDim   PData(Pnm(n,m)   -   1,   m   -   1)   
+		Permute0   0   
+		vPData   =   PData   
+	End   Sub   
+	
+	'组合   
+	Public  Sub Combine(vData As Variant,iPm As Integer,vPData As Variant)   
+		Data   =   vData   
+		n   =   UBound(vData)   -   LBound(vData)   +   1   
+		If   iPm   <=   n   Then   
+			m   =   iPm   
+		Else   
+			m   =   n   
+		End   If   
+		ReDim   used(n   -   1)   
+		ReDim   p(m   -   1)   
+		pNum   =   0   
+		ReDim   PData(Cnm(n,   m)   -   1,   m   -   1)   
+		Combine0   0,   0   
+		vPData   =   PData   
+	End   Sub   
+	
+	'permute(pos--表示在解空间中填写数据的下标位置)   
+	'{      如果解空间填写满了   打印解空间当前的排列结果   函数返回   
+	'       for   (i=0;   i<n;   i++)   --   n是待排列数据总数{   
+	'       尝试在这个下标位置填写每一个待排列的数据    
+	'       (但这些数据可填写的前提是数据没有被标记为已使用)   
+	'       填写后,   把这个下标为i的数据标记为已使用   '   
+	'       permute(pos+1);   --   填写解空间中下一个位置   '   
+	'       下标为i的数据已参与了解空间下标pos处的排列   '   
+	'		取消已使用标记(因为该数据可以在解空间其他下标处使用)   
+	'       继续for循环考察下一个待排列数据   
+	'       }   
+	'   }   
+	'   used[i]   ==   1   -   待排列空间中下标i处的数据已被使用;   
+	'   used[i]   ==   0   -   可以使用待排列空间中下标i处的数据;   
+	Private   Sub   Permute0(pos As Integer)   
+		Dim   i   As   Integer   
+		If   pos   =   m   Then   
+			For   i   =   0   To   m   -   1   
+				PData(pNum,   i)   =   p(i)   
+			Next   
+			pNum   =   pNum   +   1   
+			Exit   Sub   
+		End   If   
+		For   i   =   0   To   n   -   1   
+			If   used(i)   =   0   Then   
+				used(i)   =   used(i)   +   1   
+				p(pos)   =   Data(i)   
+				Permute0   (pos   +   1)   
+				used(i)   =   used(i)   -   1   
+			End   If   
+		Next   i   
+	End   Sub   
+	
+	'组合   
+	'idx--记录下标pos处的i的位置   
+	Private   Sub   Combine0(pos   As   Integer,   idx   As   Integer)   
+		Dim   i   As   Integer   
+		If   pos   =   m   Then   
+			For   i   =   0   To   m   -   1   
+				PData(pNum,   i)   =   p(i)   
+			Next   
+			pNum   =   pNum   +   1   
+			Exit   Sub   
+		End   If   
+		For   i   =   idx   To   n   -   1   
+			If   used(i)   =   0   Then   
+				used(i)   =   used(i)   +   1   
+				p(pos)   =   Data(i)   
+				Combine0   (pos   +   1),   i   
+				used(i)   =   used(i)   -   1   
+			End   If   
+		Next   i   
+	End   Sub   
+	'计算排列组合的个数   
+	'n*(n-1)*(n-2)*...*(n-m+1)   m个   
+	Public   Function   Pnm(n   As   Integer,   m   As   Integer)   As   Long   
+		If   m   >   n   Then   
+			m   =   n   
+		End   If   
+		If   m   =   0   Then   
+			Pnm   =   1   
+			Exit   Function   
+		Else   
+			Pnm   =   n   *   Pnm(n   -   1,   m   -   1)   
+		End   If   
+	End   Function   
+	
+	'计算组合的个数   
+	Public   Function   Cnm(n   As   Integer,   m   As   Integer)   As   Long   
+		If   m   >   n   Then   
+			m   =   n   
+		End   If   
+		Cnm   =   Pnm(n,   m)   /   Pnm(m,   m)   
+	End   Function
+End Class
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	g_b_AllUseOneSchedule_xm=true
+End Sub
+
+'++LotusScript Development Environment:2:1:fnGetScheduleObjByUser_xm:7:8
+%REM
+	说	明：按用户来获取工作日历对象（用户为空则获取当前用户）
+	参	数：user 用户名
+	日	期：wangwz 2016-07-04 add
+		 (作为api已经提供给外部)
+%END REM
+Function fnGetScheduleObjByUser_xm(user As String) As Schedule_xm
+	On Error GoTo errorHandle
+	
+	Call fnInitSchedule_xm(user) 
+	
+	Set fnGetScheduleObjByUser_xm = g_schedule_xm
+	
+	Exit Function
+errorHandle:
+	ShowError "fnGetScheduleObjByUser"
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetDatesDifference_xm:10:8
+%REM
+	Function fnGetDatesDifference
+	Description: Comments for Function
+	参数说明:strbegin开始日期，格式如2012-03-30 12:00:00
+ 		   strend结束日期，格式如2012-03-31 18:00:00 为空则为当前日期
+		   units 为day或者hour
+		      返回值:Variant型，两个日期之间的工作日（时）
+			(作为api已经提供给外部)
+%END REM
+Function fnGetDatesDifference_xm(strbegin, strend, units) As Variant
+	On Error GoTo errorHandle
+	Call fnInitSchedule_xm("")	
+	fnGetDatesDifference_xm = fnGetDatesDifferenceByUser_xm(strbegin, strend,units,"") 
+	Exit Function
+errorHandle:
+	ShowError "fnGetDatesDifference"
+End Function
+
+'++LotusScript Development Environment:2:1:fnScheduleDiffByContext_xm:9:8
+%REM
+	Function fnScheduleDiffByContext
+	Description: 根据用户计算两个日期之间的工作日/时，不同用户可以绑定不同的工作日历，适用于全球不同地点办公的需要
+	参数说明:strbegin开始日期，格式如2012-03-30 12:00:00
+			 strend结束日期，格式如2012-03-31 18:00:00 为空则为当前日期
+			 units 为day或者hour
+			 返回值:Variant型，两个日期之间的工作日（时）
+%END REM
+Function fnScheduleDiffByContext_xm(strbegin, strend, units, context As String) As Variant
+	On Error GoTo errorHandle
+	
+	Dim session As New NotesSession
+	
+	Call fnInitSchedule_xm(context)
+	
+	fnScheduleDiffByContext_xm = fnScheduleDiff_xm(strbegin, strend, units,context)
+	
+	Exit Function
+errorHandle:
+	ShowError "fnScheduleDiffByContext"
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetScheduleByContext_xm:11:8
+
+
+%REM
+	Function fnGetScheduleByContext
+	Description: Comments for Function
+	参数说明:strbegin开始日期，格式如2012-03-30 12:00:00
+			 strend结束日期，格式如2012-03-31 18:00:00 为空则为当前日期
+			 units 为day或者hour
+			 返回值:Variant型，两个日期之间的工作日（时）
+%END REM
+Function fnGetScheduleByContext_xm(strbegin, strend, context As String) As Variant
+	On Error GoTo errorHandle
+	
+	Dim session As New NotesSession
+	
+	Call fnInitSchedule_xm(context)
+	
+	
+	fnGetScheduleByContext_xm = fnGetSchedule_xm(strbegin, strend)
+	
+	Exit Function
+errorHandle:
+	ShowError "fnGetScheduleByContext"
+End Function
+
+'++LotusScript Development Environment:2:2:fnMailToManager_xm:5:8
+%REM
+	Sub suMailToManager
+	Description: 邮件通知管理员
+%END REM
+Private Sub fnMailToManager_xm(isapp As Boolean)
+	On Error GoTo errorHandle
+	
+	Call g_logger.infowithvariable("邮件通知管理员,isapp",isapp)
+	
+	Dim session As New NotesSession 
+	Dim db As NotesDatabase
+	Dim nmcur As New NotesName(session.Effectiveusername)
+	Set db = session.Currentdatabase
+	
+	'判断如果是消息引擎库则不执行发送邮件操作
+	If InStr(LCase(db.Filepath),"msgengine.nsf") Then
+		Exit sub
+	End If
+	
+	Dim varPerson As Variant	
+	'	
+	'IndiOA公共用户数据库
+	Dim dbIndiNames As NotesDatabase
+	Set dbIndiNames = session.Getdatabase("", "indishare/indinames.nsf")
+	
+	'IndiOA应用映射数据库
+	Dim dbAppMap As NotesDatabase
+	Set dbAppMap = session.Getdatabase("", "indishare/appmap.nsf")
+	
+	'定义使用的临时变量	
+	Dim strAppName As String
+	If strAppName="" Then
+		Call g_logger.debugwithvariable("获取当前数据库所在应用赋值给strAppName，db.filepath=",db.filepath)
+		strAppName = fnGetAppNameFromAppDbPath(db.filepath)
+		Call g_logger.debug("strAppName="+strAppName)
+	End If
+	Dim dbNames As NotesDatabase
+	Set dbNames = session.getdatabase(db.server,"names.nsf") 
+	
+	Call g_logger.debug(|执行赋值adminGroup = "#Admin_" + strAppName|)
+	Dim adminGroup As String
+	adminGroup = "#Admin_" + strAppName
+	Call g_logger.debug(|adminGroup=|+adminGroup)
+	Dim docGroup As NotesDocument
+	Dim vwGroups As NotesView
+	Call g_logger.debug(|执行赋值Set vwGroups = dbNames.getView("Groups")|)
+	Set vwGroups = dbNames.getView("Groups")
+	Call g_logger.debug(|执行赋值Set docGroup = vwGroups.getfirstdocument|)
+	Set docGroup = vwGroups.getfirstdocument
+	Call g_logger.debug(|开始循环While Not docGroup Is Nothing 	|)
+	While Not docGroup Is Nothing 	
+		Call g_logger.debug(|判断是否满足docGroup.ListName(0) = adminGroup |)	
+		If docGroup.ListName(0) = adminGroup Then
+			Call g_logger.debug(|满足docGroup.ListName(0) = adminGroup ，执行赋值varPerson = docGroup.Members|)	
+			varPerson = docGroup.Members			
+		End If
+		Set docGroup = vwGroups.getnextdocument(docGroup)
+	Wend		
+	Call g_logger.debug(|结束循环While Not docGroup Is Nothing 	|)
+	
+	Call g_logger.debug(|如果不是应用日历报错 给系统系统管理员发邮件，判断是满足条件 Not isapp |)	
+	'如果不是应用日历报错 给系统系统管理员发邮件
+	If Not isapp Then
+		Call g_logger.debug(|满足条件 Not isapp,varPerson从dbAppMap的[sysmgr]获取|)
+		varPerson = getUsersByDBACL(dbAppMap,"[sysmgr]")
+	End If 
+	
+	Call g_logger.debugwithvariable("判断是否满足条件IsEmpty(varPerson)，varPerson=",varPerson)
+	If IsEmpty(varPerson) Then
+		Call g_logger.debug("满足条件IsEmpty(varPerson)，Exit sub")
+		Exit Sub
+	End If
+	Dim mailParam List As Variant
+	mailParam("type") = "workscheduleconfig"
+	Call g_logger.debug("判断是否需要发送邮件")
+	If fnNeedSendMailIncfg() Then
+		Call g_logger.debug(|需要发送邮件,执行赋值mailParam("defsend") = True"|)
+		mailParam("defsend") = True
+	End If
+	mailParam("subject") = "请检查员工"+nmcur.common+"的工作日历配置"
+	mailParam("content") = "员工"+nmcur.common+"提交时，找不到合适的工作日历配置，此问题出现在"+db.title+"中，请检查。"
+	Call fnFlowMail_noflow(Nothing ,"" , Nothing ,varPerson,mailParam)
+	Exit Sub
+errorHandle:
+	ShowError "suMailToManager"
+End Sub
+
+'++LotusScript Development Environment:2:1:fnGetDutyTime_xm:7:8
+
+%REM
+	Function fnGetDutyTime
+	Description: 获取当前工作日历的上下班时间
+	(作为api已经提供给外部)
+%END REM
+Function fnGetDutyTime_xm As Variant
+	On Error GoTo errorHandle
+	Dim session As New NotesSession
+	
+	Call fnInitSchedule_xm("")	
+	If g_schedule_xm.isInitFail Then
+		Dim g_commutingTimeDefault List As Variant 
+		g_commutingTimeDefault("amOn") = "09:00:00"
+		g_commutingTimeDefault("amOff") = "12:00:00"
+		g_commutingTimeDefault("pmOn") = "13:00:00"
+		g_commutingTimeDefault("pmOff") = "18:00:00"
+		g_commutingTime_xm = g_commutingTimeDefault
+	End If
+	Dim result(3) As String
+	result(0) = g_commutingTime_xm("amOn")
+	result(1) = g_commutingTime_xm("amOff")
+	result(2) = g_commutingTime_xm("pmOn")
+	result(3) = g_commutingTime_xm("pmOff")
+	
+	fnGetDutyTime_xm = result
+	
+	Exit Function
+errorHandle:
+	ShowError "fnGetDutyTime"
+End Function
+
+'++LotusScript Development Environment:2:2:fnInitSchedule_xm:5:8
+%REM
+	Description: 初始化工作日历方法
+	(作为api已经提供给外部)
+%END REM
+Sub fnInitSchedule_xm(user As String)
+	On Error GoTo errorHandle
+	
+	g_logger.info("初始化工作日历，user="+user)
+	
+	Dim session As New NotesSession
+	Dim curUser As NotesName
+	
+	g_logger.debug("判断user是否为空")
+	If user="" Then
+		g_logger.debug("user为空，初始化curUser为当前用户，session.Effectiveusername="+session.Effectiveusername)
+		Set curUser = New NotesName(session.Effectiveusername)
+	Else
+		g_logger.debug("user不为空，初始化curUser为user")
+		Set curUser = New NotesName(user)
+	End If
+	
+	'当工作日历未启用应用配置，且工作日历以及上下班绑定条件都唯一，那么所有人共享一个日历
+	g_logger.debug("判断全局变量g_b_AllUseOneSchedule_xm是否为true")
+	If g_b_AllUseOneSchedule_xm Then
+		g_logger.debug("g_b_AllUseOneSchedule_xm为true,继续判断是否满足条件Not IsEmpty(g_schedule_xm) And Not IsEmpty(g_commutingtime)")
+		If Not IsEmpty(g_schedule_xm) And Not IsEmpty(g_commutingtime_xm) Then
+			g_logger.debug("满足条件Not IsEmpty(g_schedule_xm) And Not IsEmpty(g_commutingtime)，Exit Sub")
+			Exit Sub
+		End if
+	End If
+	
+	g_logger.debug("判断是否满足条件IsEmpty(g_schedule_xm_list_xm(curUser.Abbreviated))，curUser.Abbreviated="+curUser.Abbreviated)
+	If IsEmpty(g_schedule_list_xm(curUser.Abbreviated)) Then
+		g_logger.debug("满足IsEmpty(g_schedule_list_xm(curUser.Abbreviated))，调用New Schedule，初始化此用户的工作日历对象，并赋值给g_schedule")
+		Set g_schedule_list_xm(curUser.Abbreviated) = New Schedule_xm(curUser.Abbreviated)
+		g_logger.debug("执行赋值Set g_schedule = g_schedule_list_xm(curUser.Abbreviated)")		
+		Set g_schedule_xm = g_schedule_list_xm(curUser.Abbreviated)
+		
+		g_logger.debug("判断是否满足条件Not g_schedule.isInitFail")
+		'如果日历初始化好了
+		If Not g_schedule_xm.isInitFail Then
+			g_logger.debug("满足条件Not g_schedule_xm.isInitFail。日历初始化正常，执行赋值g_commutingtime = g_schedule_xm.Dutytime ")
+			g_commutingtime_xm = g_schedule_xm.Dutytime 
+			Call g_logger.debugWithVariable("g_commutingtime=",g_commutingtime_xm)
+		End If	
+		g_logger.debug("Exit Sub")	
+		Exit Sub
+	End If
+	g_logger.debug("执行赋值Set g_schedule_xm = g_schedule_list_xm(curUser.Abbreviated)")
+	Set g_schedule_xm = g_schedule_list_xm(curUser.Abbreviated)
+	
+	g_logger.debug("判断是否满足条件Not g_schedule.isInitFail")
+	'如果日历初始化好了
+	If Not g_schedule_xm.isInitFail Then
+		g_logger.debug("满足条件Not g_schedule_xm.isInitFail。日历初始化正常，执行赋值g_commutingtime = g_schedule_xm.Dutytime ")
+		g_commutingtime_xm = g_schedule_xm.Dutytime 
+		Call g_logger.debugWithVariable("g_commutingtime=",g_commutingtime_xm)
+	End If
+	
+	Exit Sub
+errorHandle:
+	ShowError "fnInitSchedule"
+End Sub
+
+'++LotusScript Development Environment:2:1:fnScheduleAdjust_xm:9:8
+%REM
+	Function fnScheduleAdd
+	Description: 在传入的开始时间之上增加时间后计算得到新的时间
+	参数说明: units 为day或者hour
+			begin 为起始的时间
+			 返回值:NotesDateTime型，加一段时间后的日期
+	(作为api已经提供给外部)
+%END REM
+Function fnScheduleAdjust_xm(units As String, begin As NotesDateTime, duration As Variant) As NotesDateTime
+	On Error GoTo errorHandle
+	
+	g_logger.Info("根据工作日历，返回加一段时间后的日期，开始时间begin="+begin.Dateonly+" "+begin.Timeonly+",units="+units)
+	
+	Dim session As New NotesSession
+	g_logger.debug("判断是否满足条件IsEmpty(g_schedule_xm)")
+	If IsEmpty(g_schedule_xm) Then
+		g_logger.debug("满足IsEmpty(g_schedule_xm)，初始化工作日历")
+		Call fnInitSchedule_xm("")
+	End If	
+	
+	g_logger.debug("执行参数类型转换，dur = CDbl(duration)")
+	Dim dur As Double
+	dur = CDbl(duration)
+	Call g_logger.debugWithVariable("dur=",dur)
+	
+	g_logger.debug("依据begin，对curndt执行初始化")
+	Dim curndt As New NotesDateTime(Format$(begin.Dateonly,"YYYY-MM-DD")+" "+begin.Timeonly)
+	
+	g_logger.debug("判断是否满足条件g_schedule_xm.isInitFail")
+	Dim dblDutyHours As Double
+	If g_schedule_xm.isInitFail Then
+		g_logger.debug("满足条件g_schedule_xm.isInitFail，工作日历初始化失败，取默认值dblDutyHours = 8")
+		dblDutyHours = 8
+	Else
+		g_logger.debug(|不满足条件g_schedule_xm.isInitFail，工作日历初始化正常，执行赋值dblDutyHours = CDbl(g_commutingTime_xm("dutyHours"))|)
+		dblDutyHours = CDbl(g_commutingTime_xm("dutyHours"))
+		Call g_logger.debugWithVariable("dblDutyHours=",dblDutyHours)
+	End If
+	
+	g_logger.debug(|判断是否满足条件units="day"|)
+	If units="day" Then
+		g_logger.debug(|满足条件,执行赋值dur = dur * dblDutyHours	|)
+		dur = dur * dblDutyHours	
+		Call g_logger.debugWithVariable("dur=",dur)
+	End If
+	
+	Dim diff As Variant
+	Dim i As Integer
+	Call g_logger.debug("开始循环While dur>0")
+	While dur>0
+		Call g_logger.debugWithVariable("dur=",dur)
+		Call g_logger.debug("计算curndt起始时间到curndt23:59:59的小时偏移量，赋值给diff")
+		diff = fnScheduleDiff_xm(Format$(curndt.Dateonly,"YYYY-MM-DD")+" "+curndt.Timeonly,_
+		Format$(curndt.Dateonly,"YYYY-MM-DD")+" 23:59:59", "hour","")
+		
+		Call g_logger.debugWithVariable("diff=",diff)
+		
+		g_logger.debug(|判断是否满足条件diff>=dur|)
+		If diff>=dur Then
+			g_logger.debug(|满足条件diff>=dur，计算一天内偏移dur小时后时间是多少，赋值给curndt|)
+			Set curndt = fnAdjustHourOfSameDay_xm(curndt, dur)
+		Else
+			g_logger.debug(|不满足条件diff>=dur，执行赋值curndt.Adjustday(1)|)
+			curndt.Adjustday(1)
+			g_logger.debug(|不满足条件diff>=dur，执行赋值Set curndt = New NotesDateTime(Format$(curndt.Dateonly,"YYYY-MM-DD")+" 0:00:00")|)
+			Set curndt = New NotesDateTime(Format$(curndt.Dateonly,"YYYY-MM-DD")+" 0:00:00")
+		End If
+		g_logger.debug(|curndt=|+curndt.Dateonly+" "+curndt.Timeonly)
+		
+		dur = dur-diff
+		i = i +1
+	Wend
+	Call g_logger.debug("结束循环While dur>0，最终计算返回结果crundt为："+curndt.Dateonly+" "+curndt.Timeonly)
+	
+	Set fnScheduleAdjust_xm = curndt
+	Exit Function
+errorHandle:
+	ShowError "fnScheduleAdjust"
+End Function
+
+'++LotusScript Development Environment:2:1:fnScheduleAdjustByContext_xm:11:8
+
+
+
+%REM
+	Function fnScheduleAdjust
+	Description: Comments for Function
+	参数说明: units 为day或者hour
+			begin 为起始的时间
+			 返回值:NotesDateTime型，加一段时间后的日期
+%END REM
+Function fnScheduleAdjustByContext_xm(units As String, begin As NotesDateTime, duration As Variant, context As String) As NotesDateTime
+	On Error GoTo errorHandle
+	
+	Call fnInitSchedule_xm(context)
+		
+	Set fnScheduleAdjustByContext_xm = fnScheduleAdjust_xm(units, begin, duration)
+	Exit Function
+errorHandle:
+	ShowError "fnScheduleAdd"
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetDutyTimeByContext_xm:11:8
+
+
+%REM
+	Function fnGetDutyTimeByContext
+	Description: Comments for Function
+	参数说明:strbegin开始日期，格式如2012-03-30 12:00:00
+			 strend结束日期，格式如2012-03-31 18:00:00 为空则为当前日期
+			 units 为day或者hour
+			 返回值:Variant型，两个日期之间的工作日（时）
+%END REM
+Function fnGetDutyTimeByContext_xm(context As String) As Variant
+	On Error GoTo errorHandle
+	
+	Dim session As New NotesSession
+	
+	Call fnInitSchedule_xm(context)
+	
+	
+	fnGetDutyTimeByContext_xm = fnGetDutyTime_xm()
+	
+	Exit Function
+errorHandle:
+	ShowError "fnGetDutyTimeByContext"
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetSchedule_xm:8:8
+
+
+%REM
+	Function fnGetSchedule
+	Description: 获取一个时间段内的日期列表以及每个日期的类型（工作日/非工作日）
+	(作为api已经提供给外部)
+%END REM
+Function fnGetSchedule_xm(strbegin, strend) As Variant
+	On Error GoTo errorHandle
+	Dim session As New NotesSession
+	
+	Call fnInitSchedule_xm("")
+	
+	'定义两个日期时间对象
+	Dim ndt1 As NotesDateTime
+	Dim ndt2 As NotesDateTime
+	Set ndt1 = New NotesDateTime(strbegin)
+	If IsNull(strend) Or (strend = "") Then
+		Set ndt2 = New NotesDateTime(Today())
+		Call ndt2.Setnow()
+	Else
+		Set ndt2 = New NotesDateTime(strend)
+	End If
+	'处理跨年度的情况
+	If Year(ndt2.Dateonly) > Year(ndt1.Dateonly) Then
+		Dim bigresult List As String
+		Dim tmpresult As Variant
+		Dim j As Integer
+		tmpresult = fnGetSchedule_xm(strbegin,Str(Year(ndt1.Dateonly))+"-12-31")
+		ForAll v In tmpresult
+			bigresult(ListTag(v)) = v
+		End ForAll
+		For j=Year(ndt1.Dateonly)+1 To Year(ndt2.Dateonly)-1
+			tmpresult = fnGetSchedule_xm(Str(j)+"-01-01",Str(j)+"-12-31")
+			ForAll v In tmpresult
+				bigresult(ListTag(v)) = v
+			End ForAll
+		Next
+		tmpresult = fnGetSchedule_xm(Str(Year(ndt2.Dateonly))+"-01-01 00:00:00",strend)
+		ForAll v In tmpresult
+			bigresult(ListTag(v)) = v
+		End ForAll
+		fnGetSchedule_xm = bigresult
+		Exit Function
+	End If
+	
+	
+	Dim curSchedule As Variant
+	Set curSchedule = g_schedule_xm.getScheduleByYear(Year(strbegin))
+	
+	Dim result List As String
+	Dim key As String
+	While ndt2.timeDifference(ndt1)>=0
+		key = Format$(ndt1.Dateonly,"YYYY-MM-DD")
+		result(key) = curSchedule.GetItemValue(key).GetItemValue("type")	
+		ndt1.adjustDay(1)
+	Wend
+	
+	fnGetSchedule_xm = result
+	Exit Function
+errorHandle:
+	ShowError "fnGetSchedule"
+End Function
+
+'++LotusScript Development Environment:2:1:fnAdjustHourOfSameDay_xm:7:8
+
+
+%REM
+	Function fnGetTimeDiffOfSameDay
+	Description: Comments for Function
+%END REM
+Function fnAdjustHourOfSameDay_xm(begin As NotesDateTime, dur As Variant)
+	'获取基础配置数据
+	On Error GoTo catch
+	
+	g_logger.info(|同一天内计算增加小时后的时间，begin=|+begin.Dateonly+" "+begin.Timeonly)
+	
+	g_logger.debug(|判断是否满足g_schedule_xm.isInitFail为真|)
+	If g_schedule_xm.isInitFail Then
+		g_logger.debug(|g_schedule_xm.isInitFail为真，设置g_commutingTime_xmDefault的amOn,amOff,pmOn,pmOff缺省值|)
+		Dim g_commutingTimeDefault List As Variant 
+		g_commutingTimeDefault("amOn") = "09:00:00"
+		g_commutingTimeDefault("amOff") = "12:00:00"
+		g_commutingTimeDefault("pmOn") = "13:00:00"
+		g_commutingTimeDefault("pmOff") = "18:00:00"
+		g_logger.debug(|执行赋值g_commutingTime = g_commutingTimeDefault|)
+		g_commutingTime_xm = g_commutingTimeDefault
+	End If
+	
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtAmOn As New NotesDateTime(g_commutingTime_xm("amOn"))，g_commutingTime_xm("amOn")=|,g_commutingTime_xm("amOn"))	
+	Dim ndtAmOn As New NotesDateTime(g_commutingTime_xm("amOn"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtAmOff As New NotesDateTime(g_commutingTime_xm("amOff"))，g_commutingTime_xm("amOff")=|,g_commutingTime_xm("amOff"))
+	Dim ndtAmOff As New NotesDateTime(g_commutingTime_xm("amOff"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtPmOn As New NotesDateTime(g_commutingTime_xm("pmOn"))，g_commutingTime_xm("pmOn")=|,g_commutingTime_xm("pmOn"))
+	Dim ndtPmOn As New NotesDateTime(g_commutingTime_xm("pmOn"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtPmOff As New NotesDateTime(g_commutingTime_xm("pmOff"))，g_commutingTime_xm("pmOff")=|,g_commutingTime_xm("pmOff"))
+	Dim ndtPmOff As New NotesDateTime(g_commutingTime_xm("pmOff"))
+	
+	Call g_logger.DebugWithVariable(|执行赋值Dim dts As New NotesDateTime(begin.Timeonly)，begin.Timeonly=|,begin.Timeonly)
+	Dim dts As New NotesDateTime(begin.Timeonly)
+	If dts.Timedifferencedouble(ndtAmOn)<0 Then
+		Call g_logger.Debug(|满足了条件dts.Timedifferencedouble(ndtAmOn)<0，执行赋值Set dts = ndtAmOn|)
+		Set dts = ndtAmOn
+	ElseIf dts.Timedifferencedouble(ndtAmOff)>0 And dts.Timedifferencedouble(ndtPmOn)<0 Then
+		Call g_logger.Debug(|满足了条件dts.Timedifferencedouble(ndtAmOff)>0 And dts.Timedifferencedouble(ndtPmOn)<0，执行赋值Set dts = ndtPmOn	|)
+		Set dts = ndtPmOn		
+	End If
+	
+	g_logger.Debug(|为了精确精确到分钟，将小时数转换成分钟,执行finalMinute = dur*60|)
+	'为了精确精确到分钟，将小时数转换成分钟
+	Dim finalMinute As Double
+	finalMinute = dur*60
+	Call g_logger.DebugWithVariable(|finalMinute=|,finalMinute)
+	
+	Call g_logger.DebugWithVariable(|判断是否满足条件dts.Timedifference(ndtPmOn)>=0，dts.Timeonly=|,dts.Timeonly)
+	If dts.Timedifference(ndtPmOn)>=0 Then
+		Call g_logger.Debug(|满足条件dts.Timedifference(ndtPmOn)>=0，执行赋值dts.Adjustminute(finalMinute)|)
+		dts.Adjustminute(finalMinute)
+		Call g_logger.DebugWithVariable(|dts.Timeonly=|,dts.Timeonly)
+	Else
+		Call g_logger.Debug(|不满足条件dts.Timedifference(ndtPmOn)>=0，执行赋值dts.Adjustminute(finalMinute)|)
+		dts.Adjustminute(finalMinute)
+		Call g_logger.DebugWithVariable(|dts.Timeonly=|,dts.Timeonly)
+		Dim diff As Variant
+		If dts.Timedifferencedouble(ndtAmOff)>0 And dts.Timedifferencedouble(ndtPmOn)<0 Then
+			Call g_logger.Debug(|满足了条件dts.Timedifferencedouble(ndtAmOff)>0 And dts.Timedifferencedouble(ndtPmOn)<0|)
+			Call g_logger.Debug(|执行赋值diff = dts.Timedifferencedouble(ndtAmOff)|)
+			diff = dts.Timedifferencedouble(ndtAmOff)
+			Call g_logger.Debug(|执行赋值Set dts = ndtPmOn|)
+			Set dts = ndtPmOn
+			Call g_logger.Debug(|执行赋值dts.Adjustminute(diff/60)|)
+			dts.Adjustminute(diff/60)
+			Call g_logger.DebugWithVariable(|dts.Timeonly=|,dts.Timeonly)
+		ElseIf dts.Timedifferencedouble(ndtPmOn)>=0 Then
+			Call g_logger.Debug(|满足了条件dts.Timedifferencedouble(ndtPmOn)>=0|)
+			Call g_logger.Debug(|执行赋值diff = dts.Timedifferencedouble(ndtAmOff)|)
+			diff = ndtPmOn.Timedifferencedouble(ndtAmOff)
+			Call g_logger.Debug(|执行赋值dts.Adjustminute(diff/60)|)
+			dts.Adjustminute(diff/60)
+			Call g_logger.DebugWithVariable(|dts.Timeonly=|,dts.Timeonly)
+		End If
+	End If
+	
+	Call g_logger.Debug(|执行赋值Dim result As New NotesDateTime(Format$(begin.Dateonly,"YYYY-MM-DD")+" "+dts.Timeonly)|)
+	Dim result As New NotesDateTime(Format$(begin.Dateonly,"YYYY-MM-DD")+" "+dts.Timeonly)
+	Call g_logger.info(|将结果返回，result=|+result.Dateonly+" "+result.Timeonly)
+	Set fnAdjustHourOfSameDay_xm = result
+	
+	Exit Function
+	
+catch:
+	showerror("fnAdjustHourOfSameDay")
+	'Resume finally
+finally:
+End Function
+
+'++LotusScript Development Environment:2:1:fnScheduleDiff_xm:10:8
+%REM
+	Function fnScheduleDiff
+	Description: Comments for Function
+	参数说明:strbegin 开始日期，格式如2012-03-30 12:00:00
+		   strend 结束日期，格式如2012-03-31 18:00:00 为空则为当前日期
+		   units 为day或者hour
+		   user 为用户名
+		       返回值:Variant型，两个日期之间的工作日（时）
+%END REM
+Private Function fnScheduleDiff_xm(strbegin, strend, units,user As String) As Variant
+	On Error GoTo errorHandle
+	Dim aparamlog List As variant
+	g_logger.info("计算两个日期之间的时间差")
+	
+	Dim session As New NotesSession
+	g_logger.debug("判断是否满足条件IsEmpty(g_schedule_xm)")
+	'直接调用计算时差的，需初始化日历
+	If IsEmpty(g_schedule_xm) Then
+		g_logger.debug("满足IsEmpty(g_schedule_xm)，初始化工作日历")
+		Call fnInitSchedule_xm(user)
+	End If	
+	
+	'定义返回值变量
+	Dim result As Double
+	result = 0
+	'一天工作的小时数
+	Dim dblDutyHours As Double
+	
+	g_logger.debug("判断是否满足条件g_schedule_xm.isInitFail")
+	'如果日历还是没初始化好，说明日历有问题，为了防止直接报错， 给默认值，并跳到最后直接计算
+	If g_schedule_xm.isInitFail Then
+		g_logger.debug("满足条件g_schedule_xm.isInitFail，工作日历初始化失败，返回缺省值result = 0.5,dblDutyHours = 8")
+		result = 0.5
+		dblDutyHours = 8
+		GoTo computeresult
+	End If
+
+	'定义两个日期时间对象
+	Dim ndt1 As NotesDateTime
+	Dim ndt2 As NotesDateTime
+	g_logger.debug("设置开始时间，执行赋值Set ndt1 = New NotesDateTime(strbegin)，strbegin="+strbegin)
+	Set ndt1 = New NotesDateTime(strbegin)
+	Call g_logger.debug("ndt1为："+ndt1.Dateonly+" "+ndt1.Timeonly)
+	
+	g_logger.debug(|设置结束时间，判断是否满足条件IsNull(strend) Or (strend = "")|)
+	If IsNull(strend) Or (strend = "") Then
+		g_logger.debug(|满足条件IsNull(strend) Or (strend = "")，设置结束时间为当前|)
+		Set ndt2 = New NotesDateTime(Today())
+		Call ndt2.Setnow()
+	Else
+		g_logger.debug(|不满足条件IsNull(strend) Or (strend = "")，设置结束时间为Set ndt2 = New NotesDateTime(strend),strend=|+strend)
+		Set ndt2 = New NotesDateTime(strend)
+	End If
+	Call g_logger.debug("ndt2为："+ndt2.Dateonly+" "+ndt2.Timeonly)
+	
+	'处理跨年度的情况
+	Call g_logger.debug("判断是否满足条件 Year(ndt2.Dateonly) > Year(ndt1.Dateonly)")
+	If Year(ndt2.Dateonly) > Year(ndt1.Dateonly) Then
+		Call g_logger.debug("满足条件 ,计算跨年情况")
+		Dim bigresult As Double
+		Dim j As Integer
+		Call g_logger.debug("计算strbegin到"+Str(Year(ndt1.Dateonly))+"-12-31 23:59:59 的时间,赋值给bigresult")
+		bigresult = fnGetDatesDifferenceByUser_xm(strbegin,Str(Year(ndt1.Dateonly))+"-12-31 23:59:59",units,user)
+		Call g_logger.debugWithVariable("bigresult=",bigresult)
+		
+		Call g_logger.debug("开始循环For j=Year(ndt1.Dateonly)+1 To Year(ndt2.Dateonly)-1")
+		For j=Year(ndt1.Dateonly)+1 To Year(ndt2.Dateonly)-1
+			Call g_logger.debug("j="+CStr(j))
+			Call g_logger.debug("计算"+Str(j)+"-01-01 00:00:00"+"到"+Str(j)+"-12-31 23:59:59 的时间,赋值给bigresult+")
+			bigresult = bigresult + fnGetDatesDifferenceByUser_xm(Str(j)+"-01-01 00:00:00",Str(j)+"-12-31 23:59:59",units,user)
+			Call g_logger.debugWithVariable("bigresult=",bigresult)
+		Next
+		Call g_logger.debug("结束循环For j=Year(ndt1.Dateonly)+1 To Year(ndt2.Dateonly)-1")
+		Call g_logger.debug("计算"+Str(Year(ndt2.Dateonly))+"-01-01 00:00:00"+"到strend 的时间,赋值给bigresult+")
+		bigresult = bigresult + fnGetDatesDifferenceByUser_xm(Str(Year(ndt2.Dateonly))+"-01-01 00:00:00",strend,units,user)
+		Call g_logger.debugWithVariable("bigresult=",bigresult)
+		fnScheduleDiff_xm = bigresult
+		Exit Function
+	End If
+	
+	g_logger.Debug(|执行赋值dblDutyHours = CDbl(g_commutingTime_xm("dutyHours"))|)
+	'将一天工作的小时数转化为数字
+	dblDutyHours = CDbl(g_commutingTime_xm("dutyHours"))
+	Call g_logger.debugWithVariable("dblDutyHours=",dblDutyHours)
+	
+	'算出开始结束日期直接整个的工作日
+	Dim allday As Double
+	allday = 0
+	g_logger.Debug(|执行赋值Dim afterBegin As New NotesDateTime(ndt1.Dateonly)，ndt1.Dateonly=|+ndt1.Dateonly)
+	Dim afterBegin As New NotesDateTime(ndt1.Dateonly)
+	g_logger.Debug(|执行afterBegin.adjustDay(1)|)
+	afterBegin.adjustDay(1)
+	g_logger.Debug(|afterBegin.Dateonly=|+afterBegin.Dateonly)
+	g_logger.Debug(|执行赋值Dim beforeEnd As New NotesDateTime(ndt2.Dateonly)|+ndt2.Dateonly)
+	Dim beforeEnd As New NotesDateTime(ndt2.Dateonly)
+	g_logger.Debug(|执行beforeEnd.adjustDay(-1)|)
+	beforeEnd.adjustDay(-1)
+	g_logger.Debug(|beforeEnd.Dateonly=|+beforeEnd.Dateonly)
+	
+	g_logger.Debug(|获取工作日历赋值给curSchedule，strbegin=|+strbegin)
+	Dim curSchedule As Variant
+	Set curSchedule = g_schedule_xm.getScheduleByYear(Year(strbegin))
+	
+	g_logger.Debug(|开始循环While beforeEnd.timeDifference(afterBegin)>=0|)
+	While beforeEnd.timeDifference(afterBegin)>=0
+		g_logger.Debug(|判断afterBegin.Dateonly是否为工作日,afterBegin.Dateonly=|+afterBegin.Dateonly)
+		If curSchedule.GetItemValue(Format$(afterBegin.Dateonly,"YYYY-MM-DD")).GetItemValue("isWorkDay") Then
+			g_logger.Debug(|是工作日，执行赋值语句allday = allday + 1|)
+			allday = allday + 1
+			Call g_logger.debugWithVariable("allday=",allday)
+		End If
+		g_logger.Debug(|执行afterBegin.adjustDay(1)|)
+		afterBegin.adjustDay(1)
+	Wend
+	g_logger.Debug(|结束循环While beforeEnd.timeDifference(afterBegin)>=0|)
+	
+	Call g_logger.DebugWithVariable(|执行赋值result = result + allday * dbldutyhours,allday=|,allday)
+	result = result + allday * dbldutyhours
+	Call g_logger.DebugWithVariable(|result=|,result)
+	
+	'》处理开始日期和结束日期
+	'》开始日期和结束日期的time部分,并定义对应的变量
+	Dim time1 As String
+	Dim time2 As String
+	g_logger.Debug(|执行赋值time1 = ndt1.Timeonly|)
+	time1 = ndt1.Timeonly
+	g_logger.Debug(|time1 = |+time1)
+	g_logger.Debug(|执行赋值time2 = ndt2.Timeonly|)
+	time2 = ndt2.Timeonly
+	g_logger.Debug(|time2 = |+time2)
+	
+	If time1="" Then
+		g_logger.Debug(|time1为空 ，执行赋值time1 = "00:00:00"|)
+		time1 = "00:00:00"
+	End If
+	If time2="" Then
+		g_logger.Debug(|time2为空 ，执行赋值time2 = "23:59:59"|)
+		time2 = "23:59:59"
+	End If
+	g_logger.Debug(|执行赋值Dim ndtTime1 As New NotesDateTime(time1)|)
+	Dim ndtTime1 As New NotesDateTime(time1)
+	g_logger.Debug(|执行赋值Dim ndtTime2 As New NotesDateTime(time2)|)
+	Dim ndtTime2 As New NotesDateTime(time2)
+	
+	'》定义上下班4个时间点的日期时间对象
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtAmOn As New NotesDateTime(g_commutingTime_xm("amOn"))，g_commutingTime_xm("amOn")=|,g_commutingTime_xm("amOn"))	
+	Dim ndtAmOn As New NotesDateTime(g_commutingTime_xm("amOn"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtAmOff As New NotesDateTime(g_commutingTime_xm("amOff"))，g_commutingTime_xm("amOff")=|,g_commutingTime_xm("amOff"))
+	Dim ndtAmOff As New NotesDateTime(g_commutingTime_xm("amOff"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtPmOn As New NotesDateTime(g_commutingTime_xm("pmOn"))，g_commutingTime_xm("pmOn")=|,g_commutingTime_xm("pmOn"))
+	Dim ndtPmOn As New NotesDateTime(g_commutingTime_xm("pmOn"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtPmOff As New NotesDateTime(g_commutingTime_xm("pmOff"))，g_commutingTime_xm("pmOff")=|,g_commutingTime_xm("pmOff"))
+	Dim ndtPmOff As New NotesDateTime(g_commutingTime_xm("pmOff"))
+	
+	g_logger.Debug(|判断是否满足条件ndt1.Dateonly = ndt2.Dateonly，ndt1.Dateonly=|+ndt1.Dateonly+|，ndt2.Dateonly=|+ndt2.Dateonly)
+	' renhl 增加是同一天的处理逻辑 2012-6-8
+	If ndt1.Dateonly = ndt2.Dateonly Then
+		g_logger.Debug(|判断ndt1.Dateonly是否为工作日|)
+		If curSchedule.GetItemValue(Format$(ndt1.Dateonly,"YYYY-MM-DD")).GetItemValue("isWorkDay") Then
+			g_logger.Debug(|是工作日，计算ndtTime1,ndtTime2的时间差，加入result|)
+			result = result + fnGetTimeDiffOfSameDay_xm( ndtTime1,ndtTime2)
+			Call g_logger.DebugWithVariable(|result=|,result)
+		End If
+	Else
+		g_logger.Debug(|不满足条件ndt1.Dateonly = ndt2.Dateonly，不是同一天,判断ndt1.Dateonly是否为工作日|)		
+		If curSchedule.GetItemValue(Format$(ndt1.Dateonly,"YYYY-MM-DD")).GetItemValue("isWorkDay") Then
+			g_logger.Debug(|是工作日，计算ndtTime1,ndtPmOff的时间差，加入result|)
+			result = result + fnGetTimeDiffOfSameDay_xm( ndtTime1,ndtPmOff)
+			Call g_logger.DebugWithVariable(|result=|,result)
+		End If
+		g_logger.Debug(|判断ndt2.Dateonly是否为工作日|)	
+		If curSchedule.GetItemValue(Format$(ndt2.Dateonly,"YYYY-MM-DD")).GetItemValue("isWorkDay") Then
+			g_logger.Debug(|是工作日，计算ndtAmOn,ndtTime2的时间差，加入result|)
+			result = result + fnGetTimeDiffOfSameDay_xm( ndtAmOn,ndtTime2)
+			Call g_logger.DebugWithVariable(|result=|,result)
+		End If	
+	End If
+	
+computeresult:	
+	aparamlog("result")=result
+	aparamlog("dbldutyhours")=dbldutyhours
+	Call g_logger.debugWithVariable("进入computeresult，计算最终结果，变量为:",aparamlog)
+	Erase aparamlog
+	
+	g_logger.debug(|判断是否满足条件units = "day"|)
+	If units = "day" Then
+		g_logger.debug(|满足条件units = "day"，执行result = result / dbldutyhours|)
+		result = result / dbldutyhours
+	End If	
+	Call g_logger.debugWithVariable(|result=|,result)
+	g_logger.debug(|截断小数，执行result = Round(result,6)|)
+	result = Round(result,6)
+	Call g_logger.debugWithVariable(|result=|,result)
+	fnScheduleDiff_xm = result
+	
+	Exit Function
+errorHandle:
+	ShowError "fnScheduleDiff"
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetDateLimitByUser_xm:10:8
+%REM
+	Function fnGetDateLimitByUser
+	Description: 根据输入，返回对应的时限日期
+	strDate 天
+	strTime 小时
+	struser Abbreviated格式用户
+	strBegintime 开始时间（为空时取当前时间）
+	
+%END REM
+Function fnGetDateLimitByUser_xm(strDate As String,strTime As String,struser As String,strBegintime As String) As String
+	On Error GoTo catch
+
+	Dim tmpdt As New NotesDateTime(Now)
+	If strBegintime="" Then
+		strBegintime = CStr(Now)
+	End If
+	Set tmpdt = New NotesDateTime(strBegintime)
+	
+	If strDate="" And strTime="" Then
+		fnGetDateLimitByUser_xm = ""
+		Exit Function
+	End If
+	
+	If strDate<>"" Then
+		Set tmpdt = fnScheduleAdjustByContext_xm("day", tmpdt, CDbl(strDate), struser)
+	End If
+	If strTime<>"" Then
+		Set tmpdt = fnScheduleAdjustByContext_xm("hour", tmpdt, CDbl(strTime), struser)
+	End If
+	'MsgBox tmpdt.Dateonly & " " & tmpdt.Timeonly
+	
+	fnGetDateLimitByUser_xm = tmpdt.Dateonly & " " & tmpdt.Timeonly
+
+	Exit Function
+catch:
+	showerror("fnGetDateLimitByUser")
+	'Resume finally
+finally:	
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetTimeDiffOfSameDay_xm:6:8
+
+%REM
+	Function fnGetTimeDiffOfSameDay
+	Description: Comments for Function
+%END REM
+Function fnGetTimeDiffOfSameDay_xm(dts As NotesDateTime, dte As NotesDateTime)
+	g_logger.info(|计算两个日期之间相隔工作日历的时间（秒）|)
+	g_logger.info(|dts=|+dts.Dateonly+" "+dts.Timeonly+|dte=|+dte.Dateonly+" "+dte.Timeonly)
+	
+	g_logger.debug(|判断是否满足g_schedule_xm.isInitFail为真|)
+	'获取基础配置数据
+	If g_schedule_xm.isInitFail Then
+		g_logger.debug(|g_schedule_xm.isInitFail为真，设置g_commutingTimeDefault的amOn,amOff,pmOn,pmOff缺省值|)
+		Dim g_commutingTimeDefault List As Variant 
+		g_commutingTimeDefault("amOn") = "09:00:00"
+		g_commutingTimeDefault("amOff") = "12:00:00"
+		g_commutingTimeDefault("pmOn") = "13:00:00"
+		g_commutingTimeDefault("pmOff") = "18:00:00"
+		g_logger.debug(|执行赋值g_commutingTime_xm = g_commutingTimeDefault|)
+		g_commutingTime_xm = g_commutingTimeDefault
+	End If
+	
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtAmOn As New NotesDateTime(g_commutingTime_xm("amOn"))，g_commutingTime_xm("amOn")=|,g_commutingTime_xm("amOn"))	
+	Dim ndtAmOn As New NotesDateTime(g_commutingTime_xm("amOn"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtAmOff As New NotesDateTime(g_commutingTime_xm("amOff"))，g_commutingTime_xm("amOff")=|,g_commutingTime_xm("amOff"))
+	Dim ndtAmOff As New NotesDateTime(g_commutingTime_xm("amOff"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtPmOn As New NotesDateTime(g_commutingTime_xm("pmOn"))，g_commutingTime_xm("pmOn")=|,g_commutingTime_xm("pmOn"))
+	Dim ndtPmOn As New NotesDateTime(g_commutingTime_xm("pmOn"))
+	Call g_logger.DebugWithVariable(|执行赋值Dim ndtPmOff As New NotesDateTime(g_commutingTime_xm("pmOff"))，g_commutingTime_xm("pmOff")=|,g_commutingTime_xm("pmOff"))
+	Dim ndtPmOff As New NotesDateTime(g_commutingTime_xm("pmOff"))
+	
+	Call g_logger.Debug(|执行赋值wuxiu = ndtPmOn.Timedifference(ndtAmOff)|)
+	Dim wuxiu As Double, tmpDiff As Double
+	wuxiu = ndtPmOn.Timedifference(ndtAmOff)
+	Call g_logger.DebugWithVariable(|wuxiu = |,wuxiu)
+	
+	Call g_logger.Debug(|判断是否满足条件dte.timeDifference(ndtAmOn)<0 Or dts.timeDifference(ndtPmOff)>0|)
+	If dte.timeDifference(ndtAmOn)<0 Or dts.timeDifference(ndtPmOff)>0 Then
+		fnGetTimeDiffOfSameDay_xm = 0
+		Call g_logger.Debug(|满足条件dte.timeDifference(ndtAmOn)<0 Or dts.timeDifference(ndtPmOff)>0，返回结果为0，退出函数|)
+		Exit Function
+	End If
+	
+	Call g_logger.Debug(|判断是否满足条件 dts.timeDifferenceDouble(ndtAmOff)>0 And  dts.timeDifferenceDouble(ndtPmOn)<0|)
+	If dts.timeDifferenceDouble(ndtAmOff)>0 And  dts.timeDifferenceDouble(ndtPmOn)<0 Then
+		Call g_logger.Debug(|满足条件 dts.timeDifferenceDouble(ndtAmOff)>0 And  dts.timeDifferenceDouble(ndtPmOn)<0，执行赋值Set dts =  ndtPmOn|)
+		Set dts =  ndtPmOn
+	End If	
+	Call g_logger.Debug(|判断是否满足条件 dte.timeDifferenceDouble(ndtAmOff)>0 And  dte.timeDifferenceDouble(ndtPmOn)<0|)
+	If dte.timeDifferenceDouble(ndtAmOff)>0 And  dte.timeDifferenceDouble(ndtPmOn)<0 Then
+		Call g_logger.Debug(|满足条件 dte.timeDifferenceDouble(ndtAmOff)>0 And  dte.timeDifferenceDouble(ndtPmOn)<0，执行赋值Set dte =  ndtAmOff|)
+		Set dte =  ndtAmOff
+	End If
+	Call g_logger.Debug(|判断是否满足条件 dts.timeDifference(ndtAmOn)<0|)
+	If dts.timeDifference(ndtAmOn)<0 Then
+		Call g_logger.Debug(|满足条件 dts.timeDifference(ndtAmOn)<0，执行赋值Set dts =  ndtAmOn|)
+		Set dts =  ndtAmOn
+	End If
+	Call g_logger.Debug(|判断是否满足条件 dte.timeDifference(ndtPmOff)>0|)
+	If dte.timeDifference(ndtPmOff)>0 Then
+		Call g_logger.Debug(|满足条件dte.timeDifference(ndtPmOff)>0，执行赋值Set dte =  ndtPmOff|)
+		Set dte =  ndtPmOff
+	End If	
+	
+	Call g_logger.Debug(|执行赋值tmpDiff = dte.timeDifferenceDouble(dts)|)
+	tmpDiff = dte.timeDifferenceDouble(dts)
+	Call g_logger.DebugWithVariable(|tmpDiff = |,tmpDiff)
+	
+	Call g_logger.Debug(|判断是满足tmpDiff > 0|)
+	If tmpDiff>0 Then
+		Call g_logger.Debug(|满足tmpDiff > 0,判断是否包含午休，dts.timeDifferenceDouble(ndtAmOff)<=0 And dte.timeDifferenceDouble(ndtPmOn)>=0|)
+		'包含了午休
+		If dts.timeDifferenceDouble(ndtAmOff)<=0 And dte.timeDifferenceDouble(ndtPmOn)>=0 Then
+			Call g_logger.Debug(|满足条件，包含午休，执行赋值tmpDiff = tmpDiff-wuxiu|)
+			tmpDiff = tmpDiff-wuxiu
+			Call g_logger.DebugWithVariable(|tmpDiff = |,tmpDiff)
+		End If
+	End If
+	Call g_logger.DebugWithVariable(|执行赋值fnGetTimeDiffOfSameDay = tmpDiff/3600，tmpDiff = |,tmpDiff)
+	fnGetTimeDiffOfSameDay_xm = tmpDiff/3600
+	
+	Exit Function
+End Function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'++LotusScript Development Environment:2:1:fnGetDatesDifferenceByUser_xm:10:8
+%REM
+	Function fnGetDatesDifference
+	Description: Comments for Function
+	参数说明:strbegin开始日期，格式如2012-03-30 12:00:00
+			 strend结束日期，格式如2012-03-31 18:00:00 为空则为当前日期
+			 units 为day或者hour
+			 user 为用户名称,为空则取当前用户身份
+			 返回值:Variant型，两个日期之间的工作日（时）
+%END REM
+Private Function fnGetDatesDifferenceByUser_xm(strbegin, strend, units,user As String) As Variant
+	On Error GoTo errorHandle
+	Call fnInitSchedule_xm(user)
+	fnGetDatesDifferenceByUser_xm = fnScheduleDiff_xm(strbegin, strend, units,user)
+	Exit Function
+errorHandle:
+	ShowError "fnGetDatesDifferenceByUser"
+End Function
+
+

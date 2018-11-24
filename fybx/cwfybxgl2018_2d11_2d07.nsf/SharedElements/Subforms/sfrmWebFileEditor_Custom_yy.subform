@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmWebFileEditor_Custom_yy' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='c86' unid='2FF053ECAF213EAC482580530025FEFF' sequence='48'>
+<created><datetime>20161021T145501,11+08</datetime></created>
+<modified><datetime>20181107T195830,25+08</datetime></modified>
+<revised><datetime>20181024T085502,61+08</datetime></revised>
+<lastaccessed><datetime>20181107T195830,25+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195830,25+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' hide='web'/>
+<par def='1'><run html='true'> </run></par><subformref><code event='value'><formula
+ compiled='true'>
+NgAJACwA9uT5NkQzVMfaeFt5NR8irEet17mAX1lVBZyUHrOnrdgtHXyzNaxIdwQABAAEAAQA
+</formula></code></subformref>
+<par def='1'><run html='true'> </run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmWebFileEditorcustom_ext</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,73+08</datetime></item></subform>
+

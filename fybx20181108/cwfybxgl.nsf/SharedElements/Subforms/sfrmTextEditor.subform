@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmTextEditor' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3' comment='editor 文本编辑器子表单'>
+<noteinfo noteid='2f2' unid='1AC4F91947B4CA03482579DF000FB226' sequence='55'>
+<created><datetime>20120413T105126,46+08</datetime></created>
+<modified><datetime>20181025T014916,47+08</datetime></modified>
+<revised><datetime>20181024T085442,54+08</datetime></revised>
+<lastaccessed><datetime>20181025T014916,46+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010758,13+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>function editorSubmit() {
+  if (document.forms[0].body &amp;&amp; window.msg) {
+    msg.mergeColor();
+    var oriStr = msg.Composition.document.body.innerHTML;
+    var hostRegExp = new RegExp('src="'+window.location.protocol+'//' + window.location.host, 'g');
+    document.forms[0].body.value = oriStr.replace(hostRegExp, 'src="');
+  } else if (document.forms[0].body) {
+    document.forms[0].body.value = document.forms[0].elements["showbody"].innerHTML;
+  }
+}
+
+function noColorSubmit() {
+  if (document.forms[0].body &amp;&amp; window.msg) {
+    msg.clsColor();
+    document.forms[0].body.value = msg.Composition.document.body.innerHTML;
+  } else if (document.forms[0].body) {
+    document.forms[0].body.value = readonlyClsColor(document.forms[0].body.innerText);
+  }
+}
+
+function editorOnload() {
+  var thisform = document.forms[0];
+  if (thisform.body &amp;&amp; window.msg) {
+    window.msg.Composition.document.body.innerHTML = thisform.body.value;
+  }
+  if (thisform.body &amp;&amp; document.forms[0].elements["showbody"]) {
+    document.forms[0].elements["showbody"].innerHTML = thisform.body.innerText;
+  }
+}
+
+function areaRead() {
+
+  var fields = document.forms[0].elements["textInput"];
+  var fieldt = document.forms[0].elements["textShow"];
+  if (fields &amp;&amp; fieldt) {
+    if (fields.length) {
+      for (i = 0; i &lt; fields.length; i++) {
+        fieldt[i].innerText = fields[i].value;
+        fieldt[i].style.display = "inline";
+        fields[i].style.display = "none";
+      }
+    } else {
+      fieldt.innerText = fields.value;
+      fieldt.style.display = "inline";
+      fields.style.display = "none";
+    }
+  }
+}
+
+function areaEdit() {
+
+  var fields = document.forms[0].elements["textInput"];
+  var fieldt = document.forms[0].elements["textShow"];
+  if (fields &amp;&amp; fieldt) {
+    if (fields.length) {
+      for (i = 0; i &lt; fields.length; i++) {
+        fieldt[i].style.display = "none";
+        fields[i].style.display = "inline";
+      }
+    } else {
+      fieldt.style.display = "none";
+      fields.style.display = "inline";
+    }
+  }
+}</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>&lt;div class="panel" data-string-id="indiplatform.tylc.zhengwen" data-title="</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='navy'/>正文</run><run html='true'>" id="zhengwenpanel"&gt;</run></par>
+<par def='1'><run html='true'>&lt;h2 class="panel-title" data-string-id="indiplatform.tylc.zhengwena"&gt;</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='navy'/>正文</run><run html='true'>&lt;/h2&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="panel-content indiEditor-wrap"&gt;</run></par>
+<pardef id='2' hide='notes web'/><subformref name='RTEditor'/>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' color='navy'/>&lt;/div&gt;</run></par>
+<pardef id='3' leftmargin='1in' rightmargin='100%' hide='notes'><code event='hidewhen'><formula
+ compiled='true'>
+HgAJABQAS9JO0ln+Bb1BtqYOVjVG+AQABAAEAAQA
+</formula></code></pardef>
+<par def='3'><run html='true'><font color='red'/></run></par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20070521T203701,18+08</datetime></item>
+<item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmTextEditor</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,17+08</datetime></item></subform>
+

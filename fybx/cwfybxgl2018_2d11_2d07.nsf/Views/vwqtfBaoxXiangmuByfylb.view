@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwqtfBaoxXiangmuByfylb' alias='其他费用报销通过费用类别' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' showinmenu='false' allowdocselection='true'
+ publicaccess='false' designerversion='8.5.3' unreadmarks='standard' onopengoto='lastopened'
+ onrefresh='displayindicator' headers='beveled' opencollapsed='false' showresponsehierarchy='false'
+ showmargin='true' shrinkrows='true' extendlastcolumn='false' showhierarchies='false'
+ unreadcolor='maroon' rowlinecount='5' headerlinecount='1' rowspacing='1.25'
+ haslinkcolumn='true' bgcolor='white' altrowcolor='#efefef' totalscolor='blue'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false' formatnoteid='482581B6000911FF48256A1B001ECCD5'>
+<noteinfo noteid='18e2' unid='48258072000E0C3F48258069002AF3F2' sequence='32'>
+<created><datetime>20161112T154909,62+08</datetime></created>
+<modified><datetime>20181107T195909,86+08</datetime></modified>
+<revised><datetime>20181024T092021,60+08</datetime></revised>
+<lastaccessed><datetime>20181107T195909,86+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195909,86+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name
+>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+>SELECT Form = "frmBaoxXiangmxx"&amp;strBaoxXiangm_xm="其他费"</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='fldFeiyLb_xm' width='22.1250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='费用类别'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='fldFeiyLb_xm' width='13.1250' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='&lt;span data-string-id="indioffice.gdzcgl.sblb">费用类别&lt;/span>'><font
+ size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='fldBaoxfylx_xm' width='19' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+><font size='9pt' style='bold'/></columnheader></column>
+<column sort='ascending' resort='both' hidedetailrows='false' itemname='$0'
+ width='14.3750' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='true'><columnheader title='&lt;span data-string-id="indioffice.gdzcgl.sblb">项目类别&lt;/span>'><font
+ style='bold'/></columnheader><code event='value'><formula>@ReplaceSubstring(strBaoxXiangm_xm;"&lt;";"&amp;lt;")</formula></code></column>
+<column sort='ascending' hidedetailrows='false' itemname='$2' width='12.3750'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='true'><columnheader title='&lt;span data-string-id="indioffice.gdzcgl.sbmc">会议费项目编号&lt;/span>'><font
+ style='bold'/></columnheader><code event='value'><formula>@ReplaceSubstring(strXiangmubh;"&lt;";"&amp;lt;")</formula></code></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item></view>
+

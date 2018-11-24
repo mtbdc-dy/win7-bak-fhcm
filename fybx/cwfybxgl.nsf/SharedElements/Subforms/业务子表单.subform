@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='业务子表单' alias='sfrmSubform' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='2aa' unid='1AADF22B67B1636F48257BCE000752A9' sequence='55'>
+<created><datetime>20130821T091959,13+08</datetime></created>
+<modified><datetime>20181025T014918,87+08</datetime></modified>
+<revised><datetime>20181024T085442,46+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,86+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010803,73+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='notes web' tabs='L3.2479in'/>
+<par def='1'><run html='true'> </run><run html='true'><sharedfieldref name='subformCustom'/></run><run
+ html='true'> </run></par>
+<pardef id='2' leftmargin='1in' hide='notes' tabs='L3.2479in'/>
+<par def='2'><run html='true'>&lt;input name="fldsfrmSubform" value="</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='fldsfrmSubform'><code
+ event='defaultvalue'><formula compiled='true'>
+xgIJALwCEwY9DxrH1RUxRtNqa4myPN2A71K+gAfLYO1RLnlw3d1O6b2W/P980UaGGgKenTNghg6x
+IfIQ7cEDuWYgM2Z9ABCBP2jB7UNRFGMydWS0BnZzmcV3wt+CUPc2Vyct45gNvLltegUfc3Guatla
+RRQ+9qnIYp1YOR3+iL7v3nHXzuZWIfsabXnJLCc24AO4jwSxIL+6bqG/EUuGctlJ8Aa7v4jyXG4y
+dggvYdAE0twWAt3LtkumeWoYDzqwCbk3I6lyAAqRK1/uNIf7k8eDPHxOErJED7DSh1HzMAOLmugE
+WRf5AGRH5+rUFJqg+1FUuBvwfKY5RVyqMDGocuusOGhic7B7N2zO4kDSgnAbIuTZv4GZuyHjnqJ1
+VvqgxEFT4zaeDEGelvbWJqjfRzojJ5x+leV2c5cmnn/9KnlnD3013bj5id6tph9g3TwkhCHbVR83
+L7uT9H2gXFpaEWM9AaffmnMsImz+oe+A/VoKPuPCBR8pAZP8DqEIqlzYf0oY1T5uCuWNKSkDKHSF
+WNp00pXL0qKZkegFOB+4pnSitVkqfhl2aKWjHSofyhmfdKHO3IyT8Gedlf1qAInRr5yVyKz1eFVa
+8ho3REiQKXZQ2y8W8gJJ9b2+bOEV8yOvMze0ZS8lGmft+rDWRnM3QsW+TOi9hek76VGxmWx3pfs2
+1scXXLGn3iuPXOhGTSKnGCB4YLk8x9OESoFwx9FnLmS9U4cWQ1xoHdTPY2r8sMdLh244tyUVdCqp
+FAOW+CoUTS1psDix05TSvyvnPjEbgEFUM0pNSg7Y6GKL00ISlzlD4wKlo6yDiOqY7Sppxrqd+qK7
+Rx0q2j8nBO2Xg5f19bvapG7J0Ve6OqbUZ8HAe3qfEQxdJVOY4HXuLDTG9QI509+or00iskxvuxaT
+GFC5GPIqQKpwu0xVD3SNEb+yBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>" type="hidden"&gt;</run></par><subformref
+><code event='value'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIUL39vaSNdmHteG05gui+kgNqZMOEwlJ4gEAAQABAAEAA==
+</formula></code></subformref>
+<pardef id='3' hide='web'/>
+<par def='3'><run html='true'><font color='red'/>//合并会签添加</run></par><subformref
+><code event='value'><formula compiled='true'>
+TgAJAEQAD14D5ivaAXyxU9wgjIfWw+guye5YwX/v2Qo3dJfR/cTKTV6zCTtEvRv3k21tmC6O3Rft
+ohwE64J+7iq80NxLKAQABAAEAAQA
+</formula></code></subformref>
+<par def='2'><run><font size='9pt' name='serif'/></run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmSubform</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,49+08</datetime></item></subform>
+

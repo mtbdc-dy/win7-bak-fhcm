@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='LibPdfExtCustom' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3 v4strict' designerversion='8.5.3'>
+<noteinfo noteid='6b6' unid='8A5286E11F4E56FD48257D460020003F' sequence='33'>
+<created><datetime>20140901T134932,15+08</datetime></created>
+<modified><datetime>20181025T014924,17+08</datetime></modified>
+<revised><datetime>20181024T092019,53+08</datetime></revised>
+<lastaccessed><datetime>20181025T014924,16+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133249,30+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name>CN=admin/O=ppm</name><name
+>CN=OAserver/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='JavaAgent.class' codepath='D:\Domino\Notes\Data'><java name='PDFExtCustom.java'>public class PDFExtCustom extends PDFExtBase { 
+	
+}</java>
+<sharedlibraryref name='LibPdfExtBase'/>
+<sharedlibraryref name='libItext'/>
+<sharedlibraryref name='LibPdfApi'/></javaproject></code>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item>
+<item name='$POID'><datetime>20181024T092019,53+08</datetime></item></scriptlibrary>
+

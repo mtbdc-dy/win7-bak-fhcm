@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='审批文档驳回功能使用子表单(数据字段)' alias='sfrmDenyData' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='28a' unid='D7F4E558336F232848257A360021B4A8' sequence='55'>
+<created><datetime>20120709T140809,36+08</datetime></created>
+<modified><datetime>20181025T014918,59+08</datetime></modified>
+<revised><datetime>20181024T085504,28+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,58+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010803,07+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'>驳回相关后台提交临时数据：<field type='richtext' kind='editable' name='rtfDenyPostData'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'>当前驳回信息数据：<field type='richtext' kind='editable' name='rtfDenyData'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run><font name='╦╬╠Õ'
+ pitch='fixed' truetype='false' familyid='0'/></run></par>
+<par def='1'><run><font name='╦╬╠Õ' pitch='fixed' truetype='false' familyid='0'/></run></par>
+<par def='1'/>
+<par def='1'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmDenyData</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210736,55+08</datetime></item></subform>
+

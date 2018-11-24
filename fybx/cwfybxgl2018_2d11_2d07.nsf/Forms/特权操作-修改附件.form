@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='特权操作-修改附件' alias='frmAttModify' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='3b2' unid='0C1E885DCE501A7448257CA9002489EE' sequence='57'>
+<created><datetime>20140328T143906,06+08</datetime></created>
+<modified><datetime>20181107T195620,98+08</datetime></modified>
+<revised><datetime>20181024T085446,69+08</datetime></revised>
+<lastaccessed><datetime>20181107T195620,98+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195620,98+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webqueryopen'><formula
+ compiled='true'>
+JgEJABwBceyMz/wgK+OFEbD9mFItLqPbNPDZ/E9Zofvvb9PINp16ot1kzcVzGDa32KWWJTSCt8y3
+sPi74LYc+LMpFmdPTBd3kfsutr2i1J7VQR5phgjIgw+v3rXwDYpCJ6qEjEefGZg495ikcVPUgsdZ
+uPXcvjJXxPV9HVgu602Qbl5Z4310v4XBqxq8VRO5WeXQCua0Y4ltN3RYk0I8KLsSGK3fdi8gLDc5
+oPlGNOcS/S8oLZVzE1WJLOrvBirij6tPJEwRlaggu2+XScD983x3wq44db6lDG8Ab0aOIZtlT2/L
+XDX5BRbBf4vAf0kIqacosFuriLcT2eF5Wtdmk+AGAa/LpFMK/cRDmdQ69Pfpu6tR/chyG9FDrfAy
+5gQABAAEAAQA
+</formula></code><code event='htmlbody'><formula compiled='true'>
+NgAJACwA9uT5NkQzVMdOymFD+0v9/IUykBICVgPVLeoLd9UAZPI2Ocjj1mVqLwQABAAEAAQA
+</formula></code><code
+ event='htmlhead'><formula compiled='true'>
+ZgMJAFwDsAb9NcGkC15az8mCwem53HTrDQVO/3Np+1+hqYlHJqlj8vvV0oaqOvc3tEb8xY4unsve
+9FL4Gp/vatzAxqPjWI7zw6xpbgu5NaGFkF6KRvUknbA7zyXuhweLiNdOxsWGYCxQPnvN2WqrLh5w
+3OCJTd2PZlXr8N9TpxWYObQR8+FCZ+IIi7t9yHtpdKEZKdH6YFJsBbNEzIIOG3G9vAJ2zkwOx5Bs
+KSFm3jwBb6cBkYTMHwIIZ95m+Uvm4Num3YFT6xAU5jjdrgn3+EI8+R60dlXhOGhtXsPPtqmPLdy6
+PwQiHHSIg4KJ+SYMc+W+wK46BEfy0G+p7vN6C2AiGMNNtaC7x98LFw/uox/s5my3Bvt9OzefiCjW
+bw5HexSt69bvZHJYBnRMJ/EYoZP36YtDD+5+K3KAQ1oAMsDkAzkqBmnHPEZWWNuihISeaxkRL2UJ
+6ZSrtb9ANh2auLU4QJbMUDTIw9BQLjfqar4fn8LjvAa1nwxd4VWqzxgNu5XVcT1tEdzKqYIVttfD
+PKn6QMGOKWW91AZMl3WyE/Zag/hZT2FC9gcJlxQaNYXTJSX9/XF0yhc3tZnciSOG/cwyTf1DJKEZ
+aMwh1CW1vas5mW3vQE9ZvKM69/1/AVwQm7SE27JFZRweOxD2KzupqO+6y7Fe0VGspnlAR5XlQs9+
+91pD5NAnf4HrTc7zYOO2lKPvslsem7QBWQLRmlMlTL1/07vWuuK7L1LBXQjhAeual9Z4rSzrVkWl
+/jSt+VbafNNjolQ64ptUCyVb7awwFp6BEtWoHnJPH3MOB/INyuoSp4Cvld6Wr+qf58fsUNdw0jD0
+5c5SYq0sqYOdFMe79ptKTEvRlEvpWLHDGCEE3WIM5r5mU6oPBUOcYeKz1mrncZvr+FQk/eXYql5W
+tZXZzhGuCsbAaBZC5vc2XGA0yJb+V8fHhRV+vv5N2iGowWwx3sBfranKG0pVPHzuR1mZUEtQFU5U
+4wNGW09vOYJiobO+jE6oX5xy29L2IB6iCK6/YL5KDrJnlpB9U0v/INWL2ToKO9bC4uumIWx/VDuQ
+2ulh3FIJZz5Ht5EUxMtYcTTyX9vODhhNJsxyYlMBRUXW4FN7wHefKxa/DeZ5o3fnvDN/fJPBfcni
+mVxGqWjEcQQABAAEAAQA
+</formula></code><code event='jsheader'
+ for='web'><javascript>smartdot.i18n.requireLocalization("indiplatform.tylc");
+dojo.require("dojo.io.script"),
+dojo.require("smartdot.IframeDialog");
+
+function initIdxCustom(){
+	dojo.forEach($$idx.containers,function(area){
+		area.filecontrol.edit=true
+		area.filecontrol.del=true
+	})
+
+}
+function CancelClick() {	
+	$$Dialog.postMessage("cancel");
+}
+function OKClick( objBtnSrc ){
+	if( !fnCheckSession() )	return false;
+	if(!$$idx.isSLPluginInstall){
+		 slCtl.Content.Control._syncFilesInfo();
+	}
+	var blnReturn = true;
+	var errhandle=dojo.subscribe("/attach/submiterror",function(){
+		dojo.unsubscribe(errhandle);
+		dojo.unsubscribe(handle);
+		blnReturn	= false;
+	});
+	var handle=dojo.subscribe("/wfeditor/submitover",function(){
+		dojo.unsubscribe(errhandle);
+		dojo.unsubscribe(handle);
+		$$Dialog.postMessage("success");
+		blnReturn = true;
+	});
+	
+	fnSubmitFTP(); 		
+	UploadIndiDocFiles();
+	//记录附件修改日志
+	fnRecordUpdAttLog();
+	return blnReturn;
+}
+function OpenMyFile(fname){
+	showDiv();
+	slCtl.Content.Control.EditFile(fname,0);
+}
+
+function showFilesCustom(){
+	$$Dialog._showIframe();
+	//获取最新附件列表并对比出附件的添加与删除
+	fnCheckAttListChange();
+}
+function fnAfterFtpLoad(){
+	$$Dialog._showIframe();
+}
+function addPanelCount(){
+}
+function addPanelTotalCount(){
+}
+//获取最新附件列表并对比出附件的添加与删除
+function fnCheckAttListChange(){
+	//记录附件名称列表，方便对比获取附件修改
+	var oldAtt = dojo.byId("strAttNameListOld");		//原附件列表
+	var newAtt = dojo.byId("strAttNameListNew");		//最新附件列表
+	//var att_add = dojo.byId("strAttNameListAdd");	//新增的附件列表
+	//var att_del = dojo.bYId("strAttNameListDel");	//删除的附件列表
+	//获取idx中的所有附件列表
+	var attList =slCtl.Content.Files.FileList;		//附件对象的CatNum属性为-5时表示为意见附件
+	 
+	
+	var attNamelist = "";
+	dojo.forEach(attList,function(item){
+    		if(item.CatNum != -5){
+    			attNamelist += ";" + item.FileName;
+    		}
+	});
+	attNamelist = attNamelist.substring(1) || "null";
+	//修改前附件列表域为空，说明此表单第一次打开，则获取附件名称列表
+	if(oldAtt &amp;&amp; oldAtt.value==""){
+		oldAtt.value = attNamelist;
+		newAtt.value = attNamelist;
+	}else{
+		var attlog_add = "";	//附件新增的列表
+		var attlog_del = "";	//附件删除的列表
+		//否则获取最新的附件列表及新增、删除的附件列表
+		if(newAtt.value == "null"){
+			//为null 说明修改前无附件，即获取的附件均为新增
+			newAtt.value = attNamelist;
+			attlog_add = attNamelist;
+		}else{
+			//获取新增及删除的附件名
+			var attNamelist_add = "";
+			var attNamelist_del = "";
+			var newAttlist = newAtt.value;
+			//获取新增附件列表
+			dojo.forEach(attNamelist.split(";"),function(item){
+				//新附件在已记录的最新附件列表中不包含，则为新增
+    				if((";"+newAttlist+";").indexOf(";"+item+";")==-1){
+    					attNamelist_add += ";"+item;
+    				}
+			});
+			attlog_add = attNamelist_add.substring(1) || "";
+			//获取删除附件列表
+			dojo.forEach(newAttlist.split(";"),function(item){
+				//已记录的最新附件不在新增的附件列表中，则为删除
+    				if((";"+attNamelist+";").indexOf(";"+item+";")==-1){
+    					attNamelist_del += ";"+item;
+    				}
+			});
+			attlog_del = attNamelist_del.substring(1) || "";
+			newAtt.value = attNamelist;	//存储最新的附件列表
+		}
+		//将附件的修改记录日志
+		if(attlog_add!="null" &amp;&amp; attlog_add!=""){
+			setAttModifyLog(attlog_add,"add");
+		}
+		if(attlog_del!=""){
+			setAttModifyLog(attlog_del,"del");
+		}
+	}
+}
+
+//记录附件更新日志
+function fnRecordUpdAttLog(){
+	var oldAtt = dojo.byId("strAttNameListOld").value;		//原附件列表
+	var newAtt = dojo.byId("strAttNameListNew").value;		//最新附件列表
+	var attlog_upd = "";
+	//最新附件列表在原有附件中存在，则判断是否更新
+	dojo.forEach(newAtt.split(";"),function(item){
+		if((";"+oldAtt+";").indexOf(";"+item+";")!=-1){
+		
+		var fileobj= slCtl.Content.Control.getFileByName(item);
+		if(fileobj){
+			if(fileobj.NeedUpdate){
+				attlog_upd += ";"+item;
+			}
+		   }
+		}
+	});
+	attlog_upd = attlog_upd.substring(1) || "";
+	setAttModifyLog(attlog_upd,"upd");
+}
+
+//记录修改附件日志
+function setAttModifyLog(attNameList,type){
+	var logkey = dojo.byId("strLogKey").value;
+	var optUser = dojo.byId("strOptUser").value;
+	var strUrl = "/"+dojo.query("input[name='dbPath']")[0].value+"/agtRecordModAttLog?openAgent";
+	strUrl += "&amp;logkey="+encodeURIComponent(logkey)+"&amp;username="+encodeURIComponent(optUser)+"&amp;attlist="+encodeURIComponent(attNameList)+"&amp;type="+type;
+	dojo.xhrPost({
+		url:strUrl,
+		sync:true,
+		preventCache:true,
+		handleAs:"text",
+		load:function(data){
+			if(data.indexOf("success")==-1){
+				if(type=="add"){
+					console.log("添加附件操作的日志记录失败！\n附件列表："+attNameList)
+				}else if(type=="del"){
+					console.log("删除附件操作的日志记录失败！\n附件列表："+attNameList)
+				}else{
+					console.log("更新附件操作的日志记录失败！\n附件列表："+attNameList)
+				}
+			}
+		}
+	});
+}</javascript></code>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'>&lt;div style="display:none"&gt;</run></par>
+<par def='1'><run html='true'><sharedfieldref name='appPath'/></run></par>
+<par def='1'><run html='true'><sharedfieldref name='dbPath'/></run></par>
+<par def='1'><run html='true'><sharedfieldref name='ResourcePath'/></run></par>
+<par def='1'><run html='true'><field type='text' kind='editable' name='strMainDocUNID'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAIgPmHWb1O6Qbo5GUt4TdTWiK5uRbILxclmqleD5ZexcEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run html='true'><field type='richtext' kind='editable' name='rtfJsonAttitude'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'><run html='true'><font size='9pt' color='red'/>标识(记录操作日志用)：</run><run
+ html='true'><font size='9pt' color='red'/><field type='text' kind='editable'
+ name='strLogKey' htmlid='strLogKey'><code event='defaultvalue'><formula compiled='true'>
+VgAJAEwAshbmoyxTrEO7MZDGQSWmj6RUP8BYLcX68zdHEPWEdzeF3Lm48aInTumLOVHWANSe1fUO
+PbnKOO0TxGK0ofBfKf8ihfn8/EHxBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'><run html='true'><font size='9pt' color='red'/>附件名称列表(原附件列表)：</run><run
+ html='true'><font size='9pt' color='red'/><field type='text' kind='editable'
+ name='strAttNameListOld' htmlid='strAttNameListOld'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'><run html='true'><font size='9pt' color='red'/>附件名称列表(已记录的最新附件列表)：</run><run
+ html='true'><font size='9pt' color='red'/><field type='text' kind='editable'
+ name='strAttNameListNew' htmlid='strAttNameListNew'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'><run html='true'><font size='9pt' color='red'/>操作人：</run><run
+ html='true'><font size='9pt' color='red'/><field type='text' kind='editable'
+ name='strOptUser' htmlid='strOptUser'><code event='defaultvalue'><formula
+ compiled='true'>
+HgAJABQAbKmhCPlID24SeQFQroTRUAQABAAEAAQA
+</formula></code></field></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='10' containertype='65418' aftercontainercount='2'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' color='red'/></run></par>
+<par def='1'>//控制页面以浏览器标准模式显示</par>
+<par def='1'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'/>
+<pardef id='2' hide='web'/><subformref name='sfrmDojo'/>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>//indidocx控制信息字段</run></par><subformref
+><code event='value'><formula compiled='true'>
+LgAJACQAqfghn/k7JgdpEh+NYkys22lgZwBYHHHrr/7qBrCOY/oEAAQABAAEAA==
+</formula></code></subformref>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>//ftp</run></par><subformref><code
+ event='value'><formula compiled='true'>
+JgAJABwAhJKTXTVECu7zd4aQdep43f4fR2hSVRJHBAAEAAQABAA=
+</formula></code></subformref>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>//附件展示</run></par><subformref><code
+ event='value'><formula compiled='true'>
+LgAJACQAEL5XEtuJ0Ja630zf+EQwWa0RvMqc1cvuWA+SjVUTLp8EAAQABAAEAA==
+</formula></code></subformref>
+<par def='2'/>
+<pardef id='3' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='3'/>
+<par def='1'><run html='true'>&lt;div style="text-align:center;margin:5px 0 10px 0;"&gt;</run></par>
+<par def='1'><run html='true'>	&lt;span class="btn-action-key"&gt;</run></par>
+<par def='1'><run html='true'>		</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;button type="button" dojoType="smartdot.form.BusyButton" onClick="return OKClick(this</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>);" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.sure"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;确认&lt;/button&gt;</run></par>
+<par def='1'><run html='true'>	&lt;/span&gt;</run></par>
+<par def='1'><run html='true'>	</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;button type="button" dojoType="smartdot.form.Button" onClick="CancelClick" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.cancel"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;取消&lt;/button&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par></richtext></body>
+<item name='fldAttach' summary='false' sign='true'><number>0</number></item>
+<item name='$SubForm_RepIDs' sign='true'><textlist><text>0000000000000000</text><text
+>0000000000000000</text><text>0000000000000000</text><text>0000000000000000</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmModifyAttitude</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,59+08</datetime></item></form>
+

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='自动删除移动办公临时文档' alias='agtDeleteMobileTmpDoc' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='最终催办' restrictions='fulladminunrestricted'
+ activatable='false'>
+<noteinfo noteid='a36' unid='958E77EF4F8F59984825801800371DAD' sequence='49'>
+<created><datetime>20160823T180200,77+08</datetime></created>
+<modified><datetime>20181107T195819,39+08</datetime></modified>
+<revised><datetime>20181024T085457,20+08</datetime></revised>
+<lastaccessed><datetime>20181107T195819,39+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195819,39+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085604,04+08</datetime></designchange>
+<trigger type='scheduled'>
+<schedule type='daily' runlocation='any'>
+<starttime><datetime>T020000,00</datetime></starttime></schedule></trigger>
+<documentset type='all'/>
+<rundata processeddocs='0' exitcode='0' agentdata='7E4953907E78FCF0482583300065AD04'>
+<agentmodified><datetime>20181025T014926,99+08</datetime></agentmodified>
+<agentrun><datetime>20181107T020902,44+08</datetime></agentrun>
+<runlog>Started running agent '自动删除移动办公临时文档|agtDeleteMobileTmpDoc' on 2018-11-07 02:09:02
+Running on all documents in database: 9548 total
+Found 9548 document(s) that match search criteria
+Ran LotusScript code
+Done running agent '自动删除移动办公临时文档|agtDeleteMobileTmpDoc' on 2018-11-07 02:09:02
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,91+08</datetime></item>
+<item name='$POID'><datetime>20181024T085457,20+08</datetime></item></agent>
+

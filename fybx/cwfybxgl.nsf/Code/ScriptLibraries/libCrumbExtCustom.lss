@@ -1,0 +1,27 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library libCrumbExtCustom
+	Created 2012-6-13 by admin/smartdot
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+
+Use "libCrumbExtBase"
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Public Class CrumbCustom As CrumbExtBase
+Declare Sub Initialize
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Public Class CrumbCustom As CrumbExtBase
+	
+End Class
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	
+End Sub
+
+
+

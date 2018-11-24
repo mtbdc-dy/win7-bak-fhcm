@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='sysLanguage' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='35e' unid='3E9A0F2D8241C14C48257D100028253B' sequence='54'>
+<created><datetime>20140709T151829,71+08</datetime></created>
+<modified><datetime>20181025T014925,17+08</datetime></modified>
+<revised><datetime>20181024T085443,31+08</datetime></revised>
+<lastaccessed><datetime>20181025T014925,16+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133245,40+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='sysLanguage'><code event='defaultvalue'><formula
+ compiled='true'>
+lgAJAIwAugt6uRuB1bJADK+9YXXSzgjX2YS/0ModCcU1CqvvkvZ/G5KnDJn9ExCnrdqBqyBBuNry
+/eHjRwj6bBMD7ltYztVFhg2LHqExW7DWithPbRjhfPFrcg2XhV36JKqsiJM5yiQrpjh1F18oOWKt
+4PCiPcSG5PIbxqLm1k4QGQHJcQyPcGIz2egffgQABAAEAAQA
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180308T102952,82+08</datetime></item></sharedfield>
+

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE note SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5'>
+<noteinfo noteid='11e' unid='F2007C8D4D45732148257FF000354D57' sequence='831'>
+<created><datetime>20160714T174212,07+08</datetime></created>
+<modified><datetime>20181029T183158,34+08</datetime></modified>
+<revised><datetime>20181029T183158,33+08</datetime></revised>
+<lastaccessed><datetime>20181029T183158,33+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133242,52+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=admin/O=ppm</name><name>CN=oav5DemoServer/O=ppm</name><name>CN=admin/O=ppm</name><name
+>CN=oav5DemoServer/O=ppm</name><name>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name
+>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name>CN=admin/O=ppm</name><name
+>CN=OAserver/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<item name='IconBitmap' summary='true' sign='true'>
+<rawitemdata type='6'>
+AiAgAQAA///////wD///gAH//gAAf/wAAD/4AAAf8AAAD+AAAAfgAAAHwAAAA8AAAAPAAAADgAAA
+AYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAHAAAADwAAAA8AAAAPgAAAH4AAAB/AAAA/4AAAf
+/AAAP/4AAH//gAH///AP//////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAiIiIiAAAAAAAAAAAAAAI
+jPZmZm/IgAAAAAAAAAAIjGZmZmZmZsiAAAAAAAAAjGZmZmZmZmZmyAAAAAAACMZmZmZmZmZmZmyA
+AAAAAIxmZmZmZmZmZmZmyAAAAAjGZmZmZmZmZmZmZmyAAAAIZmbyL2byL2byL2ZmgAAAjGZmIiJm
+IiJmIiJmZsgAAIZmZiIiZiIiZiIiZmZoAADGZmYiImYiImYiImZmbAAI9mZmIiJmIiJmIiJmZm+A
+CGZmZiIiZiIiZiIiZmZmgAhmZmYiImYiImYiImZmZoAIZmZmIiJmIiJmIiJmZmaACGZvIiIiZiIi
+ZiIiIvZmgAhmYiIiImYiImYiIiImZoAIZm8iIi9m8i9m8iIi9maACPZmZmZmZmZmZmZmZmZvgADG
+ZmbyL2byL2byL2ZmbAAAj2ZmIiJmIiJmIiJmZvgAAIxmZiIiZiIiZiIiZmbIAAAI9mbyL2byL2by
+L2ZvgAAACMZmZmZmZmZmZmZmbIAAAACMZmZmZmZmZmZmZsgAAAAACMZmZmZmZmZmZmyAAAAAAACM
+9mZmZmZmZm/IAAAAAAAACIz2ZmZmZm/IgAAAAAAAAAAIiMZmZmyIgAAAAAAAAAAAAACIiIiIAAAA
+AAAAAAAAAAIAAgAgAEAAAQABAA==
+</rawitemdata></item>
+<item name='$DefaultLanguage' sign='true'><text>zh-CN</text></item>
+<item name='$DefaultCollation' sign='true'><text>zh-CN</text></item>
+<item name='$CollationType' sign='true'><text>@UCA</text></item>
+<item name='$LaunchXPageRunOnServer' sign='true'><text>0</text></item>
+<item name='$DefaultWebLaunchPage'><text>$$ViewTemplateDefault</text></item>
+<item name='$FlagsNoRefresh'><text/></item>
+<item name='$AllowRESTDbAPI'><number>2</number></item>
+<item name='$TemplateServerName'><text>CN=oav5server1/O=ppm</text></item>
+<item name='$PIRCRefreshModTime'><datetime>20181025T014912,07+08</datetime></item>
+<item name='$TemplateModTime'><datetime>20181025T010523,96+08</datetime></item>
+<item name='$TemplateFileName'><text>C:\IBM\Lotus\Domino\data\indintf\moban\gfcwgl\cwfybxgl_jdgl.ntf</text></item>
+<item name='$Daos'><text>0</text></item>
+<item name='$LargeSummary'><text>0</text></item>
+<item name='$TITLE'><text>凤凰传媒费用报销管理
+</text></item>
+<item name='$Flags'><text>JMFE7zq</text></item></note>
+

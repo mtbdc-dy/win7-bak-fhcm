@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmWebflow-mobile' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ comment='用于显示移动端子表单' renderpassthrough='true'>
+<noteinfo noteid='3ee' unid='9671C3350DF35BBE48257E82001FDC95' sequence='57'>
+<created><datetime>20150714T134800,85+08</datetime></created>
+<modified><datetime>20181107T195622,51+08</datetime></modified>
+<revised><datetime>20181024T085502,47+08</datetime></revised>
+<lastaccessed><datetime>20181107T195622,51+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195622,51+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webqueryopen'><formula
+ compiled='true'>
+NgAJACwAyfjEx4oL+x7uIP1QdOx6lZohkKh70Xbezm487LXq2gm89uj8V4BiMgQABAAEAAQA
+</formula></code>
+<body><richtext>
+<pardef id='1'/><subformref><code event='value'><formula compiled='true'>
+NgAJACwA36X/XRiqV+oSlIWYjfDGP/HisNGrFvXFYQG7dlLf66X65afwDsJgWwQABAAEAAQA
+</formula></code></subformref>
+<par def='1'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmWebflow-mobile</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,51+08</datetime></item></form>
+

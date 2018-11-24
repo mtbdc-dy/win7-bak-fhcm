@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='审批记录' alias='sfrmAttitude' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='21a' unid='E6A7FB6D0CB5049248257A3E003D83BF' sequence='55'>
+<created><datetime>20120717T191154,23+08</datetime></created>
+<modified><datetime>20181107T195614,69+08</datetime></modified>
+<revised><datetime>20181024T085442,34+08</datetime></revised>
+<lastaccessed><datetime>20181107T195614,69+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195614,69+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>function dealsxpsimg_forHqSrcYj() {
+	if(location.href.indexOf('/vwprintcld/')&lt;0) return; //只在打印页面执行
+	var ifrm2 = dojo.byId('ifrHqSrcYj');
+	dojo.postMessageToOtherWindow(ifrm2.contentWindow,"dealsxps","*");	//跨域处理手写批示
+}
+dojo.addOnLoad(loadApprovalLevel);</javascript></code><code event='jsheader'
+ for='client'><javascript>function dealsxpsimg_forHqSrcYj() {
+	if(location.href.indexOf('/vwprintcld/')&lt;0) return; //只在打印页面执行
+	var ifrm2 = dojo.byId('ifrHqSrcYj');
+	dojo.postMessageToOtherWindow(ifrm2.contentWindow,"dealsxps","*");	//跨域处理手写批示
+}
+dojo.addOnLoad(loadApprovalLevel);</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' rightmargin='0%'><parstyle name='html'/></pardef>
+<pardef id='2' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run html='true'>&lt;div style="display:none"&gt;</run></par>
+<par def='2'><run html='true'>审批级别选项按审批意见显示：&lt;input type="text" name="</run><run
+ html='true'>key_spjbShowByLzxx_forJs" id="key_spjbShowByLzxx_forJs" value="</run><run
+ html='true'><sharedfieldref name='key_spjbShowByLzxx'/></run><run html='true'>"/&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;div class="panel" data-title="意见" data-string-id="indiplatform.tylc.yijian" data-src="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+ZgAJAFwA1RZAkGHyHM9Ume9hkzINNR8kXohGg7Xs7t2BbHX0GmqcvWCfhRQuTB4x2fiweuqRyDhY
+o2wjAT6qWMiT3w3EdAguaAN+ujYF6AEodzCXrt/aLmVDbBf0YwQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'>" id="yijianpanel"&gt;</run></par>
+<pardef id='3' leftmargin='1.2500in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='3'><run html='true'>&lt;h2 class="panel-title"&gt;&lt;span data-string-id="indiplatform.tylc.spyj"&gt;审批意见&lt;/span&gt;&lt;/h2&gt;</run></par>
+<par def='3'><run html='true'>&lt;ul id="approvalUL" class="panel-control opinion-filterer"&gt;</run></par>
+<pardef id='4' leftmargin='1.2500in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+LgAJACQAPCoz+6OID/JxTXsQPet83mxdTI9kMcErQbP0uchq06AEAAQABAAEAA==
+</formula></code></pardef>
+<par def='4'><run html='true'>	&lt;li&gt;&lt;input type="checkbox" id="chkBxfz" name="chkBxfz" onclick="fnchkBxfzYJ(this,'</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA9t6HEzhn5CJmBsuWGwO0Tn3BjycWVGB4BAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>')"&gt;&lt;label data-string-id="indiplatform.tylc.ckfz"&gt;查看分支&lt;/label&gt;&lt;/li&gt;</run></par>
+<pardef id='5' leftmargin='1.5000in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='5'><run html='true'><font name='user-interface'/>&lt;li&gt;&lt;input type="radio" id="filter-all" name="fldyjxsfw" value="1" checked onclick="fngetyijian()"&gt;&lt;label for="filter-all" </run><run
+ html='true'>data-string-id="indiplatform.tylc.quanbu"</run><run html='true'><font
+ name='user-interface'/>&gt;全部&lt;/label&gt;&lt;/li&gt;</run></par>
+<par def='5'><run html='true'><font name='user-interface'/>&lt;li&gt;&lt;input type="radio" id="filter-gsld" name="fldyjxsfw" value="3" onclick="fngetyijian('3')"&gt;&lt;label for="filter-gsld" </run><run
+ html='true'>data-string-id="indiplatform.tylc.gsld"</run><run html='true'><font
+ name='user-interface'/>&gt;公司领导&lt;/label&gt;&lt;/li&gt;</run></par>
+<par def='5'><run html='true'><font name='user-interface'/>&lt;li&gt;&lt;input type="radio" id="filter-bmld" name="fldyjxsfw" value="2" onclick="fngetyijian('2')"&gt;&lt;label for="filter-bmld" </run><run
+ html='true'>data-string-id="indiplatform.tylc.bmld"</run><run html='true'><font
+ name='user-interface'/>&gt;部门领导&lt;/label&gt;&lt;/li&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;/ul&gt;</run></par>
+<par def='3'><run html='true'>&lt;div class="panel-content" id="</run><run
+ html='true'><font name='user-interface'/>yjxx</run><run html='true'>"&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;span </run><run
+ html='true'>data-string-id="indiplatform.tylc.zwspyj"</run><run html='true'><font
+ name='user-interface'/> class="no-info"&gt;暂无审批意见&lt;/span&gt;</run></par>
+<par def='3'><run html='true'>&lt;/div&gt;</run></par>
+<pardef id='6' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+TgAJAEQA9nhBEjix9YxC8vn9OZvF5g/cqOKCILgopLJt7au/1L6tqJH6jKdAbKkLpVxZEZ6/dO5U
+EJMdk1rpC4zhHBQM3wQABAAEAAQA
+</formula></code></pardef>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div id="ifrHqSrcYjContent" style="display:none"&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;iframe id="ifrHqSrcYj" frameborder="0" marginheight="0" marginwidth="0" style="width:100%" src="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+TgAJAEQA9nhBEjix9YwXIGbonCHoUCViOtRp3t9S4zgVNldHJxsuHORAtg+bG8V8wzMEtKuQfJ55
+ShTghzRmItZvWaKBTgQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/></run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+XgAJAFQAJv0ZxpFLtJsV2wJQTl0aTZPx8Y/fz8YV/q+iw8JNlBso33ZXBqAAwMVNywHiroDT3o9a
+aA62wpmPrtk6Yi07GQa6tLsOMX0R+An/sysFYwUEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>" onload="dealsxpsimg_forHqSrcYj();"&gt;&lt;/iframe&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'> </run></par>
+<par def='2'><run html='true'>&lt;div class="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+hgAJAHwAK2x0X6NS0ipwAZCCraH09RVEOD/pH57pyKDIp1h5jrPFVCWG0I884Lzigc/GjxzTMx1C
+HuPJopMm4D/Z1AdPViNhWPe5lC2XLGETTjoYeuhoT4WGIz6AkR0/COb8A8O8Yt6kF1Stgdi9u+lk
+BCZQHOl3lq/D6xQpBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>" data-title="流转" data-string-id="indiplatform.tylc.liuzhuan" onShow="" id="liuzhuanpanel"&gt;</run></par>
+<par def='3'><run html='true'>&lt;h2 class="panel-title" data-string-id="indiplatform.tylc.lzxx"&gt;</run><run
+ html='true'><font name='user-interface'/>流转信息</run><run html='true'>&lt;/h2&gt;</run></par>
+<par def='4'><run html='true'>&lt;ul class="panel-control opinion-filterer"&gt;</run></par>
+<par def='4'><run html='true'>	&lt;li&gt;&lt;input type="checkbox" id="chkBxfzinfo" name="chkBxfzinfo" onclick="fnchkBxfzinfo(this,'</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA9t6HEzhn5CJmBsuWGwO0Tn3BjycWVGB4BAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>')"&gt;&lt;label data-string-id="indiplatform.tylc.ckfz"&gt;查看分支&lt;/label&gt;&lt;/li&gt;</run></par>
+<par def='4'><run html='true'>&lt;/ul&gt;</run></par>
+<pardef id='7' leftmargin='1.2500in' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='7'><run html='true'><font name='user-interface'/>&lt;div id="cur-info" class="panel-control"&gt;&lt;font style="font-weight:700" </run><run
+ html='true'>data-string-id="indiplatform.tylc.dqclr"</run><run html='true'><font
+ name='user-interface'/>&gt;当前处理人：&lt;/font&gt;</run><run html='true'><font
+ name='user-interface'/><computedtext><code event='value'><formula compiled='true'>
+RgEJADwB017tBXWiZsyArFo2d4u50Qf7MfcR8OxhTnbFSV/8yWBuv671DctWyxNNUgdada5qzQ/a
+g9yZKm9zZ9JnvZP/aOgcyzXtF0ApTOqrjamqXGVrldU6+6yE6gHdrmmKK038B656gJCRMvjlJ6YK
+af/DRs6OIldeFNl0m8ymajj1+e1TOjYOu62RM/w6Lc/zDhE0fvp+UcCqIYbC8l6o7x5IA/4iefYs
+H97l7ctVWxRqKW1egWzXJkQwgFYxLlU5IwGjvKOmOxAuCaEsjptyDmOj38DHF2WJ1Ng8vbePxg4d
+xFnFQRcU/W2P5jf2n5uZFCRIVMAddXmHbUuolPa4Yv43xpl9ZUQtEyBxtS7rAZhN37+z8fKSZyRy
+Y646P7ot7vn+1sj+6x34MIe0tbPgVf1NsqMlmzIPQWyABAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/> </run><run html='true'><font name='user-interface'/><computedtext
+><code event='value'><formula compiled='true'>
+dgAJAGwAydc56MB+MQt4rS34rMbqR/9wDchuQZeyrNpxYWILXkp2AcBDg02AZ6/wgB53z4KFy6yl
+W4JPIUZN4cfBxXGPlgseTG41WPVkZ72MxDeXCS1MOTjMoLiWB6re4mA9s1DOpGYowZ+cx+wEAAQA
+BAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/></run><run html='true'><font name='user-interface'/><computedtext
+><code event='value'><formula compiled='true'>
+VgEJAEwBY3+V5+6koBhElZRoUvFOJFoBhHgRNNODqVz9a/Ozn+XyXVHNV6GSLQLdO1uFFdlvFEo2
+FkNKgIJ+Q3O25pS09ynih/zfFkoSqrI3uBbvioycsgPDAW8i5IIZury4P0im8/K7mFRgaZ1dBiP0
+JRHFvbvy3+Yh8tqviM/tvsdxo1h8tJnD7wPX82mrjQXFnI0ijkhfIamEjfPwMtH1guPy9I2xhkpx
+rCCHbyXWFnrsFbf2r1jSM9uNBf2MrRx9XAatMS52Bfl5EBBa2SKjgkABrIoemYeOVZslDfd42W6l
+tyQn+bU0hSW9aTmEjSCL5UEbUkm6sZb57QxcqsckmQhmKbJbnDishz8VGbsv/N4NV/Flq4oH66gb
+qLG7VCAWt3CQqW6lLZ5PDog6hUcEIXausA/LXT3oDegPHbCDCZ/pyAZUEWsbLVCHTAQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/>　　&lt;font style="font-weight:700" </run><run
+ html='true'>data-string-id="indiplatform.tylc.dqclzt"</run><run html='true'><font
+ name='user-interface'/>&gt;当前处理状态：&lt;/font&gt;</run><run html='true'><font
+ name='user-interface'/><computedtext><code event='value'><formula compiled='true'>
+JgAJABwAVBid/ps1zVfOwrkQ0+Pk2P0HasdYUNmtBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/></run><run html='true'><font name='user-interface'/><computedtext
+><code event='value'><formula compiled='true'>
+bgAJAGQAlcyBqstghtRk6pSAgNFoeWDwqQF0kxxv2Kj5nhSqV18y6AVEJI9Ao6i0Zr3vYRMIFHiI
+4BzzQnjeTvwDc6wQHQ625ALmEEQxiUDCuSwXBB9cpsfqEa6cugyzU36DDxQVBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>&lt;/div&gt;</run></par>
+<par def='3'><run html='true'>&lt;div id="cur-infos"&gt;&lt;/div&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;div id="milestoneinfo" class="h4_showhead"&gt;&lt;/div&gt;</run></par>
+<par def='3'><run html='true'>&lt;div class="panel-content"&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;div id="lzxx" </run><run
+ html='true'>data-string-id="indiplatform.tylc.wlzxx" class="no-info"</run><run
+ html='true'><font name='user-interface'/>&gt;暂无流转信息&lt;/div&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;div style="display:none"&gt;</run><run
+><font name='user-interface'/><field type='text' allowmultivalues='true' kind='editable'
+ name='fldMileStoneFlowNum' listinputseparators='comma semicolon' listdisplayseparator='comma'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font name='user-interface'/><field
+ type='text' allowmultivalues='true' kind='editable' name='fldMileStoneNo'
+ listinputseparators='comma semicolon' listdisplayseparator='comma'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='13' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font name='user-interface'/><field
+ type='text' allowmultivalues='true' kind='editable' name='fldMileStoneName'
+ listinputseparators='comma semicolon' listdisplayseparator='comma'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='19' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font name='user-interface'/><field
+ type='text' kind='editable' name='fldmsHighlightCurNodeFlag'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='25' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ name='user-interface'/>&lt;/div&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;span style="display:none" id="milestoneflownum"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+NgAJACwAwHimNpqWOCeUilAT1nBltqV+8LmfKvon5po6MMH1LkaRKAfDDq/XiQQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/>&lt;/span&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;span style="display:none" id="milestoneno"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIXwQYQq9XfM2gPKzIJGVwv0nzFZ8DlrKYcEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/>&lt;/span&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;span style="display:none" id="milestonename"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAxlObK2ryBUVWKqY3tqqgW/nd6tZiT0D4FWzAufXmDXEEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/>&lt;/span&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;span style="display:none" id="msHighlightCurrentNodeFlag"&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+NgAJACwAM+4B/CFB6v83A+UYZ0lJcEJiz/dZZzGkO2yH9m6KnOiVtwu6xJaYjgQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font name='user-interface'/>&lt;/span&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;input type="text" style="display:none" id="dataurl" value="</run><run
+ html='true'><font size='9pt' color='#3f803f'/><computedtext><code event='value'><formula
+ compiled='true'>
+tgAJAKwACnE8gsgXA0O0mLddtP0XWqa+K1H0BECrxHIh/Ql3KMQVK2zdaeL/3KecgbEVCNxjXoXa
+mkTz6tFkt71x417Q3XfdDTTvvEWQx6KVyDrkEOQgfmpdlcuh+W1+0Q+m3zVUIJ+HV/v9spW6v9Qq
+VGJICdG3g5LzCVPlM7gLUPvEGMU9CH6b2gKrTEm5duFqN46VQUchzKOQTN4B/OHrxd6acDyTQg+p
+K4XxBAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ name='user-interface'/>"&gt;</run></par>
+<par def='3'><run html='true'><font name='user-interface'/>&lt;input type="text" style="display:none" id="col3" value='</run><run
+ html='true'><font size='9pt' color='#3f803f'/><computedtext><code event='value'><formula
+ compiled='true'>
+VgAJAEwA6NTm8hXjxbsmI5H1a+xpq+u6FYuTG5JFIBVABPEEcT1Kzt26G6cuczlTMCM/6or1WAjt
+yfQIdUwHR/ARqQRPm2rTkc8VbsgoBAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ name='user-interface'/>'&gt;</run></par>
+<par def='3'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'><font name='user-interface'/>&lt;/div&gt;</run></par>
+<pardef id='8' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen' enabled='false'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='8'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/> </run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>&lt;script&gt;</run></par>
+<pardef id='9' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+LgAJACQAPCoz+6OID/KEpt6X7ffZ2FeRzb4gPMvyyUJlwFXcnOEEAAQABAAEAA==
+</formula></code></pardef>
+<par def='9'><run html='true'><font size='9pt' color='#3f803f'/>dojo.addOnLoad(function(){getflowxml('</run><run
+ html='true'><font size='9pt' color='#3f803f'/><computedtext><code event='value'><formula
+ compiled='true'>
+tgAJAKwACnE8gsgXA0O0mLddtP0XWqa+K1H0BECrxHIh/Ql3KMQVK2zdaeL/3KecgbEVCNxjXoXa
+mkTz6tFkt71x417Q3XfdDTTvvEWQx6KVyDrkEOQgfmpdlcuh+W1+0Q+m3zVUIJ+HV/v9spW6v9Qq
+VGJICdG3g5LzCVPlM7gLUPvEGMU9CH6b2gKrTEm5duFqN46VQUchzKOQTN4B/OHrxd6acDyTQg+p
+K4XxBAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' color='#3f803f'/>&amp;random=</run><run html='true'><font size='9pt'
+ color='#3f803f'/><computedtext><code event='value'><formula compiled='true'>
+HgAJABQAH5lKnZ9OrZNm4irH9yoNTAQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='#3f803f'/>')});</run></par>
+<pardef id='10' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+LgAJACQAPCoz+6OID/KEpt6X7ffZ2FeRzb4gPMvyTCKDM8umCtgEAAQABAAEAA==
+</formula></code></pardef>
+<par def='10'><run html='true'><font size='9pt' color='#3f803f'/>dojo.addOnLoad(function(){setFlowInfoNum();})</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>/*显示当前处理人电话*/</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>dojo.query(".POfficeTel").forEach(function(obj){</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>	var h = dojo.connect(obj,"onmouseover",function(evt){</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>		var whichUser = dojo.attr(this,"whichUser");</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>		var whichServer  = dojo.attr(this,"whichServerHost")</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>		getUserTel(whichUser,whichServer,this,h);</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>	});</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>});</run></par>
+<par def='2'><run html='true'><font size='9pt' color='#3f803f'/>&lt;/script&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmAttitude</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,03+08</datetime></item></subform>
+

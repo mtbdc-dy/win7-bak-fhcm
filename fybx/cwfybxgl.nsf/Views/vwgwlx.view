@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwgwlx' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ showinmenu='false' allowdocselection='true' publicaccess='false' designerversion='8.5.3'
+ comment='公文类型维护' unreadmarks='standard' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='false' showmargin='true'
+ shrinkrows='true' extendlastcolumn='false' showhierarchies='false' unreadcolor='maroon'
+ rowlinecount='5' headerlinecount='1' rowspacing='1.25' haslinkcolumn='true'
+ bgcolor='white' altrowcolor='#efefef' totalscolor='blue' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false' formatnoteid='D3F32663C661963548256A1B001ECCD5'>
+<noteinfo noteid='136' unid='101AD4AE3D1D8BF8482579A80048B8BF' sequence='55'>
+<created><datetime>20120218T211418,87+08</datetime></created>
+<modified><datetime>20181025T014925,85+08</datetime></modified>
+<revised><datetime>20181024T085439,34+08</datetime></revised>
+<lastaccessed><datetime>20181025T014925,84+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133242,64+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+DgQJAAQEkS9RwZyLfGtA+aO3WnrvMkRpK7VYv4FXt4APMydgA3+fZ/YS/0ap90k7PLoLiq9ny4ld
+gSOSCVz2DOO9/jr6k3RCLrIlpP9mJP/3gjCzh057F9NB72RTPR+u8k680mNelYzzveuoi3CUTDrR
+wz4ZqS8MzuUvboS24OfuXI3ZX3RtJFteVgi/u4F7fedl99qSkenkEckGF6gVw1T+doJM2XD5p/6C
+lijNAYXtjwO9XrJ5HF+AXKCUddzS0y5f9NAxajg3cFlC6YTS12w+LdxDXVpmBGx1bSyGyC410O8a
+2l30ezPp9LXHDzoffk0R4f5CCXmJINrJ4NgISGVIAzrq+3dS4wHY/eCmeoOWv4A5u/Y6RIO/8KpV
+qWWOIj4WwV2HJZd4bw7Iy4teLeCuXCIw4SRlYJ0/2DfrVItnrBOhLYq4xOV/KHzCmHKNpApGZpPy
+B42/Ya/4fivtNFf5nFGNbtEkqBsbtb7jN+QTtj8KHWXN5+jHq9SfyOvK84jdY2cJ8DP+ujkHOnjD
+yQWXJrV33W2OAiqsVNEp2BzLRxDsnHgjK+x08Alo/m7qnX7EitkfK3DwvsfrLAQ9QVOL9KmFUNTb
+qf35baexF1wW7RdnMCFR2Ob8/ZVSv0TDigCnN50Ivq0zqJCg0euWm5vnfI1Tu+02XEigmwjGGIkh
+CWVsLSc0N9Mp4luP+6vSlEjMaCcy23cXzxjGT+tHk+8YDm7FwqjwtFNAopYrRxk2Ak8yYdlFDSHF
+yT9mCDXKxD1ieQVGZPIENu+4h6sUTXKW5rPqCh3mgmD8Dscj1q+vz07YafGJvNBmja/GXsnvD3nI
+We1QxkVx3aWCFPNL/fqzAGK6TwsCHXYQzuJyc+brlQDWyX6acVxAerxI81AYrn+kRKozCPt19EYd
+IKRMJjIUfwq15VekfF4t/g7/OxXM1SV8mW3JDbpTtkSQhZrWuVmMbj/BHwvAZsqmz+ShqRDECDdF
+pXts6jp/Gq3ruPZpVdJ77S/y8lhB6VjuzbDsyvFTCzbY2z4Tp8pKyHoVKr4vB6RLQZE5ZKPLU405
+uPT4+aS1o4q2wviTNX7JQyo75aey0e/zjY7C9iMyqFkOGvOkaTcsrkOox3gwEl9SRF9xLtWcz6ey
+UZ2aDutlqkEeD6IZo0h4LDMjTZp00hHS4dBkLzUCGK0rXj7QHfukTwYutbu+vmtDZtVX3rcKgCu0
+iaTAMq0+sfnD/t7XNMoXF49ujxVABzQRGpfqWNvp0qz9ivCsIpcxnEuIdJ/6PNmfihZ5yMHrc1Tp
+qjiyNPwfNV5+ZvpWUM6VB2Y2E5f3H46Peyt9n6uAmLB3KcyV/oJmeKRgNZJJLc4ZZ7r38hZYDimS
+3vzxQQQABAAEAAQA
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' hidedetailrows='false' itemname='$66' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='&lt;span data-string-id="indiplatform.tylc.quanzhong">权重&lt;/span>'><font
+ size='9pt' style='bold'/></columnheader><code event='value'><formula compiled='true'>
+LgAJACQA4duePMlz+wNdRuyqOvV0sNZkdrQFzP+KOmC6UpWN89kEAAQABAAEAA==
+</formula></code><code
+ event='hidewhen'><formula>t:=@GetProfileField("ManagerSet";"fldIsHq");
+@If(@Text(t)="1";@True;@False)</formula></code></column>
+<column hidedetailrows='false' itemname='$71' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.ywlx">业务类型&lt;/span>'><font
+ style='bold'/></columnheader><code event='value'><formula compiled='true'>
+hgAJAHwA/qNZu4h9N/FKCPXj0lULyZlencm5p8F/x7LBVJkUvF1MBowAS9Y3UENV8LLBiKcO03Yl
+okMKXxVpVZee3jiOpQ+5WyWwMtJdigDWDqiQ/U4bQc4OOITDdxgxUfr8xRFeH0ZKN+v05rZNMoHr
+6gyFFmmf/0tvxW8nBAAEAAQABAA=
+</formula></code></column>
+<column hidedetailrows='false' itemname='$64' width='14.7500' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.mrlc">默认流程&lt;/span>'><font
+ style='bold'/></columnheader><code event='value'><formula compiled='true'>
+HgEJABQByBoLW80bho5x1dHPFGn3oq/H5vPvqSUOcSXXpK17RxwBgQJfIOhMseaop7lO06yYumEA
+ic2HOWf1cox1S7/EAn9SkDuGwLQTdz2/obRQnE8lQcQScIdUeNcqprnw1rG16GHJbJKT/76V5apD
+psbtaedHWRMAj31cv/NaTHUVrQFhgpPj05LnhJngFCTzjxYjUBx+xuK35UyLxN0mhS/NTaPd82as
+7c653Lwiz8rwATO4LCXx+Lu1j1VIi5bSjwa/gkd8ti0rVE+ta0E8ievqzu3vrd5AOR4MEHAGAr8v
+DKJzJj8wXbEQ9b6/8li/o6lp+lwgo0HJ0nSXmD3jGP7vCecUPTJaUzQ3uMbhP0e3kEoEAAQABAAE
+AA==
+</formula></code></column>
+<column hidedetailrows='false' itemname='$72' width='18.7500' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.ywcld">业务处理单&lt;/span>'><font
+ size='9pt' style='bold'/></columnheader><code event='value'><formula compiled='true'>
+dgAJAGwAJS6/pimhr02O5QeuF5r9FiOdSaTzvZEvLEmNEA0pw5pKJX/olzMEIhm8fF0HT/ts3ceF
+SqXx7h0iYuJpD+uO+t9tXeuscOKLkzx+P75oQ3adzkarHxjWmiA45lEqSNOr3jNkS8I53o8EAAQA
+BAAEAA==
+</formula></code><code
+ event='hidewhen'><formula>t:=@GetProfileField("ManagerSet";"fldIsHq");
+@If(@Text(t)="1";@True;@False)</formula></code></column>
+<column hidedetailrows='false' itemname='$67' width='33.5000' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.syfw">使用范围&lt;/span>'><font
+ size='9pt' style='bold'/></columnheader><code event='value'><formula compiled='true'>
+fgEJAHQBuzbGwwEJ0cqn3/Le2fJwyNOMpUw9okbj24mB7SOAzdnCn+dNg+s2rfOi5W5Erd1sEbkt
+39GHQRsQZWpLsqbhQqoJyOaSkEgbKZ6y4CKpSbQDot+Kxvk+LAFuuGpFvjCO2EIxBcrV6D83epfa
+EW36BxqXeUVUXraGLXbxPTUCRuoMhZvryrPo4ICN7b0WavSFCmQC6v60xlQXyXRc+ugUyFOF41kZ
+wjqzvYbxsbglzNR7xbmoeu3TgIleO0qLT9CpK37743ZqI+emnNp59GVqcV50ZLx2ylVhgO8tng+0
+Fp4o44oG/CDT0Jkqy5AxxNgpDxMcNuuxoP2hal/PL3xHOXYngnFaoNeGsTPo/lo3MuBY5wBozb20
+gpgZsg9t6+2s9c8CawRrK08uuBcrll1yDoMSnFKATPBSaLu76iplMOO7RoMoae+qIZuoWkXhY4RC
+LarBIaXT6H5teTuN47d4qoiuJ6plaDCFLiLc4aWQoNcEAAQABAAEAA==
+</formula></code></column>
+<column hidedetailrows='false' itemname='$69' width='20' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.jsr">接收人&lt;/span>'><font
+ style='bold'/></columnheader><code event='value'><formula compiled='true'>
+XgAJAFQAA6HBAdRpYw57EnmWN6hpaWNNOugIDQDiuwMomIxNoGzT6/zF4SaXoE37PdJ0vMOLQT0o
+i8XuT+K0mpanqLMd2Ljm5FTJQzCENXrsiEiJP2oEAAQABAAEAA==
+</formula></code><code
+ event='hidewhen'><formula>t:=@GetProfileField("ManagerSet";"fldIsHq");
+@If(@Text(t)!="1";@True;@False)</formula></code></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210734,79+08</datetime></item></view>
+

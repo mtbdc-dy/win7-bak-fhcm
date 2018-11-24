@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmDbMgrNavCustom' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1a2e' unid='482581B6000911FF482581B70014B479' sequence='55'>
+<created><datetime>20171012T114609,21+08</datetime></created>
+<modified><datetime>20181107T195923,53+08</datetime></modified>
+<revised><datetime>20181105T142132,94+08</datetime></revised>
+<lastaccessed><datetime>20181107T195923,53+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195923,53+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'
+ enabled='false'><formula>@IsNotMember("[manager]";@UserRoles)</formula></code></pardef>
+<par def='1'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;ExtraNodes&gt;</run></par>
+<pardef id='2' align='full' leftmargin='1in' rightmargin='100%' hide='notes mobile'><code
+ event='hidewhen'><formula>@IsNotMember("[configer]";@UserRoles)</formula></code></pardef>
+<par def='2'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo name="报销项目信息维护"</run> refNode="fybxgl" position="after"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>  link="</run><computedtext><code event='value'><formula>fldDNS</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula>dbPath</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=</run><run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>vwBaoxXiangmuBytype</run><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>"   </run>data-string-id="indioffice.modulenav.fybxgl_baoxxmxxwh"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='2'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo name="募集资金主项目信息维护"</run> refNode="mjmainxm" position="after"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>  link="</run><computedtext><code event='value'><formula>fldDNS</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula>dbPath</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwZhuXiangMuXinxi"   </run>data-string-id="indioffice.modulenav.fybxgl_mjzjxmwh"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='2'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo name="募集资金子项目信息维护"</run> refNode="mjchildxm" position="after"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>  link="</run><computedtext><code event='value'><formula>fldDNS</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula>dbPath</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwZiXiangMuXinxiforMain"   </run>data-string-id="indioffice.modulenav.fybxgl_muzjzxmwh"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<pardef id='3' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+>@IsNotMember("[manager]";@UserRoles)</formula></code></pardef>
+<par def='3'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo name="统计领导费用"</run> refNode="ldtj" position="after"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>  link="</run><computedtext><code event='value'><formula>fldDNS</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula>dbPath</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/frmTongji?openform"   </run>data-string-id="indioffice.modulenav.fybxgl_baoxxmxxwh"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<pardef id='4' align='full' leftmargin='1.2500in' rightmargin='100%' firstlineleftmargin='1.5556in'
+ hide='web'/>
+<par def='4'><run><font size='11pt' name='serif'/>&lt;NodeInfo id="kmxxwh"  name="科目信息维护"</run><run
+><font size='11pt' name='serif'/> link="</run><computedtext><code event='value'><formula
+>fldDNS</formula></code></computedtext><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>/</run><computedtext><code
+ event='value'><formula>dbPath</formula></code></computedtext><run><font size='11pt'
+ name='serif'/>/myview?openform&amp;amp;view=</run><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>vwKmxx_xm</run><run><font
+ size='11pt' name='serif'/>&amp;amp;count=20&amp;amp;target=blank"/&gt;</run></par>
+<pardef id='5' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen' enabled='false'><formula>@IsNotMember("[manager]";@UserRoles)</formula></code></pardef>
+<par def='5'>&lt;/ExtraNodes&gt;</par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmDbMgrNavCustom</text></item></subform>
+

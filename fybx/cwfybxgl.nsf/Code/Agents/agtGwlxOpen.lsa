@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtGwlxOpen' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ hide='v3' runaswebuser='true' publicaccess='false' designerversion='8.5.3'
+ comment='公文类型表单打开代理' restrictions='fulladminunrestricted'>
+<noteinfo noteid='8e6' unid='4911773F37AF02B248256FCC000D37D1' sequence='49'>
+<created><datetime>20050322T102422,57+08</datetime></created>
+<modified><datetime>20181025T014920,89+08</datetime></modified>
+<revised><datetime>20181024T085502,22+08</datetime></revised>
+<lastaccessed><datetime>20181025T014920,88+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133250,74+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085609,06+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0' agentdata='0695225E06412E7448258331000B5036'>
+<agentmodified><datetime>20181025T014920,89+08</datetime></agentmodified>
+<agentrun><datetime>20181107T172756,74+08</datetime></agentrun>
+<runlog>Started running agent 'agtGwlxOpen' on 2018-11-07 17:27:56
+Ran LotusScript code
+Done running agent 'agtGwlxOpen' on 2018-11-07 17:27:56
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210746,16+08</datetime></item>
+<item name='$POID'><datetime>20181024T085502,22+08</datetime></item></agent>
+

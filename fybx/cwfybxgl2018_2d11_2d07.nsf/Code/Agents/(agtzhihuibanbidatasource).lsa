@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='(agtzhihuibanbidatasource)' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='获得外单位列表' restrictions='unrestricted'>
+<noteinfo noteid='966' unid='E9CA2E1992CFA43548257D9B002A8062' sequence='49'>
+<created><datetime>20141125T154413,78+08</datetime></created>
+<modified><datetime>20181107T195814,54+08</datetime></modified>
+<revised><datetime>20181024T085458,85+08</datetime></revised>
+<lastaccessed><datetime>20181107T195814,54+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195814,54+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085605,69+08</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0' agentdata='83CD1A4257B98F1848258331002DE4C6'>
+<agentmodified><datetime>20181025T014919,53+08</datetime></agentmodified>
+<agentrun><datetime>20181107T195618,63+08</datetime></agentrun>
+<runlog>Started running agent 'agtzhihuibanbidatasource' on 2018-11-07 19:56:18
+Ran LotusScript code
+Done running agent 'agtzhihuibanbidatasource' on 2018-11-07 19:56:18
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210745,41+08</datetime></item>
+<item name='$POID'><datetime>20181024T085458,85+08</datetime></item></agent>
+

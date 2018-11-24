@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='修改记录' alias='sfrmChangeInfor' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='29e' unid='B721914D017A4894482579B4004892AB' sequence='55'>
+<created><datetime>20120301T211241,39+08</datetime></created>
+<modified><datetime>20181025T014918,85+08</datetime></modified>
+<revised><datetime>20181024T085442,44+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,84+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010803,69+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>&lt;div</run><run html='true'> class="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+hgAJAHwAK2x0X6NS0ipwAZCCraH09RVEOD/pH57pyKDIp1h5jrPFVCWG0I884Lzigc/GjxzTMx1C
+HuPJopMm4D/Z1AdPViNhWPe5lC2XLGETTjoYeuhoT4WGIz6AkR0/COb8A8O8Yt6kF1Stgdi9u+lk
+BCZQHOl3lq/D6xQpBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>"</run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/> data-title="修改" </run><run html='true'> data-string-id="indiplatform.tylc.xiugai"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='navy'/> id="showXgjlId" style="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+XgAJAFQAEn0Q2CIW/dZmCayp4qvr17xg50DUNiP9Cgodm2aPBABVW75TJyXkLjxX1hyhUXVW1TmN
+JzNEwGN9YEECgjOzHIo5pE3OduguiC14hzZwnc4EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='navy'/>"&gt; </run></par>
+<pardef id='2' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run html='true'>&lt;h2 class="panel-title" data-string-id="indiplatform.tylc.xgjl"</run><run
+ html='true'>&gt;修改记录&lt;/h2&gt;</run></par>
+<par def='2'><run html='true'>&lt;div class="panel-content"&gt;</run></par>
+<pardef id='3' leftmargin='1in' hide='print notes'><code event='hidewhen'><formula
+ compiled='true'>
+PgAJADQApboHd0g487oVhL79qiHiD4O57Xt5V+ikBKqeNZ92geqt+bE98lWq3KnQYEtEQweIBAAE
+AAQABAA=
+</formula></code></pardef>
+<par def='3'><run html='true'><font color='blue'/>&lt;div class="empty no-info" </run><run
+ html='true'>data-string-id="indiplatform.tylc.zwxgjl"</run><run html='true'><font
+ color='blue'/>&gt;</run><run html='true'><font color='blue'/>暂无修改记录&lt;/div&gt;</run></par>
+<par def='1'><run html='true'> &lt;table width=100% align=center class="</run><run
+ html='true'>OpinionTab2</run><run html='true'>"&gt;</run></par>
+<par def='2'><run html='true'>    &lt;colgroup&gt;</run></par>
+<par def='2'><run html='true'>          &lt;col width="100"&gt; &lt;/col&gt;</run></par>
+<par def='2'><run html='true'>          &lt;col&gt;&lt;/col&gt;</run></par>
+<par def='2'><run html='true'>          &lt;col width="140"&gt;&lt;/col&gt;</run></par>
+<par def='2'><run html='true'>          &lt;col width="140"&gt;&lt;/col&gt;</run></par>
+<par def='2'><run html='true'>    &lt;/colgroup&gt;</run></par>
+<par def='1'><run html='true'> </run><run html='true'><font color='red'/><computedtext
+><code event='value'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR1I/9UFOIi9pxRToYm+yviOS2YONON5McIF3BPeXD7OHAQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'> </run></par>
+<par def='1'><run html='true'>&lt;/table&gt;</run></par>
+<pardef id='4' leftmargin='1in'><parstyle name='html'/></pardef>
+<par def='4'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'> </run></par>
+<pardef id='5'/>
+<par def='5'><run html='true'>&lt;div id = "idJlInfor"  style="display:none" &gt;</run></par>
+<par def='5'><run html='true'>  </run><run html='true'><field type='richtext'
+ kind='editable' name='fldChangeInfor' htmlid='fldChangeInfor'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='5'><run html='true'>&lt;/div&gt; </run></par>
+<pardef id='6' leftmargin='0.7500in' rightmargin='95%' firstlineleftmargin='1in'><code
+ event='hidewhen'><formula compiled='true'>
+JgIJABwCTwO2URIgw4VuopHdwKGOv1zUCXniCjkhk0pOg8J512iM/ws5SA3DDGGPDqCvOAe7SG5g
+zqk/pPUxBsd+hi4JW1fWMvZjxRLgtfO9WGKBc9D3ijQbaEpxNF+zdL/waH3x1DfQEg0CvjTutKqc
+UvIp9rF9mZlGOup8BC12cBD9nmWTF/1ejvzTNWWWKUHSayG3vBeug0tdFihykBASCEetO2xHPSIP
+gwvA8I4r+JWUCPni88PfqHe8Vc8ZY0QzpOhaNeyOKexzJNUYgZVRSp9xv6PUuqvlPU3XlvrzS+vd
+AFlIRD1QzDk6myMd1G8Kl7GStWtSS34rcHcKTfGwkOWGddJAahcSlcND8wRG4kecQgLmQgDG59ea
+LT31nhDu5XozNKRt4ESWvXkoRIk6PMNOeb7SrsJRDAaFxC9UV/2P5Fq9apsNGROJbfXuZ0sr9sxG
+AcscQyJ3morC22yvhDAbowFA0goondmGwxRfRe2HtrCs3UXvavtV8Bcmb8RFxRwSXdr8sVit9jIH
+anapvz5r3/iV46x44iGqDwUaingPFjcYieVSMBsiZ1dbPAgCxvipurYlJU0Ocs83ggGhM6EvtMWs
+93nb6EzUrLBHs/byi45xj4Fl6JN6lMd2WLDRbebE4ITLy7v7+5VwmJGvQwtyMQHGK8Q/cxQKrxan
+EuJQ5lVg0ZCVLUdTAhJNhFrhH8RgnW1r0+NavAYEAAQABAAEAA==
+</formula></code></pardef>
+<par def='6'><run html='true'><font color='red'/>&lt;textarea style="display:none" id="fldChangeInfoTmp_cp"&gt;</run><run
+ html='true'><font color='red'/><computedtext><code event='value'><formula
+ compiled='true'>
+PgAJADQAjEY7xAmKS5XIKm/XdwQ4iohXpta5iPv5djTsO605U4XSIF0V9r0epPBFReYhlQKQBAAE
+AAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ color='red'/>&lt;/textarea&gt;</run></par>
+<par def='5'><run html='true'>&lt;script&gt;</run></par>
+<par def='5'><run html='true'>var doc=document.forms[0];</run></par>
+<par def='5'><run html='true'>var curUser = "</run><run html='true'><font
+ color='red'/><computedtext><code event='value'><formula compiled='true'>
+JgAJABwAh9tfB+g2tyIKzGowNbxFiZ35lzIy4LGRBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>"</run></par>
+<par def='5'><run html='true'>var ym ="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU+lSQDsCLmaxga5HIJXI9UYWksP3OfoIARRhxZFXSohIKNqYCrbocaVBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>";</run></par>
+<par def='5'><run html='true'>var tsXx = "</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+PgAJADQA1kz2QyZnfNyDz5yDPUlHvhbsPJu1GBUTudD7QlvwzUj8+RaxBx//P6gcQlT0SiDFBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>";</run></par>
+<par def='2'><run html='true'>var haveYmStr="";</run></par>
+<par def='2'><run html='true'>var tsXxStr="";</run></par>
+<par def='2'><run html='true'>//动态表格域名临时变量	 </run></par>
+<par def='2'><run html='true'>var ymForDyncConfigObj;	 </run></par>
+<par def='2'><run html='true'>var havaYmStrForDync = "";   </run></par>
+<par def='2'><run html='true'>getChangeInfor();</run></par>
+<par def='5'><run html='true'>dojo.addOnLoad(function(){   </run></par>
+<par def='5'><run html='true'>	var tableTmp = dojo.query("#showXgjlId .OpinionTab2")[0];</run></par>
+<par def='5'><run html='true'>	var sLen = 0;</run></par>
+<par def='5'><run html='true'>	if(tableTmp){</run></par>
+<par def='5'><run html='true'>		sLen = tableTmp.rows.length;</run></par>
+<par def='5'><run html='true'>	}</run></par>
+<par def='5'><run html='true'>	addPanelCount(sLen,dojo.byId("</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='navy'/>showXgjlId</run><run
+ html='true'>"));</run></par>
+<par def='5'><run html='true'>});</run></par>
+<par def='5'><run html='true'>&lt;/script&gt; </run></par>
+<par def='5'><run html='true'>&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmChangeInfor</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,47+08</datetime></item></subform>
+

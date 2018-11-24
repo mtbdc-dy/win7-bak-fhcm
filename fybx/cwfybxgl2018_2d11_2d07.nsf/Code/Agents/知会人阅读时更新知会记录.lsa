@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='知会人阅读时更新知会记录' alias='agtWriteNotify' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='[知会记录]主文档打开时运行' restrictions='unrestricted'>
+<noteinfo noteid='6c2' unid='8C4D564EA176A257482577D900283948' sequence='49'>
+<created><datetime>20101112T151921,04+08</datetime></created>
+<modified><datetime>20181107T195756,37+08</datetime></modified>
+<revised><datetime>20181024T085457,22+08</datetime></revised>
+<lastaccessed><datetime>20181107T195756,37+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195756,37+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085604,07+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20150417T171615,62+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,93+08</datetime></item>
+<item name='$POID'><datetime>20181024T085457,22+08</datetime></item></agent>
+

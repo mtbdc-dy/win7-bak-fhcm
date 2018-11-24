@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='(agtFindDocUnid)' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' comment='indidoc上载代理' restrictions='unrestricted'
+ enabled='false'>
+<noteinfo noteid='a9a' unid='C1E7D0DFF7738FEF482579B300497B8B' sequence='49'>
+<created><datetime>20120229T212237,55+08</datetime></created>
+<modified><datetime>20181025T014919,25+08</datetime></modified>
+<revised><datetime>20181024T085503,53+08</datetime></revised>
+<lastaccessed><datetime>20181025T014919,24+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133251,80+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085610,37+08</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0' agentdata='1B1CBD6CA2C1F3614825833200245595'>
+<agentmodified><datetime>20181025T014919,25+08</datetime></agentmodified>
+<agentrun><datetime>20181107T185349,74+08</datetime></agentrun>
+<runlog>Started running agent 'agtFindDocUnid' on 2018-11-07 18:53:49
+Ran LotusScript code
+Done running agent 'agtFindDocUnid' on 2018-11-07 18:53:49
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210747,03+08</datetime></item>
+<item name='$POID'><datetime>20181024T085503,53+08</datetime></item></agent>
+

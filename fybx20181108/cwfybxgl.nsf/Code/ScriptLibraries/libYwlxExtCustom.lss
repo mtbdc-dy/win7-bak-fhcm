@@ -1,0 +1,25 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library libYwlxExtCustom
+	Created 2015-10-19 by admin/wzorg
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+
+Use "libYwlxExtBase"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Public Class YwlxExtCustom As YwlxExtBase
+Declare Sub Initialize
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+
+Public Class YwlxExtCustom As YwlxExtBase
+	
+End Class
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	
+End Sub
+

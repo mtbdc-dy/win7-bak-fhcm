@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmbxtitle_print' alias='打印子表单表头' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1962' unid='482581B6000911FF482581B70014B475' sequence='37'>
+<created><datetime>20171012T114609,17+08</datetime></created>
+<modified><datetime>20181107T195912,41+08</datetime></modified>
+<revised><datetime>20181107T160551,78+08</datetime></revised>
+<lastaccessed><datetime>20181107T195912,41+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195912,41+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.5000in'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;caption class="tdTitle"&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;span data-string-id="indiplatform.tylc.wjcld"&gt;&lt;div&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>temp:=@GetProfileField("ManagerSet";"fldDepName_xm");
+temp2:=@If(@Contains(temp;"/");@Left(temp;"/");temp);
+temp3:=@If(@Contains(temp2;"总部")|@Contains(temp2;"本部");@Right(temp;"/");temp2);
+temp4:=@If(@Contains(temp3;"/");@Left(temp3;"/");temp3);
+temp4</formula></code></computedtext></run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/div&gt;&lt;br&gt;&lt;div&gt;</run><run
+ html='true'><computedtext><code event='value'><formula>@If(fldbaoxxm_xm="其他费";fldbaoxxm_xm+"用报销单";fldbaoxxm_xm+"报销单")</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/div&gt;&lt;/span&gt;</run></par>
+<pardef id='2' leftmargin='1in' firstlineleftmargin='1.2500in' hide='notes mobile'
+ tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula>fldewmpath_xm=""</formula></code></pardef>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>    &lt;span style="float:right;margin-top: -70px"&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>      &lt;div&gt;&lt;img style="width:100px;height:100px" src=</run><run
+ html='true'><computedtext><code event='value'><formula>fldewmpath_xm</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;&lt;/div&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>    &lt;/span&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/caption&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td colspan="10"&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;table cellspacing=0 cellpadding=0 border=0 width="100%" align="right"&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr&gt;</run></par>
+<pardef id='3' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.7500in'
+ hide='notes'><code event='hidewhen'><formula>strBH="0"</formula></code></pardef>
+<par def='3'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td  align="left"&gt;&lt;div&gt;编&amp;emsp;&amp;emsp;号：</run></par>
+<pardef id='4' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.7500in'
+ hide='notes'><code event='hidewhen'><formula>strAutoBH!="1"|strBH="0"</formula></code></pardef>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run><run html='true'><computedtext><code
+ event='value'><formula>@If(fldFwbh!="";fldFwbh;"")</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/></run></par>
+<pardef id='5' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.7500in'
+ hide='notes'><code event='hidewhen'><formula>strAutoBH="1"|strBH="0"</formula></code></pardef>
+<par def='5'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><field type='text' kind='editable'
+ name='fldFwZhys' htmlid='fldFwZhys' htmlclass='input'><code event='htmlattributes'><formula
+>"readonly size=6"</formula></code><code event='defaultvalue'><formula>""</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt'/> </run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/><field type='text' kind='editable' name='fldFwLsh'
+ htmlid='fldFwLsh' htmlclass='input'><code event='htmlattributes'><formula
+>"readOnly size=\"2\""</formula></code><code event='defaultvalue'><formula
+>""</formula></code></field></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='18' containertype='65418' aftercontainercount='2'
+ afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt'/> </run><run
+ html='true'><font size='9pt'/><field type='text' kind='editable' name='fldFwNum'
+ htmlid='fldFwNum' htmlclass='input'><code event='htmlattributes'><formula
+>"readonly size=1"</formula></code><code event='defaultvalue'><formula>""</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='26' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt'/></run></par>
+<par def='3'><run html='true'><font size='9pt'/>&lt;/div&gt;&lt;/td&gt;</run></par>
+<pardef id='6' leftmargin='1in' rightmargin='95%' firstlineleftmargin='1.7500in'
+ hide='notes'/>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td  align="right"&gt;&lt;div class=""&gt;</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'/>申请日期</run><run
+ html='true'><font style='bold' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>：</run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/><field type='datetime' kind='computed' name='fldSqrq_xm'><datetimeformat
+ show='date' date='yearmonthday' fourdigityearfor21stcentury='true' time='hourminute'
+ zone='never' dateformat='yearmonthdayweekday' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1='-' dateseparator2='-'
+ dateseparator3=' ' timeseparator=':' timeformat24='true' preference='usersetting'/><code
+ event='defaultvalue'><formula>fldSqrq_xm</formula></code></field></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/> &lt;/div&gt;&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/table&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>报销子表单的标题显示</text></item></subform>
+

@@ -1,0 +1,882 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='模块扩展功能子表单内容' alias='sfrmCustomContent' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1ae2' unid='482581B6000911FF482581B7003E7832' sequence='175'>
+<created><datetime>20171012T192220,02+08</datetime></created>
+<modified><datetime>20181107T195926,10+08</datetime></modified>
+<revised><datetime>20181107T165957,68+08</datetime></revised>
+<lastaccessed><datetime>20181107T195926,10+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195926,10+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>//打开获取二级部门使用函数
+function hqejbm(text,value){
+     var textnew;
+     var valuenew;
+     var comname=dojo.byId("fldCompName_xm").value;
+     comname=comname.substring(0,comname.lastIndexOf("/"));
+     if(text.indexOf("/"+comname)&gt;=0){
+        textnew=text.substring(0,(text.indexOf("/"+comname)))
+        if(textnew.lastIndexOf("/")&gt;=0){
+            textnew=textnew.substring(textnew.lastIndexOf("/")+1,textnew.length)+"/"+comname;
+         }else{
+            textnew=textnew+"/"+comname;
+         }
+        valuenew=fngetdepid(textnew);
+     }else{
+       textnew=text;
+       valuenew=value;
+     }
+    var arry=new Array()
+    arry[0]=textnew;
+    arry[1]=valuenew;
+    
+    return arry;
+}
+function fngetdepid(text){
+
+   //通过text,查找部门id
+      var strBaseUrl = location.href.toLocaleLowerCase();
+      strBaseUrl = strBaseUrl.substr(0,strBaseUrl.indexOf(".nsf")+4);
+      var strurl=strBaseUrl+"/agtgetdepid?openagent&amp;depname="+escape(text);
+      var value;
+      dojo.xhrGet({
+		url: strurl,
+		handleAs: "json",
+		preventCache:true,
+		sync:true,
+		load: function(data){
+		  //var value=data.depid;
+		   value=data["depid"];
+		
+}          });
+     return value;
+}
+
+//小写金额转换成大写金额	2016-07-13 
+function Arabia_to_Chinese(Num){ 
+	for(i=Num.length-1;i&gt;=0;i--) 
+	{ 
+	Num = Num.replace(",","") 
+	Num = Num.replace(" ","") 
+	} 
+	Num = Num.replace("￥","") 
+	part = String(Num).split("."); 
+	newchar = ""; 
+	for(i=part[0].length-1;i&gt;=0;i--){ 
+	if(part[0].length &gt; 10){ alert("位数过大，无法计算");return "";} 
+	tmpnewchar = "" 
+	perchar = part[0].charAt(i); 
+	switch(perchar){ 
+	case "0": tmpnewchar="零" + tmpnewchar ;break; 
+	case "1": tmpnewchar="壹" + tmpnewchar ;break; 
+	case "2": tmpnewchar="贰" + tmpnewchar ;break; 
+	case "3": tmpnewchar="叁" + tmpnewchar ;break; 
+	case "4": tmpnewchar="肆" + tmpnewchar ;break; 
+	case "5": tmpnewchar="伍" + tmpnewchar ;break; 
+	case "6": tmpnewchar="陆" + tmpnewchar ;break; 
+	case "7": tmpnewchar="柒" + tmpnewchar ;break; 
+	case "8": tmpnewchar="捌" + tmpnewchar ;break; 
+	case "9": tmpnewchar="玖" + tmpnewchar ;break; 
+	} 
+	switch(part[0].length-i-1){ 
+	case 0: tmpnewchar = tmpnewchar +"元" ;break; 
+	case 1: if(perchar!=0)tmpnewchar= tmpnewchar +"拾" ;break; 
+	case 2: if(perchar!=0)tmpnewchar= tmpnewchar +"佰" ;break; 
+	case 3: if(perchar!=0)tmpnewchar= tmpnewchar +"仟" ;break; 
+	case 4: tmpnewchar= tmpnewchar +"万" ;break; 
+	case 5: if(perchar!=0)tmpnewchar= tmpnewchar +"拾" ;break; 
+	case 6: if(perchar!=0)tmpnewchar= tmpnewchar +"佰" ;break; 
+	case 7: if(perchar!=0)tmpnewchar= tmpnewchar +"仟" ;break; 
+	case 8: tmpnewchar= tmpnewchar +"亿" ;break; 
+	case 9: tmpnewchar= tmpnewchar +"拾" ;break; 
+	} 
+	newchar = tmpnewchar + newchar; 
+	} 
+	if(Num.indexOf(".")!=-1){ 
+	if(part[1].length &gt; 2) { 
+	part[1] = part[1].substr(0,2) 
+	} 
+	for(i=0;i&lt;part[1].length;i++){ 
+	tmpnewchar = "" 
+	perchar = part[1].charAt(i) 
+	switch(perchar){ 
+	case "0": tmpnewchar="零" + tmpnewchar ;break; 
+	case "1": tmpnewchar="壹" + tmpnewchar ;break; 
+	case "2": tmpnewchar="贰" + tmpnewchar ;break; 
+	case "3": tmpnewchar="叁" + tmpnewchar ;break; 
+	case "4": tmpnewchar="肆" + tmpnewchar ;break; 
+	case "5": tmpnewchar="伍" + tmpnewchar ;break; 
+	case "6": tmpnewchar="陆" + tmpnewchar ;break; 
+	case "7": tmpnewchar="柒" + tmpnewchar ;break; 
+	case "8": tmpnewchar="捌" + tmpnewchar ;break; 
+	case "9": tmpnewchar="玖" + tmpnewchar ;break; 
+	} 
+	if(i==0)tmpnewchar =tmpnewchar + "角"; 
+	if(i==1)tmpnewchar = tmpnewchar + "分"; 
+	newchar = newchar + tmpnewchar; 
+	} 
+	} 
+	while(newchar.search("零零") != -1||newchar.search("零亿") != -1||newchar.search("亿万") != -1||newchar.search("零万") != -1){ 
+	newchar = newchar.replace("零零", "零"); 
+	newchar = newchar.replace("零亿", "亿"); 
+	newchar = newchar.replace("亿万", "亿"); 
+	newchar = newchar.replace("零万", "万");
+     } 	
+     if(Num&lt;"1.00"){
+	
+	}else{
+	newchar = newchar.replace("零元", "元"); 
+	}
+	if(newchar.search("零分")!=-1){
+	newchar = newchar.replace("零角", ""); 
+	}else{
+     newchar = newchar.replace("零角", "零"); 
+     } 
+	newchar = newchar.replace("零分", ""); 
+	if (newchar.charAt(newchar.length-1) == "元" || newchar.charAt(newchar.length-1) == "角") 
+	newchar = newchar+"整" 	
+	return newchar; 
+}
+
+//函数判断是否超过预算
+function fnCheckIfCys(){
+     var strBaseUrl=location.href.toLocaleLowerCase();
+     var strBaseUrl=strBaseUrl.substr(0,strBaseUrl.indexOf(".nsf")+4);
+     var strDept=dojo.byId("fldBaoxiaoBm_id").value;
+     var strnd=dojo.byId("fldyear_xm").value;
+     var strfylx=dojo.byId("fldfylx_xm").value;
+     var strxmbh=dojo.byId("fldBxfeeXmbh_xm").value;
+     var strfyzj=dojo.byId("fldBaoxiaoje_xm").value;
+     var strappPath=dojo.query("input[name='dbPath']")[0].value;
+     strappPath=strappPath.substring(0,strappPath.lastIndexOf("/"));
+     var strzxys
+     dojo.forEach(dojo.query("input[name='fldyszx_xm']"),function(e){
+        if(e.checked==true){
+           strzxys=e.value
+        };
+      })
+     var strurl=strBaseUrl+"/agtCheckCysforbx?openagent&amp;deptid="+strDept+"&amp;sqnd="+strnd+"&amp;fylx="+escape(strfylx)+"&amp;xmbh="+strxmbh+"&amp;feezj="+escape(strfyzj)+"&amp;zxys="+escape(strzxys)+"&amp;strappPath="+strappPath;
+     var strflag="0";
+     dojo.xhrGet({
+        url:strurl,
+        handleAs:"json",
+        preventCache:true,
+        sync:true,
+        load:function(data){
+         if((data["items"])=="1"){
+              alert(smartdot.i18n.getString("indiplatform.hyfysq.ystx","您申请的报销已经超本年度专项预算"));
+              strflag="1";
+         }else if((data["items"])=="2"){
+              alert(smartdot.i18n.getString("indiplatform.hyfysq.ystx","您申请的报销已经超本年度一般预算"));
+              strflag="1";
+         } else if((data["items"])=="3"){
+               alert(smartdot.i18n.getString("indiplatform.hyfysq.ystx","您申请的报销没有预算"));
+               strflag="1";
+         }  
+        }
+    })
+    return strflag;
+}
+/*根据业务类型获取编号*/
+function fnGetXmBh(obj){
+      var bxxm=dojo.byId("fldbaoxxm_xm").value
+      var strBaseUrl = location.href.toLocaleLowerCase();
+      strBaseUrl = strBaseUrl.substr(0,strBaseUrl.indexOf(".nsf")+4);
+      var strurl=strBaseUrl+"/agtGetxmbh?openagent&amp;fylx="+escape(obj.value)+"&amp;bxxm="+escape(bxxm);
+      dojo.xhrGet({
+		url: strurl,
+		handleAs: "json",
+		preventCache:true,
+		sync:true,
+		load: function(data){
+		   dojo.byId("fldBxfeeXmbh_xm").value=data["xmbh"];
+}          });
+}
+//格式化金额格式添加两位小数
+function fnGeShiJE(obj){
+    if(obj.value==""){
+       obj.value="0.00"
+    }
+    obj.value=parseFloat(obj.value).toFixed(2);
+}
+
+//获取是否需要预算控制
+function fnifyskz(strxmdl,strxmmc){
+      var yskz;
+      var strBaseUrl = location.href.toLocaleLowerCase();
+      strBaseUrl = strBaseUrl.substr(0,strBaseUrl.indexOf(".nsf")+4);
+      var strurl=strBaseUrl+"/agtgetifyskz?openagent&amp;xmdl="+escape(strxmdl)+"&amp;xmmc="+escape(strxmmc);
+      dojo.xhrGet({
+		url: strurl,
+		handleAs: "json",
+		preventCache:true,
+		sync:true,
+		load: function(data){
+		    yskz=(data["yskz"]);
+}          });
+return yskz;
+}
+
+//判断是否超预算
+function  fnifcys(strbxmc,strxmdl,strxmmc){
+
+  if(dojo.byId("curflownum_forJS").value == "0"||dojo.query("input[name='fldCwChuShen']")[0].value=="yes"){
+            var bxmc=strbxmc;
+            var strflag="0";
+            if (bxmc=="会议费"){
+              var stryjhy=fnCheckIfCyshy();
+              if(stryjhy=="1"){
+                strflag="1";
+              }
+            }else{
+              //判断是否有预算库
+            var ifhaveys=dojo.byId("fldifhaveysk_xm").value;
+            if (ifhaveys=="是"){
+            var xmbh=dojo.byId("fldBxfeeXmbh_xm").value;
+            var yskz=fnifyskz(strxmdl,strxmmc);
+           //提交和财务初审需要校验是否超预算
+            if (yskz=="是"){
+		  var strjy=fnCheckIfCys();
+		  }
+            if(strjy=="1"){
+                 strflag="1"
+            } 
+            }  
+           } 
+   }
+   return strflag;
+}
+//医药费报销计算报销金额
+function fnjsbxje(obj){
+	var fpje=dojo.byId("fldFaPaioJinE_xm").value;
+    	var bgje=dojo.byId("fldKouYuFk_xm").value;
+    	var qtfy=dojo.byId("fldKouQt_xm").value;
+    	var bxbl=dojo.byId("fldBaoxiaobl_xm").value;
+    	if(fpje==""){
+      	fpje="0.00";
+    	}
+    	if(bgje==""){
+		bgje="0.00";
+	}
+    	if(qtfy==""){
+		qtfy="0.00";
+   	}
+   	if(bxbl==""){
+		bxbl="0"
+	}
+   	dojo.byId("fldbxje_xm").value=(parseFloat(fpje)-parseFloat(qtfy)).toFixed(2);
+   	if(parseFloat(dojo.byId("fldbxje_xm").value) &gt; parseFloat(bgje)){
+		dojo.byId("fldBaoxiaoje_xm").value = ((parseFloat(dojo.byId("fldbxje_xm").value) - parseFloat(bgje)) * parseFloat(bxbl)/100 +  parseFloat(bgje)).toFixed(2);
+	}else{
+		dojo.byId("fldBaoxiaoje_xm").value = parseFloat(bgje).toFixed(2);
+	}
+	dojo.byId("fldShifujeBig_xm").value=Arabia_to_Chinese(dojo.byId("fldBaoxiaoje_xm").value);
+}
+//获取是否需要关联预算
+function fnifglys(strxmdl,strxmmc){
+      var glys;
+      var strBaseUrl = location.href.toLocaleLowerCase();
+      strBaseUrl = strBaseUrl.substr(0,strBaseUrl.indexOf(".nsf")+4);
+      var strurl=strBaseUrl+"/agtgetifglys?openagent&amp;xmdl="+escape(strxmdl)+"&amp;xmmc="+escape(strxmmc);
+      dojo.xhrGet({
+		url: strurl,
+		handleAs: "json",
+		preventCache:true,
+		sync:true,
+		load: function(data){
+		    glys=(data["glys"]);
+}          });
+return glys;
+}
+//提交必须校验函数扩展
+//var strAction=arguments[0]
+//var isCheckedSubForm=arguments[1]
+function checkSubFormValidCustom(strAction) {
+
+    if (dojo.byId("fldiseditable_xm").value == "yes") {
+    	if (strAction == "save") {
+            var strqcr;
+            strqcr = dojo.byId("fldNiGaoRen").value;
+            if (strqcr.indexOf("/") &gt;= 0) {
+                strqcr = strqcr.substring(0, strqcr.indexOf("/"));
+            }
+            //校验动态表格是否保存
+            if (dijit.byId("grid_1")) {
+                var grid = dijit.byId("grid_1");
+                //alert(grid.editIndex);
+                if (grid.editIndex != null) {
+                    alert("请先保存动态行内容！");
+                    return false;
+                }
+
+            }
+            var bxmc = dojo.byId("fldbaoxxm_xm").value;
+            if (dojo.byId("curflownum_forJS").value == "0") {
+                dojo.byId("fldSubject").value = strqcr + "的" + bxmc + "报销申请(报销金额：" + dojo.byId("fldBaoxiaoje_xm").value + ")"
+            }
+            return true;
+        }
+        if (!indiValidate.validateAll()) {
+            return false
+        }
+
+        var sfmjzj;
+        if (dojo.byId("fldShifmjzj_xm")) {
+            dojo.forEach(dojo.query("input[name='fldShifmjzj_xm']"),
+            function(e, i) {
+                if (e.checked == true) {
+                    sfmjzj = e.value;
+                }
+            })
+        }
+        if (strAction == "submit") {
+
+            if (dojo.byId("curflownum_forJS").value == "0") {
+                var strqcr;
+                strqcr = dojo.byId("fldNiGaoRen").value;
+                if (strqcr.indexOf("/") &gt;= 0) {
+                    strqcr = strqcr.substring(0, strqcr.indexOf("/"));
+                }
+                var bxmc = dojo.byId("fldbaoxxm_xm").value;
+                dojo.byId("fldSubject").value = strqcr + "的" + bxmc + "报销申请(报销金额：" + dojo.byId("fldBaoxiaoje_xm").value + ")"
+                //校验附件
+                var fjcount = dojo.byId("fujianpanel").getAttribute("count");
+                if (fjcount == "0") {
+                    alert("请您上传附件后提交！"); return false;
+                }
+                //需要校验关联文档，关联固定资产出库，入库单
+                if (bxmc == "办公用品费") {
+                    if (dojo.byId("fldifhavebgypk_xm").value == "是") {
+                        var glwdcount = dojo.byId("guanlianpanel").getAttribute("count");
+                        if (glwdcount == "0") {
+                            alert("请您关联办公用品出库、入库申请单后提交！"); return false;
+                        }
+                    }
+                }
+                //需要校验关联文档，如果有出差申请库，需要强制关联出差
+                if (bxmc == "差旅费") {
+                    if (dojo.byId("fldifhaveccsq_xm").value == "是") {
+                        var glwdcount = dojo.byId("guanlianpanel").getAttribute("count");
+                        if (glwdcount == "0") {
+                            alert("请您关联出差申请单后提交！"); return false;
+                        }
+                    }
+                }
+                //合同提交后控制
+                if (dojo.byId("curflownum_forJS").value == "0") {
+                    if (bxmc == "办公费" || bxmc == "办公用品费" || bxmc == "邮电费" || bxmc == "修理费" || bxmc == "其他费") {
+                        var str4 = dojo.byId("fldhtxzid_xm").value;
+                        if (str4 != "") {
+                            //alert(dojo.byId("hfldData_qk").value)
+                            var str5 = "";
+                            var str6 = "";
+                            var arry = str4.split(",");
+                            for (j = 0; j &lt; arry.length; j++) {
+                                //alert(arry[j]);
+                                if (str5 == "") {
+                                    str5 = document.getElementById("ht_" + arry[j]).value
+                                } else {
+                                    str5 = str5 + ";" + document.getElementById("ht_" + arry[j]).value;
+                                }
+                                if (str6 == "") {
+                                    str6 = document.getElementById("htyd_" + arry[j]).value
+                                } else {
+                                    str6 = str6 + ";" + document.getElementById("htyd_" + arry[j]).value;
+                                }
+
+                            }
+                            document.getElementById("fldHtbqfkje").value = str5;
+                            document.getElementById("fldHtydje").value = str6;
+                            //alert(str5);
+                            //--xz--add 0207
+                            //如果是开口合同，所有单子的总报销金额 不可以超过各阶段总金额的 115%
+                            if (document.getElementById("fldglhtlx").value == "开口合同") {
+                                var zje = document.getElementById("fldglhtje").value;
+                                zje = parseFloat(zje) * 1.15;
+                                var fkje = parseFloat(document.getElementById("fldBaoxiaoje_xm").value).toFixed(2);
+                                fkje = parseFloat(fkje) + parseFloat(document.getElementById("fldglhtfkje").value);
+                                fkje = fkje.toFixed(2);
+                                if (fkje &gt; zje) {
+                                    alert("合同付款金额应小于合同总金额的115%,请重新填写！"); return false;
+                                }
+
+                            } else {
+                                //--xz--end 0207
+                                if (str5.indexOf(";") == -1) {
+                                    if (parseFloat(document.getElementById("fldBaoxiaoje_xm").value).toFixed(2) != parseFloat(str5).toFixed(2)) {
+                                        alert("合同本期各阶段分摊金额应等于付款金额,请重新填写！"); return false;
+                                    }
+                                } else {
+                                    var arr = str5.split(";");
+                                    var strtotal;
+                                    strtotal = 0;
+                                    for (i = 0; i &lt; arr.length; i++) {
+                                        strtotal = parseFloat(strtotal) + parseFloat(arr[i]);
+                                    }
+                                    //alert(strtotal);
+                                    if (parseFloat(document.getElementById("fldBaoxiaoje_xm").value).toFixed(2) != parseFloat(strtotal).toFixed(2)) {
+                                        alert("合同本期各阶段分摊金额总计应等于付款金额,请重新填写！"); return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                //其他费用计算二级费用类型
+                if (bxmc == "其他费") {
+                    //dojo.byId("fldBxfeeXmbh_xm").value=dojo.byId("fldqtfylx_xm").value;
+                    dojo.forEach(dojo.byId("fldqtfylx_xm").options,
+                    function(e, i) {
+                        if (e.selected == true) {
+                            dojo.byId("fldqtfylxtext_xm").value = e.text;
+                        }
+                    })
+                }
+                var sfmjzj;
+                if (dojo.byId("fldShifmjzj_xm")) {
+                    dojo.forEach(dojo.query("input[name='fldShifmjzj_xm']"),
+                    function(e, i) {
+                        if (e.checked == true) {
+                            sfmjzj = e.value;
+                        }
+                    })
+                }
+
+                //提交校验是否配置项目编号
+                if (bxmc != "会议费" &amp;&amp; sfmjzj != "是") {
+                    var xmbh = dojo.byId("fldBxfeeXmbh_xm").value;
+                    if (xmbh == "") {
+                        alert("您好，没有配置报销对应的项目编号，请联系管理员"); return false;
+                    }
+                }
+                
+                
+                //其他费用报销费用类型为低值易耗品报销时，关联文档 add by gq 2018-11-07                
+			if(dojo.byId("fldqtfylx_xm")){
+			     if((dojo.byId("fldqtfylx_xm").value=="低值易耗费用报销")&amp;&amp;(dojo.query("#glTable tr[mainurl]").length ==0)){
+					alert("低值易耗品费用报销须关联公文表单");
+						return false;
+			     }
+			}
+                
+                
+                //提交校验合计金额不能大于报销金额 add by wx 2018-11-06
+                if(dojo.byId("fldHjje_xm")){
+				var hjje = dojo.byId("fldHjje_xm").value;
+			 }else{
+				var hjje = "0.00";
+			 }
+                if(dojo.byId("fldBaoxiaoje_xm")){
+				var bxje = dojo.byId("fldBaoxiaoje_xm").value;
+			 }else{
+				var bxje = "0.00";
+			 }
+			 if(bxje==""){
+				bxje = "0.00";
+			 } 
+			 if(parseFloat(hjje)&gt; parseFloat(bxje)) {
+				var strMsg = "合计金额必须小于等于报销金额";
+				alert(strMsg);			
+				return false;
+			 }
+            }
+
+            //获取是否关联预算
+            var fydl;
+            var xmmc;
+            dojo.forEach(dojo.byId("fldfylx_xm").options,
+            function(e, i) {
+                if (e.selected) {
+                    fydl = e.value;
+                }
+            });
+            if (bxmc == "其他费") {
+                xmmc = dojo.byId("fldqtfylxtext_xm").value;
+            } else {
+                xmmc = bxmc;
+            }
+            var ifglys = fnifglys(fydl, xmmc);
+            dojo.byId("fldifglys_xm").value = ifglys;
+            //提交判断是否超预算
+            //是否是一季度的报销1-4月份
+            var ifyjd = dojo.byId("fldisyjdbx_xm").value;
+            //会议需要做会议费申请预算控制的需要把会议费单独拿出来
+            if (bxmc == "会议费") {
+                var ifcys = fnifcys(bxmc, fydl, xmmc);
+                if (ifcys == "1") {
+                    return false;
+                }
+            } else {
+                //出去会议费的费用一季度的报销是不做预算控制的。
+                if (ifyjd != "1" &amp;&amp; sfmjzj != "是" &amp;&amp; ifglys != "否") {
+                    var ifcys = fnifcys(bxmc, fydl, xmmc);
+                    if (ifcys == "1") {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+dojo.addOnLoad(function(){
+})
+
+//选择项目
+function fnselectht(htmc, htkey,user){
+	var strUrl = location.href.toLowerCase();
+	strUrl = strUrl.substring(0, strUrl.indexOf(".nsf") + 4);
+	//alert(strUrl)
+	//strUrl = strUrl.substring(0, strUrl.lastIndexOf("/"));
+	//strUrl = "http://oatest.ppm.cn/xsp/proxy/BasicProxy/http/contracttest.ppm.cn/htgl_fhcm/htxx.nsf/xphtselect.xsp?open";
+	//alert(user)
+	strUrl = strUrl + "/xphtselect.xsp?open&amp;category=" + user;	
+	var dialog = new smartdot.IframeDialog( {
+		src : strUrl,
+		title : "合同选择",
+		width : "600px",
+		height : "500px",
+		onReceiveMessage : function(data) {
+			//alert(data.XMMC)
+			//alert(data.XMKEY)
+			document.forms[0].elements[htmc].setAttribute("value", data.XMMC);
+			document.forms[0].elements[htkey].setAttribute("value", data.XMKEY);
+			document.forms[0].elements[htmc].value = data.XMMC;
+			document.forms[0].elements[htkey].value = data.XMKEY;
+			var strBaseUrl = location.href.toLocaleLowerCase();
+   			strBaseUrl = strBaseUrl.substr(0,strBaseUrl.indexOf(".nsf")+4);
+   			var strurl=strBaseUrl+"/agtHuoQuinfo?openagent&amp;strkey=" + escape(data.XMKEY);
+   			dojo.xhrGet({
+				url: strurl,
+				handleAs: "json",
+				preventCache:true,
+				sync:true,
+				load: function(data){
+				//-xz-
+				document.getElementById("fldglhtlx").value = data["htlx"];
+				document.getElementById("fldglhtje").value = data["htje"] *10000;
+				document.getElementById("fldglhtfkje").value = data["fkje"];
+				if(data["htlx"]=="开口合同" &amp;&amp; data["ht"] == "sfrmchangguiforls"){
+				 document.getElementById("fldglht").value = "1";
+				}else{
+				 document.getElementById("fldglht").value = "0";
+				}
+				if(data["strallkey"]!=""){
+				var arrls = data["strallkey"].split("*");
+				  // var arrTmp = data["strallkey"].split("*");
+				var arrTmp = [];
+				arrTmp.push(arrls[0]);
+				var arrlink = arrls[1];
+				arrlink = arrlink.substring(5,arrlink.length);
+				arrTmp.push(arrlink);
+				
+				arrTmp.push("true");
+				arrTmp.push(arrls[3]);
+				arrTmp.push(arrls[4]);
+				arrTmp.push(arrls[5]);
+				arrTmp.push("true");
+				  var link = document.getElementById("fldglhtlink").value;
+				  if(link !=""){
+				  //检查是否存在 
+				  var oValue = document.forms[0].elements["fldGuanlian"];
+				  var linkunid = link.substring(link.indexOf("/0/")+3,link.length-13);
+				  if (fnCheckInList(linkunid, oValue.value.split(",")) != -1) {
+				      fnDelGuanlian(link);
+	                 }
+				  
+				  }
+				  document.getElementById("fldglhtlink").value = arrTmp[1];	
+				 //删除原来的绑定的 fnDelGuanlian('//contracttest.ppm.cn/htgl_fhcm/htgx.nsf/0/E0F2CBBF8CC512794825821E0010AD32?OpenDocument')
+				  if (!fnAddItemGuanLian(arrTmp)) {
+					return;
+				  }
+                      fnInitGuanLian();
+				 }
+				
+				//--xz-end
+	    	  		strdata = dojo.toJson(data);
+	    	  		//alert(strdata);
+	    	  		//alert(data["items"].length);
+		  		dijit.byId("grid_3").set("context",strdata);
+		  		dojo.byId("hfldData_htqk").value=strdata;	
+			}	   
+		});		
+		dialog.hide();
+
+		}
+	});
+	dialog.show();
+	fnselectht = function() {
+		dialog.show();
+	}
+}
+
+
+function fnAddItemGuanLian(arrAttrs) {
+
+	var oSpan = document.getElementById("spanHasAss");
+	if (oSpan) {
+		oSpan.innerHTML = '';
+		dojo.style(oSpan, {
+			"display": "none"
+		});
+	}
+	var oTable = document.getElementById("glTable");
+	var oPassiveTable = document.getElementById("glPassiveTable");
+	var oValue = document.forms[0].elements["fldGuanlian"];
+	var oLogAssDocs = document.forms[0].elements["rtfLogJson"];
+	 var oDelAssDocs = document.forms[0].elements["rtfDelAssDocsJson"];
+	var blF = true;
+	var strTitleIsRead =smartdot.i18n.getString("indiplatform.oaresource.xzxhglkfqx",'\u9009\u4E2D\uFF1A\u76F8\u4E92\u5173\u8054\u7684\u6587\u6863\u4E92\u76F8\u5F00\u653E\u9605\u8BFB\u6743\u9650\u7ED9\u9605\u8BFB\u8005 &amp;#13 \u53D6\u6D88\u9009\u4E2D\uFF1A\u4FDD\u6301\u5404\u81EA\u6587\u6863\u9605\u8BFB\u6743\u9650\u8303\u56F4')
+	if (fnCheckInList(arrAttrs[5], oValue.value.split(",")) != -1) {
+		alert(smartdot.i18n.getString("indiplatform.oaresource.btwwdygl","\u6807\u9898\u4E3A${arrAttrs}\u7684\u6587\u6863\u5DF2\u5173\u8054\uFF01",{"arrAttrs":arrAttrs[0]}));
+		return false;
+	}
+
+	dojo.forEach(dojo.query("tr", oPassiveTable), function(e, i) {
+		if (arrAttrs[5] === dojo.query("a", dojo.query("td", e)[1])[0].getAttribute('munid')) {
+			blF = false;
+		}
+	});
+
+	if (!blF) {
+		alert(smartdot.i18n.getString("indiplatform.oaresource.btwwdybgl","\u6807\u9898\u4E3A${arrAttrs}\u7684\u6587\u6863\u5DF2\u88AB\u5173\u8054\uFF01",{"arrAttrs":arrAttrs[0]}));
+		return false;
+	} else {
+		var oTr = oTable.insertRow(-1);
+		var oTd1 = oTr.insertCell(0);
+		var oTd2 = oTr.insertCell(1);
+		var oTd3 = oTr.insertCell(2);
+		var strHtmlTmp = '&lt;a onclick="fnOpenDocForAgt(this,'+"'act'"+');"&gt;' + arrAttrs[0].replace(/&lt;/g,"&amp;lt;") + '&lt;/a&gt;';
+		strHtmlTmp = strHtmlTmp + '&lt;div&gt;';
+		var strChkIsRead = arrAttrs[6] == "true" ? '&lt;span title="' + strTitleIsRead + '"&gt;&lt;input type="checkbox" onclick="fnChangeStateGL(this,' + "'isread'" + ",'act'" + ')" name="chkIsAllowRead' + oTr.rowIndex + '" checked&gt;'+smartdot.i18n.getString("indiplatform.oaresource.ydqx","\u9605\u8BFB\u6743\u9650 ")+'&lt;/input&gt;&lt;/span&gt;' :
+			'&lt;span title="' + strTitleIsRead + '"&gt;&lt;input type="checkbox" onclick="fnChangeStateGL(this,' + "'isread'" + ",'act'" + ')" name="chkIsAllowRead' + oTr.rowIndex + '"&gt;'+smartdot.i18n.getString("indiplatform.oaresource.ydqx","\u9605\u8BFB\u6743\u9650 ")+' &lt;/input&gt;&lt;/span&gt;'
+		strHtmlTmp = strHtmlTmp + strChkIsRead;
+		strHtmlTmp = strHtmlTmp + '&lt;/div&gt;';
+
+		oTr.setAttribute('mainurl', arrAttrs[1]);
+
+		oTd1.setAttribute("class", "filetype_zw");
+		dojo.style(oTd1, {
+			"width": "35px"
+		});
+
+		oTd2.colSpan = '8'
+		oTd2.innerHTML = strHtmlTmp;
+
+		dojo.query("a", oTd2)[0].setAttribute("munid", arrAttrs[5]);
+		dojo.query("a", oTd2)[0].setAttribute("serfrom", arrAttrs[4]);
+		dojo.query("a", oTd2)[0].setAttribute("dbfrom", arrAttrs[3]);
+		dojo.query("a", oTd2)[0].setAttribute("isrevass", arrAttrs[2]);
+		dojo.query("a", oTd2)[0].setAttribute("mainurl", arrAttrs[1]);
+		dojo.query("a", oTd2)[0].setAttribute("issysadd", "no");
+		dojo.query("a", oTd2)[0].setAttribute("isread", arrAttrs[6]);
+		dojo.query("a", oTd2)[0].setAttribute("curuser", dojo.byId("strCurUserForAss").value);
+		dojo.style(dojo.query("a", oTd2)[0], {
+			"float": "left"
+		});
+
+		if (dojo.query("div", oTd2)[0]) {
+			dojo.style(dojo.query("div", oTd2)[0], {
+				"float": "right"
+			});
+		}
+
+		dojo.style(oTd3, {
+			"textAlign": "right",
+			"paddingRight": "15px"
+		});
+
+		oTd3.innerHTML = "&lt;a class='idx_delete' title='"+smartdot.i18n.getString("indiplatform.oaresource.shanchu","\u5220\u9664")+"' onclick=\"fnDelGuanlian('" + arrAttrs[1] + "')\"&gt;&lt;/a&gt;";
+
+		// \u8BB0\u5F55\u5DF2\u7ECF\u5173\u8054\u7684\u4FE1\u606F
+		if (oValue.value == "") {
+			oValue.value = arrAttrs[5];
+		} else {
+			oValue.value += "," + arrAttrs[5];
+		}
+
+		// \u8BB0\u5F55\u65E5\u5FD7\uFF08\u589E\u52A0\uFF09
+		var objLogAss = oLogAssDocs.value == '' ? {
+			"rowsItem": []
+		} : dojo.fromJson(oLogAssDocs.value);
+		var itemLog = {};
+		//itemLog.strUser = window.opener.dojo.byId("strCurUserForAss").value;
+		itemLog.strUser = dojo.byId("strCurUserForAss").value;
+		itemLog.strText = arrAttrs[0];
+		itemLog.strUnid = arrAttrs[5];
+		itemLog.strDbPath = arrAttrs[3];
+		itemLog.strServer = arrAttrs[4];
+		itemLog.strOpt = "Add";
+		objLogAss.rowsItem.push(itemLog);
+		oLogAssDocs.value = dojo.toJson(objLogAss);
+		
+	    //\u517C\u5BB9\u7F16\u8F91\u72B6\u6001\u65F6\uFF0C\u5148\u589E\u52A0A\uFF0C\u518D\u5220\u9664A\uFF0C\u6700\u540E\u53C8\u589E\u52A0A\u7684\u60C5\u51B5\uFF08\u5BF9\u8BB0\u5F55\u5220\u9664\u65E5\u5FD7\u5B57\u6BB5\u5904\u7406\uFF09
+	    var objDelRows = oDelAssDocs.value == "" ? {
+	      "rowsItem": []
+	    } : dojo.fromJson(oDelAssDocs.value);
+
+	    var arrTmp = dojo.filter(objDelRows.rowsItem, function(item) {
+	      return dojo.trim(item.trId) != dojo.trim(arrAttrs[1]);
+	    });
+
+	    objDelRows.rowsItem = arrTmp;
+	    oDelAssDocs.value = dojo.toJson(objDelRows);
+         if ((dojo.query("h2 span", dojo.byId("guanlianpanel"))[0])) {
+			var objCount = (dojo.query("h2 span",dojo.byId("guanlianpanel"))[0])
+			var iCount = parseInt(dojo.trim(objCount.innerText || objCount.textContent));
+			addPanelCount(iCount + 1, dojo.byId("guanlianpanel"));
+		} else {
+			addPanelCount(1, dojo.byId("guanlianpanel"));
+		}
+		return blF;
+	}
+}
+
+
+dojo.addOnLoad(function(){
+   var depname;
+   var depname1;
+   var depname2;
+   var depname3;
+   var depname4;
+   dojo.forEach(dojo.query(".deptforshort"),function(e,i){
+       depname=e.innerHTML;
+       depname1=depname.substring(0,depname.indexOf("/"));
+       depname2=depname.substring(depname.indexOf("/")+1,depname.length)
+       depname3=depname2.substring(0,depname2.indexOf("/"));
+       depname4=depname1+"/"+depname3;
+       e.innerHTML=depname4
+   })
+})</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in'/>
+<par def='1'>//相同内容放到该子表单下</par>
+<par def='1'><field type='text' kind='editable' name='fldisyjdbx_xm' htmlid='fldisyjdbx_xm'><code
+ event='defaultvalue'><formula>@If(@Month(@Today)&lt;5;"1";"0")</formula></code></field><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>//判断是不是一季度的报销</par>
+<par def='1'><field type='text' kind='editable' name='fldifhaveysk_xm' htmlid='fldifhaveysk_xm'><code
+ event='defaultvalue'><formula>@GetProfileField("ManagerSet";"fldIfHaveYS_xm")</formula></code></field><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>//查看是否有预算库</par>
+<par def='1'><field type='text' kind='editable' name='fldifhaveyck_xm' htmlid='fldifhaveysk_xm_1'><code
+ event='defaultvalue'><formula>@GetProfileField("ManagerSet";"fldIfHaveYc_xm")</formula></code></field><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>//查看是否有用车库</par>
+<par def='1'><field type='text' kind='editable' name='fldewmpath_xm'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>//二维码路径</par>
+<par def='1'><field type='text' kind='editable' name='fldifglys_xm' htmlid='fldifglys_xm'/><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='2'/>
+<par def='2'><field type='text' kind='editable' name='fldbhsje_xm' htmlid='fldbhsje_xm'/><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>  </par>
+<par def='2'><field type='text' kind='editable' name='fldshuie_xm' htmlid='fldshuie_xm'/><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='3' hide='notes'/>
+<par def='3'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldHtbqfkje' htmlid='fldHtbqfkje'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>合同阶段付款金额</run></par>
+<par def='3'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldHtydje' htmlid='fldHtydje'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>合同阶段约定金额</run></par>
+<par def='3'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldContractBH' htmlid='fldContractBH'><code
+ event='htmlattributes'><formula>"readonly"</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>合同编号</par>
+<par def='3'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldContractJE' htmlid='fldContractJE'
+ htmlstyle='width:80%'><code event='htmlattributes'><formula>"readOnly"</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>合同金额小写</par>
+<par def='3'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldContractJEBig'
+ htmlid='fldContractJEBig'><code event='htmlattributes'><formula>"readOnly"</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>合同金额大写</par>
+<pardef id='4' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='4'><run><font size='9pt'/><field type='text' kind='editable' name='strhtkey'
+ htmlid='strhtkey' htmlclass='input'/></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='2'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>合同key</par>
+<par def='4'><run><font size='9pt'/><field type='text' kind='editable' name='strhtbh'
+ htmlid='strhtbh' htmlclass='input'/></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='2'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='3'><field type='text' kind='editable' name='fldglhtlx' htmlid='fldglhtlx'/><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><field type='text'
+ kind='editable' name='fldglht' htmlid='fldglht'><code event='defaultvalue'><formula
+>"0"</formula></code></field><compositedata type='98' prevtype='65402' nexttype='222'
+ afterparcount='16' containertype='65418' aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><field
+ type='text' kind='editable' name='fldglhtje' htmlid='fldglhtje'><code event='defaultvalue'><formula
+>"0"</formula></code></field><compositedata type='98' prevtype='65402' nexttype='222'
+ afterparcount='23' containertype='65418' aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><field
+ type='text' kind='editable' name='fldglhtfkje' htmlid='fldglhtfkje'><code
+ event='defaultvalue'><formula>"0"</formula></code></field><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='30' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><field type='text'
+ kind='editable' name='fldglhtlink' htmlid='fldglhtlink'/><compositedata type='98'
+ prevtype='65402' nexttype='222' afterparcount='39' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/></run></par>
+<par def='2'><run html='true'>&lt;input id="fldifhaveccsq_xm" value="</run><run
+ html='true'><computedtext><code event='value'><formula>@GetProfileField("ManagerSet";"fldIfHaveCc_xm")</formula></code></computedtext></run><run
+ html='true'>"&gt;</run></par>
+<par def='2'><run html='true'>&lt;input id="fldifhavebgypk_xm" value="</run><run
+ html='true'><computedtext><code event='value'><formula>@GetProfileField("ManagerSet";"fldIfHaveBg_xm")</formula></code></computedtext></run><run
+ html='true'>"&gt;</run></par>
+<par def='1'><run html='true'>&lt;input id="fldiseditable_xm" value=</run><run
+ html='true'><computedtext><code event='value'><formula>editable</formula></code></computedtext></run><run
+ html='true'>&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmCustomContent</text></item></subform>
+

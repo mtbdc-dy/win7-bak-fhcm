@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtGetgljdbj' alias='根据接待标题获取关联的接待申请信息' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='11a7a' unid='482581B6000911FF482581A90038D26C' sequence='24'>
+<created><datetime>20170928T182038,84+08</datetime></created>
+<modified><datetime>20181025T014913,44+08</datetime></modified>
+<revised><datetime>20181024T091953,45+08</datetime></revised>
+<lastaccessed><datetime>20181025T014913,43+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T182722,36+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092059,69+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtGetgljd
+	Created 2016-12-6 by oanewadmin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "CommonLib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim dbCur As NotesDatabase
+	Dim note As NotesDocument
+
+	Set dbCur = session.Currentdatabase
+	Set note = session.Documentcontext
+	
+	Dim strJdPath As String
+	Dim dbJd As NotesDatabase
+	Dim docJd As NotesDocument
+	Dim strJdunid As String
+	
+	Dim jsonobj As New Converjsonobject
+	Dim jsonarry As New Converjsonarray
+	
+	strJdunid = getRefValue(note.Query_String_Decoded(0),"unid=")
+	'strJdPath = Replace(dbCur.Filepath,"\","/")
+	'strJdPath = Replace(strJdPath,"gfcwgl/cwfybxgl","jdgl_gf")
+	strJdPath= StrLeftBack(dbCur.Filepath,"/")
+	strJdPath= StrLeftBack(strJdPath,"/")
+	strJdPath =strJdPath+"/jdgl_gf.nsf"
+	Set dbJd = session.Getdatabase(dbCur.Server, strJdPath)
+	If dbJd.Isopen Then
+		Set docJd = getdocumentbyunid(dbJd,strJdunid)
+		If Not docJd Is Nothing Then
+			Dim strurl As String
+			strurl = "/"+docJd.dbPath(0)+"/vwDocByAll/" + strJdunid + "?openDocument"
+			docJd.fldSFGL="4"
+			Call docJd.save(True,False)
+		End If
+		
+	End If
+	Exit Sub
+errorhandle:
+	showError "Initialize"
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20180716T111203,06+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20181024T091953,45+08</datetime></item></agent>
+

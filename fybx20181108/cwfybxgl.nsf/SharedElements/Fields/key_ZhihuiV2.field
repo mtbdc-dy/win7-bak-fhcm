@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_ZhihuiV2' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='406' unid='F8B5A6F76B022AC848257D43000546D3' sequence='55'>
+<created><datetime>20140829T085738,11+08</datetime></created>
+<modified><datetime>20181025T014922,91+08</datetime></modified>
+<revised><datetime>20181024T085444,47+08</datetime></revised>
+<lastaccessed><datetime>20181025T014922,90+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133246,24+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedwhencomposed' name='key_ZhihuiV2'><code event='defaultvalue'><formula
+ compiled='true'>
+ZgIJAFwCftikTGbQ5VbvfnyYTZ3/CL3mDCZUpQfxLAh53m05q7z+tnxmUqpzBWUZUZlmC7y3beyJ
+rBO+N0j+AD7prnA9I8vQgPS76vXVGbLOD1oVOyvcAc7TxVY+v+V4T4V17bhnBb7lyj/mAQhsYT4u
+DXDtH4Gwz6QA/Zx1eIblkS/Pwqpe5zHCNvSCzv+m8YnSkeeRVNU0UZCzmTAzTVkCzH/Niwcaa+T5
+zWJOHrBZgWZSDyqqR2YrpEoz53KlMEFOi5nLUBDzC3tuR5hcapz8YdkBmUs4jMQPZ39qxiTGuOqV
+VNZU7opGcl0q6D1dAanuVpzWC2xPhj0fl5g1l44mdOrhYcyhea5nD8GAQQ4IDY8Z7CClyc7SGiLB
+EYDf7MP1mf1PIC2NhJtX0k6HNsquTCkTCNwyLTY5a7E3Tlb/AlkxfdCsvi5NNetGkkRk5hXF4B5p
+RVysNU5xjJtEZUhMOCARk3QqgO2HdKqcg/7o5qyUt1e0uvLsy6flHouj45znkAfFRBYTlCTSDj4b
+UcRwixoNXBiRocVgJPIEGIRRjyO9lc0u8sHlFa/E633lclldPLrpvwYzMMxHSDWW5s5aJ8QPB048
+WOenwRErsHF/GTHGmIw8dhl7HRZ8p/s14FNopo67HtC2AYeau5AjFUdeGCP8d56gd21jeFNudq2O
+ZZ63fg0q/fMEfb+32/yvdJYXOGexztF2HzopHhj9+vMrEZ83fyQgiiiN/CK9AW2O4U87+XhIbbLF
+0gJT332UN5jqKs3ZzXivY91aX0k3XTNUTRxRe0luW9/3TT5SBAAEAAQABAA=
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,33+08</datetime></item></sharedfield>
+

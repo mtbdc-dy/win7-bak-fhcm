@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='myview数据表格区域上部扩展_yy' alias='sfrmmyviewDataTable_Custom_Before_yy'
+ xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='c72' unid='32CCB18C671C208148258053001F2F07' sequence='48'>
+<created><datetime>20161021T134036,55+08</datetime></created>
+<modified><datetime>20181107T195829,82+08</datetime></modified>
+<revised><datetime>20181024T085502,53+08</datetime></revised>
+<lastaccessed><datetime>20181107T195829,82+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195829,82+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'> </run></par><subformref><code event='value'><formula
+ compiled='true'>
+PgAJADQAjEY7xAmKS5WKdhxDrVNosAQxDTpDmI5X6UWRign51GBAT8iFGv9QyN1U5rKaBuWxBAAE
+AAQABAA=
+</formula></code></subformref>
+<par def='1'><run html='true'> </run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmmyviewDataTable_Custom_Before</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,27+08</datetime></item></subform>
+

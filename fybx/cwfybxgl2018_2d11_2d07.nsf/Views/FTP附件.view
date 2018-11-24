@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='FTP附件' alias='vwFTPByMainUNID' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' showinmenu='false' publicaccess='false'
+ designerversion='8.5.3' unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='true' showmargin='true'
+ shrinkrows='false' extendlastcolumn='false' showhierarchies='false' unreadcolor='black'
+ rowlinecount='1' headerlinecount='1' rowspacing='1' bgcolor='white' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='1b6' unid='6E181F4F7F017AA9482579B900539018' sequence='57'>
+<created><datetime>20120306T231243,76+08</datetime></created>
+<modified><datetime>20181107T195613,39+08</datetime></modified>
+<revised><datetime>20181024T085441,09+08</datetime></revised>
+<lastaccessed><datetime>20181107T195613,39+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195613,39+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+lgAJAIwACFZwTQlS+RJDVkAfqoMR2j+HEvAkix/VPfI0XUF/yByQv0EgMeP8yxphbTAkiLaW6uAE
+sgn6AyfPa3POeCtf+sITjUQ9GjC3aiZYdvM4nwgRxUFz3R/lu3Zui5gmb5QK0XudjL5XAZp11J6q
+EvINoTX+o4ZWUBia/WgRDuc7yKRL4cOGKibSwgQABAAEAAQA
+</formula></code>
+<column sort='ascending' hidedetailrows='false' itemname='MainDocUnid' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><columnheader title='#'><font size='9pt' style='bold'/></columnheader></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$SelQuery' sign='true'>
+<rawitemdata type='f'>
+gQYAAAAAif86AAAAAAABAC4ARlRQE87EE7W1E6OoE7j3E9K1E87xE7/iE9bQE7HtE7WlE6OpfGZy
+bUZUUERvYw==
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,67+08</datetime></item></view>
+

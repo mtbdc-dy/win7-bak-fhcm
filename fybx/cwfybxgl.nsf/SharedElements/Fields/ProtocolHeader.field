@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='ProtocolHeader' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='452' unid='B3AFC6DD3D361CC5482573AD002BAF56' sequence='55'>
+<created><datetime>20071210T155709,34+08</datetime></created>
+<modified><datetime>20181025T014924,71+08</datetime></modified>
+<revised><datetime>20181024T085444,73+08</datetime></revised>
+<lastaccessed><datetime>20181025T014924,70+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133246,62+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='ProtocolHeader'><code event='defaultvalue'><formula
+ compiled='true'>
+vgAJALQAWNQfgwfVCNTZ+hQq/+blL2ItVQVsb8Njco3cQR7JXYuDIpH+yj1qyXfTgvHsrGFHvGtJ
+k/UmCJ7UXMwkNyEV9POfAhfJRhqiFdfqD6vT0ejq1O16OsF36+FXWaza1aH+JR96vkCF5Q1eiw0H
+TYcFMv32wu3ZbVWkUqG0eGkMa/ptJQ2vHKCqfbUun5yRWJXFToi6qhwN5ysaw6U74G6zfKb6AShv
+ta/ajSvf1/7teDEEAAQABAAEAA==
+</formula></code></field>
+<item name='OriginalModTime' sign='true'><datetime>20071210T134804,38+08</datetime></item>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,83+08</datetime></item></sharedfield>
+

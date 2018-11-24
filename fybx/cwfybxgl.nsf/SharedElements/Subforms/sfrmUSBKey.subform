@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmUSBKey' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3' comment='使用USB密钥引用子表单'>
+<noteinfo noteid='2ea' unid='DB2372EAA22A80C6482579DB002390AD' sequence='55'>
+<created><datetime>20120409T142827,97+08</datetime></created>
+<modified><datetime>20181025T014916,51+08</datetime></modified>
+<revised><datetime>20181024T085442,50+08</datetime></revised>
+<lastaccessed><datetime>20181025T014916,50+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010758,21+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>var strError=smartdot.i18n.getString("indiplatform.tylc.wjcdqjc","未检测到USB Key，请您按以下步骤进行检查：")+"\n";
+	strError+=smartdot.i18n.getString("indiplatform.tylc.jcbz1","1、是否已将指定的USB Key插入到USB口中,并保证其不处于松动状态")+"\n";
+	strError+=smartdot.i18n.getString("indiplatform.tylc.jcbz2","2、是否已经正确地安装了USB Key的驱动程序，系统是否已经检测到该USB设备")+"\n";
+	strError+=smartdot.i18n.getString("indiplatform.tylc.jcbz3","3、该设备是否在其他计算机上可用")+"\n";
+	strError+=smartdot.i18n.getString("indiplatform.tylc.jcbz4","4、与您的管理员或开发商进行联系");
+var objCtrl;
+function gdpluginloaded(){
+	fnSetCookie();
+	var oAuth=document.getElementsByName("tmpIsAuthentic")[0]
+	if(oAuth&amp;&amp;oAuth.value=="true")return
+
+	if (!DogInit()) {
+	    setCookie("DomAuth","");
+	} else {
+	    var sSessionId=getSessionId();
+	    if (sSessionId=="") {
+	       alert(smartdot.i18n.getString("indiplatform.tylc.qxdl","请您先登录"));
+	    } else if (!fnSetToken(sSessionId)) {
+	        alert(strError);
+	    } else {
+	        var field=document.forms[0].tmpAuthenticMsg;
+	        if(!field||field.value.toLowerCase()!="fail") {
+	            alert(smartdot.i18n.getString("indiplatform.tylc.nbnsyqjc","您的计算机上所插入的USB Key不是注册给您使用的，请您检查一下")+"\n"+smartdot.i18n.getString("indiplatform.tylc.lxgly","如果有任何疑问，请与系统管理员联系"));
+	        } else window.location.reload(true);
+	    }
+	}
+}
+function fnCheckUSBKey(){
+	//不需要验证或者验证已经通过 huaigt 2009-08-11
+	var	blnCheckUSBKey;
+	if(!fnExitObject("tmpIsAuthentic"))
+		blnCheckUSBKey=  true;
+	else{
+		fnSetCookie();
+		//test();
+		//return true;
+		if (!DogInit()||!DogCheck()) {
+    			alert(strError);
+    			fnSetCookie();
+    			blnCheckUSBKey= false;
+		} else {
+    			var sSessionId=getSessionId();
+    			if (sSessionId=="") {
+        			alert(smartdot.i18n.getString("indiplatform.tylc.qxdl","请您先登录"));
+        			blnCheckUSBKey= false;
+	    		} else if (!fnSetToken(sSessionId)) {
+     	   		alert(strError);
+     	   		blnCheckUSBKey= false;
+    				} else 
+				blnCheckUSBKey= true;
+		}
+	}
+	
+	return blnCheckUSBKey;
+}
+function fnExitObject(objectID){
+	var blnExitObj;
+	var oID = document.getElementsByName(objectID)[0]
+	if(oID){
+		blnExitObj=true;
+	}	
+	return blnExitObj;
+}
+function getSessionId() {
+	var sSessionID=getCookie("LtpaToken");
+	if (sSessionID=="") {
+		sSessionID=getCookie("DomAuthSessId");
+	}
+	return sSessionID;
+}
+function fnSetToken(sSessionId) {
+	var strNo = DogConvert(DogNo());
+	if (strNo=="") {
+	 	setCookie("DomAuth","");
+		return false;
+	} 
+ 	setCookie("DomAuth",sSessionId+"**"+strNo);
+ 	return true;
+}
+function fnSetCookie(){
+	setCookie("DomAuth","");
+}
+
+function DogInit() {
+
+	objCtrl=document.getElementById("GrandDogCtrl");
+
+	try{
+		objCtrl=objCtrl.Content.Control
+	}catch(e){
+		alert(smartdot.i18n.getString("indiplatform.tylc.kjjzsb","宏狗控件加载失败，请联系管理员"))
+		return false
+			
+	}
+	if(!objCtrl.OpenDog()){
+		alert(smartdot.i18n.getString("indiplatform.tylc.wjcdsbts","未检测到USB Key设备，请您不要忘了安装驱动程序并插入USB Key设备，错误码：")+objCtrl.GetDogErr())
+		return false
+	}else{
+		return objCtrl.VerifyPas("")
+	}
+	
+}
+
+function DogCheck() {
+	return objCtrl.CheckDog()
+}
+function DogNo(){
+	return objCtrl.GetDogCurrentNo()
+}
+function DogConvert(str){
+	if(str=="")	return "";
+	str=""+str;
+	if(str.length&gt;100)	str=str.substring(0,100);
+	return objCtrl.DogConvertData(str)
+}</javascript></code>
+<body><richtext>
+<pardef id='1' hide='notes'><code event='hidewhen'><formula compiled='true'>
+PgAJADQADus+/SVtW/fOBfN0YfBcklkNzh0IFH0tbZRYkVgPa6ev7lH8wms3HeqCAIr/SxAjBAAE
+AAQABAA=
+</formula></code></pardef>
+<par def='1'><run html='true'><font color='fuchsia'/>&lt;!--usb key region start:--&gt;</run></par>
+<pardef id='2' leftmargin='1in' rightmargin='100%' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+PgAJADQADus+/SVtW/fOBfN0YfBcklkNzh0IFH0tbZRYkVgPa6ev7lH8wms3HeqCAIr/SxAjBAAE
+AAQABAA=
+</formula></code></pardef>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;object id="GrandDogCtrl" data="data:application/x-silverlight-2," type="application/x-silverlight-2" width="0" height="0" &gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;param name="source" value="/GrandDogSL.xap</run><run
+ html='true'><font color='red'/><computedtext><code event='value'><formula
+ compiled='true'>
+5gIJANwCn2ZKdPZv8TakAKjCNdp45vS/GQCLKn/T2fRbRdRwcErXCFH7SZgZv3y/Roq36dOkqoTB
+cywMMnmTD+k95//tlUVOJQGR6NGUUnyQAmHOnnFMN6CLGrFx04j+R94330zE96NEmnYOVJYq1+1K
+IiL7BPPJvzRGQ4c36wBSgNa3F5GNWAVcpFmfk1UCUmwFv9exPg4dIrfDlCU98kkVst9nhEoFpwox
++MXO1oBKxIj8eMaL4mvUqD4Gs8+fgEcU9dP/2jok5sdXsUVVYiXB2UpjPnGrcUuWQNBq3IhAwfx+
+bQCAUaDM+gl7BAj6byX7W3gLS6Iy26jP2Uzje/nnwDYU4kiipB4vTO/1HK5K3LoBCydgsp7s7XVP
+zZePMcKfG5mSAVREE1A60wTBMrVrR/Ie15pPruPS9xHd6Y4LAQh4/9FyRryudUJ7RdG4QN5G+dbC
+TItqWR1rmRfCVn20S6oaeP/42TMdo/wx3cW2jShzroZsowiIzZ4CEkrRJxNkf8XtcwUfbUQxjYwF
+RT19gt0w7M2dfHOMI/E0GGyEBkW3lpOFbluLLx/HlmZXRB2rT42uLXVD3F1GVltGrGp7pva47BL7
+Kfa6QcoOZb+BStvp8amPjNKzVK2k/C7rZYDz7BcHojoeI8J5dRlCJ9RKk2IvQ8ixacGw0bi2Un8M
+H/UIvorwSBncf/FOuNoz3rzzHlu72iUc1RioVDZeZQFVwkCz26op4+DBvvdhmCTx+yJ86etLu3eQ
+oTmXRgMxp7C0UkquBabACH4riJfqXT8ZwINgEE8hjAKZ7eO8tVF5XwP/ghNIRG6IOqKJGz0telX/
+wV4BTrKYYjLkPtB1txbwxVeGl3+1wXV7fVhEaseqIm/mJdiRhUxZ8eW88PPcvBBI6ifp87g7Xr1T
+vie0WSOGmxfjqE0gfizAFOlQwjvQQ+KjxJC579kfGID1HEgqgy5SVH+55ScFNqGUVBEEAAQABAAE
+AA==
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='serif' color='navy'/>"/&gt;</run></par>
+<pardef id='3' leftmargin='1in' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+PgAJADQADus+/SVtW/fOBfN0YfBcklkNzh0IFH0tbZRYkVgPa6ev7lH8wms3HeqCAIr/SxAjBAAE
+AAQABAA=
+</formula></code></pardef>
+<par def='3'><run html='true'><font size='9pt' color='navy'/>&lt;param name="onload" value="</run><run
+ html='true'><font size='9pt' style='bold' color='navy'/>gdpluginloaded</run><run
+ html='true'><font size='9pt' color='navy'/>"/&gt;</run></par>
+<par def='3'><run html='true'><font size='9pt' color='navy'/>&lt;param name="initParams" value="Language=</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAq0EbI5kfp81Wsq16n3fg2yeboLmtOcmtCSIgMCglf5EEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>,</run><run html='true'><font size='9pt' color='navy'/>ClientRegPath=</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcCi631iST2nWJBdJTJkXwAgPcZhqyBoG4EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' color='navy'/>"/&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;param name="background" value="white"/&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;param name="minRuntimeVersion" value="5.0.61118.0"/&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;param name="autoUpgrade" value="true"/&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;div style="margin:20px auto;border:1px solid red;width:700px;"&gt;&lt;span data-string-id="indiplatform.tylc.</run><run
+ html='true'><font size='9pt' name='serif' color='navy'/>nwazxtsxcj</run><run
+ html='true'><font size='9pt' name='serif' color='navy'/>"&gt;您未安装系统所需插件，请下载安装包到本地，解压后运行安装程序！&lt;/span&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;a href="/slplugin.rar" style="text-decoration:none;" data-string-id="indiplatform.tylc.</run><run
+ html='true'><font size='9pt' name='serif' color='navy'/>32wczxt</run><run
+ html='true'><font size='9pt' name='serif' color='navy'/>"&gt;》32位操作系统请点此下载 &lt;/a&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;a href="/slplugin_x64.rar" style="text-decoration:none" data-string-id="indiplatform.tylc.64wczxt"&gt;》64位操作系统请点此下载 &lt;/a&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='navy'/>&lt;/object&gt;</run></par>
+<par def='1'><run html='true'><font color='green'/>&lt;Div style="display:none"&gt;</run></par>
+<par def='1'><run html='true'>&lt;input name=tmpIsAuthentic value="</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='tmpIsAuthentic'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIXJFW2FMjNdvf65HRzdvnWY5OF6pSdYtFkEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>"&gt;</run></par>
+<par def='1'><run html='true'>&lt;input name=tmpAuthenticMsg value="</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='tmpAuthenticMsg'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAxlObK2ryBUVx0Iufbp10esSqnQcNPhL+vBYNr3yQ+B0EAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>"&gt;</run></par>
+<pardef id='4' hide='notes' tabs='L12.5771in L13.0771in L13.5771in L14.0771in L14.5771in L15.0771in L15.5771in L16.0771in'><code
+ event='hidewhen'><formula compiled='true'>
+PgAJADQADus+/SVtW/fOBfN0YfBcklkNzh0IFH0tbZRYkVgPa6ev7lH8wms3HeqCAIr/SxAjBAAE
+AAQABAA=
+</formula></code></pardef>
+<par def='4'><run html='true'><font size='9pt' color='green'/>&lt;/Div&gt;</run></par>
+<par def='1'><run html='true'><font color='fuchsia'/>&lt;!--usb key region end--&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmUSBKey</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,13+08</datetime></item></subform>
+

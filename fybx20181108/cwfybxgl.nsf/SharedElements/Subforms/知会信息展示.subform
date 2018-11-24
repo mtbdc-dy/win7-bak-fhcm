@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='知会信息展示' alias='sfrmNotify' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='212' unid='9FAC974445979902482577D80014BBDB' sequence='55'>
+<created><datetime>20101111T114628,11+08</datetime></created>
+<modified><datetime>20181025T014918,99+08</datetime></modified>
+<revised><datetime>20181024T085441,71+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,98+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010803,99+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>&lt;div class="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+hgAJAHwAK2x0X6NS0ipwAZCCraH09RVEOD/pH57pyKDIp1h5jrPFVCWG0I884Lzigc/GjxzTMx1C
+HuPJopMm4D/Z1AdPViNhWPe5lC2XLGETTjoYeuhoT4WGIz6AkR0/COb8A8O8Yt6kF1Stgdi9u+lk
+BCZQHOl3lq/D6xQpBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>" data-title="</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+XgAJAFQAEn0Q2CIW/dYY3ADEHPhT8brzaEGuslt0SYlUA8CkBNWBpjZKSf+cxhKomCw7Dijq6clL
+IDdcLO1LNUYRmQCnYwEzEpWubfeZrpFBebBaSE8EAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'>" data-string-id="indiplatform.tylc.zhihuititle" id="zhihuititle"&gt;</run></par>
+<par def='1'><run html='true'>&lt;h2 class="panel-title"&gt;&lt;span&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+1gAJAMwAQV11xYRs9SkYQ/4Y09KooYW9OKjfaglB/pZgVQLn7rKaILUiXeFCj9rvxHu9GXuXqvMe
+WcLPEnQzeXETHTHHRTJ6fuVvENPo79SRqy/C2V/u/GUYkbrQMVY9aUdu21LE8QgBBV2/B3f2nUAJ
+JEqvUUPAhOY5aX6e6+XBb53dSnQp/ezT/CcitwSlfSLZAqccSrWgLCSHRj6QHjm+EL/6/gNhDIzP
+Ery7uTQfuaZAf2n8p/qgrCDOue7IdU/t1u20cdgNquXYWFsEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='navy'/>&lt;span data-string-id="indiplatform.tylc.jilu"&gt;记录</run><run
+ html='true'>&lt;/span&gt;&lt;/span&gt;&lt;/h2&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="panel-content"&gt;</run></par>
+<pardef id='2'><code event='hidewhen'><formula compiled='true'>
+NgAJACwAwHimNpqWOCcNQEZ98MDSJGZJqwo8IeHjCIdixCogw0CybTfEdmhHKgQABAAEAAQA
+</formula></code></pardef>
+<par def='2'><run html='true'>&lt;div id="showzhihuixinxi" zhihuidocurl="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+bgAJAGQAfASqK64E8RYJRUc/u2b+ll6gStEZL9yznFdwOLFwRFiYXqM+vjt3550J4PJ5JuKraqS3
+aedSxCv8mNJ+o6Mqr2/5AJR92ng7v4uIRaovZ6ILBMTYKSjOExMBThQGmddFBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>"&gt;&lt;/div&gt;&lt;iframe style= "</run><run html='true'><font
+ name='serif'/>width: 95%</run><run html='true'>" id="iframeNotify"  frameborder="0" src="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+hgAJAHwAG4r/2eGoINNVJ75dP0CFrHL2XiNFoCbawQaDavtBJVtlft2VEWXvfE2RAXbkNt2XCoz3
+LWJB80Tcuu+pG6cOA7zewcpy4dPTVGfY828izzxKGY6IHaMCNqByj0nVlgBOX6t1haHXOpcnvdxa
+GpNDp1jMmZ+SwrGnBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>" width="100%" height="0"&gt;&lt;/iframe&gt;</run></par>
+<pardef id='3'><code event='hidewhen' enabled='false'><formula compiled='true'>
+NgAJACwAwHimNpqWOCd3nvdv13FTiWwOMYzejDJsFd2I8LrTMXytwQ3vN96WIwQABAAEAAQA
+</formula></code></pardef>
+<par def='3'><run html='true'>&lt;div id="showzhihuixinxi_first"&gt;&lt;/div&gt;&lt;iframe style= "</run><run
+ html='true'><font name='serif'/>width: 95%</run><run html='true'>" id="iframeNotify_first"  frameborder="0" width="100%" height="0"&gt;&lt;/iframe&gt;</run></par>
+<pardef id='4' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+hgAJAHwAuBTekOg/qHNuxPWCxF+LXidX9Yr/0lALTI515j7UaFYR39tE4OdEO01lvHyhdjBaxrIU
+jA0gWzJwRL6OOl4F8iHYSlilpw9mzQF8ZYLjTOh1ADjzMlhA0oSOMg4OBPh6RH0bDnbtVbe88w+M
+Chb5T0n4ty2HNUrNBAAEAAQABAA=
+</formula></code></pardef>
+<par def='4'><run html='true'>&lt;div class="empty no-info"&gt;&lt;span data-string-id="indiplatform.tylc.zhanwu"&gt;暂无&lt;/span&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+1gAJAMwAQV11xYRs9SkYQ/4Y09KooYW9OKjfaglB/pZgVQLn7rKaILUiXeFCj9rvxHu9GXuXqvMe
+WcLPEnQzeXETHTHHRTJ6fuVvENPo79SRqy/C2V/u/GUYkbrQMVY9aUdu21LE8QgBBV2/B3f2nUAJ
+JEqvUUPAhOY5aX6e6+XBb53dSnQp/ezT/CcitwSlfSLZAqccSrWgLCSHRj6QHjm+EL/6/gNhDIzP
+Ery7uTQfuaZAf2n8p/qgrCDOue7IdU/t1u20cdgNquXYWFsEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='navy'/>&lt;span data-string-id="indiplatform.tylc.jilu"&gt;记录</run><run
+ html='true'>&lt;/span&gt;&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' color='#3f803f'/>&lt;script&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' color='#3f803f'/>dojo.addOnLoad(function(){addPanelCount(0, dojo.byId("zhihuititle"));});</run></par>
+<par def='4'><run html='true'><font size='9pt' color='#3f803f'/>&lt;/script&gt;</run></par>
+<pardef id='5' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwAwHimNpqWOCd3nvdv13FTiWwOMYzejDJsFd2I8LrTMXytwQ3vN96WIwQABAAEAAQA
+</formula></code></pardef>
+<par def='5'><run html='true'><font size='9pt' color='purple'/>&lt;script&gt;</run></par>
+<par def='5'><run html='true'><font size='9pt' color='purple'/>dojo.addOnLoad(function(){</run></par>
+<par def='5'><run html='true'><font size='9pt' color='purple'/>	if(dojo.byId('iframeNotify'))	dojo.byId('iframeNotify').src=dojo.byId('showzhihuixinxi').getAttribute('zhihuidocurl');</run></par>
+<par def='5'><run html='true'><font size='9pt' color='purple'/>});</run></par>
+<par def='5'><run html='true'><font size='9pt' color='purple'/>&lt;/script&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' color='#3f803f'/>    </run></par>
+<pardef id='6' hide='notes'/>
+<par def='6'><run html='true'><font size='9pt' name='serif'/></run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+hgAJAHwA8f5kX2yMnnVuovf+kh3XJmxOPMzOEhuqRQ/4tQw9TFPAqm/sj4rA3c2300w83QjHgubB
+/h3jlzxIPk/nyoBBW1L74+BRmgA0wdWQ+lZEAc17zpTjuGwXehSA1/Cs8VJpgGkiRUtsyrFnMTv/
+M1w3xCXawYO0Gl/yBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt'/></run></par>
+<par def='6'><run html='true'><font size='9pt'/>    </run></par>
+<pardef id='7' leftmargin='1in' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen' enabled='false'><formula compiled='true'>
+NgAJACwAwHimNpqWOCd3nvdv13FTiWwOMYzejDJsI99O9Gm0liP/OI0hBI1E2wQABAAEAAQA
+</formula></code></pardef>
+<par def='7'><run html='true'><font size='9pt' color='#3f803f'/>//新版知会功能</run></par>
+<par def='6'><run html='true'><font size='9pt'/>&lt;input id="key_ZhihuiV2"  name="key_ZhihuiV2" value="</run><run
+ html='true'><font size='9pt'/><sharedfieldref name='key_ZhihuiV2'/></run><run
+ html='true'><font size='9pt'/>" type=hidden /&gt; </run></par>
+<par def='6'><run html='true'>&lt;div style="display:none;"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldzhihuirenYj' extrahtmlattrs='type=hidden'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>&lt;/div&gt;  </run></par>
+<par def='6'><run html='true'><font size='9pt'/>&lt;input id="</run><run html='true'><font
+ name='Courier New' pitch='fixed' truetype='true' familyid='30'/>fldzhihuirenFkflag</run><run
+ html='true'><font size='9pt'/>"  name="</run><run html='true'><font name='Courier New'
+ pitch='fixed' truetype='true' familyid='30'/>fldzhihuirenFkflag</run><run
+ html='true'><font size='9pt'/>" value="</run><run html='true'><field type='text'
+ kind='computedwhencomposed' name='fldzhihuirenFkflag'><code event='defaultvalue'><formula
+ compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='10' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt'/>" type=hidden /&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='serif'/>&lt;div id="zhihuiKeyinfo" style="display:none;" </run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+7gIJAOQCqZLiUtTOuZZNa05AvbVtVfmwzRNCdyLsR7m7o3lypQqmyuJOySVO1Ysr2rufH8USfUNX
+WxSn65q7BIS/14b0sG6fvbL03pGtg7rnKsYcoSA0d4pEnS13M2OJ1ApVc9VI2V+2Wup5SiUlHPFR
+haiIoiZvlLQs9Bd4oZDyOr8NUt/p8T+lL4/0ID6fpp8HWB7ZaULkLbltr34Jk3nMLH0RYGErsbnw
+buRj5XsFoSqhBUmm99Xr4YPjgDpw7TYD4rn5Ksk01l6o0JfwQnlyQz9qUYMuB7H8YQBlk4eoQy3A
+Si03eXCdabMhPuW4e2Efx1VH/4Q23v6jvN6L+uthCz+E1f7R7Da6YoSZC7+/4g12rAQdGxBSLWHW
+LNZrpVXpOcf5Z3oQNpjIFh8JWsxTdc9q/kstYRD+/J0wru08pPmaT+afH5Lf21+poPjeogbkA/sI
+o9Bht27q+RJ1ZUTOycKCD4KwQFjTgc6FcazD++dGVXfqoLkHbnzHRVW72Zh3DMXn/jgkC43Yt2e2
+sPO5Hi69XDVYbweBjiY58t/b26VSoBei/OHhcvSzJCx61K907cW8VuzQX/xna/wzUF+1Fy6/I21B
+VSYVhrFoLR1Kc/Lnrm2DG9qdgQpP8F0e6fuXZDYdZD8OEBkABoeut+h4+LXiJFE8u2bnGb2cnZx/
+p397xs5CV1++Lln3vLOvTJQAnQ6S35sCJe/cVmiL1E8Qj0vLTgwPJ85TFBF5crzmGVs16X4W11iy
+7+Hd6d+35+UC7g0pqFP87lOM5qWYdfQghePxqNxaVogOlvRxZSYIZDiKxH+svGl4YcAOQ+d0nsKE
+cEylPn3EMxXimocv7xwuIfx5Sg8U3gW0GTbCKkM2RZ7u6mNUKrFcleeseob4HTVbaUnluhjoTF+7
+u4XY2Zy3cyo3zOQ8MxUoMNNV/b7Go7z6YX2jPfSW3UmMAHHceV5zr2o/8g7HTJe9e/i3rv0WUB2m
+MQQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='serif'/> &gt;&lt;/div&gt;</run></par>
+<pardef id='8' hide='notes'><code event='hidewhen'><formula compiled='true'>
+NgAJACwAwHimNpqWOCfY53fwaSd1dEMWeJmMiO2GRJu+jw/y0d3Lwgcw0cLIeQQABAAEAAQA
+</formula></code></pardef>
+<par def='8'><run html='true'><font size='9pt' name='serif' color='blue'/>&lt;script&gt;</run></par>
+<pardef id='9' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwAwHimNpqWOCfY53fwaSd1dEMWeJmMiO2GRJu+jw/y0d3Lwgcw0cLIeQQABAAEAAQA
+</formula></code></pardef>
+<par def='9'><run html='true'><font size='9pt' name='serif' color='blue'/>dojo.addOnLoad(fnZhihuiBanbiShowInput);</run></par>
+<par def='8'><run html='true'><font size='9pt' name='serif' color='blue'/>&lt;/script&gt;</run></par></richtext></body>
+<item name='logShowDetail' summary='false' sign='true'><number>0</number></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmNotify</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210736,11+08</datetime></item></subform>
+

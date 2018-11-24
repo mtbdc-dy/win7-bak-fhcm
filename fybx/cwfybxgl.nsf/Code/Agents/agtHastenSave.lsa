@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtHastenSave' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' comment='生成督办文档' restrictions='fulladminunrestricted'>
+<noteinfo noteid='8d6' unid='E9C7F2EA3187C1A8482579DB0033393E' sequence='49'>
+<created><datetime>20120409T171929,90+08</datetime></created>
+<modified><datetime>20181025T014920,93+08</datetime></modified>
+<revised><datetime>20181024T085501,92+08</datetime></revised>
+<lastaccessed><datetime>20181025T014920,92+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133250,70+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085608,45+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='all'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20180224T190750,44+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210746,09+08</datetime></item>
+<item name='$POID'><datetime>20181024T085501,92+08</datetime></item></agent>
+

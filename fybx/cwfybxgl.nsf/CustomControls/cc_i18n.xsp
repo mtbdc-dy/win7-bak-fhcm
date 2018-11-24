@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:this.resources>
+		<xp:script src="/ssjsI18n.jss" clientSide="false"></xp:script>
+		<xp:dojoModulePath prefix="smartdot" url="../../dojo/smartdot">
+		</xp:dojoModulePath>
+		<xp:script src="#{javascript:'/.ibmxspres/domino/dojo/smartdot/i18n.js?open&amp;' + getUts()}"  clientSide="true">
+		</xp:script>
+		<xp:dojoModule name="smartdot._xhrNsfPatch"></xp:dojoModule>
+		<xp:dojoModule name="smartdot.xpages.i18n_bridge"></xp:dojoModule>
+	</xp:this.resources>
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:fnSetXspDojoConfig()}]]></xp:this.beforeRenderResponse>
+	<xp:this.beforePageLoad><![CDATA[#{javascript:fnSetLocalei18n();}]]></xp:this.beforePageLoad>
+	<xp:scriptBlock type="text/javascript">
+		<xp:this.value><![CDATA[#{javascript:@Implode('smartdot.i18n.requireLocalization("'+@List(compositeData.languagePackNames)+'")',";")}]]></xp:this.value>
+	</xp:scriptBlock>
+</xp:view> 

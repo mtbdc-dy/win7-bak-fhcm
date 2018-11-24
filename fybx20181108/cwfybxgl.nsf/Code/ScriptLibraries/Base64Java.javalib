@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='Base64Java' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3 v4strict'>
+<noteinfo noteid='70a' unid='47DC9432396DF28F48257C670007C56C' sequence='55'>
+<created><datetime>20140121T092452,92+08</datetime></created>
+<modified><datetime>20181025T014921,59+08</datetime></modified>
+<revised><datetime>20181024T085458,43+08</datetime></revised>
+<lastaccessed><datetime>20181025T014921,58+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133249,58+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='Base64Java.class' codepath='C:\Lotus\notes7\data'/></code>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,33+08</datetime></item>
+<item name='$POID'><datetime>20181024T085458,43+08</datetime></item></scriptlibrary>
+

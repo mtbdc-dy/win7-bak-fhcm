@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='按钮区域扩展隐藏条件_NoFlow' alias='sfrmNoFlowButton_Custom_HiddenCondition'
+ xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ designerversion='8.5.3' comment='第一排按钮' renderpassthrough='true'>
+<noteinfo noteid='12b72' unid='5CC968057AA326EC48257CA20038003E' sequence='31'>
+<created><datetime>20140321T181140,78+08</datetime></created>
+<modified><datetime>20181025T014917,67+08</datetime></modified>
+<revised><datetime>20181024T092015,38+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,66+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T213204,65+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=admin/O=smartdot</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='notes web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmNoFlowButton_Custom_HiddenCondition</text></item></subform>
+

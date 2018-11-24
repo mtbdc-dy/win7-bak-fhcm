@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_showDenyTypeInFlowInfo' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='3ca' unid='5ACE9636AC42716448257E9D0026234E' sequence='55'>
+<created><datetime>20150810T145634,06+08</datetime></created>
+<modified><datetime>20181025T014922,69+08</datetime></modified>
+<revised><datetime>20181024T085444,13+08</datetime></revised>
+<lastaccessed><datetime>20181025T014922,68+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133245,94+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='key_showDenyTypeInFlowInfo'><code event='defaultvalue'><formula
+ compiled='true'>
+RgIJADwCveqhmEWffwtlJZXrLMsTqGFWh39gv+AANOrBX6ORP72BbICsH/gzvGjBdQHMvACEsyVX
+9YZO1UXlGdkfkDWX4CYom54cFEUQ8purLN+i1PoYniMB6PZBh6kyBfKhDqz8hgYKQ8lYsaTGL0EN
+b/Gqrh6bk75cfdlyHUbscel4sAjTb4q/Hftozc/zge97/IrpfJgoPel8RSwAx8ii9EEB47nQi5E4
+BvBU6co7OQqpIKnZFwO3U6NCv7H4NmUVY8rr1VhFfBzXwAKmZ94+npTPhejBgkvNjuOUQOzwuvya
+yvOxAfGcsOuOSZz6HLHR2yHsdCmu75yjBToNGiHoHT+uD+LezO7k5/0DvSgDhLS7YwLq0V2qdeCb
+FeQckEXT638WL25o9PpBBsFUH764TGCj0Fa1gTjC+5XsE3YUwKGmByS6wolIz3EQoLqy3Unne+Mv
+4TmcYXChzeGlvrMWOpqSlmpOB/yZnOthwXTT1UHdP3rzNYtJYdjYfXi8i9N/8ByC37jReDemMJCA
+yYgStLxv9qXIbIyXaJ3/stZgcRm/F4AwSVnZh4FzW//4H6KNFejm8A2Y/OB2q4cMph5ETa0T7dMI
+6fYz5sSSUePRKG2TkldYnP6dQM7ZE9QQJwcEilL+EICscGB+vugQboVuuCRaxtDAIHUM3ewGNE2L
+Mmlje9NmyC+D896MsZHGtSdEKFEmCSXCLCxdTVN/eJZVAcMCsdKImoF0X1IOsI6b+es02cEEySTc
+hJ/b1AQABAAEAAQA
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,09+08</datetime></item></sharedfield>
+

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='其他流程启动数据字段' alias='sfrmExtFlowData' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='226' unid='AF69CC322B46918F48257D27003CBEC4' sequence='55'>
+<created><datetime>20140801T190329,96+08</datetime></created>
+<modified><datetime>20181107T195614,83+08</datetime></modified>
+<revised><datetime>20181024T085442,40+08</datetime></revised>
+<lastaccessed><datetime>20181107T195614,83+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195614,83+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><field type='text' kind='computed' name='strParentExtFlowPath'><code
+ event='defaultvalue'><formula compiled='true'>
+NgAJACwAwHimNpqWOCcRBgk3huocveYCtH0Cyhvc3xraPRhcvCRm3OW3tv499wQABAAEAAQA
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><field type='text' kind='computed' name='strParentExtFlowRefKey'><code
+ event='defaultvalue'><formula compiled='true'>
+NgAJACwA36X/XRiqV+pTfOqRqC9TpyUHchqmQKXhb7+LTHoWjJsICGIjzl70NgQABAAEAAQA
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><field type='richtext' kind='computed' name='rtfExtFlowData'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIWL9/lxB+09MApaSF1elzqCnAqaVUHTTZ8EAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'><field type='richtext' kind='editable' name='rtfPostExtFlowData'
+ htmlid='rtfPostExtFlowData'><code event='defaultvalue'><formula compiled='true'>
+LgAJACQAPCoz+6OID/LxVxikwpFq5w/8bi8OBaCvslpMcuDPr84EAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'><field type='text' allowmultivalues='true' kind='editable' name='strFieldCopyFromMain'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='defaultvalue'><formula compiled='true'>
+NgAJACwAwHimNpqWOCcRBgk3huocveYCtH0Cyhvc3xraPRhcvCRm3OW3tv499wQABAAEAAQA
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmExtFlowData</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,43+08</datetime></item></subform>
+

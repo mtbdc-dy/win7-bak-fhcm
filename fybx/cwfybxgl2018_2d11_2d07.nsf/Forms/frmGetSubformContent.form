@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmGetSubformContent' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='43e' unid='48832D00F27D0B4348257BE800363554' sequence='57'>
+<created><datetime>20130916T175205,96+08</datetime></created>
+<modified><datetime>20181107T195626,04+08</datetime></modified>
+<revised><datetime>20181024T085456,12+08</datetime></revised>
+<lastaccessed><datetime>20181107T195626,04+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195626,04+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='htmlhead'><formula
+ compiled='true'>
+/gEJAPQBjNMRWM2Yj6hA9PPamMQL9dnzhTWErSJwg1Uoc1C5ahX7ZBI5CfTx6SD0/XSN47PhGkYO
+DXvIV5juSbBs1BxrRIOpYwIuN/oShybXcRmSDfx3uwwW0k69JBFrsqMiPErTCttJMmrrcTU6nzIt
+siTIBRQ1K/iE7M69rMg47WLrJ3hQxPsD61xY2MnZIGKu8NjIiOFy3v+HZEgc1MSJnXAnRAWkdwHI
+Y2o511tjDg4YjKEHi1io1WDuZctPhE6ZivaZsZCmQAxf3qcRZeegVPO/747auHY2G3XCCS+Yu+iC
+iY6oJP8qrHd/h+p4BQxMIi9Mn6ja3Uu+A6w7M2qZN5zvJ90j72/ye76iPcwdk00Gp4W5Sq8/TJO2
+yk8me80U2S10Z47sZZ8lAbHXSZQf5h/MaitWRoI5002YPE4zU1rJhssQjpXZ1p0Gan4JLXSrIjG4
+XndTg8KzIE24OTxo7gFe2NjtIvE32lt16FtyxwSehhMC12A4l+InpliBLEshtlY8KpLT2c2uEyGj
+Mls4qvTVvS1QdRe0OWnBfGTRqtTdpjia6JgKccVeeXiUl0aO6qsCgOiIAlXDCNFwam8/7keksiRu
+gNrMa3XSdk6Igac0FDk7na/OA8hL8QZXQrFacv9EGgugP1EwbmUmtuJprbBJiQQABAAEAAQA
+</formula></code>
+<body><richtext>
+<pardef id='1' hide='web'/>
+<par def='1'><sharedfieldref name='update_timestamp'/><sharedfieldref name='sysLanguage'/><field
+ type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='17' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='2'/>
+<par def='2'><run html='true'>&lt;div id="subform-container"&gt;</run></par><subformref
+><code event='value'><formula compiled='true'>
+LgAJACQAIPIJsVUxXhuW69DfXvFnronL3oau5t7KQkTjG9q8Gs0EAAQABAAEAA==
+</formula></code></subformref>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmGetSubformContent</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,75+08</datetime></item></form>
+

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='subMyViewBody' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3' comment='嵌入视图' renderpassthrough='true'>
+<noteinfo noteid='2b2' unid='6CC5A7D4450A3F0B482573250014751B' sequence='55'>
+<created><datetime>20070727T114326,99+08</datetime></created>
+<modified><datetime>20181025T014917,13+08</datetime></modified>
+<revised><datetime>20181024T085442,48+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,12+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010759,11+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'>&lt;div id="viewDisplay" style="display:block ;position:relative;"&gt;&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;div id="viewValue" style="display:none; height: 380px; WIDTH: 180px"&gt; </run></par>
+<par def='1'><run html='true'>&lt;textarea name="viewHTMLValue"&gt;</run> <embeddedview
+ displayusing='html' usedefaultlines='false' linestodisplay='20' width='1.5750in'
+ height='0.3938in'><code event='value'><formula compiled='true'>
+JgAJABwA8B9vbeO3xkxpniWhGzghgD/Amh9kpvbjBAAEAAQABAA=
+</formula></code></embeddedview> <run
+ html='true'>&lt;/textarea&gt;</run></par>
+<pardef id='2' leftmargin='1in' hide='notes web mobile' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><field type='text' kind='editable' name='viewHTMLValue'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata> </par>
+<pardef id='3' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='3'><run html='true'>&lt;/div&gt;</run><button width='2in' widthtype='maximum'
+ maxlines='1' wraptext='true' bgcolor='system' htmlstyle='display:none' name='FrontPage'><code
+ event='click'><formula compiled='true'>
+PgAJADQAH3af4aYskU/dqDuBjbtzetPBDqyFZlmmrSuvawMiFg03fhUGUctcOSSD0OhP3cFLBAAE
+AAQABAA=
+</formula></code>&lt;</button><button
+ width='2in' widthtype='maximum' maxlines='1' wraptext='true' bgcolor='system'
+ htmlstyle='display:none' name='NextPage'><code event='click'><formula compiled='true'>
+NgAJACwA9uT5NkQzVMdTfSHrnHZRevx/t7h39oW8E+kJ8+pkaEd2rcr1xr+t1wQABAAEAAQA
+</formula></code>&gt;</button></par>
+<pardef id='4' leftmargin='1in' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='4'><run html='true'> </run></par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20070717T094822,46+08</datetime></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>subMyViewBody</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,53+08</datetime></item></subform>
+

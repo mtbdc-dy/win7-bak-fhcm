@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='获取会签单中字段信息含有字段标签' alias='agtGetHqFieldWithLabel' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='76e' unid='AA881141DDE38CC048257D5B00251937' sequence='49'>
+<created><datetime>20140922T144512,87+08</datetime></created>
+<modified><datetime>20181025T014926,63+08</datetime></modified>
+<revised><datetime>20181024T085457,12+08</datetime></revised>
+<lastaccessed><datetime>20181025T014926,62+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133249,84+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085603,96+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20171011T134924,77+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,85+08</datetime></item>
+<item name='$POID'><datetime>20181024T085457,12+08</datetime></item></agent>
+

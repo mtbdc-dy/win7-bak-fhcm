@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwGwBianhaoByXh' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' showinmenu='false' allowdocselection='true'
+ publicaccess='false' designerversion='8' comment='公文字号检索' unreadmarks='standard'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='true' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='maroon' rowlinecount='5' headerlinecount='1'
+ rowspacing='1.25' haslinkcolumn='true' bgcolor='white' altrowcolor='#efefef'
+ totalscolor='blue' headerbgcolor='white' boldunreadrows='false' evaluateactions='false'
+ allownewdocuments='false' allowcustomizations='true' hidemarginborder='false'
+ marginwidth='0px' marginbgcolor='white' uniquekeys='false' formatnoteid='D3F32663C661963548256A1B001ECCD5'>
+<noteinfo noteid='176' unid='BBF5815C40A0E711482576E4001E40C6' sequence='55'>
+<created><datetime>20100312T133026,62+08</datetime></created>
+<modified><datetime>20181025T014925,83+08</datetime></modified>
+<revised><datetime>20181024T085439,78+08</datetime></revised>
+<lastaccessed><datetime>20181025T014925,82+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133242,96+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+1gAJAMwAw+O37M3fuvkOGeyj4khvLCpsDhX48Otf0yUSSl9kGZCCcJawoRvDV6T6ttZYC7G8hxpp
+NWX2nffbz3rxosGNKH2ECvIMJ7ok57o33EJlNQHLpeR9y78UIFikq219fKrSsIlbCW9ZRZl5ekbP
+m/nt49FYkGZWHYBfsvBywGsBTU48LmM1cHym+1N6P3ePNHQVkJC2YevTlrfRUGNYQcZJBN047F0U
+kxCphb1b7Zzebf7jBbIKcQOVowcyKTdEv+RF5LpbOOwkeP4EAAQABAAEAA==
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='fldPxh' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' hidden='true'><columnheader title='排序号'><font size='9pt'
+ style='bold'/></columnheader></column>
+<column sort='descending' resort='both' hidedetailrows='false' itemname='fldYear'
+ width='15.1250' resizable='true' separatemultiplevalues='true' sortnoaccent='false'
+ sortnocase='true' showaslinks='true'><columnheader title='年度'><font style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+LgAJACQA6lxRPOOC2v8zJDgE6FcZPn9nYTVtqKksepshAa759PcEAAQABAAEAA==
+</formula></code></column>
+<column sort='ascending' resort='both' hidedetailrows='false' itemname='fldPattern'
+ width='13.6250' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='true'><columnheader title='样式'><font style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+NgAJACwAzBjxVZmeWPEN7fdjoWYx8cevBg4HPAp5Pi6oK5WHUgwFtTgDsgUrBQQABAAEAAQA
+</formula></code></column>
+<column sort='ascending' resort='both' hidedetailrows='false' itemname='fldLsh'
+ width='10' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='true'><columnheader title='流水号'><font style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+LgAJACQAAVJA9LN+6J9D7hC0pUTs9B5IO+9eV6Y2Sm3uSxnzNBoEAAQABAAEAA==
+</formula></code></column>
+<column resort='both' hidedetailrows='false' itemname='fldCurrentGwBH' width='19.3750'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='true'><columnheader title='可用的最新公文字号'><font style='bold'/></columnheader></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,15+08</datetime></item></view>
+

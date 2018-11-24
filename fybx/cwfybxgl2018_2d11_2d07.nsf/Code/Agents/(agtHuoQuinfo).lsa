@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='(agtHuoQuinfo)' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='1602' unid='FEF92FF1958B15E748258176004FF7EE' sequence='15'>
+<created><datetime>20170808T223328,14+08</datetime></created>
+<modified><datetime>20181107T195858,79+08</datetime></modified>
+<revised><datetime>20181024T092020,64+08</datetime></revised>
+<lastaccessed><datetime>20181107T195858,79+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195858,79+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092126,87+08</datetime></designchange>
+<trigger type='agentlist'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtGetZhihuiPerson
+	Created 2014-6-18 by admin/lyxs
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+Use "libFlowCustom"
+Use "libFlowExtBase"
+
+</lotusscript></code><code event='declarations'><lotusscript>Dim profiledoc As NotesDocument
+Dim strHTName As String
+Dim strApp As String
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errLabel
+	
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim note As notesDocument
+	'如果当前的节点为起草节点，需要根据当前用户名查找用户的所有合同信息库中合同单的项目付款明细。
+	Dim htdb As NotesDatabase
+	Dim vw As NotesView
+	Dim qkdc As NotesDocumentCollection
+	Dim qkdoc As NotesDocument
+	Dim newjsonobj As New Converjsonobject
+	Dim newjsonarry As New Converjsonarray
+	Dim path As String
+	Dim htvw As NotesView
+	Dim htdc As NotesDocumentCollection
+	Dim htdoc As NotesDocument
+	Dim strxh As String 
+	Dim strqkrq As String 
+	Dim strxmmc As String 
+	Dim strxmnr As String 
+	Dim strqkje As String
+	Dim strnewdata As String 
+	Dim strqkunid As String 
+	Dim strurl As String 
+	Dim strZX As String
+	Dim zxdoc As NotesDocument
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+	Dim strkey As String
+
+	Dim m As Integer
+	m=0
+	
+	Set dbCurrent = session.Currentdatabase
+	'-xz-
+	Dim view As NotesView
+	Dim dc As NotesDocumentCollection
+	Dim doc As NotesDocument
+	Set view = dbCurrent.Getview("vwDochtbyhtkey")
+	'-xz-
+	Set note = session.Documentcontext
+	Set profiledoc =  dbCurrent.Getprofiledocument("ManagerSet")
+	strHTName = profiledoc.fldContractFWQ(0)
+	strApp = profiledoc.fldContractApp(0)
+	'MsgBox "strHTName=" +  CStr(strHTName)
+	'MsgBox "strApp=" +  CStr(strApp)
+	strkey = UnEscape(getRefValue(note.Query_string_Decoded(0),"strkey="))
+	'MsgBox "strkey=" +  CStr(strkey)
+	Set htdb = session.Getdatabase(strHTName, strApp + "/htsp.nsf")
+	Set htxxdb = session.Getdatabase(strHTName, strApp + "/htxx.nsf")
+	path = fnGetAppNameFromAppDbPath(htdb.Filepath)
+	'获取合同审批数据库所在服务器域名
+	Dim aParam As Variant
+	Dim strHost As String
+	Dim clapp As New clApp(path,aParam) 
+	strHost = clapp.getAppHost()
+	
+	If htdb.Isopen Then
+		'MsgBox "rrrrrrrrrrr"
+	Else
+		'MsgBox "数据库未连通"
+		Exit Sub
+	End If
+	
+	Set htxxvw = htxxdb.Getview("vwContractByRefKey")	'合同信息按照主键
+	Set htdc = htxxvw.Getalldocumentsbykey(strkey, True)
+	'MsgBox "合同信息库文档数：" + CStr(htdc.Count)
+	Set htdoc = htdc.Getfirstdocument()
+	While Not htdoc Is Nothing 
+		'获取信息
+		strZX = htdoc.fldZXunid(0)
+		'-xz-
+		Dim strhtlx,strht,strhtje,strhtkey,strfkje,strallkey As String
+		strhtlx = htdoc.fldZxcon(0)
+		strht = htdoc.FLDZIBIAODAN(0)
+		strhtje = CStr(htdoc.numPriceLower(0))'万元 
+		strhtkey = htdoc.strRefKey(0)
+		'合同签订合同 fldHTunid
+		Dim htqddoc As NotesDocument
+		strallkey = ""
+		MsgBox strhtkey
+		Set dc = view.Getalldocumentsbykey(strhtkey, True)
+		Set doc = dc.Getfirstdocument()
+		'MsgBox "fkje--"+strhtkey+"-"+CStr(dc.Count)
+		strfkje = "0"
+		While Not doc Is Nothing 
+			strfkje = CStr(CDbl(strfkje)+CDbl(doc.fldFuKuanJE(0)))
+			Set doc = dc.Getnextdocument(doc)
+		Wend
+		'-xz-
+		'MsgBox "strZX=" + CStr(strZX)
+		If strZX &lt;&gt; "" Then
+			Set zxdoc = htxxdb.Getdocumentbyunid(strZX)
+			If Not zxdoc Is Nothing Then
+				'MsgBox "执行信息文档存在"
+				'-xz-
+				Set htqddoc = Getdocumentbyunid(htdb,zxdoc.fldHTunid(0))
+				If htqddoc Is Nothing Then
+					Set htdb = session.Getdatabase(strHTName, strApp + "/htgx.nsf")
+					Set htqddoc = Getdocumentbyunid(htdb,zxdoc.fldHTunid(0))
+				End If
+				If Not htqddoc Is Nothing Then
+					strallkey = htqddoc.fldSubject(0)
+					strallkey = strallkey+"*"+CStr(getSSLConfig(htdb))+"/"+CStr(getdbpath(htqddoc.Parentdatabase))+"/0/"+CStr(htqddoc.Universalid)+"?OpenDocument*true*"+CStr(getdbpath(htqddoc.Parentdatabase))+"*"+htqddoc.fldFromServer(0)+"*"+CStr(htqddoc.Universalid)+"*true"
+				End If
+				'-xz-
+				strqkunid=zxdoc.fldWDunid(0)
+				strurl=strHost + "/" +Replace(htxxdb.filepath,"\","/")+"/0/"+strqkunid+"?editDocument&amp;count=20&amp;view=vwzxxxb"
+				'MsgBox strurl
+				
+				Dim jsonReader As New Jsonreader
+				Dim jsonobjfk As New Converjsonobject
+				Dim strdatafk As String
+				Dim vResultsfk As Variant
+				Dim vPiecesfk As Variant
+				Dim i As Integer
+				Dim jsonobjnewfk As New Converjsonobject				
+				Dim jsonarryfk As New Converjsonarray
+				
+				'strdatafk=zxdoc.Getfirstitem("hfldData").Text	'执行信息表中付款动态行
+				strdatafk=zxdoc.Getfirstitem("hfldData_htxm").Text	'执行信息表中付款动态行
+				'MsgBox CStr(strdatafk)
+				strdatafk=Replace(strdatafk,Chr(10),"")
+				strdatafk=Replace(strdatafk,Chr(13),"")
+				Set vResultsfk = jsonReader.Parse(strdatafk) 
+				vPiecesfk = vResultsfk.Items
+				'MsgBox CStr(vPiecesfk("items").count)
+				
+				If vPiecesfk("items").count&lt;&gt; 0 Then								
+					For i=0 To vPiecesfk("items").count-1
+						Dim newjsonobjarry As New Converjsonobject
+						If vPiecesfk("items").items(CInt(i)).items("xz") = "" And InStr(vPiecesfk("items").items(CInt(i)).items("xm"),"小计")&lt;=0 Then						
+							Call newjsonobjarry.Additem("xh", CStr(m))
+							Call newjsonobjarry.Additem("htmc", CStr(htdoc.strContractName(0)))
+							Call newjsonobjarry.Additem("htbh", CStr(htdoc.strContractNum(0)))
+							Call newjsonobjarry.Additem("htunid", CStr(htdoc.strRefKey(0)))
+							Call newjsonobjarry.Additem("xm", CStr(vPiecesfk("items").items(CInt(i)).items("xm")))
+							'MsgBox CStr(CStr(vPiecesfk("items").items(CInt(i)).items("htydje")))
+							Call newjsonobjarry.Additem("htydje", CStr(vPiecesfk("items").items(CInt(i)).items("htydje")))
+							Call newjsonobjarry.Additem("jstj", CStr(vPiecesfk("items").items(CInt(i)).items("jstj")))
+							Call newjsonobjarry.Additem("sqzfje", CStr(vPiecesfk("items").items(CInt(i)).items("bxsqfkje")))
+							Call newjsonobjarry.Additem("syje", CStr(vPiecesfk("items").items(CInt(i)).items("syje")))
+							Call newjsonobjarry.Additem("ljurl", strurl)
+							'MsgBox  "------------" + CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_"))
+							Call newjsonobjarry.Additem("xz", CStr(vPiecesfk("items").items(CInt(i)).items("xz")))
+							Call newjsonobjarry.Additem("_dynid_", CStr(vPiecesfk("items").items(CInt(i)).items("_dynid_")))
+							Call newjsonarry.Additem(newjsonobjarry)
+							m = m + 1
+						End If
+					Next
+				End If
+			Else
+				MsgBox "执行文档不存在"
+			End If
+		End If	
+		Set htdoc = htdc.Getnextdocument(htdoc)			
+	Wend
+	
+	Call newjsonobj.Additem("items", newjsonarry)
+	'-xz-
+	Call newjsonobj.Additem("htlx", strhtlx)
+	Call newjsonobj.Additem("ht", strht)
+	Call newjsonobj.Additem("htje", strhtje)
+	Call newjsonobj.Additem("fkje", strfkje)
+	Call newjsonobj.Additem("strallkey", strallkey)
+	'-xz-
+	strnewdata=newjsonobj.Tojson()
+	'MsgBox CStr(strnewdata)
+	'Call note.Replaceitemvalue("hfldData_qk", strnewdata)
+
+	Print |Content-Type:text/plain;Charset=GB2312|
+	Print strnewdata
+	
+	Exit Sub
+errLabel:
+	'showError "Initialize"
+	MsgBox "agtHuoQuinfo has error: " + CStr(Error()) + " at line: " + CStr(Erl())
+End Sub
+
+</lotusscript></code><code event='gnGetDep'><lotusscript>Function gnGetDep(strTemp As String) As String	
+%REM
+	根据当前用户获取其所在部门
+%END REM
+	
+		Dim session As New NotesSession
+		Dim indidb As NotesDatabase
+		Dim indivw As NotesView
+		Dim indidoc As NotesDocument
+		Dim strDep As String
+		Dim arr As Variant
+		Dim str2 As String
+		Dim profile As NotesDocument
+		Dim strbumen As String
+		Dim dbCurrent As NotesDatabase
+		
+		Set dbCurrent = session.Currentdatabase
+		Set profile = dbCurrent.Getprofiledocument("ManagerSet")
+		strbumen = profile.fldDepName_xm(0)	
+		strbumen = StrLeft(strbumen,"/")
+		'MsgBox "strbumen=" + CStr(strbumen)
+		
+		strDep = ""
+		Set indidb = session.Getdatabase("","indishare/indinames.nsf")
+		Set indivw = indidb.Getview("vwABbyName")
+		Set indidoc = indivw.Getdocumentbykey(strTemp, True)
+		If Not indidoc Is Nothing Then
+			strDep = indidoc.DepFullname(0)
+			'MsgBox CStr(strDep)
+			If InStr(strDep,strbumen) &gt; 0 Then
+				'MsgBox "444444444"
+				str2 = StrLeft(strDep,"/" + strbumen)				
+				'MsgBox "str2=" + CStr(str2)
+				If InStr(str2,"/") &gt; 0 Then
+					strDep = StrRightBack(str2,"/")
+				Else
+					strDep = str2
+				End If
+			Else
+				strDep = strDep
+			End If
+		End If
+		'MsgBox "strDep= " + CStr(strDep)
+		gnGetDep = strDep
+
+End Function
+
+
+
+
+
+
+
+
+</lotusscript></code><code event='UnEscape'><lotusscript>Function UnEscape( sInput As String ) As String
+'解码在WEB上用编码(escape)后的字符串
+	
+	On Error GoTo eh
+	
+	'输出字符串
+	Dim sOutput As String
+	sOutput = ""
+	'原字符串中尚未处理的部分
+	Dim sRemain As String
+	sRemain = sInput
+	
+	Dim iPos As Integer
+	
+	While InStr( sRemain, "%" ) &gt; 0
+		
+		iPos = InStr( sRemain, "%" )
+		sOutput = sOutput + Left( sRemain, iPos-1 )
+		sRemain = Right( sRemain, Len(sRemain)-iPos+1 )
+		
+		If Left(sRemain, 2) = "%u" Then	'这表示下一个需要处理的是汉字，4位编码
+			
+			sOutput = sOutput + UChr(CLng( "&amp;H" + Mid(sRemain, 3, 4) ) )
+			sRemain = Right( sRemain, Len(sRemain)-6 )
+		Else
+			
+			sOutput = sOutput + UChr(CLng( "&amp;H" + Mid(sRemain, 2, 2) ) )
+			sRemain = Right( sRemain, Len(sRemain)-3 )
+			
+		End If		
+	Wend
+	
+	sOutput = sOutput + sRemain
+	UnEscape = sOutput
+	
+	Exit Function	
+eh:	
+	UnEscape = sInput
+	MsgBox "line:" + CStr(Erl()) + " msg:" + Error()
+	
+End Function
+
+</lotusscript></code><code event='urlDecode'><lotusscript>
+Function urlDecode(strTemp As String,strCharset) As String	
+%REM
+	URL解码函数
+	strTemp		需要解码的字符串
+	strCharset	字符集	
+%END REM
+	
+	
+	If strTemp &lt;&gt; "" Then		
+		Dim ns As New NotesSession
+		Dim doc As NotesDocument		
+		Set doc=ns.CurrentDatabase.CreateDocument()		
+		doc.fldTemp = strTemp	
+		
+		Dim vrnTemp As Variant
+		'Msgbox |@URLDecode("| &amp; strCharset &amp; |";"| + strTemp +|")|
+		vrnTemp = Evaluate(|@URLDecode("| &amp; strCharset &amp; |";fldTemp)|,doc)
+		urlDecode = vrnTemp(0)
+	Else
+		urlDecode = strTemp
+	End If
+	
+End Function
+
+</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20180209T135638,78+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20181024T092020,64+08</datetime></item></agent>
+

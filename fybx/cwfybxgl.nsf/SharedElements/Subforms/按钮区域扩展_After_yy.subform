@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='按钮区域扩展_After_yy' alias='sfrmFlowButton_Custom_After_yy' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' comment='第二排按钮'
+ renderpassthrough='true'>
+<noteinfo noteid='f1a' unid='CFE4D77AD55ABF334825805300270597' sequence='48'>
+<created><datetime>20161021T150613,35+08</datetime></created>
+<modified><datetime>20181025T014917,45+08</datetime></modified>
+<revised><datetime>20181024T085505,91+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,44+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010800,49+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'> </run></par><subformref><code event='value'><formula
+ compiled='true'>
+PgAJADQAH3af4aYskU8RItLONx63q8ITF9q+otaGGRxGfu+HBvQAQPSabn9VSX1+RqeYvhNHBAAE
+AAQABAA=
+</formula></code></subformref>
+<par def='1'><run html='true'> </run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmFlowButton_Custom_After</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210736,81+08</datetime></item></subform>
+

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='strGoutongParseJs' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='2de' unid='84C38A811BD88A9B48257DD4000DBA5E' sequence='55'>
+<created><datetime>20150121T102956,78+08</datetime></created>
+<modified><datetime>20181107T195617,79+08</datetime></modified>
+<revised><datetime>20181024T085444,09+08</datetime></revised>
+<lastaccessed><datetime>20181107T195617,79+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195617,79+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='strGoutongParseJs'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQAEL5XEtuJ0JZ4E/VZDBZzGn+b1hlhBTHLwbX7J2RtSX8EAAQABAAEAA==
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,57+08</datetime></item></sharedfield>
+

@@ -1,0 +1,851 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtbxflowoverforyjd' alias='一季度费用报销流转结束' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='da6' unid='3CE068E8D073881E4825808200097304' sequence='96'>
+<created><datetime>20161207T094312,68+08</datetime></created>
+<modified><datetime>20181107T195836,60+08</datetime></modified>
+<revised><datetime>20181107T191342,16+08</datetime></revised>
+<lastaccessed><datetime>20181107T195836,60+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195836,60+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181107T191256,48+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agthybxflowover
+	Created 2016-11-9 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "CommonLib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errhandle
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim note As NotesDocument
+	Dim agent As NotesAgent
+	Dim strbxed As String 
+	Dim strdjfy As String 
+	Dim stryjysunid As String 
+	Set db=session.Currentdatabase
+	Set agent=session.Currentagent
+	Set note=db.Getdocumentbyid(agent.Parameterdocid)
+	If Not note Is Nothing Then
+		'是否有预算库
+		Dim sfysk As String 
+		sfysk=note.fldifhaveysk_xm(0)
+		Dim sfglys As String
+		sfglys=note.fldifglys_xm(0)
+		If sfysk="是" And sfglys&lt;&gt;"否" Then
+			Dim strmonth As String 
+			Dim dbys As NotesDatabase
+			Dim appPath As String 
+			
+			
+			Dim strkeyforyjd As String
+			Dim strkeyforyjdxm As string
+			
+			
+			Dim docyjdys As NotesDocument
+			Dim docyjdysxm As NotesDocument
+			
+			Dim viewyjdys As NotesView
+			Dim viewyjdysxm As NotesView
+			
+			
+			Dim stryear As String 
+			Dim strbmid As String 
+			Dim strfylb As String 
+			Dim strxmbh As String 
+			Dim stryszx As String 
+			
+			
+			appPath=StrLeftBack(note.dbPath(0),"/")
+			Set dbys=session.Getdatabase("", appPath+"/cwfyysgl.nsf")
+			strmonth=Month(CDat(note.fldSqrq_xm(0)))'月份
+			strbxed=CStr(note.fldBaoxiaoje_xm(0))'报销额度
+			stryear=CStr(note.fldyear_xm(0))'年度
+			strbmid=CStr(note.fldBaoxiaoBm_id(0))'报销部门编号
+			strfylb=CStr(note.fldfylx_xm(0))'报销费用类别
+			stryszx=CStr(note.fldyszx_xm(0))'预算专项
+			If note.fldbaoxxm_xm(0)="会议费" Then
+				strxmbh=CStr(note.fldHyfeeXmbh_xm(0))'会议费报销项目编号
+			Else
+				strxmbh=CStr(note.fldBxfeeXmbh_xm(0))'报销对应预算项目编号
+			End If
+
+			'1、先根据部门id+年度+项目类别去超找一级的的预算总计文档
+			'2、根据部门id+年度+项目类别+项目编号去查找预算的科目文档
+			If dbys.Isopen Then
+				'先查找是否有本年度本部门本类型的数据如果有在原基础上面做修改
+				'没有则创建
+				Set viewyjdys=dbys.Getview("vwDocforyjdyswcs")
+				Set viewyjdysxm=dbys.Getview("vwDocforyjdyswcsxm")
+				strkeyforyjd=strbmid+"+"+stryear+"+"+strfylb
+				Set docyjdys=viewyjdys.Getdocumentbykey(strkeyforyjd)
+				Dim jsonreader As New Jsonreader
+				Dim jsonobj As New Converjsonobject
+				Dim jsonarry As New Converjsonarray
+				Dim jsonobjnew As New  Converjsonobject
+				Dim vresult As Variant
+				
+				If Not docyjdys Is Nothing Then
+					stryjysunid=docyjdys.fldunid(0)
+					docyjdys.fldbnyswcs_xm=CStr(Format(CDbl(docyjdys.fldbnyswcs_xm(0))+CDbl(strbxed),"Fixed"))	
+					If stryszx="1" Then
+					   If docyjdys.fldbnzxyswcs_xm(0)&lt;&gt;""then
+						 docyjdys.fldbnzxyswcs_xm=CStr(Format(CDbl(docyjdys.fldbnzxyswcs_xm(0))+CDbl(strbxed),"Fixed"))
+					   Else
+					   	 docyjdys.fldbnzxyswcs_xm=CStr(Format(CDbl(strbxed),"Fixed"))
+					   End if
+					Else
+                        If docyjdys.fldbnybyswcs_xm(0)&lt;&gt;"" then
+						  docyjdys.fldbnybyswcs_xm=CStr(Format(CDbl(docyjdys.fldbnybyswcs_xm(0))+CDbl(strbxed),"Fixed"))
+                        Else
+                          docyjdys.fldbnybyswcs_xm=CStr(Format(CDbl(strbxed),"Fixed"))
+                        End if
+					End If
+					'获取json存储域，并添加新的完成数
+					Dim item As NotesItem
+					Dim strdata As String 
+					If docyjdys.Hasitem("hfldData") Then
+						strdata=docyjdys.Getfirstitem("hfldData").Text
+						strdata=Replace(strdata,Chr(10),"")
+						strdata = Replace(strdata,Chr(13),"")
+						Set jsonobj=jsonreader.Parse(strdata)
+						vresult=jsonobj.Items
+						Dim i As Integer
+						Dim sjybwcxm,sjzxwcxm,sjwcxm As String
+						If vresult("items").count&lt;&gt;0 Then
+							For i=0 To  vresult("items").count-1
+								Dim jsonnewarryobj As New Converjsonobject
+								Call jsonnewarryobj.Additem("strmonth",vResult("items").items(i).items("strmonth"))
+								If vresult("items").items(i).items("strmonth")=strmonth  Then
+									If stryszx="1" Then
+										sjybwcxm=vresult("items").items(i).items("intybwcszj")
+										If vresult("items").items(i).items("intzxwcszj")&lt;&gt;""Then
+											sjzxwcxm=CStr(Format(CDbl(vresult("items").items(i).items("intzxwcszj"))+CDbl(strbxed),"Fixed"))
+										Else
+											sjzxwcxm=CStr(Format(CDbl(strbxed),"Fixed"))
+										End If
+									Else
+										If vresult("items").items(i).items("intybwcszj")&lt;&gt;""Then
+											sjybwcxm=CStr(Format(CDbl(vresult("items").items(i).items("intybwcszj"))+CDbl(strbxed),"Fixed"))
+										Else
+											sjybwcxm=CStr(Format(CDbl(strbxed),"Fixed"))
+										End If
+										sjzxwcxm=vresult("items").items(i).items("intzxwcszj")
+									End If 
+									If vresult("items").items(i).items("intwcszj")&lt;&gt;""Then
+										sjwcxm=CStr(Format(CDbl(vresult("items").items(i).items("intwcszj"))+CDbl(strbxed),"Fixed"))
+									Else
+										sjwcxm=CStr(Format(CDbl(strbxed),"Fixed"))
+									End If
+								Else
+									sjwcxm=vresult("items").items(i).items("intwcszj")
+									sjybwcxm=vresult("items").items(i).items("intybwcszj")
+									sjzxwcxm=vresult("items").items(i).items("intzxwcszj")
+								End If
+								Call jsonnewarryobj.Additem("intwcszj", sjwcxm)
+								Call jsonnewarryobj.Additem("intybwcszj",sjybwcxm)
+								Call jsonnewarryobj.Additem("intzxwcszj", sjzxwcxm)
+								Call jsonarry.Additem(jsonnewarryobj)
+							Next
+						End If
+						Call jsonobjnew.Additem("items", jsonarry)
+						Call docyjdys.Removeitem("hfldData")
+						Dim richitemnew As NotesRichTextItem
+						Set richitemnew=docyjdys.Createrichtextitem("hfldData")
+						Call richitemnew.Appendtext(jsonobjnew.Tojson())
+					End If
+				Else
+					'创建一季度预算完成数文档
+					Dim wczs,zxwcs,ybwcs As string
+					Set docyjdys=dbys.Createdocument()
+					docyjdys.form="frmwebflowforyjdxmwcs"
+					docyjdys.strYear_xm=stryear
+					docyjdys.fldNiGaoDW_id=strbmid
+					docyjdys.fldfylb_xm=strfylb
+					'docyjdys.fldxmbh_xm=strxmbh
+					docyjdys.fldbnyswcs_xm=strbxed
+					docyjdys.fldunid=docyjdys.Universalid
+					stryjysunid=docyjdys.Universalid
+					wczs=strbxed
+					If stryszx="1" Then
+						docyjdys.fldbnzxyswcs_xm=strbxed
+						zxwcs=strbxed
+					Else
+						docyjdys.fldbnybyswcs_xm=strbxed
+						ybwcs=strbxed
+					End If
+					'创建存储json的rtf域
+					Dim richitem As NotesRichTextItem
+					Set richitem=docyjdys.Createrichtextitem("hfldData")
+					Dim j As Integer
+					For j=0 To 11 
+						Dim jsonarryobj As New Converjsonobject
+						If strmonth=j+1 then
+							Call jsonarryobj.Additem("strmonth",CStr(j+1))
+							Call jsonarryobj.Additem("intwcszj", wczs)
+							Call jsonarryobj.Additem("intybwcszj", ybwcs)
+							Call jsonarryobj.Additem("intzxwcszj", zxwcs)
+						Else
+							Call jsonarryobj.Additem("strmonth",CStr(j+1))
+							Call jsonarryobj.Additem("intwcszj","")
+							Call jsonarryobj.Additem("intybwcszj","")
+							Call jsonarryobj.Additem("intzxwcszj", "")
+						End If
+						Call jsonarry.Additem(jsonarryobj)
+					Next
+					Call jsonobj.Additem("items", jsonarry)
+					Dim newstrdata As String 
+					newstrdata=jsonobj.Tojson()
+					Call richitem.Appendtext(newstrdata)
+				End If
+				Call docyjdys.save(True,False)
+			End If
+			Call suCreateJdysforxm(session,db,note,stryjysunid)
+		 End if
+			Call suChuLiJieK(session,db,note)
+			Call suChuLiYuFuK(session,db,note)	'2018-11-06 ADD BY wx 冲销预付款
+		End if
+		
+		Exit sub
+errhandle:
+		showerror("agtbxflowover")
+End Sub
+
+</lotusscript></code><code event='terminate'><lotusscript>Sub Terminate
+	
+End Sub
+
+
+
+</lotusscript></code><code event='suChuLiJieK'><lotusscript>Sub suChuLiJieK(session As NotesSession,db As NotesDatabase,doc As NotesDocument)
+	%REM
+		1、通过选中的关联借款，获取到借款文档。
+	%END REM
+	On Error GoTo errhandle
+	'遍历选择
+	Dim strdata As String 
+	Dim jkvresult As Variant
+	Dim jsonReader As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+
+	Dim jsonwrite As Jsonwriter
+	Dim strbcbxje As String 
+	Dim strhkrq As String 
+	Dim strjkunid As String 
+	Dim i As Integer
+	Dim dbjk As NotesDatabase
+	Dim dochkpz As NotesDocument
+	Dim sqje As String 
+	Dim appPath As String 
+	appPath=StrLeftBack(doc.dbPath(0),"/")
+	Dim bcsqje As Double 
+	Set dbjk=session.Getdatabase("", appPath+"/cwjiekgl.nsf")
+	If dbjk.Isopen then
+		strbcbxje=CStr(doc.fldBaoxiaoje_xm(0))
+		strhkrq=CStr(today)
+		If doc.hastitem("hfldData_jkxz") Then
+			strdata=doc.Getfirstitem("hfldData_jkxz").Text
+			strdata=Replace(strdata,Chr(10),"")
+			strdata = Replace(strdata,Chr(13),"")
+			Set jsonobj=jsonReader.Parse(strdata)
+			jkvresult=jsonobj.Items
+			
+			If jkvresult("items").count&lt;&gt;0 Then
+				For i=0 To jkvresult("items").count-1
+					Dim jsonnewobj As New Converjsonobject
+					Dim jsonnewarry As New Converjsonarray
+					Dim jsonnewnewobj As New Converjsonobject
+					strjkunid=jkvresult("items").items(i).items("hkpzunid")
+					Set dochkpz=dbjk.Getdocumentbyunid(strjkunid)
+					If Not dochkpz Is Nothing Then
+						
+						'获取还款凭证，然后将还款信息写入还款凭证
+						Dim strdatanew As String 
+						strdatanew=dochkpz.Getfirstitem("hfldData").Text
+						strdatanew=Replace(strdatanew,Chr(10),"")
+						strdatanew=Replace(strdatanew,Chr(13),"")
+						Set jsonnewobj=jsonReader.Parse(strdatanew)
+						Dim vresultnew As Variant
+						Dim j As Integer
+						'将之前的json里面的数值赋值到新的里面去
+						vresultnew=jsonnewobj.Items
+						
+						If vresultnew("items").count&lt;&gt;0 Then
+							For j=0 To vresultnew("items").count-1 
+								Dim jsonnewarrynewobj As New Converjsonobject
+								If vresultnew("items").items(j).items("hkrq")&lt;&gt;"" Then
+									Call jsonnewarrynewobj.Additem("hkrq", vresultnew("items").items(j).items("hkrq"))
+									Call jsonnewarrynewobj.Additem("shje", vresultnew("items").items(j).items("shje"))
+									Call jsonnewarrynewobj.Additem("sqje", vresultnew("items").items(j).items("sqje"))
+									Call jsonnewarry.Additem(jsonnewarrynewobj)
+								End If
+							Next
+						End If
+						
+						'Call jsonnewarry.Additem(vresultnew("items").items)
+						'Set jsonnewarry=jsonnewobj.Items
+						sqje=CStr(dochkpz.fldsqje_xm(0))
+						If sqje="" Then
+							sqje=CStr(dochkpz.fldjkje_xm(0))
+						End If
+						bcsqje=CDbl(sqje)-CDbl(strbcbxje)
+						
+						'报销金额小于所有关联的还款凭证的总金额   shiml add20181029
+						If InStr(doc.fldTuibuJe_xm(0),"退")&gt;0 Then
+							'如果当前的剩余报销金额大于还款凭证中的尚欠金额，
+							'那么还款凭证中收回金额为尚欠金额，尚欠金额为0
+							If bcsqje&lt;=0 Then
+								bcsqje=0
+								dochkpz.fldsqje_xm=CStr(Format(bcsqje,"Fixed"))
+								Dim jsonnewarryobj As New Converjsonobject
+								Call jsonnewarryobj.Additem("hkrq", strhkrq)
+								Call jsonnewarryobj.Additem("shje", CStr(Format(CDbl(sqje),"Fixed")))
+								Call jsonnewarryobj.Additem("sqje", CStr(Format(bcsqje,"Fixed")))
+								Call jsonnewarry.Additem(jsonnewarryobj)
+								Call jsonnewnewobj.Additem("items", jsonnewarry)
+								Call dochkpz.Replaceitemvalue("hfldData", jsonnewnewobj.Tojson())
+								dochkpz.fldifhkall="1"
+								Call dochkpz.save(True,False)
+								strbcbxje=CStr(Format(CDbl(strbcbxje)-CDbl(sqje),"Fixed"))
+							Else
+								'如果当前额剩余报销金额小于还款凭证中的尚欠金额，
+								'那么还款凭证中的收回金额为当前剩余报销金额，尚欠金额为原先的尚欠金额-当前剩余报销金额
+								dochkpz.fldsqje_xm=CStr(Format(bcsqje,"Fixed"))
+								Dim jsonnewarryobj1 As New Converjsonobject
+								Call jsonnewarryobj1.Additem("hkrq", strhkrq)
+								Call jsonnewarryobj1.Additem("shje", CStr(Format(CDbl(strbcbxje),"Fixed")))
+								Call jsonnewarryobj1.Additem("sqje", CStr(Format(bcsqje,"Fixed")))
+								Call jsonnewarry.Additem(jsonnewarryobj1)
+								Call jsonnewnewobj.Additem("items", jsonnewarry)
+								Dim richitem As NotesRichTextItem
+								If dochkpz.Hasitem("hfldData") Then
+									Call dochkpz.Removeitem("hfldData")
+								End If
+								Set richitem=dochkpz.Createrichtextitem("hfldData")
+								Call richitem.Appendtext(jsonnewnewobj.Tojson())
+								'Call dochkpz.Replaceitemvalue("hfldData", jsonnewnewobj.Tojson())
+								Call dochkpz.save(True,False)
+								Exit Sub
+							End If
+						Else
+							'shiml add20181029报销金额大于等于所有关联的还款凭证的金额  
+							'故所有关联的还款凭证的收回金额为还款凭证中尚欠金额，尚欠金额为0
+							dochkpz.fldsqje_xm=CStr(Format(0,"Fixed"))
+							Dim jsonnewarryobj2 As New Converjsonobject
+							Call jsonnewarryobj2.Additem("hkrq", strhkrq)
+							Call jsonnewarryobj2.Additem("shje", CStr(Format(CDbl(sqje),"Fixed")))
+							Call jsonnewarryobj2.Additem("sqje", CStr(Format(0,"Fixed")))
+							Call jsonnewarry.Additem(jsonnewarryobj2)
+							Call jsonnewnewobj.Additem("items", jsonnewarry)
+							Dim richitem1 As NotesRichTextItem
+							If dochkpz.Hasitem("hfldData") Then
+								Call dochkpz.Removeitem("hfldData")
+							End If
+							Set richitem1=dochkpz.Createrichtextitem("hfldData")
+							Call richitem1.Appendtext(jsonnewnewobj.Tojson())
+							'Call dochkpz.Replaceitemvalue("hfldData", jsonnewnewobj.Tojson())
+							Call dochkpz.save(True,False)
+						End If
+						
+					End If
+					
+				Next
+
+			End If
+		End If
+		
+	End if
+	Exit sub
+errhandle:
+	showerror("suChuLiJiek")
+End Sub
+
+</lotusscript></code><code event='suChuLiYuFuK'><lotusscript>Sub suChuLiYuFuK(session As NotesSession,db As NotesDatabase,doc As NotesDocument)
+	%REM
+		1、通过关联的预付款，获取到预付款文档。
+	%END REM
+	On Error GoTo errhandle
+	'遍历选择
+	Dim strdata As String 
+	Dim yfkvresult As Variant
+	Dim jsonReader As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+
+	Dim jsonwrite As Jsonwriter
+	Dim strbcbxje As String 
+	Dim strhxje As String
+	Dim strbxje As String 
+	Dim strhkrq As String 
+	Dim stryfkunid As String 
+	Dim i As Integer
+	Dim dbyfk As NotesDatabase
+	Dim dochkpz As NotesDocument
+	Dim sqje As String 
+	Dim appPath As String 
+	appPath=StrLeftBack(doc.dbPath(0),"/")
+	Dim bcsqje As Double 
+	Set dbyfk=session.Getdatabase("", appPath+"/fylyfsq.nsf")
+	If dbyfk.Isopen Then
+		MsgBox "---------"
+		strhkrq=CStr(Today)
+		If doc.hasitem("hfldData_fkdw") Then
+			strdata=doc.Getfirstitem("hfldData_fkdw").Text
+			strdata=Replace(strdata,Chr(10),"")
+			strdata = Replace(strdata,Chr(13),"")
+			Set jsonobj=jsonReader.Parse(strdata)
+			yfkvresult=jsonobj.Items
+			
+			If yfkvresult("items").count&lt;&gt;0 Then
+				For i=0 To yfkvresult("items").count-1
+					
+					'add by wx 2018-11-05 start
+					Dim vyfkunid As Variant 
+					vyfkunid = Split(yfkvresult("items").items(i).items("yfkhkpzunid"),",")
+					strbcbxje = CStr(yfkvresult("items").items(i).items("dwtbje"))
+					strhxje = CStr(yfkvresult("items").items(i).items("hxje"))
+					strbxje = CStr(CDbl(strhxje)-CDbl(Replace(strbcbxje,Mid$(strbcbxje,1,1),"")))
+					ForAll v In vyfkunid
+						If v &lt;&gt; "" Then
+							Dim jsonnewobj As New Converjsonobject
+							Dim jsonnewarry As New Converjsonarray
+							Dim jsonnewnewobj As New Converjsonobject
+							Set dochkpz=dbyfk.Getdocumentbyunid(v)
+							If Not dochkpz Is Nothing Then
+								'获取还款凭证，然后将还款信息写入还款凭证
+								Dim strdatanew As String 
+								strdatanew=dochkpz.Getfirstitem("hfldData").Text
+								strdatanew=Replace(strdatanew,Chr(10),"")
+								strdatanew=Replace(strdatanew,Chr(13),"")
+								Set jsonnewobj=jsonReader.Parse(strdatanew)
+								Dim vresultnew As Variant
+								Dim j As Integer
+								'将之前的json里面的数值赋值到新的里面去
+								vresultnew=jsonnewobj.Items
+								If vresultnew("items").count&lt;&gt;0 Then
+									For j=0 To vresultnew("items").count-1 
+										Dim jsonnewarrynewobj As New Converjsonobject
+										If vresultnew("items").items(j).items("hkrq")&lt;&gt;"" Then
+											Call jsonnewarrynewobj.Additem("hkrq", vresultnew("items").items(j).items("hkrq"))
+											Call jsonnewarrynewobj.Additem("shje", vresultnew("items").items(j).items("shje"))
+											Call jsonnewarrynewobj.Additem("sqje", vresultnew("items").items(j).items("sqje"))
+											Call jsonnewarry.Additem(jsonnewarrynewobj)
+										End If
+									Next
+								End If
+								
+								
+								sqje=CStr(dochkpz.fldsqje_xm(0))
+								If sqje="" Then
+									sqje=CStr(dochkpz.fldjkje_xm(0))
+								End If
+								bcsqje=CDbl(sqje)-CDbl(strbxje)
+								'bcsqje=CDbl(sqje)+CDbl(strbcbxje)
+								
+								'报销金额小于所有关联的还款凭证的总金额   wx add20181106
+								If InStr(strbcbxje,"退")&gt;0 Then 
+									'如果当前的剩余报销金额大于还款凭证中的尚欠金额，
+									'那么还款凭证中收回金额为尚欠金额，尚欠金额为0
+									If bcsqje&lt;=0 Then
+										MsgBox "xiaoyu0"
+										bcsqje=0
+										dochkpz.fldsqje_xm=CStr(Format(bcsqje,"Fixed"))
+										Dim jsonnewarryobj As New Converjsonobject
+										Call jsonnewarryobj.Additem("hkrq", strhkrq)
+										Call jsonnewarryobj.Additem("shje", CStr(Format(CDbl(sqje),"Fixed")))
+										Call jsonnewarryobj.Additem("sqje", CStr(Format(bcsqje,"Fixed")))
+										Call jsonnewarry.Additem(jsonnewarryobj)
+										Call jsonnewnewobj.Additem("items", jsonnewarry)
+										Call dochkpz.Replaceitemvalue("hfldData", jsonnewnewobj.Tojson())
+										dochkpz.fldifhkall="1"
+										Call dochkpz.save(True,False)
+										strbxje=CStr(Format(CDbl(strbxje)-CDbl(sqje),"Fixed"))
+										MsgBox "strbcbxje========="+strbcbxje
+										'strbcbxje=CStr(Format(CDbl(strbcbxje)+CDbl(sqje),"Fixed"))
+									Else
+										MsgBox "dayu0"
+										'如果当前剩余报销金额小于还款凭证中的尚欠金额，
+										'那么还款凭证中的收回金额为当前剩余报销金额，尚欠金额为原先的尚欠金额-当前剩余报销金额
+										dochkpz.fldsqje_xm=CStr(Format(bcsqje,"Fixed"))
+										Dim jsonnewarryobj1 As New Converjsonobject
+										Call jsonnewarryobj1.Additem("hkrq", strhkrq)
+										Call jsonnewarryobj1.Additem("shje", CStr(Format(strbxje,"Fixed")))
+										Call jsonnewarryobj1.Additem("sqje", CStr(Format(bcsqje,"Fixed")))
+										Call jsonnewarry.Additem(jsonnewarryobj1)
+										Call jsonnewnewobj.Additem("items", jsonnewarry)
+										Dim richitem As NotesRichTextItem
+										If dochkpz.Hasitem("hfldData") Then
+											Call dochkpz.Removeitem("hfldData")
+										End If
+										Set richitem=dochkpz.Createrichtextitem("hfldData")
+										Call richitem.Appendtext(jsonnewnewobj.Tojson())
+										Call dochkpz.save(True,False)
+										Exit Sub
+									End If
+								Else
+									'报销金额大于等于所有关联的还款凭证的总金额   shiml add20181029
+									'故所有关联的还款凭证的收回金额为还款凭证中尚欠金额，尚欠金额为0
+									dochkpz.fldsqje_xm=CStr(Format(0,"Fixed"))
+									Dim jsonnewarryobj2 As New Converjsonobject
+									Call jsonnewarryobj2.Additem("hkrq", strhkrq)
+									Call jsonnewarryobj2.Additem("shje", CStr(Format(CDbl(sqje),"Fixed")))
+									Call jsonnewarryobj2.Additem("sqje", CStr(Format(0,"Fixed")))
+									Call jsonnewarry.Additem(jsonnewarryobj2)
+									Call jsonnewnewobj.Additem("items", jsonnewarry)
+									Dim richitem1 As NotesRichTextItem
+									If dochkpz.Hasitem("hfldData") Then
+										Call dochkpz.Removeitem("hfldData")
+									End If
+									Set richitem1=dochkpz.Createrichtextitem("hfldData")
+									Call richitem1.Appendtext(jsonnewnewobj.Tojson())
+									dochkpz.fldifhkall="1"
+									Call dochkpz.save(True,False)
+								End If 
+							End If
+						End If
+					End ForAll
+				Next
+
+			End If
+		End If
+	End If
+	Exit Sub
+errhandle:
+	showerror("suChuLiYuFuK")
+End Sub
+
+</lotusscript></code><code event='suChuLiYc'><lotusscript>Sub suChuLiYc(session As NotesSession,db As NotesDatabase,doc As NotesDocument)
+	%REM
+		1、通过选中的用车，获取到用车文档，修改用车为已经报销，下次选择不到。
+	%END REM
+	On Error GoTo errhandle
+	'遍历选择
+	Dim strdata As String 
+	Dim jkvresult As Variant
+	Dim jsonReader As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+	
+	Dim jsonwrite As Jsonwriter
+	Dim strbcbxje As String 
+	Dim strhkrq As String 
+	Dim strjkunid As String 
+	Dim i As Integer
+	Dim dbjk As NotesDatabase
+	Dim dochkpz As NotesDocument
+	Dim sqje As String 
+	Dim appPath As String 
+	appPath=StrLeftBack(doc.dbPath(0),"/")
+	appPath=StrLeftBack(appPath,"/")
+	Dim bcsqje As Double 
+	Set dbjk=session.Getdatabase("", appPath+"/ycgl_gf.nsf")
+	If dbjk.Isopen Then
+		strbcbxje=CStr(doc.fldBaoxiaoje_xm(0))
+		strhkrq=CStr(Today)
+		strdata=doc.Getfirstitem("hfldData_ycxz").Text
+		strdata=Replace(strdata,Chr(10),"")
+		strdata = Replace(strdata,Chr(13),"")
+		Set jsonobj=jsonReader.Parse(strdata)
+		jkvresult=jsonobj.Items
+		If jkvresult("items").count&lt;&gt;0 Then
+			For i=0 To jkvresult("items").count-1
+				Dim jsonnewobj As New Converjsonobject
+				Dim jsonnewarry As New Converjsonarray
+				Dim jsonnewnewobj As New Converjsonobject
+				strjkunid=jkvresult("items").items(i).items("ycunid")
+				Set dochkpz=dbjk.Getdocumentbyunid(strjkunid)
+				If Not dochkpz Is Nothing Then
+					MsgBox  dochkpz.fldfytbr(0)
+					dochkpz.isbaoxiaowc="1"
+					Call dochkpz.save(True,False)
+				End If
+			Next
+
+		End If
+	End If
+	Exit Sub
+errhandle:
+	showerror("suChuLiJiek")
+End Sub
+
+</lotusscript></code><code event='suCreateJdysforxm'><lotusscript>Sub suCreateJdysforxm(session As NotesSession,db As NotesDatabase,note As NotesDocument,strunid As String)
+	On error GoTo errorhandle
+	Dim strmonth As String 
+	Dim dbys As NotesDatabase
+	Dim appPath As String 
+	
+	
+	Dim strkeyforyjd As String
+	Dim strkeyforyjdxm As String
+	
+	
+	Dim docyjdys As NotesDocument
+	Dim docyjdysxm As NotesDocument
+	
+	Dim viewyjdys As NotesView
+	Dim viewyjdysxm As NotesView
+	
+	Dim strbxed As String 
+	Dim stryszx As String 
+	Dim stryear As String 
+	Dim strbmid As String 
+	Dim strfylb As String 
+	Dim strxmbh As String 
+	Dim stryjysunid As String 
+	
+	appPath=StrLeftBack(note.dbPath(0),"/")
+	Set dbys=session.Getdatabase("", appPath+"/cwfyysgl.nsf")
+	strmonth=Month(CDat(note.fldSqrq_xm(0)))'月份
+	strbxed=CStr(note.fldBaoxiaoje_xm(0))'报销额度
+	stryear=CStr(note.fldyear_xm(0))'年度
+	strbmid=CStr(note.fldBaoxiaoBm_id(0))'报销部门编号
+	strfylb=CStr(note.fldfylx_xm(0))'报销费用类别
+	stryszx=CStr(note.fldyszx_xm(0))'预算专项
+	strxmbh=CStr(note.fldBxfeeXmbh_xm(0))'报销对应预算项目编号
+	'根据项目编号+部门id+年度+项目类别去查找预算的科目文档
+	If dbys.Isopen Then
+		Set viewyjdysxm=dbys.Getview("vwDocforyjdyswcsxm")
+		strkeyforyjdxm=strxmbh+"+"+strbmid+"+"+stryear+"+"+strfylb
+		Set docyjdysxm=viewyjdysxm.Getdocumentbykey(strkeyforyjdxm)
+		Dim jsonreader As New Jsonreader
+		Dim jsonobj As New Converjsonobject
+		Dim jsonarry As New Converjsonarray
+		Dim jsonobjnew As New  Converjsonobject
+		Dim vresult As Variant	
+		If Not docyjdysxm Is Nothing Then
+			docyjdysxm.fldbnyswcs_xm=CStr(Format(CDbl(docyjdysxm.fldbnyswcs_xm(0))+CDbl(strbxed),"Fixed"))	
+			If stryszx="1" Then
+				If docyjdysxm.fldbnzxyswcs_xm(0)&lt;&gt;""then
+				  docyjdysxm.fldbnzxyswcs_xm=CStr(Format(CDbl(docyjdysxm.fldbnzxyswcs_xm(0))+CDbl(strbxed),"Fixed"))
+				Else
+				  docyjdysxm.fldbnzxyswcs_xm=CStr(Format(CDbl(strbxed),"Fixed"))
+			    End if
+			Else
+				If docyjdysxm.fldbnybyswcs_xm(0)&lt;&gt;""Then
+				  docyjdysxm.fldbnybyswcs_xm=CStr(Format(CDbl(docyjdysxm.fldbnybyswcs_xm(0))+CDbl(strbxed),"Fixed"))
+				Else
+				  docyjdysxm.fldbnybyswcs_xm=CStr(Format(CDbl(strbxed),"Fixed"))
+				End if
+			End If
+			'获取json存储域，并添加新的完成数
+			Dim item As NotesItem
+			Dim strdata As String 
+			If docyjdysxm.Hasitem("hfldData") Then
+				strdata=docyjdysxm.Getfirstitem("hfldData").Text
+				strdata=Replace(strdata,Chr(10),"")
+				strdata = Replace(strdata,Chr(13),"")
+				Set jsonobj=jsonreader.Parse(strdata)
+				vresult=jsonobj.Items
+				Dim i As Integer
+				Dim sjybwcxm,sjzxwcxm,sjwcxm As String
+				If vresult("items").count&lt;&gt;0 Then
+					For i=0 To  vresult("items").count-1
+						Dim jsonnewarryobj As New Converjsonobject
+						Call jsonnewarryobj.Additem("strmonth",vResult("items").items(i).items("strmonth"))
+						If vresult("items").items(i).items("strmonth")=strmonth  Then
+							If stryszx="1" Then
+								sjybwcxm=vresult("items").items(i).items("intybwcszj")
+								If vresult("items").items(i).items("intzxwcszj")&lt;&gt;"" Then
+									sjzxwcxm=CStr(Format(CDbl(vresult("items").items(i).items("intzxwcszj"))+CDbl(strbxed),"Fixed"))
+								Else
+									sjzxwcxm=CStr(Format(CDbl(strbxed),"Fixed"))
+								End If
+								
+							Else
+								If vresult("items").items(i).items("intybwcszj")&lt;&gt;""Then
+									sjybwcxm=CStr(Format(CDbl(vresult("items").items(i).items("intybwcszj"))+CDbl(strbxed),"Fixed"))
+								Else
+									sjybwcxm=CStr(Format(CDbl(strbxed),"Fixed"))
+								End If
+								sjzxwcxm=vresult("items").items(i).items("intzxwcszj")
+							End If 
+							If vresult("items").items(i).items("intwcszj")&lt;&gt;""Then
+								sjwcxm=CStr(Format(CDbl(vresult("items").items(i).items("intwcszj"))+CDbl(strbxed),"Fixed"))
+							Else
+								sjwcxm=CStr(Format(CDbl(strbxed),"Fixed"))
+							End If
+						Else
+							sjwcxm=vresult("items").items(i).items("intwcszj")
+							sjybwcxm=vresult("items").items(i).items("intybwcszj")
+							sjzxwcxm=vresult("items").items(i).items("intzxwcszj")
+						End If
+						Call jsonnewarryobj.Additem("intwcszj", sjwcxm)
+						Call jsonnewarryobj.Additem("intybwcszj",sjybwcxm)
+						Call jsonnewarryobj.Additem("intzxwcszj", sjzxwcxm)
+						Call jsonarry.Additem(jsonnewarryobj)
+					Next
+				End If
+				Call jsonobjnew.Additem("items", jsonarry)
+				Call docyjdysxm.Removeitem("hfldData")
+				Dim richitemnew As NotesRichTextItem
+				Set richitemnew=docyjdysxm.Createrichtextitem("hfldData")
+				Call richitemnew.Appendtext(jsonobjnew.Tojson())
+			End If
+		Else
+			'创建一季度预算完成数文档
+			Dim wczs,zxwcs,ybwcs As String
+			Set docyjdysxm=dbys.Createdocument()
+			docyjdysxm.form="frmwebflowforyjdwcs"
+			docyjdysxm.strYear_xm=stryear
+			docyjdysxm.fldNiGaoDW_id=strbmid
+			docyjdysxm.fldfylb_xm=strfylb
+			docyjdysxm.fldxmbh_xm=strxmbh
+			docyjdysxm.fldbnyswcs_xm=strbxed
+			docyjdysxm.fldunid=docyjdysxm.Universalid
+			docyjdysxm.fldMainYsUnid=strunid
+			wczs=strbxed
+			If stryszx="1" Then
+				docyjdysxm.fldbnzxyswcs_xm=strbxed
+				zxwcs=strbxed
+			Else
+				docyjdysxm.fldbnybyswcs_xm=strbxed
+				ybwcs=strbxed
+			End If
+			'创建存储json的rtf域
+			Dim richitem As NotesRichTextItem
+			Set richitem=docyjdysxm.Createrichtextitem("hfldData")
+			Dim j As Integer
+			For j=0 To 11 
+				Dim jsonarryobj As New Converjsonobject
+				If strmonth=j+1 Then
+					Call jsonarryobj.Additem("strmonth",CStr(j+1))
+					Call jsonarryobj.Additem("intwcszj", wczs)
+					Call jsonarryobj.Additem("intybwcszj", ybwcs)
+					Call jsonarryobj.Additem("intzxwcszj", zxwcs)
+				Else
+					Call jsonarryobj.Additem("strmonth",CStr(j+1))
+					Call jsonarryobj.Additem("intwcszj","")
+					Call jsonarryobj.Additem("intybwcszj","")
+					Call jsonarryobj.Additem("intzxwcszj", "")
+				End If
+				Call jsonarry.Additem(jsonarryobj)
+			Next
+			Call jsonobj.Additem("items", jsonarry)
+			Dim newstrdata As String 
+			newstrdata=jsonobj.Tojson()
+			Call richitem.Appendtext(newstrdata)
+		End If
+		Call docyjdysxm.save(True,false)
+	End if
+	Exit sub
+errorhandle:
+	showerror("suCreateJdysforxm")
+End Sub
+
+</lotusscript></code><code event='suChuLiJieK_bak'><lotusscript>Sub suChuLiJieK_bak(session As NotesSession,db As NotesDatabase,doc As NotesDocument)
+	%REM
+		1、通过选中的关联借款，获取到借款文档。
+	%END REM
+	On Error GoTo errhandle
+	'遍历选择
+	Dim strdata As String 
+	Dim jkvresult As Variant
+	Dim jsonReader As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+
+	Dim jsonwrite As Jsonwriter
+	Dim strbcbxje As String 
+	Dim strhkrq As String 
+	Dim strjkunid As String 
+	Dim i As Integer
+	Dim dbjk As NotesDatabase
+	Dim dochkpz As NotesDocument
+	Dim sqje As String 
+	Dim appPath As String 
+	appPath=StrLeftBack(doc.dbPath(0),"/")
+	Dim bcsqje As Double 
+	Set dbjk=session.Getdatabase("", appPath+"/cwjiekgl.nsf")
+	If dbjk.Isopen Then
+		strbcbxje=CStr(doc.fldBaoxiaoje_xm(0))
+		strhkrq=CStr(Today)
+		strdata=doc.Getfirstitem("hfldData_jkxz").Text
+		strdata=Replace(strdata,Chr(10),"")
+		strdata = Replace(strdata,Chr(13),"")
+		Set jsonobj=jsonReader.Parse(strdata)
+		jkvresult=jsonobj.Items
+		
+		If jkvresult("items").count&lt;&gt;0 Then
+			For i=0 To jkvresult("items").count-1
+				Dim jsonnewobj As New Converjsonobject
+				Dim jsonnewarry As New Converjsonarray
+				Dim jsonnewnewobj As New Converjsonobject
+				strjkunid=jkvresult("items").items(i).items("hkpzunid")
+				Set dochkpz=dbjk.Getdocumentbyunid(strjkunid)
+				If Not dochkpz Is Nothing Then
+					
+					'获取还款凭证，然后将还款信息写入还款凭证
+					Dim strdatanew As String 
+					strdatanew=dochkpz.Getfirstitem("hfldData").Text
+					strdatanew=Replace(strdatanew,Chr(10),"")
+					strdatanew=Replace(strdatanew,Chr(13),"")
+					Set jsonnewobj=jsonReader.Parse(strdatanew)
+					Dim vresultnew As Variant
+					Dim j As Integer
+					'将之前的json里面的数值赋值到新的里面去
+					vresultnew=jsonnewobj.Items
+					
+					If vresultnew("items").count&lt;&gt;0 Then
+						For j=0 To vresultnew("items").count-1 
+							Dim jsonnewarrynewobj As New Converjsonobject
+							If vresultnew("items").items(j).items("hkrq")&lt;&gt;"" Then
+								Call jsonnewarrynewobj.Additem("hkrq", vresultnew("items").items(j).items("hkrq"))
+								Call jsonnewarrynewobj.Additem("shje", vresultnew("items").items(j).items("shje"))
+								Call jsonnewarrynewobj.Additem("sqje", vresultnew("items").items(j).items("sqje"))
+								Call jsonnewarry.Additem(jsonnewarrynewobj)
+							End If
+						Next
+					End If
+					
+					'Call jsonnewarry.Additem(vresultnew("items").items)
+					'Set jsonnewarry=jsonnewobj.Items
+					sqje=CStr(dochkpz.fldsqje_xm(0))
+					If sqje="" Then
+						sqje=CStr(dochkpz.fldjkje_xm(0))
+					End If
+					bcsqje=CDbl(sqje)-CDbl(strbcbxje)
+					If bcsqje&lt;=0 Then
+						bcsqje=0
+						dochkpz.fldsqje_xm=CStr(Format(bcsqje,"Fixed"))
+						Dim jsonnewarryobj As New Converjsonobject
+						Call jsonnewarryobj.Additem("hkrq", strhkrq)
+						Call jsonnewarryobj.Additem("shje", sqje)
+						Call jsonnewarryobj.Additem("sqje", CStr(Format(bcsqje,"Fixed")))
+						Call jsonnewarry.Additem(jsonnewarryobj)
+						Call jsonnewnewobj.Additem("items", jsonnewarry)
+						Call dochkpz.Replaceitemvalue("hfldData", jsonnewnewobj.Tojson())
+						dochkpz.fldifhkall="1"
+						Call dochkpz.save(True,False)
+						strbcbxje=CStr(Format(CDbl(strbcbxje)-CDbl(sqje),"Fixed"))
+					Else
+						dochkpz.fldsqje_xm=CStr(Format(bcsqje,"Fixed"))
+						Dim jsonnewarryobj1 As New Converjsonobject
+						Call jsonnewarryobj1.Additem("hkrq", strhkrq)
+						Call jsonnewarryobj1.Additem("shje", strbcbxje)
+						Call jsonnewarryobj1.Additem("sqje", CStr(Format(bcsqje,"Fixed")))
+						Call jsonnewarry.Additem(jsonnewarryobj1)
+						Call jsonnewnewobj.Additem("items", jsonnewarry)
+						Call dochkpz.Replaceitemvalue("hfldData", jsonnewnewobj.Tojson())
+						Call dochkpz.save(True,False)
+						Exit Sub
+					End If
+				End If
+				
+			Next
+
+		End If
+	End If
+	Exit Sub
+errhandle:
+	showerror("suChuLiJiek")
+End Sub
+</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20181107T191255,64+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20181024T092025,88+08</datetime></item></agent>
+

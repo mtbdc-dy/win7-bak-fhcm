@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='moduleTitle' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='2ea' unid='331B65C7144F6B5B482570520045F6E7' sequence='55'>
+<created><datetime>20050803T204411,91+08</datetime></created>
+<modified><datetime>20181107T195617,88+08</datetime></modified>
+<revised><datetime>20181024T085443,87+08</datetime></revised>
+<lastaccessed><datetime>20181107T195617,88+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195617,88+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='moduleTitle'><code event='defaultvalue'><formula
+ compiled='true'>
+9gIJAOwCFirvCop1rzg51nIGvJtrItAVgoQsr5ZYl3O6La7NGzPOV6X57ZX2dxdR08E9C7sKxW0p
+85Ve/PybGFvece0VXaPKP50Q5mC4DsQlT0ekTksxeC3fV9bfKRgKIwsTIcVQK/H3vQVt4gQMp6KW
+3xk4TebJzNl3xeoz5mb6s4GLVs0Lhk6h85Nn7HXmYwJlp1AVhZT3oA7B6wFX8n8gzagUNwiqWPgu
+NZ1pOYwzjlC3l/C2lk2vA48dmvtK3b6WzE7vken54Z4JfsCFYNy7peGfP9QXY8wqD4DTkEzL16wS
+gzgukQuCWv+nBU9Aoasla3SBMUte+dbScu46s4w5TIS7ValODT1pPRdhqJJB6fsMpUTHMdCmh2IS
+xZBw0Ir+gsee9pk4r01EvpHDVm7Uqqn5yHBj55oZtATTFrAGNnZ0kn1qkd9L6UgSmK6SlcnCAGDI
+ui3IHg/qKwLSPSjSKov3V7zFyaCqQo23GZQX29JKc14gRO3HbjM0aajQAL44Dos9XX2jO8U0s8v7
+xpYoTjVzOBJq8NTE6u+DHP/dsw4dYTU2+XsGTz93gEt3yckeCK2c2Vne0w805uGBReTVzojSR9Tw
+H8lgAZqLuGx6/FsbO1sITYyk57uCk1ubP+IBhawPeMshAq82zRI3hYxYMetx0mb/D6i/+IOgZK/e
+yKywaQUQ5UEmx04O7clltXrQiBJOYy9zWmMDkLbKJSgDV4/36Qgp5AdHMW0CqC97JGr9FHXX+XFm
+lQ2Ii6dFpp716sl33uixc4doFTkdEOpJN+UNA83ud51nIuxjQf3YKHgevhOkMkUn5aVGfN+kp/Sc
+JgFmB2p7na3JSn6RHIfe7EIDreBPpd1fvoL9n5tMid4El5/0RGd9OJx9z3TgxmeN/YQzSt4wPFnz
+wi/+uAgXasnswXL9Y7DxlbmDMKExQFBUdzBzDabBq+oPCgx2oZlHVRgzcmTuC/iiWIEHQRCzUyE6
+Goklp4HIGeTCBAAEAAQABAA=
+</formula></code></field>
+<item name='OriginalModTime' sign='true'><datetime>20050803T204427,91+08</datetime></item>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,87+08</datetime></item></sharedfield>
+

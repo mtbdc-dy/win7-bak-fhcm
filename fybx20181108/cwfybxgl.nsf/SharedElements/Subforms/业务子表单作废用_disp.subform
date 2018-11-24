@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='业务子表单作废用_disp' alias='sfrmtrash_disp' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='13086' unid='482581B6000911FF482581B70014B4CE' sequence='30'>
+<created><datetime>20171012T114610,06+08</datetime></created>
+<modified><datetime>20181025T014918,91+08</datetime></modified>
+<revised><datetime>20181024T092017,82+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,90+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T182730,47+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name>CN=admin/O=ppm</name><name
+>CN=OAserver/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>dojo.addOnLoad(function(){
+	if(dojo.query(".showhideinfo h1")[0]){
+		var tempstr1 = smartdot.i18n.getString("indiplatform.tylc.msgfeijian","(废件)");
+ 		//dojo.query(".showhideinfo h1")[0].innerHTML="(废件)"+dojo.query(".showhideinfo h1")[0].innerHTML
+ 		dojo.query(".showhideinfo h1")[0].innerHTML= tempstr1 +dojo.query(".showhideinfo h1")[0].innerHTML
+	}
+})</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div class="showhideinfo"&gt;</run></par>
+<pardef id='2' leftmargin='1in' rightmargin='96%'><parstyle name='html'/></pardef>
+<par def='2'><run html='true'><computedtext><code event='value'><formula>@ReplaceSubstring(@Text(subfrmContent);@NewLine;"")</formula></code></computedtext></run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmSubform</text></item></subform>
+

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE page SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<page name='$$ViewTemplateDefault' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='false' designerversion='7'>
+<noteinfo noteid='3a6' unid='931560E4F429ECE648256E5900410165' sequence='57'>
+<created><datetime>20040316T195001,97+08</datetime></created>
+<modified><datetime>20181107T195620,77+08</datetime></modified>
+<revised><datetime>20181024T085446,50+08</datetime></revised>
+<lastaccessed><datetime>20181107T195620,77+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195620,77+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<actionbar bgcolor='#d4d0c8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#d4d0c8'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
+<action title='_Edit Document' showinbar='false' systemcommand='edit'/>
+<action title='_Send Document' showinbar='false' systemcommand='send'/>
+<action title='_Forward' showinbar='false' systemcommand='forward'/>
+<action title='_Move To Folder...' showinbar='false' systemcommand='movetofolder'/>
+<action title='_Remove From Folder' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>&lt;html&gt;</run></par>
+<par def='1'><run html='true'>&lt;head&gt;</run></par>
+<par def='1'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>&lt;META HTTP-EQUIV="Pragma" CONTENT="no-cache"&gt;</run></par>
+<par def='1'><run html='true'>&lt;/head&gt;</run></par>
+<pardef id='2' leftmargin='1in'><code event='hidewhen' enabled='false'><formula
+ compiled='true'>
+LgAJACQAaMgUvNdHPFtIpyV1XET9dpNfV4Ev0JbtT8D+QijUQDcEAAQABAAEAA==
+</formula></code></pardef>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>&lt;body&gt;</run></par>
+<pardef id='3'/>
+<par def='3'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>&lt;span style="display:none"&gt;&lt;a id="rProxyJunctionIndi" href="/"&gt;&lt;/span&gt;</run></par>
+<par def='1'><run html='true'>&lt;script language="Javascript"&gt;</run></par>
+<par def='1'><run html='true'>  document.location.href=</run><run html='true'><font
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>document.getElementById("rProxyJunctionIndi").getAttribute("href")+</run><run
+ html='true'>"</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+RgAJADwAjmsCjL0uuXDOuzKdkw5cQW4yTLpk6g/e8BobyULbw980SyGgS3A2hNhg7ZdYWox0fEgn
+V99Q8E4EAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'>/myview?openform&amp;view=vwDocByDate&amp;count=20"</run></par>
+<par def='1'><run html='true'>&lt;/script&gt;</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>&lt;/body&gt;</run></par>
+<par def='1'><run html='true'>&lt;/html&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>$$ViewTemplateDefault</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,11+08</datetime></item></page>
+

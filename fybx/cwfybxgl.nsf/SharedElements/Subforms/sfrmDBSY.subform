@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmDBSY' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ designerversion='8.5.3' comment='待办事宜子表单'>
+<noteinfo noteid='326' unid='84134CB31A8085E748256E68000E0982' sequence='57'>
+<created><datetime>20040331T103319,38+08</datetime></created>
+<modified><datetime>20181025T014915,35+08</datetime></modified>
+<revised><datetime>20181024T085443,54+08</datetime></revised>
+<lastaccessed><datetime>20181025T014915,34+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010757,29+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'><font size='9pt'/>&lt;div style="display:none"&gt;</run></par>
+<pardef id='2' hide='notes web' tabs='L7.7542in'/>
+<par def='2'><run><font size='9pt'/></run><run><font size='9pt'/><field type='text'
+ kind='computed' name='fldunid' extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula
+ compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></field></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='2'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt'/></run></par>
+<table widthtype='fixedleft' refwidth='7.2167in'><tablecolumn width='3.6083in'/><tablecolumn
+ width='3.6083in'/>
+<tablerow>
+<tablecell>
+<pardef id='4' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='4'><run><font size='9pt' color='#104160'/>当前服务器名：</run></par></tablecell>
+<tablecell>
+<pardef id='5' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='authors' kind='editable' name='fldFromServer'><code
+ event='defaultvalue'><formula compiled='true'>
+NgEJACwBNwZQGtK6GAzUSYlXAaj8pqQfLFYXpwW8lsPzr2qYGm2tZfYgcD7hRMquFqMaeYgd9Xmu
+m9hL3ROR6hlYLVbSU3RcjZtaebG4lBiUZJxXr3vvKd47uNpuR4cVwn6q30dgKF6+pTYcjiw5TLBC
+RUzWwkDwyZMInLh+HS6B+ZXxYopWmn/r1AggWCjRJnMSrRuGbQSRmdCH8qBRikUaeyE3unb8XF3c
+yPNIrsNG1EvbteliCKEzZsll9yMAZyXUWhhtggNy1XsqpRzriN20kOfpzU10gXXq8jED5lkhUJ+C
+yVO3Fkrq0DPYRlOPNm338SsJuv7ayEBiVpdiS6CMA0ReBaHfFKJUbOy5qFr5QXYzXFxPTOAhu4fj
+EY9M1gl9wBNqSHdq2pfwCOMEAAQABAAEAA==
+</formula></code></field></run><run
+><font size='9pt' color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>数据库名：</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' kind='editable' name='fldFromDB'><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpRO87+gWgqD4gw9SU7Bs3BAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>类别</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' kind='editable' name='fldType'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAtEOe23YmqdfdGeV0dG+swQQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/><field type='text' kind='editable' name='fldTypeId'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='15' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/><field type='text' kind='editable' name='fldTypeApp'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='21' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>来源（部门）：</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' kind='editable' name='fldDep'><code event='defaultvalue'><formula
+ compiled='true'>
+7gAJAOQAIANsdZc3Kudd3G+j6PaJqBvBti3MeJjqacUjcwnMFJwSSGBBZGKeKythjS5HX2RoIpZB
+lSz9jr0bnRS2mmtTzF6G7f4FYHfzWefjdtkCovON02UoiyuUfD16+v1k3tysBQ5D4ZpGpD9tGSrs
+mpPsMFz902tm3NdWz7Eh6Z4q8Xjb96jwxoE9m/IV8qeF8/q/YwFkS15k5BxF3Hb4iT6QSxx0n3hk
+hz2tYoASVsWAibskzgftpVQqn3XCJYbqIQH5ngn7iFHhd8K4QBPJGI/jAyCOnMLdVqDCMPkcWk9V
+7k0EAAQABAAEAA==
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='9' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt' color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>主键：</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' kind='editable' name='fldMainKey'><code
+ event='defaultvalue'><formula compiled='true'>
+XgAJAFQAjDvyPeJGmMht/BxqDg1kd0mUbWVJEtgHImCHnFeoiEWbLFfS3AKwO6I2xbCM149CwVcj
+zpHLxYVeNMsJvmQ1aO6bmP6cEwn/viTBmDP166wEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>当前发送的服务器列表：按应用部署这个域无用</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' allowmultivalues='true' kind='editable'
+ name='fldToServers' listinputseparators='comma semicolon' listdisplayseparator='semicolon'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>全部发送的服务器：按应用部署这个域无用</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' allowmultivalues='true' kind='editable'
+ name='fldAllServers' listinputseparators='comma' listdisplayseparator='comma'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>全部审批人</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='names' allowmultivalues='true' kind='editable'
+ name='fldAllDealers' listinputseparators='comma' listdisplayseparator='comma'/></run><run
+><font size='9pt' color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>当前发送的应用名列表</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' allowmultivalues='true' kind='editable'
+ name='fldToApps' listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='4'><run><font size='9pt' color='#104160'/>全部发送应用列表</run></par></tablecell>
+<tablecell>
+<par def='5'><run><font size='9pt' color='#104160'/></run><run><font size='9pt'
+ color='#104160'/><field type='text' allowmultivalues='true' kind='editable'
+ name='fldToAllApps' listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAB5/docl7DGfud8VdQ2vmDwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#104160'/></run></par></tablecell></tablerow></table>
+<par def='1'><run html='true'><font size='9pt'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmDBSY</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,23+08</datetime></item></subform>
+

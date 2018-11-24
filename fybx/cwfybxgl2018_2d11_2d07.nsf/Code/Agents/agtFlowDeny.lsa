@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtFlowDeny' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ hide='v3' runaswebuser='true' publicaccess='false' designerversion='8.5.3'
+ comment='驳回操作代理' restrictions='unrestricted'>
+<noteinfo noteid='88e' unid='2DF72528395F1A2848257A360023139F' sequence='49'>
+<created><datetime>20120709T142307,83+08</datetime></created>
+<modified><datetime>20181107T195809,58+08</datetime></modified>
+<revised><datetime>20181024T085439,20+08</datetime></revised>
+<lastaccessed><datetime>20181107T195809,58+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195809,58+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085546,06+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='all'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20161226T165622,95+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210745,65+08</datetime></item>
+<item name='$POID'><datetime>20181024T085439,20+08</datetime></item></agent>
+

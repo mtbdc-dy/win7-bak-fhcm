@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_hideHQDep' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='322' unid='351F71EE6D79BD8B48257E9000363757' sequence='55'>
+<created><datetime>20150728T175211,11+08</datetime></created>
+<modified><datetime>20181107T195618,46+08</datetime></modified>
+<revised><datetime>20181024T085444,53+08</datetime></revised>
+<lastaccessed><datetime>20181107T195618,46+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195618,46+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='key_hideHQDep'><code event='defaultvalue'><formula
+ compiled='true'>
+PgIJADQCDth6ngNROmIHmm562S3/o/s59lGe3sOmp6MP7SrhwC0q9S+OOE4U2QT3PAT2XqjWboHg
+F0JSDxqSu7AcprDpX95vv27pUh4d5BoLXq+zIknrrCPL9oL1/lc28YcOlGrV86G/K4tJmD9Jn7lt
+7Ys4yH8dmfSSTLft8alePj7JpnzLISLM1/D4gpSUu1LRcGyHd11IP94uIRxgWT+9y640sHubdVMY
+JsabAZd2pMB9njAYz1+6ZORkxUz7Py6rxsN/yKka2teW1yfmYAP+CIdF74KwmPDPLdemSTAj1Eok
+xJkQ7KdlZEIFntBQe7HyT5VIWlP61B+YUkaauAMFS8n/ynhn6tO+Ow98X3e0tzvk9GD2Bw0Vmohe
+NDQLg+AtcS/kQhUI3xANdzKMAbtfK5p4RD78J2ha0Ek/p4GWGajVn9QSzOdmgmpKnE/SiHUz0ZA5
+nPxp5Kqkkfgyx77roXOQuC6xALsPi1wrk05k0ER/SYZ+mH8yMxwa7h/KdIM3sBii2vTMcgtguGGu
+T7MfKwdxn5G68NZ5P+HR+Ldewn/DJQcXRL7yHspr4CdasRfrQ6T0GokIll5YBwNM2y55PEiAE/yA
+syFKUkqy7xOZjR6Oc+I9OTHNp/ieieq2QQyvY4yVdzbFZGtKJ0a1NU1xvcsdNx1weFxdRv45pO2E
+IXtjzP77e+9iazQsh3oCSBze3Ze3qsCO5vLNgnR5vjGNXZIBdGnToboFSCX3nOahz9rje44EAAQA
+BAAEAA==
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,01+08</datetime></item></sharedfield>
+

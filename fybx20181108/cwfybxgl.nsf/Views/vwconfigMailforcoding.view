@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwconfigMailforcoding' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' showinmenu='false' publicaccess='true' designerversion='8.5.3'
+ comment='vwconfigMail的兄弟视图。按key升序排列' unreadmarks='none' onopengoto='lastopened'
+ onrefresh='displayindicator' headers='beveled' opencollapsed='false' showresponsehierarchy='true'
+ showmargin='true' shrinkrows='false' extendlastcolumn='false' showhierarchies='false'
+ unreadcolor='black' rowlinecount='1' headerlinecount='1' rowspacing='1' haslinkcolumn='true'
+ bgcolor='white' totalscolor='black' headerbgcolor='white' boldunreadrows='false'
+ evaluateactions='false' allownewdocuments='false' allowcustomizations='true'
+ hidemarginborder='false' marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
+<noteinfo noteid='13a' unid='CD0FC45BC6772E8448257DAD002FD35B' sequence='55'>
+<created><datetime>20141213T164222,99+08</datetime></created>
+<modified><datetime>20181025T014925,45+08</datetime></modified>
+<revised><datetime>20181024T085439,37+08</datetime></revised>
+<lastaccessed><datetime>20181025T014925,44+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133242,66+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+ZgAJAFwAsqmLvIVw4uxCRioJz/gvFF4X92oPK8iO+BoZUMaPfr1No9mV+hLQ44N3wafCbBOLcJt5
+epXBa9m+ZoUNJdfVd6O2kCAPl1Xi2wMZFOJ8z/rmm+Z5DYxDvgQABAAEAAQA
+</formula></code>
+<column sort='ascending' hidedetailrows='false' itemname='strCzlx' width='10.2500'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='true'><columnheader title='关键字'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='strMs' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='描述'><font size='9pt' style='bold'/></columnheader></column>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210734,81+08</datetime></item></view>
+

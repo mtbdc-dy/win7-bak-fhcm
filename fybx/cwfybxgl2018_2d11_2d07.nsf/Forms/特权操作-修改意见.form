@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='特权操作-修改意见' alias='frmModifyAttitude' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='3b6' unid='F22E10FA7314B8FA48257CA5002B0AA6' sequence='57'>
+<created><datetime>20140324T155007,74+08</datetime></created>
+<modified><datetime>20181107T195621,15+08</datetime></modified>
+<revised><datetime>20181024T085446,73+08</datetime></revised>
+<lastaccessed><datetime>20181107T195621,15+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195621,15+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webquerysave'><formula
+ compiled='true'>
+PgAJADQA9btSiNs1fQZw27nYs7vuxGZfKoIoa9tLM5OARLMLNBtKkzsoyA2NH/mHeD3EZbVgBAAE
+AAQABAA=
+</formula></code><code event='webqueryopen'><formula compiled='true'>
+hgAJAHwAJLgwuS5M4rsvMOXLQW5HhjPGiPEu95iscLCoDNwr8krXzTkFGJ4avRHJb7NFP2azx/3n
+j+JZ1u29orrNS7j6Nz0kDwiP9FJrKFdPR1qzO+lStTY56joqdthOSkZGRfVKcolTtk/JQoCAvX43
+XjMGAoi6ijAxviXuBAAEAAQABAA=
+</formula></code><code
+ event='htmlhead'><formula compiled='true'>
+ZgMJAFwDsAb9NcGkC15az8mCwem53HTrDQVO/3Np+1+hqYlHJqlj8vvV0oaqOvc3tEb8xY4unsve
+9FL4Gp/vatzAxqPjWI7zw6xpbgu5NaGFkF6KRvUknbA7zyXuhweLiNdOxsWGYCxQPnvN2WqrLh5w
+3OCJTd2PZlXr8N9TpxWYObQR8+FCZ+IIi7t9yHtpdKEZKdH6YFJsBbNEzIIOG3G9vAJ2zkwOx5Bs
+KSFm3jwBb6cBkYTMHwIIZ95m+Uvm4Num3YFT6xAU5jjdrgn3+EI8+R60dlXhOGhtXsPPtqmPLdy6
+PwQiHHSIg4KJ+SYMc+W+wK46BEfy0G+p7vN6C2AiGMNNtaC7x98LFw/uox/s5my3Bvt9OzefiCjW
+bw5HexSt69bvZHJYBnRMJ/EYoZP36YtDD+5+K3KAQ1oAMsDkAzkqBmnHPEZWWNuihISeaxkRL2UJ
+6ZSrtb9ANh2auLU4QJbMUDTIw9BQLjfqar4fn8LjvAa1nwxd4VWqzxgNu5XVcT1tEdzKqYIVttfD
+PKn6QMGOKWW91AZMl3WyE/Zag/hZT2FC9gcJlxQaNYXTJSX9/XF0yhc3tZnciSOG/cwyTf1DJKEZ
+aMwh1CW1vas5mW3vQE9ZvKM69/1/AVwQm7SE27JFZRweOxD2KzupqO+6y7Fe0VGspnlAR5XlQs9+
+91pD5NAnf4HrTc7zYOO2lKPvslsem7QBWQLRmlMlTL1/07vWuuK7L1LBXQjhAeual9Z4rSzrVkWl
+/jSt+VbafNNjolQ64ptUCyVb7awwFp6BEtWoHnJPH3MOB/INyuoSp4Cvld6Wr+qf58fsUNdw0jD0
+5c5SYq0sqYOdFMe79ptKTEvRlEvpWLHDGCEE3WIM5r5mU6oPBUOcYeKz1mrncZvr+FQk/eXYql5W
+tZXZzhGuCsbAaBZC5vc2XGA0yJb+V8fHhRV+vv5N2iGowWwx3sBfranKG0pVPHzuR1mZUEtQFU5U
+4wNGW09vOYJiobO+jE6oX5xy29L2IB6iCK6/YL5KDrJnlpB9U0v/INWL2ToKO9bC4uumIWx/VDuQ
+2ulh3FIJZz5Ht5EUxMtYcTTyX9vODhhNJsxyYlMBRUXW4FN7wHefKxa/DeZ5o3fnvDN/fJPBfcni
+mVxGqWjEcQQABAAEAAQA
+</formula></code><code event='jsheader'
+ for='web'><javascript>smartdot.i18n.requireLocalization("indiplatform.tylc");
+
+var objJson = new Array();
+dojo.addOnLoad(function() {
+	var dataParam;
+	if (typeof($$Dialog) !== "undefined") {
+		if ($$Dialog) {
+			dataParam = $$Dialog.params;
+		}
+	}
+	if( dataParam ){
+		var objXML = dataParam.yjxml;
+		var strHTML = ""
+		var lzxxItems = objXML.getElementsByTagName("item");
+		dojo.forEach( objXML.getElementsByTagName("yjitem"),function(item,i){
+			if( item.getElementsByTagName("fkdep").length!==0 || item.getElementsByTagName("fkdetail").length!==0 ){
+				return ;
+			}
+			var strUser = getEntryText(item.getElementsByTagName("user")[0]);
+			var strAttitude = getEntryText(item.getElementsByTagName("yj")[0]);
+			var strStat = getEntryText(item.getElementsByTagName("stat")[0]);
+			var strTime = getEntryText(item.getElementsByTagName("time")[0]);
+			var strYjpt = getEntryText(item.getElementsByTagName("yjtp")[0]);
+			var strYjatt = "";
+			if( item.getElementsByTagName("attname")[0] ){
+				strYjatt = getEntryText(item.getElementsByTagName("attname")[0]);
+			}
+			var strSignature =  getEntryText(item.getElementsByTagName("signature")[0]);
+			
+			strAttitude = strAttitude.replace(/（&lt;span class='userName'&gt;.*&lt;\/span&gt; 代录）/gi,"");
+			
+			var objUserAtt = new Object();
+			objUserAtt.user = strUser;
+			objUserAtt.time = strTime;
+			objUserAtt.yj = strAttitude;
+			objUserAtt.stat = strStat
+			objUserAtt.yjtp = strYjpt.substr(strYjpt.indexOf("$file")+6)
+			var objYjatt = new Object();
+			objYjatt.attname = strYjatt
+			objUserAtt.yjatt = objYjatt
+			
+			objJson.push( objUserAtt );
+
+			var flownum =item.getElementsByTagName("flownum");
+			if(flownum.length&gt;0){ //放在push后,避免修改stat
+				flownum =  getEntryText(flownum[0]);
+				strStat =  parent.fnGetFlowNodeI18nName(flownum,strStat);
+				
+				//根据时间从流转信息item中找到对应的item
+  				var key = item.getElementsByTagName("time")[0].childNodes[0].nodeValue;
+  				var relItem ; //相对应的流转信息行
+  				for(ri=0;ri&lt;lzxxItems.length;ri++){
+  					relItem = lzxxItems[ri];
+  					if(relItem.getAttribute('time')==key &amp;&amp; relItem.getAttribute('huiqian')==null){  							
+  						strStat = parent.fnFlowinfoI18nSpecial(relItem,strStat);
+  						break;
+  					}
+  				}
+			}
+
+			strHTML += "&lt;tr&gt;"
+					+"&lt;th&gt;";		
+			if( strSignature!=="" ){
+				strHTML += "&lt;div class=\"sign\"  id=\"user"+i+"\" value=\""+strUser+"\"&gt;"
+						+"&lt;img height=\"50px\" width=\"150px\" title=\""+strUser+"\" alt=\""+strUser+"\" src=\""+strSignature+"\"&gt;:"
+ 						+"&lt;/div&gt;"
+			
+			}else{
+				strHTML += "&lt;div id=\"user"+i+"\" value=\""+strUser+"\"&gt;"+ parseName(strUser) +":&lt;/div&gt;"
+			}
+			strHTML += "&lt;/th&gt;"
+					+"&lt;td&gt;"
+					
+					+"&lt;div&gt;&lt;textarea id=\"attitude"+i+"\" class=\"comment-textbox\" &gt;";
+			if( strAttitude!=="NoAttitude_Handler" ){
+				strHTML += strAttitude;
+			}
+					
+			strHTML += "&lt;/textarea&gt;&lt;/div&gt;";
+			if( strYjatt !=="" ){
+				strHTML += "&lt;div attachinfo='"+strYjatt+"@$@"+strStat+"@$@"+strUser+"@$@"+strTime+"' style=\"margin-top:3px\"&gt;&lt;img title=\""+strYjatt+"\" src=\"/indishare/oaresource.nsf/images/icon29.png\"&gt;&lt;a onclick=\"OpenMyFile('"+strYjatt+"')\"&gt;" + strYjatt + "&lt;/a&gt;&lt;/div&gt;"
+			}
+				
+			strHTML += "&lt;div style=\"color:gray\"&gt;" + strStat + "   "+ strTime + "&lt;/div&gt;"
+					+"&lt;/td&gt;&lt;/tr&gt;";
+		});
+
+		strHTML = "&lt;table class=\"OpinionTab2\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"&gt;" +strHTML + "&lt;/table&gt;";
+		
+		dojo.byId("warp-attitude").innerHTML = strHTML
+		
+	}
+})
+
+function CancelClick() {	
+	$$Dialog.postMessage("cancel");
+}
+function showFiles(){
+	
+}
+
+function fnGetAttModInfo(){
+	var attmodinfo = "";
+	dojo.query("div[attachinfo]",dojo.byId("warp-attitude")).forEach(function(item){
+		var attinfo = item.getAttribute("attachinfo");
+		var infoVal = attinfo.split("@$@");
+		//获取附件对象
+		var fileobj = slCtl.Content.Control.getFileByName(infoVal[0]);
+		 
+		if(fileobj){
+			//附件对象的NeedUpdate属性为true是表示附件被修改过
+			if(fileobj.NeedUpdate){
+				attmodinfo += "$%$"+attinfo;
+			}
+		}
+	});
+	if(attmodinfo){
+		attmodinfo = attmodinfo.substring(3);
+	}
+	dojo.byId("strAttModifyRecord").value = attmodinfo;
+}
+
+function OKClick( objBtnSrc ){
+	if( !fnCheckSession() )	return false;
+	if(!$$idx.isSLPluginInstall){
+		 slCtl.Content.Control._syncFilesInfo();
+	}
+	
+	var blnReturn = true;
+	dojo.forEach(dojo.query("#warp-attitude tr"),function(item,i){		
+		var strUser = dojo.attr( dojo.query("div[id^='user']",item)[0],"value");
+		var strAttitude = dojo.query("textarea[id^='attitude']",item)[0].value;
+		if( strAttitude==="" ){
+			strAttitude = "NoAttitude_Handler";
+		}
+		var objUserAtt = objJson[i];
+		objUserAtt.user = strUser;
+		objUserAtt.yj = strAttitude; 
+	})
+	
+	var strJson = dojo.toJson( objJson )
+	document.forms[0].rtfJsonAttitude.value = strJson ;
+	
+	//获取意见附件修改记录
+	fnGetAttModInfo();
+	
+	var errhandle=dojo.subscribe("/attach/submiterror",function(){
+		dojo.unsubscribe(errhandle);
+		dojo.unsubscribe(handle);
+		blnReturn	= false;
+	});
+	var handle=dojo.subscribe("/wfeditor/submitover",function(){
+		dojo.unsubscribe(errhandle);
+		dojo.unsubscribe(handle);
+		document.forms[0].submit();
+		blnReturn = true;
+	});
+			
+	UploadIndiDocFiles();
+	return blnReturn;
+}
+function OpenMyFile(fname){
+	showDiv();
+	slCtl.Content.Control.EditFile(fname,0);
+}
+
+/*
+strHTML += "&lt;tr&gt;"
+					+"&lt;td class=\"tdLabel\"&gt;";
+			if( strSignature!=="" ){
+				strHTML += "&lt;div class=\"sign\" id=\"user"+i+"\" value=\""+strUser+"\"&gt;"
+						+"&lt;img height=\"50px\" title=\""+strUser+"\" alt=\""+strUser+"\" src=\""+strSignature+"\"&gt;:"
+ 						+"&lt;/div&gt;"
+			
+			}else{
+				strHTML += "&lt;div id=\"user"+i+"\" value=\""+strUser+"\"&gt;"+ strUser +":&lt;/div&gt;"
+			}
+			strHTML += "&lt;/td&gt;"
+					+"&lt;td class=\"tdContent\"&gt;"
+					+"&lt;div class=\"tdContent-wrap\"&gt;"
+					+"&lt;div&gt;&lt;textarea id=\"attitude"+i+"\"&gt;";
+			if( strAttitude!=="NoAttitude_Handler" ){
+				strHTML += strAttitude;
+			}
+					
+			strHTML += "&lt;/textarea&gt;&lt;/div&gt;";
+			if( strYjatt !=="" ){
+				strHTML += "&lt;div&gt;&lt;a onclick=\"OpenMyFile('"+strYjatt+"')\"&gt;" + strYjatt + "&lt;/a&gt;&lt;/div&gt;"
+			}
+					
+			strHTML += "&lt;div&gt;" + strStat + "   "+ strTime + "&lt;/div&gt;"
+					+"&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;";
+		});
+		strHTML = "&lt;table class=\"tableClass-singleRow\"&gt;" +strHTML + "&lt;/table&gt;";
+		
+*/
+
+function fnGetFlowNodeI18nName(nodeid,nodename){	
+	var lang = dojo.locale;
+	var rtn  = nodename;
+	if(lang=='zh-cn') return rtn;
+	if(typeof global_i18n_flowdef=='undefined'){
+	    var flowid = document.forms[0].FlowDocId.value;
+	    var flowdb = document.forms[0].Flowdb.value;
+	    var flowurl = "/" +flowdb+"/0/"+ flowid + "/i18n_FlowDef?openfield";  
+	    dojo.xhrGet({
+	        url:flowurl,
+	        handleAs: "text",
+			preventCache:true,
+			sync:true,
+	        load:function(data){
+		    	data = data.replace(/&amp;quot;/g,'"');
+	    		global_i18n_flowdef = dojo.fromJson(data);
+	    	}
+	    });
+	} 
+	if(lang in global_i18n_flowdef){
+		var nodes = global_i18n_flowdef[lang]['flownodes'];
+		if(nodeid in nodes){
+			if(nodes[nodeid] !="")	rtn = nodes[nodeid]; 
+		}
+	}
+	return rtn;
+}</javascript></code>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'>&lt;div style="display:none"&gt;</run></par>
+<par def='1'><run html='true'><sharedfieldref name='appPath'/></run></par>
+<par def='1'><run html='true'><sharedfieldref name='dbPath'/></run></par>
+<pardef id='2' hide='notes' tabs='L1.5104in L2.0104in L2.5104in L3.0104in L3.5104in L4.0104in L4.5104in L5.0104in'/>
+<par def='2'><run><font size='9pt' color='red' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/><field type='text' kind='editable' name='saveoptions'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL26h6T28uENn8AQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run html='true'><sharedfieldref name='ResourcePath'/></run></par>
+<par def='1'><run html='true'><field type='text' kind='editable' name='strMainDocUNID'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAIgPmHWb1O6Qbo5GUt4TdTWiK5uRbILxclmqleD5ZexcEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run html='true'><field type='richtext' kind='editable' name='rtfJsonAttitude'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'><run><font size='9pt' color='red'/><field type='text' kind='editable'
+ name='strAttModifyRecord' htmlid='strAttModifyRecord'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='9pt'/><field type='names' kind='computedfordisplay'
+ name='curUser'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAbKmhCPlID24SeQFQroTRUAQABAAEAAQA
+</formula></code></field></run><run
+ html='true'><font size='9pt' color='red'/></run></par>
+<par def='1'><run html='true'><font size='9pt' color='red'/></run><run html='true'><font
+ size='9pt' color='red'/><field type='text' kind='editable' name='Remote_Addr'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'>//控制页面以浏览器标准模式显示</par>
+<par def='1'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/></run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<pardef id='3' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='3'><run html='true'>&lt;div style="display:none" data-title="</run><run
+ html='true'>附件</run><run html='true'>" data-string-id="indiplatform.tylc.fujiantitle" </run><run
+ html='true'>data-attArea</run><run html='true'>="</run><run html='true'>default</run><run
+ html='true'>" indiType=</run><run html='true'>"smartdot.form.attachment</run><run
+ html='true'>" data-show-filetype="default" data-ext-parameter="" data-filecontrol="</run><run
+ html='true'>edit:</run><run html='true'>true"&gt;</run><run html='true'>&lt;/div&gt;</run></par>
+<pardef id='4' hide='web'/>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>//indidocx控制信息字段</run></par><subformref
+><code event='value'><formula compiled='true'>
+LgAJACQAqfghn/k7JgdpEh+NYkys22lgZwBYHHHrr/7qBrCOY/oEAAQABAAEAA==
+</formula></code></subformref>
+<par def='4'/><subformref name='sfrmDojo'/>
+<par def='4'/>
+<par def='1'><run html='true'>&lt;div id="warp-attitude" &gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;div id="warp-action-bar"&gt;</run></par>
+<par def='1'><run html='true'>	&lt;span class="btn-action-key"&gt;</run></par>
+<par def='1'><run html='true'>		</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;button type="button" dojoType="smartdot.form.BusyButton" onClick="return OKClick(this</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>);" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.sure"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;确认&lt;/button&gt;</run></par>
+<par def='1'><run html='true'>	&lt;/span&gt;</run></par>
+<par def='1'><run html='true'>	</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;button type="button" dojoType="smartdot.form.Button" onClick="</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>CancelClick" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.cancel"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;取消&lt;/button&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'/>
+<par def='3'/>
+<par def='3'><run html='true'>&lt;style&gt;</run></par>
+<par def='1'><run html='true'><font size='12pt' name='serif'/>.comment-textbox {</run></par>
+<pardef id='5' leftmargin='1in'/>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	background: none repeat scroll 0 0 #FFFFFF;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	border: 1px solid #E1E2E3;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	box-shadow: none;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	font: inherit;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	height: 92px;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	margin: 0;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	padding: 4px 5px;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	resize: none;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	width: 210px;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>}</run></par>
+<par def='1'><run html='true'><font size='12pt' name='serif'/>.comment-textbox:focus {</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	box-shadow: none;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	border: 1px solid #E1E2E3;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>}</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>#warp-attitude {</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	margin-bottom:40px;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>}</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>#warp-action-bar {</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	position:fixed;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	bottom:0px;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	padding:10px 0;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	width:100%;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	text-align:center;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>	background-color:#FCFCFC;</run></par>
+<par def='5'><run html='true'><font size='12pt' name='serif'/>}</run></par>
+<par def='1'><run html='true'>&lt;/style&gt;</run></par></richtext></body>
+<item name='fldAttach' summary='false' sign='true'><number>0</number></item>
+<item name='$SubForm_RepIDs' sign='true'><textlist><text>0000000000000000</text><text
+>0000000000000000</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmModifyAttitude</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,61+08</datetime></item></form>
+

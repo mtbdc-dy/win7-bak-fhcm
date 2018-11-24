@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='获取本模块可用业务类型列表' alias='agtGetValidYwlx' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='供frmwebflow-iframe上提交按钮使用'
+ restrictions='unrestricted'>
+<noteinfo noteid='74e' unid='C71CBB410224385C48257BD30022145F' sequence='50'>
+<created><datetime>20130826T141214,39+08</datetime></created>
+<modified><datetime>20181025T014918,03+08</datetime></modified>
+<revised><datetime>20181024T085503,12+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,02+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133249,76+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085609,96+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0' agentdata='C523FA2ECA881E2748258331000AB1FF'>
+<agentmodified><datetime>20181025T014918,03+08</datetime></agentmodified>
+<agentrun><datetime>20181108T185120,90+08</datetime></agentrun>
+<runlog>Started running agent '获取本模块可用业务类型列表|agtGetValidYwlx' on 2018-11-08 18:51:20
+Ran LotusScript code
+Done running agent '获取本模块可用业务类型列表|agtGetValidYwlx' on 2018-11-08 18:51:20
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,53+08</datetime></item>
+<item name='$POID'><datetime>20181024T085503,12+08</datetime></item></agent>
+

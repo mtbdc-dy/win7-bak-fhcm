@@ -1,0 +1,910 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+Option Public
+Option Explicit 
+Use "commonlib"
+Use "applib"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Sub Initialize
+Declare Sub suSyncUserAndDep(intAction As Integer ,docUserOrDep As NotesDocument)
+Declare Sub suSendInditravelerNotifyWithParam( strReceiver As String , strType As String ,strTitle As String ,_
+	strBadge As String ,strExtras As String ,docMain As NotesDocument ,aparam List As Variant )
+Declare Sub suSendInditravelerNotify(strReceiver As String , strType As String , docMain As NotesDocument ,aParam List As Variant )
+Declare Sub suGetRtxConfig
+Declare Sub suSendSM(intLevel As Integer , strSender As String , strReceivers As String , _
+	strMessage  As String)
+Declare Sub suSendInditravelerMsg(docMain As NotesDocument, strReceiver As String , _
+	strType As String , strTitle  As String,strBadge As String,strExtras As String,aUserWithActions As Variant)
+Declare Sub suSendInditravelerNotifyByAllParam(strReceiver As String , strType As String ,strTitle As String ,_
+	strBadge As String ,strExtras As String , docMain As NotesDocument ,aParam List As Variant )
+Declare Sub suSendSMRequest(intLevel As Integer , strSender As String , _
+	strReceivers As String , strMessage  As String)
+Declare Function fnCreateSessionKey(strUserID As String) As String
+Declare Sub suGetIndiTrvlPushConfig
+Declare Function fnIsRtxUser(strUserId As String) As Boolean
+Declare Sub suSendInditrvlNotify(strReceiver As String , strType As String , docMain As NotesDocument )
+Declare Sub suSendNotify(intLevel As Integer , strReceiver As String , _ 
+	strTitle As String , strMessage  As String , strLink As String)
+Declare Function fnCreateSessionKeyForUrlWithParam(strUserId As String ,strUrl As String ,aParam List As Variant )As String 
+Declare Function fnGetUserIdByName(strUser As String) As String
+Declare Function fnGetRtxConfigByUserName(strUser As String) As String
+Declare Function fnCreateRandomString(intLen As Integer) As String
+Declare Sub suSyncMobile(strUserID As String,strMobile As String)
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+
+Dim m_nsInLibRTX As NotesSession
+Dim m_strReciever As String
+Dim m_strReciever_new As String
+Dim m_strReciever_inditrvl As String
+Dim m_dbFilePathLibRTX As String 
+Dim blnNeedNotify As Boolean 
+
+
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	Set m_nsInLibRTX = New NotesSession
+	Call suGetRtxConfig
+	Call suGetIndiTrvlPushConfig
+End Sub
+
+'++LotusScript Development Environment:2:2:suSyncUserAndDep:13:8
+%REM
+功能：
+	发送调用RTX接口修改RTX中的用户或部门信息 
+接口：
+	intAction		操作类型（包括1～6，1－用户创建，2－用户更新，3－用户删除，
+							4－部门创建，5－部门更新，6－部门删除）
+	docUserOrDep			已经完成修改的用户或部门文档对象（）
+修改：
+	创建 2005.01.28 d2chaofan
+注意：
+	docUserOrDep和intAction的合理性由调用的函数控制
+%END REM
+Sub suSyncUserAndDep(intAction As Integer ,docUserOrDep As NotesDocument)
+	On Error GoTo errHandle
+	
+	If Not docUserOrDep Is Nothing And m_strReciever<>"" Then
+		Dim ndoc As NotesDocument
+		Set ndoc = m_nsInLibRTX.CurrentDatabase.CreateDocument 
+		Call docUserOrDep.CopyAllItems(ndoc)
+		ndoc.Form = "frmSync"
+		ndoc.fldAction = CStr(intAction)
+		ndoc.SendTo = m_strReciever
+		ndoc.Send False
+	End If
+	
+	Exit Sub
+errHandle:
+	showerror("suSyncUserAndDep")
+End Sub
+
+'++LotusScript Development Environment:2:2:suSendInditravelerNotifyWithParam:17:8
+%REM
+功能：
+	发送调用inditraveler消息提醒请求 
+	产品内部API
+接口：
+	strReceiver	消息接收人
+	strType		消息类型，mail，todo，toread，notice
+	strTitle	      消息标题
+	strBadge 	      消息脚标
+	strExtras	      推送的扩展字段
+	docMain		邮件文档，待办待阅主文档，通知
+修改：
+注意：
+
+%END REM
+Sub suSendInditravelerNotifyWithParam( strReceiver As String , strType As String ,strTitle As String ,_
+	strBadge As String ,strExtras As String ,docMain As NotesDocument ,aparam List As Variant )
+	On Error GoTo errHandle
+	Dim aParamLog List As Variant
+	g_logger.Info("发送inditraveler消息推送，推送类型为:"+strType)
+	g_logger.Info(|判断是否满足条件 strReceiver<>"" And m_strReciever_inditrvl<>""|)
+	aParamLog("strReceiver")=strReceiver
+	aParamLog("m_strReciever_inditrvl")=m_strReciever_inditrvl
+	Call g_logger.debugWithVariable(|变量为：|,aParamLog)
+	Erase aParamLog
+	Dim tmpArryAction As Variant
+	Dim strTemp As String
+	Dim lngTemp As Long		
+	Dim i As Long
+	 
+	If strReceiver<>"" And m_strReciever_inditrvl<>"" Then
+		g_logger.Info("满足条件")
+		'创建调用RTX消息提醒请求的邮件
+		Dim ndoc As NotesDocument 
+		Dim aUserWithActions As Variant
+		g_logger.Info(|判断是否满足条件strType="dbsychanges" ，strType=|+strType)
+		If strType="dbsychanges" Then
+			g_logger.Info(|满足条件，提取aUserWithActions|)
+			aUserWithActions = aparam("aUserWithActions")
+			'判断aUserWithActions不为空时,对数据人员个数进行判断,超过200发一次
+			If Not IsEmpty(aUserWithActions) Then
+				If UBound(aUserWithActions) <= 200 Then
+					g_logger.debug("满足条件，接受人<200个，发送消息")
+					Call suSendInditravelerMsg(docMain,"",strType,strTitle,strBadge,strExtras,aUserWithActions)
+				Else
+					g_logger.debug("不满足条件，接受人>200个，按200人为一组发送消息")
+					For i=0 To UBound(aUserWithActions)
+						If aUserWithActions(i) <> "" Then
+							If strTemp = "" Then
+								strTemp = aUserWithActions(i)
+							Else
+								strTemp = strTemp + ","  + aUserWithActions(i)								
+							End If
+							lngTemp = lngTemp + 1
+							If lngTemp > 200 Then
+								tmpArryAction = FullTrim(Split(strTemp,","))
+								Call suSendInditravelerMsg(docMain,"",strType,strTitle,strBadge,strExtras,tmpArryAction)	
+								strTemp = ""
+								lngTemp = 0
+							End If
+						End If
+					Next
+					tmpArryAction = FullTrim(Split(strTemp,","))
+					Call suSendInditravelerMsg(docMain,"",strType,strTitle,strBadge,strExtras,tmpArryAction)
+				End If		 	
+				Exit Sub
+		 	End If
+		Else
+			g_logger.Info(|不满足条件，判断是否满足条件strReceiver<>"*" ，strReceiver=|+strReceiver)
+			If strReceiver<>"*" Then
+				g_logger.debug(|满足条件strReceiver<>"*" ，循环获取strReceiver的userid，并重新赋值给strReceiver|)
+				Dim strAllReceivers   As String
+				Dim astrReceiver As Variant
+				strAllReceivers = strReceiver
+				strAllReceivers = Replace(strAllReceivers,"，",",")
+				strAllReceivers = Replace(strAllReceivers,"；",",")
+				strAllReceivers = Replace(strAllReceivers,";",",")
+				astrReceiver = Split(strAllReceivers,",")
+				For i=0 To UBound(astrreceiver)	
+					astrReceiver(i) = fngetuseridbyname(astrreceiver(i))			
+				Next i
+				If UBound(astrreceiver) <= 200 Then	
+					g_logger.debug("满足条件，接受人<200个，发送消息")
+					strReceiver = Join(astrReceiver,",")
+					g_logger.debug(|strReceiver=| + strReceiver)
+					Call suSendInditravelerMsg(docMain,strReceiver,strType,strTitle,strBadge,strExtras,aUserWithActions)
+				Else
+					g_logger.debug("不满足条件，接受人>200个，按200人为一组发送消息")
+					strTemp = ""
+					lngTemp = 0 
+					For i=0 To UBound(astrreceiver)
+						If astrreceiver(i) <> "" Then
+							If strTemp = "" Then
+								strTemp = astrreceiver(i)
+							Else
+								strTemp = strTemp + ","  + astrreceiver(i)								
+							End If
+							lngTemp = lngTemp + 1
+							If lngTemp > 200 Then
+								g_logger.debug(|strReceiver=| + strTemp)
+								Call suSendInditravelerMsg(docMain,strTemp,strType,strTitle,strBadge,strExtras,aUserWithActions)	
+								strTemp = ""
+								lngTemp = 0
+							End If
+						End If
+					Next
+					g_logger.debug(|strReceiver=| + strTemp)
+					Call suSendInditravelerMsg(docMain,strTemp,strType,strTitle,strBadge,strExtras,aUserWithActions)
+				End If		 	
+			Else
+				g_logger.debug(|strReceiver="*" ，执行赋值strReceiver=""|)
+				'通知所有
+				strReceiver = ""
+				Call suSendInditravelerMsg(docMain,strReceiver,strType,strTitle,strBadge,strExtras,aUserWithActions)
+			End If
+		End If
+	End If
+	Exit Sub
+errHandle:
+	showerror("suSendInditravelerNotifyWithParam")
+End Sub
+
+'++LotusScript Development Environment:2:2:suSendInditravelerNotify:14:8
+%REM
+功能：
+	发送调用inditraveler消息提醒请求 
+        兼容之前版本项目的API，保留
+接口：
+    strReceiver    消息接收人
+    strType        消息类型，mail，todo，toread，notice
+    docMain        邮件文档，待办待阅主文档，通知(通用发布的文档)
+    aparam		      预留的扩展参数
+修改：
+注意：
+
+%END REM
+Sub suSendInditravelerNotify(strReceiver As String , strType As String , docMain As NotesDocument ,aParam List As Variant )
+    On Error GoTo errhandle
+
+	Call suSendInditravelerNotifyByAllParam( strReceiver , strType , "","","" , docMain , aparam )
+
+    Exit Sub
+errhandle:
+    ShowError( "suSendInditravelerNotify" )
+    
+End Sub
+
+'++LotusScript Development Environment:2:2:suGetRtxConfig:2:8
+'获取相应配置文档中的邮件接收人 2005.01.28 d2chaofan
+Sub suGetRtxConfig
+	g_logger.Info("获取IM配置")
+	'初始化请求接收人
+	m_strReciever = ""
+	blnNeedNotify = True
+	
+	On Error GoTo errHandle
+	
+	'获取配置文档，并获取配置数据
+	Dim ndbOaconfig As NotesDatabase
+	Dim vwRtxValidConfigByUser As NotesView
+	Dim docRtxConfig As NotesDocument 
+	g_logger.debug("获取当前服务器上的oaconfig数据库，赋值给ndbOaconfig")
+	Set ndbOaconfig = m_nsInLibRTX.GetDatabase("","indishare/oaconfig.nsf")
+	g_logger.debug("获取aconfig数据库中视图vwValidRtxConfigByUser，赋值给vwValidRtxConfigByUser")
+	Set vwRtxValidConfigByUser = ndbOaconfig.GetView("vwValidRtxConfigByUser")
+	'查询本服务器应用的配置文档
+	g_logger.debug("根据m_nsInLibRTX.CurrentDatabase.Server查询本服务器应用的配置文档，m_nsInLibRTX.CurrentDatabase.Server="+m_nsInLibRTX.CurrentDatabase.Server)
+	Set docRtxConfig = vwRtxValidConfigByUser.GetDocumentByKey( _
+	m_nsInLibRTX.CurrentDatabase.Server,True)
+	g_logger.debug("判断是否满足条件Not docRtxConfig Is Nothing")
+	If Not docRtxConfig Is Nothing Then
+		g_logger.debug("满足条件，执行赋值m_strReciever = docRtxConfig.fldMailName(0)，值为："+docRtxConfig.fldMailName(0))
+		m_strReciever = docRtxConfig.fldMailName(0)
+		m_dbFilePathLibRTX = docRtxConfig.fldMailFilePath(0)
+		
+		'guanjh 20160718 for qc15133 增加移动办公业务消息推送到慧信，即时通讯方式的推送增加开关控制关闭
+		g_logger.debug("判断docRtxConfig是否有域fldValid_notify")
+		If docRtxConfig.Hasitem("fldValid_notify") Then
+			g_logger.debug("判断是否满足条件docRt		End If dValid_notify域的域值为0")
+			If docRtxConfig.fldValid_notify(0) = "0" Then
+				g_logger.debug("满足条件，执行赋值blnNeedNotify = False,表示不发送即时通讯业务消息")
+				blnNeedNotify = False
+			End If
+		End If 
+		
+	Else
+		g_logger.debug("不满足条件，docRtxConfig是nothing，继续找关键字为*的配置文档")
+		'没有相应的配置文档，获取所有服务器应用的配置文档
+		Set docRtxConfig = vwRtxValidConfigByUser.GetDocumentByKey("*",True)
+		g_logger.debug("判断是否满足条件Not docRtxConfig Is Nothing")
+		If Not docRtxConfig Is Nothing Then
+			g_logger.debug("满足条件，执行赋值m_strReciever = docRtxConfig.fldMailName(0)，值为："+docRtxConfig.fldMailName(0))
+			m_strReciever = docRtxConfig.fldMailName(0)
+			m_dbFilePathLibRTX = docRtxConfig.fldMailFilePath(0)
+			
+			'guanjh 20160718 for qc15133 增加移动办公业务消息推送到慧信，即时通讯方式的推送增加开关控制关闭
+			g_logger.debug("判断docRtxConfig是否有域fldValid_notify")
+			If docRtxConfig.Hasitem("fldValid_notify") Then
+				g_logger.debug("判断是否满足条件docRt		End If dValid_notify域的域值为0")
+				If docRtxConfig.fldValid_notify(0) = "0" Then
+					g_logger.debug("满足条件，执行赋值blnNeedNotify = False,表示不用发送即时通讯业务消息")
+					blnNeedNotify = False
+				End If
+			End If 
+			
+		End If
+	End If
+	Exit Sub
+errHandle:
+	showerror("suGetRtxConfig")
+End Sub
+
+'++LotusScript Development Environment:2:2:suSendSM:2:8
+Sub suSendSM(intLevel As Integer , strSender As String , strReceivers As String , _
+	strMessage  As String)
+	On Error GoTo errHandle
+	
+	g_logger.Info("过滤接受人，准备发送短信函件到函件库")
+	g_logger.Info("判断传入的strReceiver是否为空，strReceiver为："+strReceivers)
+	
+	Dim strAllReceivers   As String,stridchange As String 
+	Dim astrReceiver As Variant
+	Dim i As Long 
+	
+	strsender= fnGetRtxConfigByUserName(strsender)
+
+	g_logger.Info("将strReceivers分号等统一替换成逗号，并按逗号分隔，保存到数组astrReceiver中")
+	strAllReceivers = strReceivers
+	strAllReceivers = Replace(strAllReceivers,"，",",")
+	strAllReceivers = Replace(strAllReceivers,"；",",")
+	strAllReceivers = Replace(strAllReceivers,";",",")
+	astrReceiver = Split(strAllReceivers,",")
+	
+	Call g_logger.debugWithVariable("astrReceiver=",astrReceiver)
+	g_logger.debug("开始循环For i=0 To UBound(astrreceiver)，将不是IM用户的过滤掉")
+	Dim strtmpuserid As String
+	For i=0 To UBound(astrreceiver)
+		'by sunxz add 2012-10-16,判断是否是rtx用户
+		strtmpuserid=fngetuseridbyname(astrReceiver(i))
+		If( fnIsRtxUser(strtmpuserid) )Then
+			astrReceiver(i)=fngetuseridbyname(astrReceiver(i))
+		Else
+			astrReceiver(i)=""
+		End If
+	Next i
+	g_logger.debug("结束循环For i=0 To UBound(astrreceiver)")
+	
+	g_logger.debug("开始循环For i=0 To UBound(astrreceiver)将数组中不是空的元素存储到strIdChange")
+	For i=0 To UBound(astrReceiver)
+		If astrReceiver(i)<>"" Then
+			strIdChange =strIdChange+ astrReceiver(i)+","
+		End If
+	Next
+	g_logger.debug("结束循环For i=0 To UBound(astrreceiver)")
+	Call g_logger.debugWithVariable("strIdChange=",strIdChange)
+	
+	If strIdChange<>"" Then
+		strIdChange=Left(strIdChange,Len(strIdChange)-1)
+	End If
+	
+	Call g_logger.debugWithVariable("准备发送短信函件消息，判断是否满足条件：UBound(astrReceiver)<=128，UBound(astrReceiver)=",CStr(UBound(astrReceiver)))
+	If UBound(astrReceiver)<=128 Then	
+		g_logger.debug("满足条件，接受人<128个，发送函件")
+		Call suSendSMRequest(intLevel,strSender,strIdChange,strMessage)
+	Else
+		g_logger.debug("不满足条件，接受人>128个，按128人为一组发送函件")
+		Dim strTemp As String
+		Dim lngTemp As Long 
+		For i=0 To UBound(astrReceiver)
+			If astrReceiver(i)<>"" Then
+				strTemp = strTemp + astrReceiver(i) + ","
+				lngTemp = lngTemp + 1
+				If lngTemp>128 Then	
+					Call suSendSMRequest(intLevel,strSender,strTemp,strMessage)				
+					strTemp = ""
+					lngTemp = 0
+				End If
+			End If
+		Next	
+		Call suSendSMRequest(intLevel,strSender,strTemp,strMessage)
+	End If	
+	
+	Exit Sub
+errHandle:
+	showerror("suSendSM")
+End Sub
+
+'++LotusScript Development Environment:2:2:suSendInditravelerMsg:17:8
+%REM
+功能：
+	发送消息提醒请求前人员列表的处理
+	由于人员过多时会导致字段超限问题,所以每200人发送一条消息 
+接口：
+	docMain		     邮件文档，待办待阅主文档，通知
+	strReceiver	     消息接收人(aUserWithActions字段有值时,此字段为空）
+	strType		     消息类型，mail，todo，toread，notice
+	strTitle	     消息标题
+	strBadge 	     消息脚标
+	strExtras	     推送的扩展字段
+	aUserWithActions 人员+操作标识
+时间：
+	by wangwz 2016-08-10 add
+%END REM
+Sub suSendInditravelerMsg(docMain As NotesDocument, strReceiver As String , _
+	strType As String , strTitle  As String,strBadge As String,strExtras As String,aUserWithActions As Variant)
+	On Error GoTo errHandle
+	g_logger.Info("发送消息到inditraveler")
+	Dim ndoc As NotesDocument
+	g_logger.debug("创建表单为frmInditrvlNotify函件ndoc")
+	Set ndoc = m_nsInLibRTX.CurrentDatabase.CreateDocument 
+	Call docMain.Copyallitems(ndoc)
+	ndoc.Form = "frmInditrvlNotify"		
+	Call ndoc.Replaceitemvalue("_pushUsers", strReceiver)
+	Call ndoc.Replaceitemvalue("_pushType", strType)
+	Call ndoc.Replaceitemvalue("_pushTitle", strTitle)
+	Call ndoc.Replaceitemvalue("_pushBadge", strBadge)
+	Call ndoc.Replaceitemvalue("_pushExtras", strExtras)
+	If strType = "dbsychanges" Then
+		Call ndoc.Replaceitemvalue("_aUserWithActions", aUserWithActions)
+	End If
+	g_logger.info("准备向m_strReciever_inditrvl发送inditravlerpush函件，m_strReciever_inditrvl="+m_strReciever_inditrvl)		
+	ndoc.SendTo = m_strReciever_inditrvl
+	ndoc.Send False
+	Exit Sub 
+errHandle:
+	showerror("suSendInditravelerMsg")
+End Sub
+
+'++LotusScript Development Environment:2:2:suSendInditravelerNotifyByAllParam:18:8
+%REM
+功能：
+	发送调用inditraveler消息提醒请求 
+        给项目提供的API，带所需的参数
+接口：
+    strReceiver    消息接收人
+    strType        消息类型，mail，todo，toread，notice
+    strTitle	      消息标题
+	strBadge 	      消息脚标
+	strExtras	      推送的扩展字段
+    docMain        邮件文档，待办待阅主文档，通知(通用发布的文档)
+    aparam		      预留的扩展参数
+修改：
+注意：
+
+%END REM
+Sub suSendInditravelerNotifyByAllParam(strReceiver As String , strType As String ,strTitle As String ,_
+	strBadge As String ,strExtras As String , docMain As NotesDocument ,aParam List As Variant )
+    On Error GoTo errhandle
+
+	Call suSendInditravelerNotifyWithParam( strReceiver , strType , strTitle , strBadge , strExtras , docMain , aparam )
+
+    Exit Sub
+errhandle:
+    ShowError( "suSendInditravelerNotify" )
+End Sub
+
+'++LotusScript Development Environment:2:2:suSendSMRequest:15:8
+%REM
+功能：
+	发送调用RTX消息提醒请求前人员列表的处理
+	由于API不允许人员列表超过128人，所以把这个操作放到代理，减少服务器的压力 
+接口：
+	intLevel		优先级
+	strReceiver	消息接收人（或电话号码）列表
+	strMessage	消息内容
+修改：
+	创建 2005.01.28 d2chaofan
+注意：
+
+%END REM
+Sub suSendSMRequest(intLevel As Integer , strSender As String , _
+	strReceivers As String , strMessage  As String)
+	On Error GoTo errHandle
+	g_logger.Info("发送短信函件到函件库")
+	
+	g_logger.debug("判断条件是否满足strReceivers<>"" And m_strReciever_new<>"" ，m_strReciever_new="+m_strReciever_new+",strReceivers="+strReceivers)
+	If strReceivers<>"" And m_strReciever_new<>"" Then
+		g_logger.debug("满足条件")
+		
+		'创建调用RTX消息提醒请求的邮件
+		Dim ndoc As NotesDocument 
+		Set ndoc = m_nsInLibRTX.CurrentDatabase.CreateDocument 
+		ndoc.Form = "frmSM"
+		ndoc.fldLevel = intLevel
+		ndoc.fldSender = strSender
+		ndoc.fldReceiver = strReceivers
+		ndoc.fldMessage = strMessage
+		g_logger.info("准备向m_strReciever_new发送SM函件，m_strReciever_new="+m_strReciever_new)
+		ndoc.SendTo = m_strReciever_new
+		ndoc.Send False
+		
+	End If
+	Exit Sub 
+errHandle:
+	showerror("suSendSMRequest")
+End Sub
+
+
+'++LotusScript Development Environment:2:1:fnCreateSessionKey:12:8
+%REM
+功能：
+	生成一个SessionKey文档，并标识为有效 
+接口：
+	strUserID		String	用户的ID
+	返回值		String	10位随机数（由fnCreateRandomString的参数决定）
+修改：
+	创建 2005.01.28 d2chaofan
+注意：
+
+%END REM
+Function fnCreateSessionKey(strUserID As String) As String
+	On Error GoTo errHandle
+	g_logger.info("生成一个SessionKey文档，并标识为有效 ")
+	g_logger.Debug("判断strUserID是否为空，strUserID="+strUserID)
+	If strUserID="" Then
+		g_logger.Debug("strUserID为空，函数退出，函数返回值为空")
+		fnCreateSessionKey = ""
+	Else
+		g_logger.Debug("strUserID不为空，创建表单为frmSessionKey的函件ndoc")
+		Dim strSessionKey As String
+		strSessionKey = fnCreateRandomString(10)
+		strSessionKey = strSessionKey + strUserId + Format(Now,"YYYYMMDDHHMMSS")
+		Dim ndoc As NotesDocument 
+		Set ndoc = m_nsInLibRTX.CurrentDatabase.CreateDocument 
+		ndoc.Form = "frmSessionKey"
+		ndoc.fldSessionKey = strSessionKey
+		ndoc.fldValid = "1"
+		ndoc.fldUserID = strUserID
+		ndoc.fldTimeStamp = Now
+		g_logger.debug("准备向m_strReciever_new发送sessionkey函件，m_strReciever_new="+m_strReciever_new)
+		ndoc.SendTo = m_strReciever_new
+		ndoc.Send False
+		fnCreateSessionKey = strSessionKey
+	End If
+	Exit Function 
+errHandle:
+	showerror("fnCreateSessionKey")
+End Function
+
+
+
+'++LotusScript Development Environment:2:2:suGetIndiTrvlPushConfig:1:8
+Sub suGetIndiTrvlPushConfig
+	'初始化请求接收人
+	g_logger.Info("获取IndiTravelerpush配置")
+	m_strReciever_inditrvl = ""
+	
+	On Error GoTo errHandle
+	'2016年1月11日 wusn 判断是否为匿名用户，匿名用户的话，退出
+	Dim session As New NotesSession
+	g_logger.debug(|判断条件是否满足session.Effectiveusername="Anonymous",session.Effectiveusername=|+session.Effectiveusername)
+	If session.Effectiveusername="Anonymous" Then
+		g_logger.debug(|满足条件，当前用户是匿名用户，exit sub|)
+		Exit sub
+	End If
+	g_logger.debug(|判断key_isDeployMobile开关是否不为1|)
+	If getConfigKey("key_isDeployMobile")<>"1" Then
+		g_logger.debug(|满足条件，开关不是1，未部署indimobile，exit sub|)
+		Exit sub
+	End If
+	
+	'获取配置文档，并获取配置数据
+	Dim ndbOaconfig As NotesDatabase
+	Dim vwRtxValidConfigByUser As NotesView
+	Dim docRtxConfig As NotesDocument 
+	g_logger.debug("获取当前服务器上的oaconfig数据库，赋值给ndbOaconfig")
+	Set ndbOaconfig = m_nsInLibRTX.GetDatabase("","indishare/oaconfig.nsf")
+	g_logger.debug("获取aconfig数据库中视图vwIndiTravelerPushByName，赋值给vwValidRtxConfigByUser")
+	Set vwRtxValidConfigByUser = ndbOaconfig.GetView("vwIndiTravelerPushByName")
+	g_logger.debug("判断是否满足条件vwRtxValidConfigByUser Is nothing")
+	If vwRtxValidConfigByUser Is nothing Then
+		g_logger.debug("满足条件vwRtxValidConfigByUser Is nothing，Exit sub")
+		Exit Sub
+	End If
+	g_logger.debug("vwRtxValidConfigByUser不是nothing，获取其第一条文档赋值给docRtxConfig")
+	'查询本服务器应用的配置文档
+	Set docRtxConfig = vwRtxValidConfigByUser.getfirstDocument()
+	g_logger.debug("判断是否满足条件Not docRtxConfig Is Nothing")
+	If Not docRtxConfig Is Nothing Then
+		g_logger.debug("满足条件Not docRtxConfig Is Nothing，执行赋值m_strReciever_inditrvl = docRtxConfig.fldMailName(0)")
+		m_strReciever_inditrvl = docRtxConfig.fldMailName(0)
+		g_logger.debug("m_strReciever_inditrvl = "+m_strReciever_inditrvl)
+		
+	End If
+	
+	Exit Sub
+errHandle:
+	showerror("suGetIndiTrvlPushConfig")
+End Sub
+
+'++LotusScript Development Environment:2:1:fnIsRtxUser:2:8
+
+Function fnIsRtxUser(strUserId As String) As Boolean
+	On Error GoTo errHandle
+	fnIsRtxUser=False
+	
+	Dim ndb As NotesDatabase
+	Dim nvw As NotesView 
+	Dim ndoc As NotesDocument 
+	Set ndb = m_nsInLibRTX.GetDatabase("","indishare/indinames.nsf")
+	Set nvw = ndb.GetView("vwUserByUserID")
+	Set ndoc = nvw.GetDocumentByKey(strUserId)
+	If Not ndoc Is Nothing Then
+		If ndoc.HasItem("fldIsRTXUser") And ndoc.fldIsRTXUser(0) = "1" Then
+			fnIsRtxUser =True
+		End If
+	End If
+	
+	Exit Function
+errHandle:
+	showerror("fnIsRtxUser")
+End Function
+
+'++LotusScript Development Environment:2:2:suSendInditrvlNotify:15:8
+
+%REM
+功能：
+    发送调用inditraveler消息提醒请求 
+    兼容老的已调用的结构做兼容
+接口：
+    strReceiver    消息接收人
+    strType        消息类型，mail，todo，toread，notice
+    docMain        邮件文档，待办待阅主文档，通知(通用发布的文档)
+    aparam		      预留的扩展参数
+修改：
+注意：
+
+%END REM
+Sub suSendInditrvlNotify(strReceiver As String , strType As String , docMain As NotesDocument )
+    On Error GoTo errhandle
+
+	Dim aparam List As Variant 
+	Call suSendInditravelerNotifyWithParam( strReceiver , strType ,"","","",  docMain, aParam )
+
+    Exit Sub
+errhandle:
+    ShowError( "suSendInditrvlNotify" )
+End Sub
+
+'++LotusScript Development Environment:2:2:suSendNotify:17:8
+
+%REM
+功能：
+	发送调用RTX消息提醒请求 
+接口：
+	intLevel		优先级
+	strReceiver	消息接收人
+	strTitle		消息标题
+	strMessage	消息内容
+	strLink		打开的连接
+修改：
+	创建 2005.01.28 d2chaofan
+注意：
+
+%END REM
+Sub suSendNotify(intLevel As Integer , strReceiver As String , _ 
+	strTitle As String , strMessage  As String , strLink As String)
+	On Error GoTo errHandle
+	g_logger.Info("创建调用RTX消息提醒请求的邮件")
+	g_logger.Info("判断传入的strReceiver是否为空，strReceiver为："+strReceiver)
+	g_logger.Info("判断blnNeedNotify的值是否为真，blnNeedNotify为" + CStr(blnNeedNotify))
+	If strReceiver<>"" And blnNeedNotify Then
+		g_logger.Info("传入的strReceiver不为空且blnNeedNotify为真，需要发送即时通讯业务消息")
+		'创建调用RTX消息提醒请求的邮件
+		Dim ndoc As NotesDocument 
+		'Dim session As NotesSession 
+		'Dim dbcurrent As notesdatabase
+		'Dim innamdb As NotesDatabase 
+		'Dim vwnam As NotesView 
+		'Dim docnam As notesdocument
+		Dim strAllReceivers   As String
+		Dim stridchange As String 
+		Dim astrReceiver As Variant
+		Dim strOneReceiver As String  
+		Dim i As Long 
+		'Set session =New NotesSession 
+		'Set dbcurrent=session.CurrentDatabase 
+		'Set session = New notessession
+		'Set innamdb= session.GetDatabase(dbcurrent.Server ,"indishare/indinames.nsf")
+		'If Instr(strReceiver, "CN=")>0 Then
+		'	Set vwnam =innamdb.GetView("vwRegUserByFullName")
+		'Else
+		'	Set vwnam=innamdb.GetView("vwUserByName")
+		'End If
+		
+		
+		g_logger.Info("将strReceiver分号等统一替换成逗号，并按逗号分隔，保存到数组astrReceiver中")
+		strAllReceivers = strReceiver
+		strAllReceivers = Replace(strAllReceivers,"，",",")
+		strAllReceivers = Replace(strAllReceivers,"；",",")
+		strAllReceivers = Replace(strAllReceivers,";",",")
+		astrReceiver = Split(strAllReceivers,",")
+		
+		Call g_logger.debugWithVariable("astrReceiver=",astrReceiver)
+		g_logger.debug("开始循环For i=0 To UBound(astrreceiver)，将不是IM用户的过滤掉")
+		Dim strtmpuserid As String
+		For i=0 To UBound(astrreceiver)
+			'by sunxz add 2012-10-16,判断是否是rtx用户
+			
+			If( fnIsRtxUser(astrreceiver(i)) )Then
+				astrReceiver(i)=fngetuseridbyname(astrreceiver(i))
+			Else
+				astrReceiver(i)	=""
+			End If
+			
+		Next i
+		g_logger.debug("结束循环For i=0 To UBound(astrreceiver)")
+		g_logger.debug("开始循环For i=0 To UBound(astrreceiver)，准备创建函件文档")
+		For i=0 To UBound(astrreceiver)
+			g_logger.debug("判断当前用户astrreceiver(i)是否为空，astrreceiver(i)="+CStr(astrreceiver(i)))
+			If astrreceiver(i) <>"" Then
+				g_logger.debug("astrreceiver(i)不是空，获取其rtx配置，赋值给strOneReceiver")
+				'增加对跨服务器的处理
+				strOneReceiver = fnGetRtxConfigByUserName(astrreceiver(i))
+				g_logger.debug("strOneReceiver="+strOneReceiver)
+				
+				Set ndoc = m_nsInLibRTX.CurrentDatabase.CreateDocument 
+				g_logger.debug("判断条件是否满足m_strReciever_new <>""，m_strReciever_new="+m_strReciever_new)
+				If m_strReciever_new <>"" Then
+					g_logger.debug("满足m_strReciever_new <>""，创建表单为frmNotify函件ndoc")
+					ndoc.Form = "frmNotify"
+					ndoc.fldLevel = intLevel
+					ndoc.fldReceiver = astrReceiver(i)
+					ndoc.fldTitle = strTitle
+					ndoc.fldMessage = strMessage
+					ndoc.fldLink = strLink
+					g_logger.debug("生成sessionkey，赋值给ndoc.fldSessionKey")
+					ndoc.fldSessionKey = fnCreateSessionKey(astrreceiver(i))
+					g_logger.debug("ndoc.fldSessionKey="+ndoc.fldSessionKey(0))
+					g_logger.info("准备向m_strReciever_new发送notify函件，m_strReciever_new="+m_strReciever_new)
+					ndoc.SendTo = m_strReciever_new
+					ndoc.Send False
+				End if
+			End If
+		Next i
+		g_logger.debug("结束循环For i=0 To UBound(astrreceiver)")
+	End If
+	Exit Sub
+errHandle:
+	showerror("suSendNotify")
+End Sub
+
+'++LotusScript Development Environment:2:1:fnCreateSessionKeyForUrlWithParam:5:8
+%REM
+	Function fnCreateSessionKeyForUrlWithParam
+	Description: API for单点登录url
+%END REM
+Function fnCreateSessionKeyForUrlWithParam(strUserId As String ,strUrl As String ,aParam List As Variant )As String 
+	On Error GoTo errHandle
+	
+	Dim dbcur As NotesDatabase
+	Dim strSessionKey As String 
+	Dim rtnUrl As String 
+	
+	Set dbcur = m_nsInLibRTX.Currentdatabase
+	
+	strUserId = fnGetRtxConfigByUserName(strUserId)
+	
+	strSessionKey = fnCreateSessionKey(strUserId)
+	
+	If m_dbFilePathLibRTX="" Then
+		m_dbFilePathLibRTX = "indishare/indirtx.nsf"
+	End If
+	
+	rtnUrl = getSSLConfig(dbCur) + "/" + m_dbFilePathLibRTX+"/agGoWeb?openagent&sessionkey="+strSessionkey+"&targeturl="+strUrl
+	
+	fnCreateSessionKeyForUrlWithParam = rtnUrl
+	
+	Exit Function 
+errHandle:
+	showerror("fnCreateSessionKeyForUrlWithParam")
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetUserIdByName:1:8
+Function fnGetUserIdByName(strUser As String) As String
+	On Error GoTo errHandle
+	
+	Dim ndb As NotesDatabase
+	Dim nvw As NotesView 
+	Dim ndoc As NotesDocument 
+	Set ndb = m_nsInLibRTX.GetDatabase("","indishare/indinames.nsf")
+	Set nvw = ndb.GetView("vwforRTX")
+	Set ndoc = nvw.GetDocumentByKey(struser)
+	If ndoc Is Nothing Then
+		fnGetUserIdByName = struser
+	Else
+		fnGetUserIdByName = ndoc.userid(0)		
+	End If
+	
+	Exit Function
+errHandle:
+	fnGetUserIdByName = ""
+	showerror("fnGetUserIdByName")
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetRtxConfigByUserName:6:8
+%REM
+功能：
+	根据用户名称，获取到用户用户所属服务器的IM配置，返回发送函件消息的地址 
+	guanjh 20151202 修改
+%END REM
+Function fnGetRtxConfigByUserName(strUser As String) As String
+	On Error GoTo errHandle
+	g_logger.info("根据用户名称，获取到用户用户所属服务器的IM配置,用户为："+strUser)
+	g_logger.debug("执行赋值m_strReciever_new = m_strReciever，m_strReciever="+m_strReciever)
+	m_strReciever_new = m_strReciever
+	Dim ndb As NotesDatabase
+	Dim nvw As NotesView 
+	Dim ndoc As NotesDocument 
+	g_logger.debug("获取当前服务器indinames数据库，赋值给ndb")
+	Set ndb = m_nsInLibRTX.GetDatabase("","indishare/indinames.nsf")
+	g_logger.debug("获取vwforRTX，赋值给nvw")
+	Set nvw = ndb.GetView("vwforRTX")
+	g_logger.debug("获取当前用户文档，赋值给ndoc")
+	Set ndoc = nvw.GetDocumentByKey(struser)
+	g_logger.debug("判断是否满足条件ndoc Is Nothing")
+	If ndoc Is Nothing Then
+		g_logger.debug("满足条件，执行赋值fnGetRtxConfigByUserName = struser")
+		fnGetRtxConfigByUserName = struser
+	Else
+		g_logger.debug("不满足条件ndoc 不是 Nothing")
+		g_logger.debug("满足条件，执行赋值fnGetRtxConfigByUserName = ndoc.userid(0)，ndoc.userid(0)="+ndoc.userid(0))
+		fnGetRtxConfigByUserName = ndoc.userid(0)		
+		
+		'根据用户所在的应用来获取到短信发送到的函件库位置  guanjh 20151010
+		'处理跨服务器用户短信问题
+		Dim userAppName As String 
+		g_logger.debug(|判断是否满足条件Not ndoc.Hasitem("appName")|)
+		If Not ndoc.Hasitem("appName") Then
+			g_logger.debug(|满足Not ndoc.Hasitem("appName")，Exit Function|)
+			Exit Function
+		End If
+		g_logger.debug(|执行赋值userAppName = ndoc.appName(0)， ndoc.appName(0)值为|+ ndoc.appName(0))
+		userAppName = ndoc.appName(0)
+		g_logger.debug(|判断是否满足条件userAppName= ""|)
+		If userAppName= "" Then
+			g_logger.debug(|满足userAppName= ""，Exit Function|)
+			Exit Function
+		End If
+		Dim servername As String 
+		g_logger.debug(|根据userAppName获取servername，userAppName=|+userAppName)
+		servername = fnGetDbServerOfApp(userAppName)
+		g_logger.debug(|servername=|+servername)
+		Dim ndbOaconfig As NotesDatabase
+		Dim vwRtxValidConfigByUser As NotesView
+		Dim docRtxConfig As NotesDocument 
+		g_logger.debug("获取当前服务器oaconfig数据库，赋值给ndb")
+		Set ndbOaconfig = m_nsInLibRTX.GetDatabase("","indishare/oaconfig.nsf")
+		g_logger.debug("获取aconfig数据库中视图vwValidRtxConfigByUser，赋值给vwValidRtxConfigByUser")
+		Set vwRtxValidConfigByUser = ndbOaconfig.GetView("vwValidRtxConfigByUser")
+		g_logger.debug("根据servername查询本服务器应用的配置文档，servername="+servername)
+		'查询用户所在服务器的配置文档
+		Set docRtxConfig = vwRtxValidConfigByUser.GetDocumentByKey(servername,True)
+		g_logger.debug("判断是否满足条件Not docRtxConfig Is Nothing")
+		If Not docRtxConfig Is Nothing Then
+			g_logger.debug("满足条件，执行赋值m_strReciever = docRtxConfig.fldMailName(0)，值为："+docRtxConfig.fldMailName(0))
+			m_strReciever_new = docRtxConfig.fldMailName(0)
+		Else
+			g_logger.debug("不满足条件，docRtxConfig是nothing，继续找关键字为*的配置文档")
+			'没有相应的配置文档，获取所有服务器应用的配置文档
+			Set docRtxConfig = vwRtxValidConfigByUser.GetDocumentByKey("*",True)
+			g_logger.debug("判断是否满足条件Not docRtxConfig Is Nothing")
+			If Not docRtxConfig Is Nothing Then
+				g_logger.debug("满足条件，执行赋值m_strReciever = docRtxConfig.fldMailName(0)，值为："+docRtxConfig.fldMailName(0))
+				m_strReciever_new = docRtxConfig.fldMailName(0)
+			End If
+		End If
+	End If
+	
+	Exit Function
+errHandle:
+	fnGetRtxConfigByUserName = ""
+	showerror("fnGetRtxConfigByUserName")
+End Function
+
+'++LotusScript Development Environment:2:1:fnCreateRandomString:14:8
+%REM
+功能：
+	生成一个指定长度的随机字符串 
+接口：
+	intLen		返回的字符串长度
+	返回值	指定长度的随机字符串		
+修改：
+修改：
+	创建 2005.01.28 d2chaofan
+注意：
+
+%END REM
+
+Function fnCreateRandomString(intLen As Integer) As String
+	On Error GoTo errHandle
+	Dim strReturn As String
+	strReturn = ""
+	
+	If intLen>0 Then
+		Dim strBase As String
+		strBase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+		Dim i As Integer
+		Dim j As Integer
+		j = Len(strBase)-1		
+		For i =1 To intLen
+			strReturn = strReturn + Mid(strBase,CInt(Rnd()*j) + 1,1)
+		Next
+	End If
+	fnCreateRandomString = strReturn
+	
+	Exit Function 
+errHandle:
+	showerror("fnCreateRandomString")
+End Function
+
+'++LotusScript Development Environment:2:2:suSyncMobile:1:8
+Sub suSyncMobile(strUserID As String,strMobile As String)
+	On Error GoTo errHandle
+	If strUserID<>"" And m_strReciever<>"" Then
+		'创建调用RTX消息提醒请求的邮件
+		Dim ndoc As NotesDocument 
+		Set ndoc = m_nsInLibRTX.CurrentDatabase.CreateDocument 
+		ndoc.Form = "frmSyncMobile"
+		ndoc.fldUserID = strUserID
+		ndoc.fldMobile = strMobile
+		ndoc.SendTo = m_strReciever
+		ndoc.Send False
+	End If
+	Exit Sub 
+errHandle:
+	showerror("suSyncMobile")
+End Sub

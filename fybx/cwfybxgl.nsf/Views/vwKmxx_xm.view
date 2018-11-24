@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwKmxx_xm' alias='科目信息' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' showinmenu='false' defaultdesign='true' noreplace='true'
+ allowdocselection='true' publicaccess='false' designerversion='8.5.3' language='zh-CN'
+ comment='公文按日期' unreadmarks='standard' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='false' showmargin='true'
+ shrinkrows='true' extendlastcolumn='false' showhierarchies='false' unreadcolor='maroon'
+ rowlinecount='5' headerlinecount='1' rowspacing='1.25' haslinkcolumn='true'
+ bgcolor='white' altrowcolor='#efefef' totalscolor='blue' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='25f46' unid='60D1F2A4985E74D348258334001B39AE' sequence='5'>
+<created><datetime>20181028T125722,38+08</datetime></created>
+<modified><datetime>20181030T162731,57+08</datetime></modified>
+<revised><datetime>20181030T162731,56+08</datetime></revised>
+<lastaccessed><datetime>20181030T162731,56+08</datetime></lastaccessed>
+<addedtofile><datetime>20181028T125722,46+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+>SELECT Form = "frmKmxx_xm"</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column hidedetailrows='false' itemname='$80' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='序号'><font size='9pt' style='bold'/></columnheader><code event='value'><formula
+>@DocNumber</formula></code></column>
+<column sort='ascending' hidedetailrows='false' itemname='fldKmdm_xm' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='true'><columnheader title='科目代码'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='fldKmsm_xm' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='科目说明'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='fldZkmdm_xm' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='子科目代码'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='fldZkmsm_xm' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='true'><columnheader
+ title='子科目说明'><font size='9pt' style='bold'/></columnheader></column>
+<item name='$TYPE'><text>$SUBVIEW</text></item>
+<item name='$LastBuildTime' sign='true'><datetime>19990726T175344,55+08</datetime></item>
+<item name='$BabelInfo' sign='true'><text>00000172</text></item>
+<item name='TmpViewDesignCollation'><text>zh-CN</text></item></view>
+

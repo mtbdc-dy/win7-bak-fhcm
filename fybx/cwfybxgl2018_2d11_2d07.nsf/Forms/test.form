@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='test' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='151e' unid='A0C5A4BE3F8F6212482580FF000DF1E0' sequence='5'>
+<created><datetime>20170411T103218,88+08</datetime></created>
+<modified><datetime>20181107T195856,41+08</datetime></modified>
+<revised><datetime>20181024T101241,38+08</datetime></revised>
+<lastaccessed><datetime>20181107T195856,41+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195856,41+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><field type='text' kind='editable' name='form'><code event='defaultvalue'><formula
+>"frmWebFlow"</formula></code></field><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'/>
+<par def='1'><field type='text' kind='editable' name='fldBxfeeXmbh_xm' htmlid='fldBxfeeXmbh_xm'/><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>test</text></item></form>
+

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='strShowAttModify' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='2ce' unid='BA6213046FEE931348257CAF00380DEA' sequence='55'>
+<created><datetime>20140403T181215,78+08</datetime></created>
+<modified><datetime>20181107T195617,60+08</datetime></modified>
+<revised><datetime>20181024T085444,03+08</datetime></revised>
+<lastaccessed><datetime>20181107T195617,60+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195617,60+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='strShowAttModify'><code event='defaultvalue'><formula
+ compiled='true'>
+PgIJADQC3H6ac1zfuT9+RfIsQqlwBfr80rbPHRzWMe4UPtZ7pb2w3cxVk9bdqvVYPWnr0qfsNItI
+iiOU+9BAMLkkRldO5Lcdbd1lnjTnh8oqpz+5JCZZ21fhgnRNXvmtTeeTP8ESTRfXR5om492EBaBV
+MvDTypd2+j2AStoXua1YfyIqZpkNAp/yFALCaLramzVU+ZOoJDGaTvx3r7FtJOVxqvWcdLaLCpq0
+NO+n/7fP5uLuP5/m+VxQTKbpJ19+zbevXeAws++7MItYhppUT0ixGn3eXSdbKTzY0l+83AcYmpEI
+dCdjyXEfNRXzY1wQeDvqfEhIUGDngpfz/K1DngZwtnk+Y/A4KInef6z44IjxijSqKwcF2pNGS6FH
+sM5nI3iTh+Z9w2LM9vTkzBkgQnjMApraiAoh9oopC+B2uB8DNUff7JidUMJqLFMu48SAzZHyD112
+JdFZwnSu5QL1rVYoDlV2QBNXAVHbn7PMH0AKb3Mzo8A42nhPaEijxJaLnOdzjC8m9bRBswnn1Dk5
+MuH8Yat7DhpI2wvE7Bscd59v/lS6rwGggpsGykNmCoH5sm9KH7OvDKErhSihm6wjLN4lJ5/0pqxs
+WYJRuhgj2ry4hct+rA35czDSzgRqRPfQnoTiC0iktLNA/PK/gu++5Wk1toGhCrY1NcaUTHwm+3w2
+M58T6OkUKqsIo3oP7aXP93929MV0vw/xbPE25TDe+lu1OVFvnwTZ5qyk/SbmDMwj91LuPDsEAAQA
+BAAEAA==
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,49+08</datetime></item></sharedfield>
+

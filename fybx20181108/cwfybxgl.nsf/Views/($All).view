@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='($All)' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ showinmenu='false' publicaccess='false' designerversion='6.5' default='true'
+ comment='所有文档' unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='true' showmargin='true'
+ shrinkrows='false' extendlastcolumn='false' showhierarchies='false' unreadcolor='black'
+ rowlinecount='1' headerlinecount='1' rowspacing='1' bgcolor='white' totalscolor='gray'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='1f6' unid='01C6310E7CF6BA6648256E54004678CB' sequence='55'>
+<created><datetime>20040311T204944,43+08</datetime></created>
+<modified><datetime>20181025T014919,07+08</datetime></modified>
+<revised><datetime>20181024T085441,51+08</datetime></revised>
+<lastaccessed><datetime>20181025T164508,42+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133243,60+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+TgAJAEQAFB7JxMbWtlDPwJCzUCLKZoeYv+hpRdYzss44akKs+KanHa87eLweQqzOJBlrQuSAMVo7
+4xbsCXkp3MMATKOsAQQABAAEAAQA
+</formula></code>
+<actionbar bgcolor='#d4d0c8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#d4d0c8'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
+<action title='清除计算了路径的域'><code event='click'><formula compiled='true'>
+dgAJAGwAjJWjsqJH0cd/VMt2XxhUBs/slU2YWkBZbA7NfK3L8H+au/cc716WRThH0Syjt+gzRXqx
+d8lHuvXixlb6NfJspTzS8u3ksPzaGQBvCKWmHy7VqfoJ0igpnAThR1EVW1GfOlze8w6yyTUEAAQA
+BAAEAA==
+</formula></code></action>
+<action title='_Edit Document' showinbar='false' systemcommand='edit'/>
+<action title='_Send Document' showinbar='false' systemcommand='send'/>
+<action title='_Forward' showinbar='false' systemcommand='forward'/>
+<action title='_Move To Folder...' showinbar='false' systemcommand='movetofolder'/>
+<action title='_Remove From Folder' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' hidedetailrows='false' itemname='$0' width='30.7500'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><columnheader title='create'><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+HgAJABQAEJ0RExd+UTRxjwGvzXoJbQQABAAEAAQA
+</formula></code></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,87+08</datetime></item></view>
+

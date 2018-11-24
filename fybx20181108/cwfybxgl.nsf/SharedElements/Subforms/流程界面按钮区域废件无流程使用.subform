@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='流程界面按钮区域废件无流程使用' alias='sfrmFlowButton_trash' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='21a' unid='8B3A3BDD45673214482579E4002545C5' sequence='55'>
+<created><datetime>20120418T144706,93+08</datetime></created>
+<modified><datetime>20181025T014918,21+08</datetime></modified>
+<revised><datetime>20181024T085441,73+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,20+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010802,31+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;div id="btnContainer" nowrap style="text-align:right"&gt;</run></par>
+<pardef id='2' leftmargin='1in' rightmargin='100%' hide='notes'><code event='hidewhen'><formula
+ compiled='true'>
+fgAJAHQAVC0ezKscl5lukw9Yt3DEC2DlkbF8hN57NC74gJgE8jvCQPJHm0EaTaiWQU3yDUfgcuNm
+wQ347Fthe985ptlnTh//jppGn9ZxXI4+/TssIg32SE4Axedi2SfejKVo5nCj763iGavmD3q2oBOU
+P3ASIAQABAAEAAQA
+</formula></code></pardef>
+<par def='2'><run html='true'><font size='9pt' name='serif' color='blue'/>  &lt;</run><run
+ html='true'><font size='9pt' name='serif' color='#a11f12'/>button</run><run
+ html='true'><font size='9pt' name='serif'/> </run><run html='true'><font
+ size='9pt' name='monospace'/>id="btntrash_huifu" type="button" </run><run
+ html='true'><font size='9pt' name='serif' color='#c20041'/>data-string-id="indiplatform.tylc.btnhuifu"</run><run
+ html='true'><font size='9pt' name='monospace'/> onClick="return resumethisdoc('</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace'/>'</run><run html='true'><font
+ size='9pt' name='monospace'/>)"</run><run html='true'><font size='9pt' name='serif'
+ color='blue'/> dojoType="smartdot.form.BusyButton" busyLabel="恢复中..."&gt;</run><run
+ html='true'><font size='9pt' name='serif'/>恢复</run><run html='true'><font
+ size='9pt' name='serif' color='blue'/>&lt;/</run><run html='true'><font size='9pt'
+ name='serif' color='#a11f12'/>button</run><run html='true'><font size='9pt'
+ name='serif' color='blue'/>&gt;</run></par>
+<pardef id='3' leftmargin='1in' rightmargin='100%' hide='notes'><code event='hidewhen'><formula
+ compiled='true'>
+xgAJALwAgt4Mcnws8YwF+mQQ1E2da+02B112ysVSebP8V0lw6NIVtd2OghgIqmfe9K/AWcW2s1Mz
+s5KBHUD44ZXHZn+N9wNA/RUT8IRrfDkHjI/jfHKSCuEAjIIUHDSx9EZmwUvy93H10kznoZ280+P3
+uyxgiWpZ+oz8dv8ERuVAJqCuvB5vUqLlULXE8p6Tc+VAmsyRW6YwPzLOaOO5BmFgCt6TUQ4ok0im
+KzKcjexerTJXmiHTWxlXpXf61gQABAAEAAQA
+</formula></code></pardef>
+<par def='3'><run html='true'><font size='9pt' name='serif' color='blue'/></run></par>
+<pardef id='4' leftmargin='1.2500in' rightmargin='100%' hide='print notes'><code
+ event='hidewhen'><formula compiled='true'>
+7gAJAOQAHj6lXAzfenC6zyEPZJJxHhObF9uxLiEMnOvNU3wgUO/mY3n6VR+n2rwogPnNBpC5fGBv
+uo927sVQiJHmUDMcLfpmUUqtF0ad8eL8qjf7/LGmwT5B3oCghyd3Sv4rUywLyDzowdP0ESvQq0xo
+cgytukXuLOQxAKBjje88JOgXpLryBYjjwBn8prVoEtJc/CHGZCnnmFLiUZsaodogd7LsGB3SAGVS
+lGmTtsbBln1PlTjnzbartohKvdyHn1cGp9bpwDQymDVcdUjrtljvMEzHCXQmyly7zt1YF90M0Sac
+h2IEAAQABAAEAA==
+</formula></code></pardef>
+<par def='4'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;button id="btnJianqian" type="button" data-role="hq" dojoType="smartdot.form.BusyButton"</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/> timeOut="2000"  </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>onClick="return fnJianHQAndGT('</run><run
+ html='true'><font size='9pt' color='maroon'/><computedtext><code event='value'><formula
+ compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>','</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+LgAJACQAxlObK2ryBUUrZHz5oEDQWrj2pXZNL71fOVeaIrQmKRUEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>');"</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/>  data-string-id='indiplatform.tylc.jianqian'&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+bgAJAGQAlcyBqstghtTkweaASR98lgTnpqq4cAnj31lIlUGV/Vv8JlrpcFrsxdx391IFJjS6T1pR
+Yzr84FTT+lqeKFwK7XSTXuEm/0D415aOu7+hjkClojE5YBdOXI3ToWviAHzvBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='serif' color='blue'/>&lt;/</run><run html='true'><font
+ size='9pt' name='serif' color='#a11f12'/>button</run><run html='true'><font
+ size='9pt' name='serif' color='blue'/>&gt;</run></par>
+<pardef id='5' leftmargin='1.2500in' rightmargin='100%' hide='read print notes'><code
+ event='hidewhen'><formula compiled='true'>
+BgEJAPwA4Br+ZLR5MaZKsy2AdCEXL4UsSxTR01b/LivRF3hfAlW6CJQDsDdSpENAebAtLNmayOl2
+k4xdKO2fpspf9a2vrx1rnXJ0kt6wCZdtTVmi+0r/vdolZ5Qi+sgL7+ZIvgCRNvIUMsMcQcATQdNY
+0cOO7MWC1ScUtRfLEXjOg1KkWDsTQ+oX2fV2vygRMfF6A2p9n/Y41xddlk8Lyw5SKIbqvxTNE6qr
+VLiK4YAX56oJl4zCvld/u2lEOyMJwuicINqnAgo7d9t1rJhCBGA+IVVFEUfsy27QuxKQpDKiXAwM
+2uWZ56p3J4fTeZWqKvy0c+6m27dp7gCgGB4EAAQABAAEAA==
+</formula></code></pardef>
+<par def='5'><run html='true'><font size='9pt' name='serif' color='blue'/></run></par>
+<pardef id='6' leftmargin='1.2500in' rightmargin='100%' hide='print notes'><code
+ event='hidewhen'><formula compiled='true'>
+DgEJAAQBvZrigfnBRccRq5dz6/IYhTSxsXr3pcjyWiqopbENa9tC42YR9PVDULdgEpSi8fILhAVH
+hB6CrK1tEiiUeCPs52n84QBn9Tw4Cc8up8kR8pzglYWwRllJ+fiHXPuuvd2RswI2wM4z1vdhkWlt
+MZUaAuBwNrW5OwEzl+O1gpQhz+/k9LMBY/brahmPmf++oJQswM616s1dpmP4gljzVCMLnHDriah+
+8EyR72isG3+6gE+VvGbrwIzDi0wFq+qiJd7dBCYHkkKHrjF7Jgr3nSQaUCwJYZ/mUV56Q5PuQWv3
+gs47WVEcqx7Pp/sGZgRp4ga99B2UiMwJkrrUrtmN+HrXeAQABAAEAAQA
+</formula></code></pardef>
+<par def='6'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;button id="btnJianqian" type="button" data-role="hq" dojoType="smartdot.form.BusyButton"</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/> timeOut="2000"  </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>onClick="return fnJianqian('</run><run
+ html='true'><font size='9pt' color='maroon'/><computedtext><code event='value'><formula
+ compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>','</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+LgAJACQAxlObK2ryBUUrZHz5oEDQWrj2pXZNL71fOVeaIrQmKRUEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>');"</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/>  data-string-id='indiplatform.tylc.jianqian'&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+bgAJAGQAlcyBqstghtTkweaASR98lgTnpqq4cAnj31lIlUGV/Vv8JlrpcFrsxdx391IFJjS6T1pR
+Yzr84FTT+lqeKFwK7XSTXuEm/0D415aOu7+hjkClojE5YBdOXI3ToWviAHzvBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='serif' color='blue'/>&lt;/</run><run html='true'><font
+ size='9pt' name='serif' color='#a11f12'/>button</run><run html='true'><font
+ size='9pt' name='serif' color='blue'/>&gt;</run></par>
+<par def='3'><run html='true'><font size='9pt' name='serif' color='blue'/></run></par>
+<par def='3'><run html='true'><font size='9pt' name='serif' color='blue'/></run></par>
+<pardef id='7' leftmargin='1in' hide='print notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='7'><run html='true'><font size='9pt' name='monospace' color='maroon'/>  </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>&lt;button </run><run
+ html='true'><font size='9pt' name='monospace'/>id="btntrash_exit" type="button"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/> </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>onClick="</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>doExit();"</run><run
+ html='true'><font size='9pt' name='serif' color='#ff2259'/> </run><run html='true'><font
+ size='9pt' name='serif' color='#c20041'/>data-string-id="indiplatform.tylc.btntuichu"</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/> dojoType="smartdot.form.Button" &gt;</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>退出</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>&lt;/button&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='serif' color='maroon'/>&lt;/div&gt;</run></par>
+<par def='7'><run html='true'><font size='9pt' name='serif' color='maroon'/>&lt;div style="display:none"&gt;</run></par>
+<pardef id='8' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='8'><run html='true'><font color='maroon'/>&lt;input value="</run><run
+ html='true'><font color='red'/><computedtext><code event='value'><formula
+ compiled='true'>
+JgAJABwA+aVW2i4VdQYpRO87+gWgqD4gw9SU7Bs3BAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ color='maroon'/>" name="dbPath_forJS" type=text &gt;</run></par>
+<par def='8'><run html='true'><font color='maroon'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmFlowButton_trash</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,43+08</datetime></item></subform>
+

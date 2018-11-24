@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='删除并发子流程快照文档' alias='agtCleanupSnapshootDocs' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='删快照' restrictions='fulladminunrestricted'
+ activatable='false'>
+<noteinfo noteid='732' unid='CA311D742216C28B48257CE100098906' sequence='49'>
+<created><datetime>20140523T094409,02+08</datetime></created>
+<modified><datetime>20181107T195758,58+08</datetime></modified>
+<revised><datetime>20181024T085456,28+08</datetime></revised>
+<lastaccessed><datetime>20181107T195758,58+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195758,58+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085603,12+08</datetime></designchange>
+<trigger type='scheduled'>
+<schedule type='daily' runlocation='any'>
+<starttime><datetime>T030000,00</datetime></starttime></schedule></trigger>
+<documentset type='all'/>
+<rundata processeddocs='0' exitcode='0' agentdata='AA823767B1424922482583300068E8DB'>
+<agentmodified><datetime>20181025T014926,77+08</datetime></agentmodified>
+<agentrun><datetime>20181107T030435,15+08</datetime></agentrun>
+<runlog>Started running agent '删除并发子流程快照文档|agtCleanupSnapshootDocs' on 2018-11-07 03:04:34
+Running on all documents in database: 9548 total
+Found 9548 document(s) that match search criteria
+Ran LotusScript code
+Done running agent '删除并发子流程快照文档|agtCleanupSnapshootDocs' on 2018-11-07 03:04:35
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210746,34+08</datetime></item>
+<item name='$POID'><datetime>20181024T085456,28+08</datetime></item></agent>
+

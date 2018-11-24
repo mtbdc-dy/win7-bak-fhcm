@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmSubFlowSnapShoot' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='true' designerversion='8.5.3'
+ comment='锁文档'>
+<noteinfo noteid='40e' unid='DFC7E00E01A03B4B48257D27003C56B6' sequence='57'>
+<created><datetime>20140801T185903,58+08</datetime></created>
+<modified><datetime>20181107T195623,68+08</datetime></modified>
+<revised><datetime>20181024T085455,40+08</datetime></revised>
+<lastaccessed><datetime>20181107T195623,68+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195623,68+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' hide='notes web' tabs='L5.3146in'/>
+<par def='1'/>
+<table widthtype='fixedcenter' refwidth='7.1847in'><tablecolumn width='1.9688in'/><tablecolumn
+ width='1.3778in'/><tablecolumn width='1.9688in'/><tablecolumn width='1.8694in'/>
+<tablerow>
+<tablecell bgcolor='gray'>
+<pardef id='3' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='3'><run><font size='12pt' color='white'/>域</run></par></tablecell>
+<tablecell bgcolor='gray'>
+<pardef id='4' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='4'><run><font size='12pt' color='white'/>中文注释</run></par></tablecell>
+<tablecell bgcolor='gray'>
+<pardef id='5' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='5'><run><font size='12pt' color='white'/>值</run></par></tablecell>
+<tablecell bgcolor='gray'>
+<pardef id='6' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='6'><run><font size='12pt' color='white'/>备注</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='7' leftmargin='0.0104in' tabs='L7.2090in' keepwithnext='true'
+ keeptogether='true'/>
+<par def='7'><run><font color='red'/></run><run><font color='red'/><field
+ type='text' kind='editable' name='strRefKey'><code event='htmlattributes'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NVcGcMQ5n3iygwMe8YYjq3tAMtL+ye3DroEAAQABAAEAA==
+</formula></code><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL26h6T28uENn8AQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='11' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font color='red'/></run></par></tablecell>
+<tablecell>
+<par def='4'>本快照文档的key</par></tablecell>
+<tablecell>
+<par def='5'>fldMainKey@time</par></tablecell>
+<tablecell>
+<par def='6'/></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font color='red'/></run></par></tablecell>
+<tablecell>
+<par def='4'/></tablecell>
+<tablecell>
+<par def='5'/></tablecell>
+<tablecell>
+<par def='6'/></tablecell></tablerow></table>
+<pardef id='8' leftmargin='1.9826in' firstlineleftmargin='1in' hide='notes web'
+ tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='8'/>
+<par def='1'/>
+<pardef id='9' tabs='L5.3146in'/>
+<par def='9'/>
+<par def='9'/>
+<par def='9'/></richtext></body>
+<item name='locktime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='fldlocktime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmlockdoc</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,63+08</datetime></item></form>
+

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='操作提交提示界面' alias='frmActionMsg' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='3be' unid='DB1A35BBE9F782DE48257D02001E1F34' sequence='57'>
+<created><datetime>20140625T132900,68+08</datetime></created>
+<modified><datetime>20181107T195621,32+08</datetime></modified>
+<revised><datetime>20181024T085502,49+08</datetime></revised>
+<lastaccessed><datetime>20181107T195621,32+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195621,32+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='htmlhead'><formula
+ compiled='true'>
+3gMJANQDiIS46K7uxudAF8qMUX3jeUE9ASRqQqgi521QL8NlQ/VG5e3MhdGh/VhbFyDwhEli+Qix
+RYsULI/A4zPA++sJ0cI+FtbBtblk3TeQ0eRUHw4TKFk3rLjHSl1eJOj6HUJi2GH7ELvUmGBuznZD
+B9IuUisg9vGDcTrEjxEIjQ2RbZx2rG+rsWPcshKkDauyln4tOVd2CGKGSPwge7zxgAByPPbC+uu1
+vujR7wRiAaF58/BVVQhTEzFPkY4g813Ihu5VF2ASO5OwV+jOF8d1v4qeyZjFFCjdfO9kUDGggPyJ
+9dDbQ2HPL/Ezx5IaLpd6oCBTYtI2InMSMAfD9u7K2DropgYLmakWAFspD720zPG8yEW9zy07KCBG
+SWZv1zpfA7lhPzMv7FsJc98B4PSNL/piktQ3lAu5gwmwyWtCHHWq+tn0PkVnwu07MiphHLfI5rLn
+L2LjyN/qM0ogZHG2+j/xUDzG3KIIAu7HIt/mZRgEdrfFDxVZEJlXGkcv5P9Ner/kUuIk5bBHR4W8
+BEKW65dK6G7vj8oeuQWn0DqI+22/0/S4LZ6DOnLHt5Ea1q332XeTR8x+1ba0nC33aUQ2TOcWcSyJ
+tnippc4aGh9WEsXiaKHNowsMFgVbJdORcXbtWaPcQfklL4VXhxb/zkRdXl3MywwDFQ+UR3aMRxSP
+dKpa1ElTBzfrfYJZvOExxikWy8YRb0mBJki05ZPvmC255mRTV7MuZCHyNj203TpjPt/G8oyPKQ+O
+MSfTJb9nAFa6rWTJ4nqW5NGgOQhfJAb91aoulFPVpACfstLWS+GKYGiSbDfQwD5nB7lr6csDd4DC
+5TTwrqlbB1i5UnUsJt4+P6WjlXvy3H1WcEbJVGj/CWH4k8xq6KpYvFg2PxkP+R3o/7ZlKjZmyC0N
+VTbzSqOABoqzmISF6RsRtDsN2zobLJvYuA63zvjkcjqn96yVVxCQFFCJGqRmkkSId1LCdkgMjidZ
+cJ0Lnm6Y6vylPxRKnqeONVIQ+1GO2BAiKIhtKaXZCvvjMpD98YNh1ZkevrcDCMRyLzh53DisCtkC
+C5wm7GjMwHJVPkJPNWlORjw+K04zW8hCpwO6c7/oekG9ofk6qeBreBe1fOVNRoS02+2Nky2fU4aC
+blAzI/ZiDMpvamePHqLu5ABmkUahUGRB6TOYFioXgs9sJ1fUKhTmHa4F+H0cN7xuHO/MZCACBXaJ
+XirY2CgSJazr4+TxULgL/XFa6ke0wF/aBrfvkWEAZHE9jsBra8liABeaX3UKwjWPgwY48lS1G5Dn
+/1vhoIGkrZ6dQ4DQ8wQABAAEAAQA
+</formula></code><code event='jsheader' for='web'><javascript
+>smartdot.i18n.requireLocalization("indiplatform.tylc");</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>&lt;div style="display:none"&gt;</run></par>
+<par def='1'><run html='true'><sharedfieldref name='ResourcePath'/></run></par>
+<pardef id='2'/>
+<par def='2'>//控制页面以浏览器标准模式显示</par>
+<par def='2'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<pardef id='3' hide='web'/><subformref name='sfrmDojo'/>
+<pardef id='4' leftmargin='1in' rightmargin='100%'/>
+<par def='4'><run html='true'><font name='monospace' color='#4100c2'/>&lt;style&gt;#crumb{display:none}&lt;/style&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="msgbox" id="msgboxContent"&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="msgbox-tittle" data-string-id="indiplatform.tylc.czts"&gt;操作提示&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="msgbox-content"&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="msgbox-info"&gt;</run></par>
+<par def='1'><run html='true'>&lt;p class="msgbox-info-success" data-string-id="indiplatform.tylc.saveSuccess"&gt;保存成功！&lt;/p&gt;</run></par>
+<par def='1'><run html='true'>&lt;p class="msgbox-info-help"&gt;&lt;/p&gt;</run></par>
+<par def='1'><run html='true'>&lt;p class="msgbox-info-success"&gt;&lt;span id="tips" data-string-id="indiplatform.tylc.fhtssj"&gt;3秒后返回&lt;/span&gt;&lt;/p&gt;</run></par>
+<par def='1'><run html='true'>&lt;p class="msgbox-info-help"&gt;&lt;/p&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="msgbox-control"&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;div class="msgbox-otherinfo"&gt;&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par></richtext></body>
+<item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmActionMsg</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,97+08</datetime></item></form>
+

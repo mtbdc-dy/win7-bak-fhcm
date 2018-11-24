@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmDBMgrSubNavigator' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' treatashtml='true' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='50e' unid='1C27C5022B4EF6E648257A14002B3689' sequence='57'>
+<created><datetime>20120605T155200,09+08</datetime></created>
+<modified><datetime>20181025T014913,89+08</datetime></modified>
+<revised><datetime>20181024T085453,35+08</datetime></revised>
+<lastaccessed><datetime>20181025T014913,88+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010752,29+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='windowtitle'><formula
+ compiled='true'>
+LgAJACQAqfghn/k7JgfJEp+AoTIe0Ge1o4FaHsO+BNezV7fzdYoEAAQABAAEAA==
+</formula></code><code event='jsheader' for='web'><javascript
+>smartdot.i18n.requireLocalization("indiplatform.modulenav");</javascript></code>
+<body><richtext>
+<pardef id='1' align='full' leftmargin='1in' rightmargin='100%' hide='web'/>
+<par def='1'><sharedfieldref name='appName'/><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/><field type='text' kind='computed'
+ name='fldDNS'><code event='defaultvalue'><formula compiled='true'>
+LgIJACQCsOhAzSrYF05ciZS33aeaLjX0dVg6fI01PEkVWv82zAqgxfrm1khqRwS9R1IDEqS+j9dQ
+o75kwspFSMYrrfJCWFZ8quazwnwZMuHuGhI3GtjQ0uWc+uQMhUAMabIHzNCEXWTBJAUZNgOQEBeR
+HjwJIoKuzgn4VsD0LWxMpHs0y/kPQw2uCPxSLgQcUKU0mik/5QzfhIs6a6jAptoGxlf/jdfludR7
+UZdAkB6MVukq6DM5vGiDDLycSJkaHsSzQMfkr6p1wMUQRHv9RGz7LUTwS9PXlDH8XZp6ZZMSSy44
+gM1V6dwpbA3NLLwFVHck0CLA9Lor7+4VOlyu42bI8OO+ENCNMEYwy0Q4Oc96DvoJc7eaSLKnai12
+/sHqyeJBxQUpUQJTbYcMkTdWrU/hF3vxyEr6K1VTzfIAUOjQZ2iO07EXpypwBCNZj4316PSG7LYp
+dN+2XLcUL6bG8A+S6ifsmgqzruCw+lcedgF7mKSMCVsLtiLLtJTBJxHMb5a1Cm/hAlnI+xkFTnLf
+7iH5cKRj1MJssQEVP6MfGFmk9NTEIPCv8bexubOAGWtbK+QjoSe2H9Ok7rZZ4MODOTBAhSQGAQz1
+iMMECVQbnusBOvVAX2tv70PYT/HgTpROXBKWG4O2miOry+zLHFoPk7A0NBCrUoh5IKwmbJXEeSl4
+yjsMvqoEUvh6V9AKyguNLb8nZDwmB7h9y8qe4GTwcVD2Ad5P2wQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='12' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/></run><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/><sharedfieldref name='dbPath'/></run><run html='true'><font
+ size='9pt' name='Times New Roman' pitch='variable' truetype='true' familyid='10'/></run><run
+ html='true'><sharedfieldref name='configerRoleName'/></run><run html='true'><font
+ size='9pt' name='Times New Roman' pitch='variable' truetype='true' familyid='10'/></run><run
+ html='true'><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/><sharedfieldref name='key_NotifyOptions'/></run><run html='true'><font
+ size='9pt' name='Times New Roman' pitch='variable' truetype='true' familyid='10'/></run></par>
+<pardef id='2' align='full' leftmargin='1in' rightmargin='100%'/>
+<par def='2'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;?xml version = "1.0" encoding="gb2312"?&gt;</run></par>
+<par def='2'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;SubNav&gt;</run></par>
+<pardef id='3' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+LgAJACQA0xXSKoIwTryBukWamrXq+2zSRNP7EsGtoAum0XGK9WcEAAQABAAEAA==
+</formula></code></pardef>
+<par def='3'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="cxwh" name="查询与维护" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwdocbyall&amp;amp;count=20&amp;amp;target=blank" </run></par>
+<par def='3'>data-string-id="indiplatform.modulenav.tylc_cxwh"<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>/&gt;</run></par>
+<pardef id='4' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+NgAJACwAwHimNpqWOCdzt7bTTuLuMG8+3J1FvA4Vk4h69Yqc4wTFC+8LwLQWvAQABAAEAAQA
+</formula></code></pardef>
+<par def='4'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="jcsz"  name="基础设置" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/frmSetManager?&amp;amp;Openform&amp;amp;count=20"</run></par>
+<par def='4'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/> </run>data-string-id="indiplatform.modulenav.tylc_<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>jcsz</run>"<run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>/&gt;</run></par>
+<pardef id='5' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+ZgAJAFwADeJXEU/HkKMn6TpBE3kd8/ZTnZ4xBwODyy/0kzELiHgNb7iLqNbB82X9LB0sPg/Ft+St
+yc19U0sl3c/zBhOzTfyUbivnb5tcNIXeDoO/2TEvYMUkZnBD6gQABAAEAAQA
+</formula></code></pardef>
+<par def='5'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="</run>mktzpz<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>"  name="模块通知配置" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?&amp;amp;Openform&amp;amp;view=vwconfigMail&amp;amp;count=20"</run></par>
+<par def='4'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/> </run>data-string-id="indiplatform.modulenav.tylc_mktzpz"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<pardef id='6' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+XgAJAFQA87hrr4uIYE3Z/ZX/nkW8YVRgIDh21q6m5Go+4prDo1OGE4+pibV/sr/znSuv+OEkiU/M
+yha08wT5ObIWifJ/cQKn5gkUaBQ5FxuJIhHLA/kEAAQABAAEAA==
+</formula></code></pardef>
+<par def='6'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="mbys"  name="模板样式" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwredheaderByXh&amp;amp;count=20"</run></par>
+<par def='6'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>mbys</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='4'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="zdybd"  name="自定义表单" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+NgAJACwA9uT5NkQzVMecfEFgWgJbytKl0RuUbOKDG3iFMss9ckrvC4fdcPC4OgQABAAEAAQA
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;restricttocategory=</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>&amp;amp;count=20"</run></par>
+<par def='4'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>zdybd</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<pardef id='7' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+ZgEJAFwBMh6NUA0esN5ZMWXNIahVEOOU/D0HzwsPxTY3mOKzeoPLyqa8asJWN9ovHG2cxWeaRnle
++LT1kOADzdmzCp9NZNm/hHkrG3u3Kefhk5iyvkUikmziIIlRbZmwybR8jRNo5USEHNDA7Py/tfLa
+lbOLwD9D69ZKG3UFddaWD+wnxs9tlVRzjhPJQ8uhrLHx0SQjpQHmysaRmn7tCsOj2+bm5I1t8tnB
+WnheLv1PGCl+YnjaeFsPreJpqOeUuWOhgFiAet8gUCieTuGvyWuMHl/jiUBMN2BB/NIYg3Dk3KXS
+9Xi/OQkpB8wmG1hYW5PVfvZubb9VZpXZYJcf7ClVNZsxugFjVUrVW9HGGy8y47KftdnLfa0O/biM
+WhgAsDrV33/zIF+V8HkZoKL2s6o+us6kAyy5/7Z4oBwByVckwu3actmIn1/DANcDYo+161JJl9zz
+qVjEKAIx1JgEAAQABAAEAA==
+</formula></code></pardef>
+<par def='7'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="zdybdv2"  name="自定义表单V2" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+NgAJACwA/6P3sHRAXE2WufH2zUIvLCmUkzGd2/+CrAgzR74UMbPC2I64AzpmAwQABAAEAAQA
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;restricttocategory=</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>&amp;amp;count=20"</run></par>
+<par def='7'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>zdybd</run>v2"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='4'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="lcbd"  name="</run><run><font
+ size='9pt' name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>流程绑定</run><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>" link="</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwgwlx&amp;amp;count=20"</run></par>
+<par def='4'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>lcbd</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<pardef id='8' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+fgAJAHQAK+deD5pXtRC5JJ/ExFbJ9MxGVG/0+svbYFGRzuea/Y/JSH3ZzNruLfBB644xTBIDwhaf
+0JOb/t2sv5KytQ05u9+O9WgbIwlE8wgMc8+1NQKK2JjX7UdOLZnGKqousHTSgY2A51DrxVV9KZnN
+AJ6KKgQABAAEAAQA
+</formula></code></pardef>
+<par def='8'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="zdbh"  name="自动编号绑定" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwBHConfigBySubform&amp;amp;count=20"</run></par>
+<par def='8'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>zdbh</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<pardef id='9' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+VgAJAEwA6NTm8hXjxbuJ9HlrpaprFBhvsZHpyP0WfQy1YoqWtmoRHoSVC3WGe7tk9i6/sqM3gG4K
+MA1LG9IjsvRbSHUDgXlU8XhDdH3xBAAEAAQABAA=
+</formula></code></pardef>
+<par def='9'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="gd"  name="</run><run><font
+ size='9pt' name='serif'/>归档</run><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>" </run>data-string-id="indiplatform.modulenav.tylc_<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>gd</run>"<run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&gt;</run></par>
+<pardef id='10' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+VgAJAEwA6NTm8hXjxbuJ9HlrpaprFBhvsZHpyP0WfQy1YoqWtmoRHoSVC3WGe7tk9i6/sqM3gG4K
+MA1LG9IjsvRbSHUDgXlU8XhDdH3xBAAEAAQABAA=
+</formula></code></pardef>
+<par def='10'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>	&lt;NodeInfo id="dgd"  name="</run><run><font
+ size='9pt' name='serif'/>待归档</run><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwDocByPublished&amp;amp;count=20"</run></par>
+<par def='10'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>dgd</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='10'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>	&lt;NodeInfo id="ygd"  name="</run><run><font
+ size='9pt' name='serif'/>已归档</run><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwDocByArchived&amp;amp;count=20"</run></par>
+<par def='10'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>ygd</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='10'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;/NodeInfo&gt;</run></par>
+<pardef id='11' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+ZgIJAFwCqPrtDhvRsxqRpHyexaJAmpt75ZQHjk3XLygJF8MIQkhBub5d7aOVYhO+S90HKDn5O8L7
+rWS/G6TjLR3+LD6mur4zd72OJU74cJtoTdDPbwive1VL4fYoMXWMVS55a68kZoOY3EZhjouM95pZ
+Bl9ljkga14/tPyWoAJ4fTyJ9dpnHeIoiS98jEq2yOa5e9v9vRKxCMSeKAg2J7Smk8rnLPTH14aCk
+dZQSWl/7dINBF9oE86LNMX8822V5WyXPTRIX9UmnfLI6ctK48mH6M3xXNZrhigGZ9jvXDf1+np1b
+RPem/L2rcwc1H8q6NH66a1uUMEG517ys1SUfAeC5aS0q3wI/IiXVyMTIDGMyWS4oD7T9raIyXGYL
+P40gDNa56e6XUTChZCTPySJ1P3xOPHCXrdQXadVnoSwkTkwMq7ZHQNu5/miAFL9k01dG9jOlHrjo
+6/cRefY8CU135drC1ku95xWtoRl99UDuBb4iAW40Ul8iX0jg54M0ckj6wutYLzJmZQI77SQaxzKa
+7vALjrZqT3wYhROgMpAS/ynfzU3x4O56twE+Es3EwOHms1rEbHDnaAnPzknAHclqzFH2A7j8sIOy
+IrJzAJL4XXTg+L9nlo6t1RH3M+YjNelbZLW1Zb8Ml/eYrwvKgoEXdsOgiWhgitVER7EXLKKWEm7z
+io+J/F9VJs/5HG7FWAfg5iJbmpxhP4dU4yA9hkUg1E+ZFaFG5YrHzW60U1P3ib3vBh0BCt1o3wXr
+/MVkpxO8CMirGgEzOZd5k+u5Ze6pBoly3vxt4MuT2KkisOzzBAAEAAQABAA=
+</formula></code></pardef>
+<par def='11'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;NodeInfo id="dc"  name="</run><run><font
+ size='9pt' name='serif'/>导出</run><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>" </run>data-string-id="indiplatform.modulenav.tylc_<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>dc</run>"<run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&gt;</run></par>
+<par def='11'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>	&lt;NodeInfo id="wdc"  name="</run><run><font
+ size='9pt' name='serif'/>未导出</run><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwNotExportForindikm&amp;amp;count=20"</run></par>
+<par def='11'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>wdc</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='11'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>	&lt;NodeInfo id="ydc"  name="</run><run><font
+ size='9pt' name='serif'/>已导出</run><run><font size='9pt' name='Times New Roman'
+ pitch='variable' truetype='true' familyid='10'/>" link="</run><computedtext
+><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQYpBn6uTG5HW9j5AWA2Eq01BAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/</run><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA+aVW2i4VdQbeMzDWJrkIy7R7qYnpl8fJBAAEAAQABAA=
+</formula></code></computedtext><run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/myview?openform&amp;amp;view=vwExportForindikm&amp;amp;count=20"</run></par>
+<par def='11'>data-string-id="indiplatform.modulenav.tylc_<run><font size='9pt'
+ name='Times New Roman' pitch='variable' truetype='true' familyid='10'/>ydc</run>"<run
+><font size='9pt' name='Times New Roman' pitch='variable' truetype='true'
+ familyid='10'/>/&gt;</run></par>
+<par def='11'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;/NodeInfo&gt;</run></par>
+<pardef id='12' align='full' leftmargin='1in' rightmargin='100%'><code event='hidewhen'><formula
+ compiled='true'>
+/gAJAPQA1WBy1QkQ1LvKoaua87jdpit2I1VslI7Jut3WsOdaqKiJVCsXOEzXTyWT+SyWFnH53XsQ
+BzWXUA8NEsblz9P5WLpEi4g+JVjXGqmG7dYakLSQmg7kfyDwAyXCImYEXAYV7FEo283KkIh92eOJ
+I1LvbvkbtakSA09ldAheXHK7rCXknxCHEMhdBO6qONKBfGrwmDxNBKytc8eCQ/PfRZP5PdyGBTnv
+yEJs7b408qk6Sm/6yZpFpxss2HG9SpCwxTylKJJwNWH09F1eZn9UPyhLnZT9MCLd8AOK+6xosOkg
+OBwT4DFH7jRSSIrtpk8SVKZsBAAEAAQABAA=
+</formula></code></pardef><subformref><code event='value'><formula
+ compiled='true'>
+NgAJACwAwB2AjhpRRaHb8T2GHnE/bSn1jcij+Wjxq0/CydM/E5s2gpzxMtzr1wQABAAEAAQA
+</formula></code></subformref>
+<par def='2'><run><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/>&lt;/SubNav&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10'/></run></par></richtext></body>
+<item name='$MimeType' sign='true'><text>text/xml</text></item>
+<item name='$MimeCharSet' sign='true'><text>GB2312</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmDBMgrSubNavigator</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210741,81+08</datetime></item></form>
+

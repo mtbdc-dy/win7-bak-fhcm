@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='并行分支分裂扩展功能子表单' alias='sfrmSelectBxfz_Custom' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1305a' unid='482581B6000911FF482581B70014B4C2' sequence='10'>
+<created><datetime>20171012T114609,94+08</datetime></created>
+<modified><datetime>20181025T014917,73+08</datetime></modified>
+<revised><datetime>20181024T092021,42+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,72+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T182729,91+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>//并行分支分裂扩展子表单</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmSelectBxfz_custom</text></item></subform>
+

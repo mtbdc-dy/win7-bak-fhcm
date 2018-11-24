@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='驳回提交到的环节信息确认界面' alias='agtDenySubmitNodeDetail' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='对应frmDenySubmit表单的webqueryopen代理'
+ restrictions='unrestricted'>
+<noteinfo noteid='716' unid='F0E57F3114A6EDD548257A3600232C6F' sequence='49'>
+<created><datetime>20120709T142411,35+08</datetime></created>
+<modified><datetime>20181025T014926,31+08</datetime></modified>
+<revised><datetime>20181024T085502,85+08</datetime></revised>
+<lastaccessed><datetime>20181025T014926,30+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133249,62+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085609,68+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170118T163403,49+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,39+08</datetime></item>
+<item name='$POID'><datetime>20181024T085502,85+08</datetime></item></agent>
+

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='LibPdfApi' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3 v4strict' designerversion='8.5.3'>
+<noteinfo noteid='6d6' unid='64A3AB22A82704C048257E9F0031E202' sequence='55'>
+<created><datetime>20150812T170451,22+08</datetime></created>
+<modified><datetime>20181025T014924,07+08</datetime></modified>
+<revised><datetime>20181024T085457,70+08</datetime></revised>
+<lastaccessed><datetime>20181025T014924,06+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133249,36+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='JavaAgent.class' codepath='D:\Domino\Notes\Data'><javaarchive name='pdfapi.jar'>
+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
+ADoAAAAWCwAAAAA=
+</javaarchive>
+<sharedlibraryref name='libItext'/></javaproject></code>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210743,20+08</datetime></item>
+<item name='$POID'><datetime>20181024T085457,70+08</datetime></item></scriptlibrary>
+

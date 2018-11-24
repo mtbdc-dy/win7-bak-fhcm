@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtFTPOpenShow' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3' runaswebuser='true' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='972' unid='C7B5C0B0B8063AA0482579BD002960D8' sequence='49'>
+<created><datetime>20120310T153157,68+08</datetime></created>
+<modified><datetime>20181025T014920,41+08</datetime></modified>
+<revised><datetime>20181024T085500,62+08</datetime></revised>
+<lastaccessed><datetime>20181025T014920,40+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133251,08+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085607,45+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170111T143428,02+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210745,74+08</datetime></item>
+<item name='$POID'><datetime>20181024T085500,62+08</datetime></item></agent>
+

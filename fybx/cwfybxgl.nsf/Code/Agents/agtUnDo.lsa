@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtUnDo' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ hide='v3' runaswebuser='true' publicaccess='false' designerversion='8.5.3'
+ comment='撤回操作代理' restrictions='unrestricted'>
+<noteinfo noteid='84e' unid='7EDD3B11DB42C8A848256E6100293484' sequence='49'>
+<created><datetime>20040324T153004,20+08</datetime></created>
+<modified><datetime>20181025T014921,35+08</datetime></modified>
+<revised><datetime>20181024T085457,01+08</datetime></revised>
+<lastaccessed><datetime>20181025T014921,34+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133250,38+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085603,83+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='all'/>
+<rundata processeddocs='0' exitcode='0' agentdata='F81BC0A98999B4724825833500082B92'>
+<agentmodified><datetime>20181025T014921,35+08</datetime></agentmodified>
+<agentrun><datetime>20181029T092915,30+08</datetime></agentrun>
+<runlog>Started running agent 'agtUnDo' on 2018-10-29 09:29:14
+Running on all documents in database: 9445 total
+Found 9445 document(s) that match search criteria
+Ran LotusScript code
+Done running agent 'agtUnDo' on 2018-10-29 09:29:15
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210746,64+08</datetime></item>
+<item name='$POID'><datetime>20181024T085457,01+08</datetime></item></agent>
+

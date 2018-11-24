@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmHqContent' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='276' unid='078CC843FAE0084648257D0B003A0E0B' sequence='55'>
+<created><datetime>20140704T183406,83+08</datetime></created>
+<modified><datetime>20181107T195615,94+08</datetime></modified>
+<revised><datetime>20181024T085442,62+08</datetime></revised>
+<lastaccessed><datetime>20181107T195615,94+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195615,94+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>
+dojo.addOnLoad(function() {
+	if (dojo.byId("strIsEndHq")) {
+		if (dojo.byId("strIsEndHq").value == "yes") {
+			if (dojo.query("h3", dojo.byId("flow-box"))[0]) {
+				dojo.style(dojo.query("h3", dojo.byId("flow-box"))[0], {
+					"display": "none"
+				});
+			}
+			if (dojo.query(".admin_btn1")[0]) {
+				dojo.style(dojo.query(".admin_btn1")[0], {
+					"display": "none"
+				});
+			}
+		}
+	}
+
+});
+
+//原会签库：模块扩展功能子表单内容 | sfrmCustomContent子表单内容
+
+dojo.addOnLoad(function(){
+	if( typeof(iFrameResize)!=="undefined" ){
+		iFrameResize({
+			log                     : false,               // Enable console logging  
+			heightCalculationMethod : "bodyScroll",
+			enablePublicMethods     : false                // Enable methods within iFrame hosted page 
+			
+		},["#ifrHqContent","#ifrHqSrcYjContent iframe"])
+	}	
+})
+dojo.addOnLoad(function(){
+	if( dojo.byId("strShowHQSrcYJ") &amp;&amp; dojo.byId("strShowHQSrcYJ").value=="1" ){
+		dojo.addClass("yijianpanel","withhqsrcyj");
+		dojo.place(
+			"&lt;span id='hqsrclabel' onclick='fnSwitchHqSrcYj()'&gt;"+smartdot.i18n.getString('indiplatform.oaresource.hqsrcyj',strHQLabel+'来源意见')+"&lt;/span&gt;",
+			dojo.query("#yijianpanel&gt;.panel-title")[0]
+		);
+		dojo.connect(dojo.query("#yijianpanel&gt;.panel-title&gt;span")[0],"click",function(){
+			fnSwitchHqSrcYj();
+		});
+	}	
+});
+//跨域处理手写批示
+function fnhqnrOnload() {	
+	if(location.href.indexOf('/vwprintcld/')&lt;0) return; //只在打印页面执行
+	var ifrm = dojo.byId('ifrHqContent');
+	dojo.postMessageToOtherWindow(ifrm.contentWindow,"dealsxps","*");	
+}</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run><font color='red'/>//原会签库：</run><run><font color='red'/>业务子表单-Iframe | sfrmSubform-Iframe和</run><run
+><font color='red'/>业务子表单 | sfrmSubform内容</run></par>
+<pardef id='2' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div class="showhideinfo"&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;iframe id="ifrHqContent" frameborder="0" marginheight="0" marginwidth="0" style="width:100%" src="</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/><field
+ type='text' kind='computedfordisplay' name='strHqUrl'><code event='defaultvalue'><formula
+ compiled='true'>
+JgAJABwA8B9vbeO3xkz91o0ZR+pZIZvw8EouCVoaBAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/></run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+lgAJAIwAFKRHdDFMwjMAhJQzNTT7hwboKEtNpHbVjdN+i0nk3pS+IeprL9NppfYOX/WUyFycbzrK
+SeNp3jo0UcxVS1E7acWAeAmg3NjWY9vFnYisnf0Uq7wMIoOWQlhgLTVp6MplOx6v4tL4SwD2PVGf
+zboHNn3XDPJqsxnsc9WJZG3ra/SEy/DP5scWpgQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>" onload="fnhqnrOnload();"&gt;&lt;/iframe&gt;</run></par>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='1'><run><font color='red'/>//原会签库：模块扩展功能子表单内容 | sfrmCustomContent子表单内容</run></par>
+<pardef id='3' leftmargin='1in'/>
+<par def='3'/>
+<pardef id='4' leftmargin='1in'/>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;script src="/indishare/oaresource.nsf/iframeResizer.contentWindow.js</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='blue'/>"&gt;&lt;/script&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;script src="/indishare/oaresource.nsf/iframeResizer.js</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='blue'/>"&gt;&lt;/script&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;script src="/indishare/oaresource.nsf/jslib/jquery.min.js</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+PgAJADQAH3af4aYskU8goxVOPzjdXglhSZNIketnOjZ+yG+t+DlfAn2UmyAcDgGIlkYGZg7nBAAE
+AAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='blue'/>"&gt;&lt;/script&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='blue'/>&lt;div style="display:none;"&gt;</run></par>
+<par def='3'><field type='text' kind='editable' name='fldSubjectName' htmlid='fldSubjectName'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIWEltxASeQDpu4jrmJq/JJcPqWOPP7bwlMEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='5' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='5'><run html='true'>&lt;input type="hidden" name="fldishq" id="fldishq" value="</run><run
+ html='true'><field type='text' kind='computed' name='fldIshq'><code event='defaultvalue'><formula
+ compiled='true'>
+bgAJAGQAlKJqXhNkMJ6ddFSmo7WcdYUfSEU3zaJf38QoHmMiuWvsoTyUtxp4Yt3AngBwknoHuHzw
+XkA6U1TPrBx6tlQYcVqd18GTSPUb4EzGsVbPOoZOCeQvTaR9rNkz/78zVRJ8BAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='serif'
+ color='blue'/>"&gt;</run><run html='true'>&lt;!--模块是否会签模块--&gt;</run></par>
+<par def='5'><run html='true'>&lt;input type="hidden" name="strHQFKToForm" value="</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='strHQFKToForm'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIU7Jby0V/weF1HZncausUpgNRRvCTLBaDcEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>"&gt;&lt;!--会签反馈意见是否上表单--&gt;</run></par>
+<par def='5'><run html='true'>&lt;input type="hidden" name="strIsEndHq" id="strIsEndHq" value="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+JgAJABwA8B9vbeO3xkwzb4RX/uIXxb1I/an9ygDjBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>"&gt;&lt;/input&gt;</run></par>
+<par def='5'><run html='true'>&lt;span data-string-id="indiplatform.tylc.jlfqhqr"&gt;记录发起会签的人（作者权限，更改会签文档需要）：&lt;/span&gt;</run><run
+ html='true'><field type='authors' allowmultivalues='true' kind='editable'
+ name='fldFromUser' listinputseparators='comma' listdisplayseparator='comma'/></run></par>
+<pardef id='6'/>
+<par def='6'><run html='true'><font size='9pt'/>&lt;input id="nmCurUserHq" name="nmCurUserHq" value="</run><run
+ html='true'><font size='9pt'/><field type='names' kind='computedfordisplay'
+ name='nmCurUserHq'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAbKmhCPlID24SeQFQroTRUAQABAAEAAQA
+</formula></code></field></run><run
+ html='true'><font size='9pt'/>"&gt;&lt;!--会签反馈使用记录反馈操作的人员--&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt'/>&lt;/div&gt;</run></par><subformref
+><code event='value'><formula compiled='true'>
+NgAJACwAwB2AjhpRRaFdag95ADs6Kj4ympcl4W6DLQhuZ7iqBLwznNfru9aE2wQABAAEAAQA
+</formula></code></subformref>
+<par def='6'><run html='true'><font size='9pt'/></run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmHqContent</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,27+08</datetime></item></subform>
+

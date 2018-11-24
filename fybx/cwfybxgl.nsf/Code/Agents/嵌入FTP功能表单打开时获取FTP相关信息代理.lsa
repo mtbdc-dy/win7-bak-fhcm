@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='嵌入FTP功能表单打开时获取FTP相关信息代理' alias='agtFTPOpen' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='7e6' unid='0F447D4A63A5E32A482579B9004F93C4' sequence='49'>
+<created><datetime>20120306T222911,72+08</datetime></created>
+<modified><datetime>20181025T014926,71+08</datetime></modified>
+<revised><datetime>20181024T085456,20+08</datetime></revised>
+<lastaccessed><datetime>20181025T014926,70+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133250,12+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085603,04+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0' agentdata='02BF830F5686DB0248258331000AB3A4'>
+<agentmodified><datetime>20181025T014926,71+08</datetime></agentmodified>
+<agentrun><datetime>20181107T202455,66+08</datetime></agentrun>
+<runlog>Started running agent '嵌入FTP功能表单打开时获取FTP相关信息代理|agtFTPOpen' on 2018-11-07 20:24:55
+Ran LotusScript code
+Done running agent '嵌入FTP功能表单打开时获取FTP相关信息代理|agtFTPOpen' on 2018-11-07 20:24:55
+</runlog></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,15+08</datetime></item>
+<item name='$POID'><datetime>20181024T085456,20+08</datetime></item></agent>
+

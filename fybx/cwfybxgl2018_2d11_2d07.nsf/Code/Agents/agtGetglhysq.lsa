@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtGetglhysq' alias='根据会议名称获取关联的会议费用申请信息' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='186e' unid='48258072000E0C3F48258077005E9300' sequence='25'>
+<created><datetime>20161127T011300,16+08</datetime></created>
+<modified><datetime>20181107T195907,17+08</datetime></modified>
+<revised><datetime>20181024T092019,84+08</datetime></revised>
+<lastaccessed><datetime>20181107T195907,17+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195907,17+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092126,09+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtgetdepid
+	Created 2016-11-2 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+    Dim dbys As NotesDatabase
+    Dim curdb As NotesDatabase
+    Dim db As NotesDatabase
+    
+    Dim viewys As NotesView
+    Dim viewyskh As NotesView
+    Dim viewysxm As NotesView
+    
+    Dim doc As NotesDocument
+    
+	Dim docys As NotesDocument
+    Dim doccolysxm   As NotesDocumentCollection
+    Dim docyskh As NotesDocument
+    
+    Dim hymc As String 
+    Dim fytotal As String 
+    Dim strkey As String 
+    Dim strappPath As String 
+    Set db=session.Currentdatabase
+    Set doc=session.Documentcontext
+	hymc=getRefvalue(doc.Query_string_Decoded(0),"hymc=")
+	strappPath=getRefvalue(doc.Query_string_Decoded(0),"strappPath=")
+    strkey=hymc
+	Dim strflag As String 
+	strflag="0"
+	'获取会议费用申请库
+	Set dbys=session.Getdatabase("",strappPath+"/cwhyfysqgl.nsf")
+	If dbys.Isopen Then
+		'获取预算视图
+		Set viewys=dbys.Getview("vwDocPublishedByHyMc")
+        '根据key获取预算文档
+		Set docys=viewys.Getdocumentbykey(strkey)
+       
+        Dim jsonarry As New Converjsonarray
+        Dim strunid As String 
+        Dim strurl As String 
+        Dim strhysqzfy As String 
+        If docys.Hasitem("fldhysqzfy") Then
+        	strhysqzfy=CStr(docys.fldhysqzfy(0))
+        else
+        	strhysqzfy=CStr(docys.fldTotalFee_xm(0))
+        End If
+        If Not docys Is Nothing Then
+            '获取到会议预算申请,并将信息写入动态表格中
+	        strunid=docys.fldunid(0)
+	        strurl="/"+docys.dbPath(0)+"/vwDocByAll/"+strunid+"?openDocument"
+	        Dim jsonarryobj As New Converjsonobject
+	        Call jsonarryobj.Additem("sqbm", docys.fldNiGaoDW(0))
+	        Call jsonarryobj.Additem("hymc", docys.fldhymc_xm(0))
+            Call jsonarryobj.Additem("hydd", docys.fldhyaddress_xm(0))
+            Call jsonarryobj.Additem("hysj", CStr(docys.fldKaiShiDate_xm(0))+"至"+CStr(docys.fldJieShuDate_xm(0)))
+	        Call jsonarryobj.Additem("ysje", Cstr(Format(strhysqzfy,"Fixed")))
+            Call jsonarryobj.Additem("strurl", strurl)
+            Call jsonarryobj.additem("strunid",strunid)
+	        Call jsonarry.Additem(jsonarryobj)
+        End If
+    End If
+    Dim jsonobj As  Converjsonobject
+	Set jsonobj=New Converjsonobject
+	Call jsonobj.Additem("items",jsonarry)
+	'Call doc.Replaceitemvalue("hfldData_hysq", jsonobj.Tojson())
+	Print |Content-Type:text/plain;Charset=GB2312|
+	Print jsonobj.Tojson()
+	Exit sub
+errorhandle:
+	showerror("agtCheckCys")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170227T094840,04+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20181024T092019,84+08</datetime></item></agent>
+

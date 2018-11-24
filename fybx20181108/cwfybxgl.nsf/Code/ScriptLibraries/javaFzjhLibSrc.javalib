@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='javaFzjhLibSrc' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3 v4strict' designerversion='8.5.3'>
+<noteinfo noteid='682' unid='C85263223C2DC54648257F24000EFC8B' sequence='55'>
+<created><datetime>20151223T104341,55+08</datetime></created>
+<modified><datetime>20181025T014922,05+08</datetime></modified>
+<revised><datetime>20181024T085453,04+08</datetime></revised>
+<lastaccessed><datetime>20181025T014922,04+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133249,12+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='JavaAgent.class' codepath='D:\IBM\Notes\Data'/></code>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,69+08</datetime></item>
+<item name='$POID'><datetime>20181024T085453,04+08</datetime></item></scriptlibrary>
+

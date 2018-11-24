@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtZhuiJiaReadersForHT_xm' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3' publicaccess='false' designerversion='8.5.3'
+ runonbehalfof='CN=oanewadmin/O=ppm' restrictions='fulladminunrestricted'>
+<noteinfo noteid='1696' unid='4BABD025B90C616D482581910006E6AA' sequence='13'>
+<created><datetime>20170904T091522,66+08</datetime></created>
+<modified><datetime>20181107T195900,35+08</datetime></modified>
+<revised><datetime>20181024T092026,03+08</datetime></revised>
+<lastaccessed><datetime>20181107T195900,35+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195900,35+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092132,27+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtFlagSubmitedHyys_xm
+	Created 2016-12-25 by oanewadmin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "Commonlib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	
+	Dim session As New NotesSession
+	Dim dbCur As NotesDatabase
+	Dim agent As NotesAgent
+	Dim note As NotesDocument
+	Dim strdata As String
+	Dim jkvresult As Variant
+	Dim jsonReader As New Jsonreader
+	Dim jsonobj As New Converjsonobject
+	Dim i As Integer
+	Dim strhtunid As String
+	Dim dbht As NotesDatabase
+	Dim htdoc As NotesDocument
+	Dim maindoc As NotesDocument
+	Dim zxdoc As NotesDocument
+	Dim profiledoc As NotesDocument
+	Dim htxxdb As NotesDatabase
+	Dim htxxvw As NotesView
+	Dim vwmainkey As NotesView
+	Dim reitem As NotesItem
+	Dim hkreitem As NotesItem
+	Dim zxauthor As notesItem
+	Dim strHTName As String
+	Dim strApp As String
+	
+	Set dbCur = session.Currentdatabase
+	Set agent = session.Currentagent
+	Set profiledoc =  dbCur.Getprofiledocument("ManagerSet")
+	strHTName = profiledoc.fldContractFWQ(0)
+	strApp = profiledoc.fldContractApp(0)
+		
+	Set note = dbCur.Getdocumentbyid(agent.Parameterdocid)
+	If Not note Is Nothing Then
+		MsgBox "22227777"
+		Set dbht=session.Getdatabase(strHTName, strApp+"/htsp.nsf")
+		Set htxxdb = session.Getdatabase(strHTName, strApp + "/htxx.nsf")
+		Set htxxvw = htxxdb.Getview("vwContractByRefKey")
+		Set vwmainkey = dbht.Getview("vwDocByMainKey")
+		
+		strdata=note.Getfirstitem("hfldData_htqkxz").Text
+		strdata=Replace(strdata,Chr(10),"")
+		strdata = Replace(strdata,Chr(13),"")
+		If strdata &lt;&gt; "" Then 
+			Set jsonobj=jsonReader.Parse(strdata)
+			jkvresult=jsonobj.Items
+			If jkvresult("items").count&lt;&gt;0 Then
+				For i=0 To jkvresult("items").count-1
+					strhtunid = jkvresult("items").items(i).items("htunid")
+					'strhtpzunid = jkvresult("items").items(i).items("hkpzunid")
+					MsgBox "strhtunid=" + CStr(strhtunid)
+					Set htdoc = htxxvw.Getdocumentbykey(strhtunid, True)
+					If Not htdoc Is Nothing Then
+						MsgBox "3333888"
+						Set zxdoc = htxxdb.Getdocumentbyunid(htdoc.fldZXunid(0))
+						If Not zxdoc Is Nothing Then	'往执行信息表增加读者作者权限
+							Set hkreitem = zxdoc.Getfirstitem("fldReader")
+							Set zxauthor = zxdoc.Getfirstitem("fldAuthor")
+							ForAll a In  note.DocumentAuthors
+								MsgBox "aa=" + CStr(a)
+								Call hkreitem.Appendtotextlist(a)
+								Call zxauthor.Appendtotextlist(a)
+							End ForAll
+							Call zxdoc.Save(True,False)
+						End If
+						
+						Set maindoc = vwmainkey.Getdocumentbykey(htdoc.FLDMAINKEY(0), true)
+						If Not maindoc Is Nothing Then
+							Set reitem = maindoc.Getfirstitem("ORIDOCUMENTREADERS")
+							ForAll b In  note.DocumentAuthors
+								MsgBox "bbbb=" + CStr(b)
+								Call reitem.Appendtotextlist(b)
+							End ForAll
+							Call maindoc.Save(True,False)
+						End If
+					
+					End If
+				Next
+			End If
+		End If
+		
+	End If
+	
+	Exit Sub
+errorhandle:
+	'showError "Initialize"
+	MsgBox "agtZhuiJiaReadersForHT_xm has error: " + CStr(Error()) + " at line: " + CStr(Erl())
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='BF71AA73FE90A9A64825818E000D3082'>
+<agentmodified><datetime>20170901T101815,01+08</datetime></agentmodified>
+<agentrun><datetime>20170901T102933,78+08</datetime></agentrun>
+<runlog>Started running agent 'agtZhuiJiaReadersForHT_xm' on 2017-09-01 10:29:33
+Ran LotusScript code
+Done running agent 'agtZhuiJiaReadersForHT_xm' on 2017-09-01 10:29:33
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092026,03+08</datetime></item></agent>
+

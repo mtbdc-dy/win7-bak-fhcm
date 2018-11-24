@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='沟通表单打开代理' alias='agtCommunicateOpen' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='沟通操作frmCommunicate表单的webqueryopen代理'
+ restrictions='unrestricted'>
+<noteinfo noteid='6f2' unid='A07FE5D567092ADD482579C90012E83E' sequence='49'>
+<created><datetime>20120322T112631,02+08</datetime></created>
+<modified><datetime>20181107T195757,49+08</datetime></modified>
+<revised><datetime>20181024T085457,47+08</datetime></revised>
+<lastaccessed><datetime>20181107T195757,49+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195757,49+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085604,30+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20161114T190550,35+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210742,03+08</datetime></item>
+<item name='$POID'><datetime>20181024T085457,47+08</datetime></item></agent>
+

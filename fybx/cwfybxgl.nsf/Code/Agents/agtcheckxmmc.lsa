@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtcheckxmmc' alias='判断报销项目名称是否重复' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='792a' unid='48258072000E0C3F482580E30039E9D9' sequence='18'>
+<created><datetime>20170314T183234,17+08</datetime></created>
+<modified><datetime>20181025T014920,13+08</datetime></modified>
+<revised><datetime>20181024T092025,92+08</datetime></revised>
+<lastaccessed><datetime>20181025T014920,12+08</datetime></lastaccessed>
+<addedtofile><datetime>20170315T163220,23+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092132,16+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtgetdepid
+	Created 2016-11-2 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim view As NotesView
+	Dim doc As NotesDocument
+	Dim note As NotesDocument
+	Set db=session.Currentdatabase
+	Set doc=session.Documentcontext
+	Dim xmdl As String 
+	Dim xmmc As String 
+	Dim strunid As string
+	Dim fylx As String 
+	Dim bxxm As String 
+	Dim strkey As String 
+	Dim ifglys As String 
+	Dim ifchongfu As string
+	xmdl=Getrefvalue(doc.Query_string_Decoded(0),"xmdl=")
+	xmmc=Getrefvalue(doc.Query_string_Decoded(0),"xmmc=")
+	strunid=Getrefvalue(doc.Query_string_Decoded(0),"strunid=")
+	strkey=xmdl+"+"+xmmc
+	Set view=db.Getview("vwBaoxXiangmuByfymc")
+	Set note=view.Getdocumentbykey(strkey,true)
+	If Not note Is Nothing Then
+		If note.Universalid&lt;&gt;strunid then
+		 ifchongfu="1"
+		Else
+		 ifchongfu="0"
+		End if
+	Else
+		ifchongfu="0"
+	End If
+	Dim jsonarry As New Converjsonobject
+	Call jsonarry.Additem("ifchongfu",ifchongfu)
+	Print |Content-Type:text/plain;Charset=GB2312|
+	Print jsonarry.Tojson()
+	Exit sub
+errorhandle:
+	showerror("agtgetdepid")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='E7C4C8D5CE0592A54825833500394CF6'>
+<agentmodified><datetime>20181025T014920,13+08</datetime></agentmodified>
+<agentrun><datetime>20181107T184324,62+08</datetime></agentrun>
+<runlog>Started running agent 'agtcheckxmmc|判断报销项目名称是否重复' on 2018-11-07 18:43:24
+Ran LotusScript code
+Done running agent 'agtcheckxmmc|判断报销项目名称是否重复' on 2018-11-07 18:43:24
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092025,92+08</datetime></item></agent>
+

@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='检查并发处理人处理情况' alias='agtGetBfFlowInfor' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' comment='供frmwebflow-iframe上提交按钮使用'
+ restrictions='fulladminunrestricted'>
+<noteinfo noteid='7e0a' unid='74639F4C3B3FDEC4482580D30019D4D1' sequence='9'>
+<created><datetime>20170226T124208,81+08</datetime></created>
+<modified><datetime>20181025T014918,09+08</datetime></modified>
+<revised><datetime>20181024T085504,54+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,08+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010802,05+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085611,37+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent 检查并发处理人处理情况
+	Created 2013-4-10 by admin/Smartdot
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+
+Use "libFlow"
+Use "libConcurrent"
+
+</lotusscript></code><code event='declarations'><lotusscript>Dim blnExitMergerNext As Boolean
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle 
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim note As NotesDocument
+	Dim docMain As NotesDocument
+	Dim dbFlow As NotesDatabase
+	Dim docFlow As NotesDocument
+	Dim astrAllDealer As Variant
+	Dim nmUser As NotesName
+	Dim aintNextNodeId As Variant 
+	Dim strQuery As String
+	Dim strunid As String
+	Dim strNodeId As String
+	Dim oJsonN As indiJSONObject	
+	Dim strJson As String
+	Dim strNextNodeId As String 
+	Dim strNodeType As String
+	Dim agtCurrent As NotesAgent
+	Dim strNoteID As String
+	Dim strRootUnid As String
+	
+	Set dbCurrent = session.Currentdatabase
+	Set note = session.Documentcontext
+	If note Is Nothing Then
+		Set agtCurrent = session.Currentagent
+		strNoteID = agtCurrent.Parameterdocid
+		Set note = dbCurrent.Getdocumentbyid( strNoteID)
+		note.query_string_decoded = "?openagent&amp;unid=" + note.unid(0) +"&amp;nodeid=" + note.nodeid(0) + "&amp;cu=" + note.cu(0) +"&amp;act=" +note.act(0)
+	End If
+	strQuery = note.query_string_decoded(0)
+	strunid = getRefValue(strQuery,"unid=")
+	strNodeId = getRefValue(strQuery,"nodeid=")
+	strRootUnid=getRefValue(strQuery,"rootunid=")
+	If strRootUnid &lt;&gt; "" Then
+		'bxfz用根文档加锁
+		Call subCheckCustomBfspLock(dbCurrent,strRootUnid)
+	Else
+		'执行自定义并发锁函数 wangwz 2015-12-02 add
+		Call subCheckCustomBfspLock(dbCurrent,strunid)
+	End If		
+	
+	Set docMain = getDocumentByUnid(dbCurrent,strunid)
+	If docMain Is Nothing Then
+		SenceID_GetNextNode ="GetNextNode _sence0"
+		Dim jsonObj1 As New indiJSONObject("")
+		Call jsonObj1.putAny("isdealer", False)
+		Call jsonObj1.putAny("returnSence", SenceID_GetNextNode)
+		strJson = jsonObj1.tostring()
+		GoTo onexit	
+	End If
+	Dim docProfile As NotesDocument
+	Set docProfile = dbCurrent.Getprofiledocument("ManagerSet")
+	Call getFlowDoc(session,dbCurrent,docMain,dbFlow,docFlow)
+	If getRefValue(strQuery,"act=")= "bxfz" Then
+		'并行分支合并时检查是否可以进行合并（合并规则全等待，多个分支同时打开，最后一个分支提交时）
+		blnExitMergerNext = True
+		Set nmUser = New NotesName( getRefValue(strQuery,"cu=") )
+		strJson = fnGetMergerBtn( docMain,docFlow,strNodeId,nmUser)
+		If strJson="" Then
+			strJson = |{}|
+		End If
+		Call fnGetMergerSence(strJson,0)
+		Set oJsonN = New indiJSONObject(strJson)
+		Call oJsonN.putStr("returnSence", SenceID_GetNextNode)
+		strJson = oJsonN.ToString()
+		GoTo onexit
+		Exit Sub
+	End If
+	
+	Set nmUser = New NotesName( getRefValue(strQuery,"cu=") )
+	astrAllDealer = docMain.alldealer
+	If getIndex( astrAllDealer,nmUser.Canonical )=-1 Or CStr(docMain.flownum(0))&lt;&gt;strNodeId Then
+		SenceID_GetNextNode ="GetNextNode_sence0"
+		Dim jsonObj2 As  New indiJSONObject("")
+		Call jsonObj2.putAny("isdealer",False)
+		Call jsonObj2.putAny("returnSence", SenceID_GetNextNode)
+		strJson = jsonObj2.Tostring()
+		'strJson = oJsonN.ToString()
+		GoTo onexit	
+	End If
+
+	'==获取本环节剩余的用户==
+	astrAllDealer = removeCurUserFromList( nmUser , astrAllDealer )
+	If astrAllDealer(0)="None"  Then
+		Dim jsonObj3 As  New indiJSONObject("")
+		Call jsonObj3.putBool("tonextnode", True)
+		Dim rtfDenyData As NotesRichTextItem
+		Dim strDenyData As String
+		If docMain.Hasitem("rtfDenyData") Then
+			Set rtfDenyData = docMain.Getfirstitem("rtfDenyData")
+			strDenyData = rtfDenyData.Getunformattedtext()
+		Else
+			'兼容不存在rtfDenyData的情况
+			Set rtfDenyData = New NotesRichTextItem(docMain,"rtfDenyData")
+		End If
+		
+		If docMain.Hasitem("numDenyNode") Or CStr(docMain.numDenyNode(0))&lt;&gt;"" Then		
+			strDenyData = fnConvertToDenyV2( docMain,nmUser )
+			Call rtfDenyData.Appendtext( strDenyData )
+			Call docMain.Removeitem("numDenyNode")
+			Call docMain.Removeitem("nmDenier")
+		End If
+		If strDenyData &lt;&gt; "" Then
+			Dim clNode As clNode
+			Dim clPower As clPower
+			Set clNode = fnGetDenySubmitNode(docMain,strDenyData)
+			If Not clNode Is Nothing Then
+				Set clPower = clNode.clPower
+				If clPower.blnByUserSet Then
+					Call jsonObj3.putBool("showdenysubmitdetail",True)
+				End If
+				Call jsonObj3.putBool("todenynode",True)
+				SenceID_GetNextNode ="GetNextNode_sence2"
+				Call jsonObj3.putStr("returnSence",SenceID_GetNextNode)
+				strJson = jsonObj3.toString()
+				GoTo onexit
+			End If
+		End If
+		Call jsonObj3.putBool("todenynode",False)
+		Call jsonObj3.putAny("nodename",docFlow.Getitemvalue("tmpStat"+strNodeId)(0))
+		
+		aintNextNodeId = getWSNextFlowNode( docMain,docFlow,docMain.flownum(0),True)
+		If IsEmpty(aintNextNodeId) Then 
+			strJson = jsonObj3.toString()
+			GoTo onexit
+		End If
+		If UBound(aintNextNodeId)&gt;0 Then
+			Call jsonObj3.putBool("tobrach",True)
+			Dim jsonArr1 As New indiJSONArray("")
+			'分支流程，需要确定下一环节
+			ForAll v In aintNextNodeId
+				strNextNodeId = CStr(v)
+				Dim jsonObj4 As New indiJSONObject("")
+				strNodeType = docFlow.GetItemValue("nodeType"+strNextNodeId)(0)
+				Call jsonObj4.putAny("id", strNextNodeId)
+				Call jsonObj4.putAny("type", strNodeType)
+				Select Case strNodeType
+				Case "hqfk":
+					SenceID_GetNextNode = "GetNextNode_sence6"
+				Case "":
+					If strNextNodeId="9999" Then
+						SenceID_GetNextNode = "GetNextNode_sence4"
+					Else
+						SenceID_GetNextNode = "GetNextNode_sence5"
+					End If
+				Case "parallel":
+					SenceID_GetNextNode = "GetNextNode_sence7"
+				Case "merger":
+					SenceID_GetNextNode = "GetNextNode_sence8"
+				End Select
+				Call jsonObj4.putAny("returnSence", SenceID_GetNextNode)
+				Call jsonArr1.pushObject(jsonObj4)
+			End ForAll
+			Call jsonObj3.putArray("nextnode", jsonArr1)
+			SenceID_GetNextNode = "GetNextNode_sence3"
+			Call jsonObj3.putAny("returnSence", SenceID_GetNextNode)
+			strJson = jsonObj3.toString()
+			GoTo onexit
+		Else
+			'非分支流程			
+			Dim strJsonMerger As String
+			strNextNodeId = CStr(aintNextNodeId(0))
+			strNodeType = docFlow.GetItemValue("nodeType"+strNextNodeId)(0)
+			If strNodeType="merger" Then
+				strJsonMerger = fnGetMergerBtn( docMain,docFlow,strNodeId,nmUser)
+				Dim jsonTmp As New IndiJSONObject(strJsonMerger)
+				Call jsonObj3.putObject("merger", jsonTmp)
+				Call fnGetMergerSence( strJsonMerger,0)
+			End If
+			Call jsonObj3.putAny("id", strNextNodeId)
+			If CStr(docProfile.fldIsHq(0))="1" And CStr(docMain.fldFanKui(0))&lt;&gt;"1" And strNextNodeId="9999" Then
+				Call jsonObj3.putAny("type", "hqfk")
+			Else
+				Call jsonObj3.putAny("type", docFlow.GetItemValue("nodeType"+strNextNodeId)(0))
+			End If
+			Call jsonObj3.putAny("name", docFlow.Getitemvalue("tmpStat"+strNextNodeId)(0))
+			
+			If docFlow.GetItemValue("tmpSelScope"+strNextNodeId)(0)="1" Then
+				Call jsonObj3.putBool("fullselect", True)
+			Else			
+				Call jsonObj3.putBool("fullselect", False)
+			End If
+			Select Case strNodeType
+			Case "hqfk":
+				SenceID_GetNextNode = "GetNextNode_sence6"
+			Case "":
+				If strNextNodeId="9999" Then
+					SenceID_GetNextNode = "GetNextNode_sence4"
+				Else
+					SenceID_GetNextNode = "GetNextNode_sence5"
+				End If
+			Case "parallel":
+				SenceID_GetNextNode = "GetNextNode_sence7"			
+			End Select
+			Call jsonObj3.putAny("returnSence", SenceID_GetNextNode)
+			strJson = jsonObj3.toString()
+			GoTo onexit				
+		End If
+	Else
+		Dim jsonObj5 As New indiJSONObject("")		
+		Call jsonObj5.putAny("tonextnode", False)		
+		SenceID_GetNextNode = "GetNextNode_sence1"
+		Call jsonObj5.putAny("returnSence", SenceID_GetNextNode)
+		strJson = jsonObj5.toString()
+	End If
+onexit:
+	Print |Content-Type:application/json;charset=UTF-8;|
+	Print strJson
+	If Not agtCurrent Is Nothing Then
+		Dim rtfReturn As NotesRichTextItem
+		Set rtfReturn = note.Createrichtextitem("rtfReturn")
+		Call rtfReturn.Appendtext( strJson )
+		Call note.save(True,False)
+	End If
+	Exit Sub
+errorhandle:
+	showerror("initialize")	
+End Sub
+
+</lotusscript></code><code event='fnGetMergerBtn'><lotusscript>%REM
+  Function fnGetFinalBxfzNode
+  Description: 获取并行分支内最终能合并到的环节按钮信息
+%END REM
+Function fnGetMergerBtn( docMain As NotesDocument,docFlow As NotesDocument,strMergerNodeId As String,nmUser As NotesName) As String
+    On Error GoTo errorhandle
+	Dim oJSONConver As indiJSONObject	
+	Dim session As New NotesSession
+	Dim docParent As NotesDocument
+	Dim itemBxfzInfor As NotesRichTextItem
+	Dim vJsonItemArr As indiJSONArray
+	Dim vJsonItem As indiJSONObject
+	Dim blnIsFree As Boolean
+	Dim numDoing As Integer
+	Dim strJson As String
+	Dim strNodeType As String
+	
+	Set docParent = fnGetDocBxfzParent(docMain)
+	Set itemBxfzInfor = docParent.Getfirstitem("rtfBxfzInfo")
+	If itemBxfzInfor Is Nothing Then
+		fnGetMergerBtn =|{}| 
+		Exit Function
+	End If
+	numDoing = 0
+	blnIsFree = False
+
+	strJson = itemBxfzInfor.Getunformattedtext()
+	Set oJSONConver = New indiJSONObject(strJson)
+	Set vJsonItemArr = oJSONConver.optArray("items") 
+	If Not vJsonItemArr Is Nothing Then
+		Dim i As Long ,sum As Long
+		sum = vJsonItemArr.length-1
+		For i =0 To sum 
+			Set vJsonItem = vJsonItemArr.getObject(i)
+			If vJsonItem.optStr("subflowdocunid","") = docMain.Universalid Then
+				If vJsonItem.optStr("subflowstat","") = "free" Then
+					blnIsFree = True
+				End If 
+			Else
+				If vJsonItem.optStr("subflowstat","") &lt;&gt; "free" Then
+					numDoing = numDoing + 1
+				End If
+			End If
+		Next
+	End If
+	strJson = ""	
+	Dim varNextNode As Variant
+	Dim aParam List As Variant
+	If Not blnIsFree Then	
+		If docFlow.Getitemvalue("tmpMerger"+strMergerNodeId)(0)="2" Or numDoing=0 Then
+			'一个到即合并 或 仅剩一个分支
+			aParam("bJump") = True
+			aParam("bComputeCondition") = False
+			aParam("nmCurUser")=nmUser.Canonical
+			varNextNode = fnGetNextFlowNode( docMain,docFlow,CInt(strMergerNodeId),aParam)			
+			strJson = fnJsonMergerNextNode( varNextNode ,docMain ,docFlow ,nmUser)
+		ElseIf docFlow.Getitemvalue("nodeType"+strMergerNodeId)(0)="merger" And blnExitMergerNext=False Then			
+			blnExitMergerNext = True			
+			aParam("bJump") = True
+			aParam("bComputeCondition") = False
+			aParam("nmCurUser")=nmUser.Canonical
+			varNextNode = fnGetNextFlowNode( docMain,docFlow,CInt(strMergerNodeId),aParam)			
+			strJson = fnJsonMergerNextNode( varNextNode ,docMain ,docFlow ,nmUser)
+		End If
+	End If
+	fnGetMergerBtn = strJson
+     Exit Function
+errorhandle:
+     showerror("fnGetMergerBtn") 
+     Exit Function
+End Function
+
+</lotusscript></code><code event='fnGetMergerSence'><lotusscript>Function fnGetMergerSence( ByVal strJson As String,level As Integer)
+	On Error GoTo errorhandle
+	Dim oJson As indiJSONObject
+	Dim oJsonNextLineArray As IndiJSONArray
+	Dim oJsonNextLine As indiJSONObject
+	Dim strNodeType As String
+	Dim strNextNodeId As String
+	
+	If strJson = |{}| Then
+		If level&lt;&gt;0 Then
+			SenceID_GetNextNode = "GetNextNode_sence9"
+		Else
+			SenceID_GetNextNode = "GetNextNode_sence8"
+		End If	
+	Else
+		Set oJson = New indiJSONObject(strJson)
+		Set oJsonNextLineArray = oJson.optArray("nextline").getArray(0)
+		Set oJsonNextLine = oJsonNextLineArray.optObject(oJsonNextLineArray.length-1)
+	
+		Dim tmpArr As New indiJSONArray(|["target","type"]|)
+		strNodeType = oJsonNextLine.getStrByPath(tmpArr)
+		Set tmpArr = New indiJSONArray(|["target","id"]|)
+		strNextNodeId = oJsonNextLine.getStrByPath(tmpArr) 
+		Select Case strNodeType
+		Case "hqfk":
+			SenceID_GetNextNode = "GetNextNode_sence6"
+		Case "":
+			If strNextNodeId="9999" Then
+				SenceID_GetNextNode = "GetNextNode_sence10"
+			Else
+				SenceID_GetNextNode = "GetNextNode_sence11"
+			End If
+		Case "parallel":
+			SenceID_GetNextNode = "GetNextNode_sence7"
+		Case "merger":			
+			Set tmpArr = New indiJSONArray(|["target","merger"]|)
+			Dim tmpObj2 As New indiJSONObject("")
+			strJson = oJsonNextLine.optAnyByPath(tmpArr,tmpObj2).toString()
+			level = level+1
+			Call fnGetMergerSence( strJson,level)
+		End Select
+	End If
+	Exit Function
+errorhandle:
+	showerror("fnGetMergerSence")
+End Function
+
+</lotusscript></code><code event='fnJsonMergerNextNode'><lotusscript>%REM
+	Function fnJsonNextNode
+	Description: 
+	将下一环节信息转换为json，便于前台使用
+%END REM
+Function fnJsonMergerNextNode( varNextNode As Variant,docMain As NotesDocument,docFlow As NotesDocument,nmUser As NotesName ) As String
+	On Error GoTo errorhandle
+	If docFlow Is Nothing Then 
+		GoTo errorhandle
+	End If
+	Dim strLineId As String
+	Dim strNextNodeId As String
+	Dim oNextNode As clNextNode
+	Dim strJson As String
+	Dim strJsonNode As String
+	Dim strJsonField As String
+	Dim strEndState As String
+	Dim ItemCondition As NotesItem
+	Dim astrConditionList As Variant
+	Dim strFormula As String
+	Dim vartmpFormula As Variant
+	Dim i As Long
+	Dim astrFormula As Variant
+	Dim strCondition As String
+	Dim itemTmp As NotesItem
+	Dim aryFieldName As Variant
+	Dim strTmpFormula As String
+	Dim j As Integer
+	Dim strNodeType As String
+	strEndState = docMain.fldEndState(0)	'从简要表读的自定义流程结束名称
+	If strEndState = "" Then
+		strEndState = "流程结束"
+	End If
+	Dim jsonObject As New indiJSONObject("")
+	Dim jsonArr As New indiJSONArray("")
+	Dim jsonChildArr As New indiJSONArray("")
+	Dim jsonTmp As IndiJSONObject
+	
+	ForAll v In varNextNode
+		Set oNextNode = v
+		Dim jsonArr1 As New indiJSONArray("")
+		j=0
+		ForAll m In oNextNode.aryNodeID
+			strLineId = CStr(m)
+			Dim jsonObj1 As New indiJSONObject("")
+			Call jsonObj1.putAny("name", "")
+			Call jsonObj1.putAny("id", "")
+			strCondition = ""
+			If j= UBound(oNextNode.aryNodeID) Then
+				strCondition = oNextNode.strCondition
+			End If
+			j = j + 1
+			If strCondition &lt;&gt; "" Then
+				astrConditionList = fnExplode(strCondition,";",True)
+				ForAll n In astrConditionList
+					strFormula = CStr(n)	'条件
+					'处理条件值
+					vartmpFormula = fnExplode(strFormula,"|",True)
+					For i = 0 To UBound(vartmpFormula)
+						astrFormula = fnExplode(vartmpformula(i),":",True)
+						If IsEmpty(aryFieldName) Or getIndex(aryFieldName,astrFormula(0))=-1 Then
+							aryFieldName = Split(astrFormula(0),"")
+							Set itemTmp = docMain.Getfirstitem(  astrFormula(0) )
+							Dim tmpObj As New indiJSONObject("")							
+							Call tmpObj.putAny("name",astrFormula(0))							
+							If itemTmp Is Nothing  Then
+								Call tmpObj.putAny("value","")
+							Else
+								Call tmpObj.putAny("value", itemTmp.Text)
+							End If
+							Call jsonChildArr.pushObject(tmpObj)
+						End If
+					Next
+				End ForAll	
+			End If
+			Call jsonObj1.putAny("condition", strCondition)
+			Call jsonObj1.putAny("conditionresult", oNextNode.blnConditionResult)
+			Dim jsonObj2 As New indiJSONObject("")			
+			strNextNodeId = CStr(m) 
+			If strNextNodeId="9999" Then
+				Call jsonObj2.putAny("name", strEndState)
+			Else
+				Call jsonObj2.putAny("name", docFlow.getitemvalue("tmpStat"+strNextNodeId)(0))
+			End If
+			Call jsonObj2.putAny("id",strNextNodeId)
+			strNodeType = docFlow.getitemvalue("nodeType"+strNextNodeId)(0)
+			Call jsonObj2.putAny("type",strNodeType)
+			If strNodeType = "merger" Then	
+				'待合并并行分支代码  todo
+				Dim strJsonMerger As String
+				Dim docParent As NotesDocument
+				Set docParent = fnGetDocBxfzParent(docMain)
+				strJsonMerger = fnGetMergerBtn( docParent ,docFlow ,strNextNodeId ,nmUser )
+				Set jsonTmp = New IndiJSONObject(strJsonMerger)
+				Call jsonObj2.putObject("merger", jsonTmp)
+			End If
+			Select Case strNodeType
+			Case "hqfk":
+				SenceID_GetNextNode = "GetNextNode_sence6"
+			Case "":
+				If strNextNodeId="9999" Then
+					SenceID_GetNextNode = "GetNextNode_sence4"
+				Else
+					SenceID_GetNextNode = "GetNextNode_sence5"
+				End If
+			Case "parallel":
+				SenceID_GetNextNode = "GetNextNode_sence7"
+			Case "merger":
+				SenceID_GetNextNode = "GetNextNode_sence8"
+			End Select
+			Call jsonObj2.putAny("returnSence",SenceID_SubmitBtn)
+			Call jsonObj2.putAny("selecttype",docFlow.GetItemValue("tmpSelScope"+strNextNodeId)(0))
+			Call jsonObj1.putObject("target", jsonObj2)
+			Call jsonArr1.pushObject(jsonObj1)			
+		End ForAll
+		Call jsonArr.pushArray(jsonArr1)
+	End ForAll
+	Call jsonObject.putArray("nextline", jsonArr)
+	Call jsonObject.putArray("conditionfield", jsonChildArr)
+	Call jsonObject.putAny("flowunid",docFlow.Universalid)
+	fnJsonMergerNextNode = jsonObject.toString()
+	Exit Function
+errorhandle:
+	showerror("fnJsonNextNode")
+	
+End Function
+	</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='19CC28BCD9C46602482580D30016DFBA'>
+<agentmodified><datetime>20170226T120156,75+08</datetime></agentmodified>
+<agentrun><datetime>20170226T121936,08+08</datetime></agentrun>
+<runlog>Started running agent '检查并发处理人处理情况|agtGetBfFlowInfor' on 2017-02-26 12:19:36
+Ran LotusScript code
+Done running agent '检查并发处理人处理情况|agtGetBfFlowInfor' on 2017-02-26 12:19:36
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T085504,54+08</datetime></item></agent>
+

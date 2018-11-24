@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmTemplateSelecter' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ comment='文头选择表单' inherit='true'>
+<noteinfo noteid='40a' unid='AEE904DC3C72025C482579BB0048D681' sequence='57'>
+<created><datetime>20120308T211535,05+08</datetime></created>
+<modified><datetime>20181107T195623,61+08</datetime></modified>
+<revised><datetime>20181024T085455,38+08</datetime></revised>
+<lastaccessed><datetime>20181107T195623,61+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195623,61+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='windowtitle'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NUUxud6G4PPEhUHz7fmvvr5beuFdyHqLVAEAAQABAAEAA==
+</formula></code><code event='webqueryopen'><formula compiled='true'>
+NgAJACwAyfjEx4oL+x7uIP1QdOx6lV81/nAI4/sAnX/jse+oc9lp/ev+/nnCoQQABAAEAAQA
+</formula></code><code
+ event='htmlbody'><formula compiled='true'>
+fgAJAHQAE0ZxETXC32tto0mWU1wshUhuNgkgtLEgonqNPIiHDZ9vXiBMGJczxZxMbUFyWP701xGn
+AmE2A978TmWMxAzu7WEi56XtDrEFh32LICK0IVyZjwIPsPUTURPzvBsp5ZokYSOldwD5Ux9TSh9S
+HatoEwQABAAEAAQA
+</formula></code><code event='htmlhead'><formula
+ compiled='true'>
+DgIJAAQCx1ymr9l1iAamIWtj9hGWfFOz7J/85ujQjam6Ps0YRe1yFdpvz0ejlQn44IcBJZfMK7C1
+DLVSb34Bv60nFo5dIXLv9akQAwng6xi1arW65HHojai1SfKgqB21szHzal6na1PcIueq+2Z31KEh
+0EBwRTuuHd9VE9nyAZJYHDPODXUbMsDxetpCi4YsxVv+1/5L2LyP8jSiv0yvszTi4oEVwgyMxv6B
+X0GYARQxfz/I06FfhrvMVn9WmAfooybxIiAhFHWdjQa4qEGzZR0sMW9VplyE4zJgMkPZx0Afmhop
+6laIlioJfO/xLutpZMjSyYgObxmQS7e+J3u+BpyBccsWWzuqRRJ8a2k2p4IeA3dZ1XixOijx67x7
+jsB8vTlzTFYgY07jbIzQA9sZyv7rMi3Jeh+NfK7Bn5rUv493Ed/kQ8VBxqU9nsaGy7rsFR4oPdf5
+ueVrT9q/4bYRMlST38dlA/iWAtgMQKyIfd0JrICqzJlODuqPEYII9DGzW2C+6gKlOvDsz96ZdJe5
+8t79nh40MBEUgM23iAI3yGRLf/zJqvszSo9XItBANtTqa1pdTxWVuuNJurHTlDWhXc8aEHNGYBpq
+wHkc9APsXe/ADWxT3mOpNrNRjQBE+AzhkvxwcDcztN70bsNkTlDKHY1JJoAnUUyRutZzMyWVrM/D
+hEJRpJQEAAQABAAEAA==
+</formula></code><code event='jsheader' for='web'><javascript
+>smartdot.i18n.requireLocalization("indiplatform.tylc");
+
+/*
+by sunxz 2012-2-22 
+*/
+function OKClick(){
+	if (document.forms[0].TitleList.value== ""){
+		alert(smartdot.i18n.getString("indiplatform.tylc.qxzmb1","请选择模板。"));
+		return;
+	}
+	if (confirm(smartdot.i18n.getString("indiplatform.tylc.qrsymb","确认使用选中的模板吗？"))){ 
+ 		parent.window.fnShowCreateFromTemplate(false)
+	 	var strhref=document.getElementById("rProxyForJS").getAttribute("href");
+ 		var strmodelurl=strhref+document.forms[0].TitleList.value
+	 	var fname=document.forms[0].fldfilename.value
+ 		var type=document.forms[0].TitleList.value.substr(document.forms[0].TitleList.value.lastIndexOf("."));
+		var fieldvalues=""
+ 		if (typeof(parent.window.fnGetCreateTemplateValues) == "function"){
+ 			//需要红头创建时自动同步表单哪些域
+ 			fieldvalues=parent.window.fnGetCreateTemplateValues()
+ 		}
+		parent.window.ExcuteCreateFromTemplate(strmodelurl,fname+type,fieldvalues)
+	}
+}
+
+function CancelClick(){
+	parent.window.fnShowCreateFromTemplate(false)
+	return
+}</javascript></code>
+<actionbar bgcolor='#d4d0c8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#d4d0c8'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
+<action title='_Edit Document' showinbar='false' systemcommand='edit'/>
+<action title='_Send Document' showinbar='false' systemcommand='send'/>
+<action title='_Forward' showinbar='false' systemcommand='forward'/>
+<action title='_Move To Folder...' showinbar='false' systemcommand='movetofolder'/>
+<action title='_Remove From Folder' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<body><richtext>
+<pardef id='1' leftmargin='1in' rightmargin='0%' tabs='L1.2500in L1.5000in L1.7500in L2in L2.2500in L2.5000in L2.7500in L3in L3.2500in L3.5000in L3.7500in L4in L4.2500in L4.5000in L4.7500in L5in L5.2500in L5.5000in L5.7500in L6in'><parstyle
+ name='Html'><font size='9pt' color='#0021bf' name='serif'/></parstyle></pardef>
+<pardef id='2' leftmargin='1in' rightmargin='100%' tabs='L1.2500in L1.5000in L1.7500in L2in L2.2500in L2.5000in L2.7500in L3in L3.2500in L3.5000in L3.7500in L4in L4.2500in L4.5000in L4.7500in L5in L5.2500in L5.5000in L5.7500in L6in'/>
+<par def='2'><run><font size='9pt' name='serif'/></run></par>
+<pardef id='3' align='center'/>
+<par def='3'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;div style="display:none"&gt;表单所有隐藏域信息</run></par>
+<table cellbordercolor='black' widthtype='fixedcenter' refwidth='6.6931in'><tablecolumn
+ width='1.9688in'/><tablecolumn width='4.7243in'/>
+<tablerow>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='5' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='5'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>隐藏域</run></par></tablecell>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='6' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='6'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>描述</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<pardef id='8' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>共享域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='7' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'><code
+ event='hidewhen' enabled='false'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><sharedfieldref name='dbPath'/></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<pardef id='9' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'><code
+ event='hidewhen' enabled='false'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR0aA4cY3R0DWjRlQyx3GmhxZkLgYcMP3X/9WoXzDhrJZQQABAAEAAQA
+</formula></code></pardef>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>获得该数据库路径信息；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='10' keepwithnext='true' keeptogether='true'/>
+<par def='10'><sharedfieldref name='ProtocolHeader'/></par></tablecell>
+<tablecell>
+<pardef id='11' keepwithnext='true' keeptogether='true'/>
+<par def='11'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>获得web访问协议(http 或 https)</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><sharedfieldref name='ResourcePath'/></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>获得资源库路径信息；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='12' leftmargin='0.0104in' hide='notes' keepwithnext='true' keeptogether='true'/>
+<par def='12'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><field type='text' kind='editable'
+ name='hfldIsListEmpty'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL25DSeh3mf7PLwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='gray'/></run></par></tablecell>
+<tablecell>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>列表是否为空：     值＝（0\1）；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='13' leftmargin='0.0104in' hide='read edit notes web' tabs='L1.5104in L2.0104in L2.5104in L3.0104in L3.5104in L4.0104in L4.5104in L5.0104in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='13'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><field type='text' kind='editable'
+ name='saveOptions'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL26h6T28uENn8AQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>是否保存该表单创建的文档;值＝（0\1）；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' bgcolor='#e0f1ff'>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>套打数据域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='14' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='14'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldSubject'><code
+ event='htmlattributes'><formula compiled='true'>
+JgAJABwAhJKTXTVECu6p0dqSUnssf7xmEUCRcxxyBAAEAAQABAA=
+</formula></code><code event='defaultvalue'><formula
+ compiled='true'>
+JgAJABwA9t6HEzhn5CJSQgFwHdirVQVftxy9mvgQBAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='1'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='gray'/></run></par></tablecell>
+<tablecell>
+<pardef id='15' leftmargin='0.0104in' tabs='L3.7472in L4.2472in L4.7472in L5.2472in L5.7472in L6.2472in L6.7472in L7.2472in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='15'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>文件标题</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldFwbh'><code event='defaultvalue'><formula
+ compiled='true'>
+JgAJABwA8B9vbeO3xkwOCbcy4hdGvaGVlkPSi6LDBAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='gray'/></run></par></tablecell>
+<tablecell>
+<par def='15'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>发文编号</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldQianFa'><code event='defaultvalue'><formula
+ compiled='true'>
+NgAJACwApukkKjyrBw5QYaUYVLYb6PifbQ9FfB9FJUiS9joPaTRob9xha0T38QQABAAEAAQA
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='gray'/></run></par></tablecell>
+<tablecell>
+<par def='15'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>签发人</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' allowmultivalues='true' kind='editable'
+ name='fldTopic' listinputseparators='space comma semicolon' listdisplayseparator='space'
+ extrahtmlattrs='size=60'><code event='defaultvalue'><formula compiled='true'>
+JgAJABwA8B9vbeO3xkxzs4mgxitMAWBW1Bm2EjU8BAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='gray'/></run></par></tablecell>
+<tablecell>
+<par def='15'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>主题词</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2'>
+<pardef id='17' keepwithnext='true' keeptogether='true'/>
+<par def='17'><run html='true'>&lt;input name=protocolheader value="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIXHCKHFjsKCDSYAe5PGhKGMRjfJ8G9v32EEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>"&gt;</run></par></tablecell></tablerow></table>
+<pardef id='18'/>
+<par def='18'/>
+<pardef id='19' hide='web'/><subformref name='sfrmDojo'/>
+<par def='18'>//控制页面以浏览器标准模式显示</par>
+<par def='18'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/></run></par>
+<pardef id='20' align='center' leftmargin='1in'><code event='hidewhen' enabled='false'><formula
+ compiled='true'>
+NgAJACwA36X/XRiqV+ov2mOGfZTCiQXVuIgKgC71PGZ51A6SbrGnECmU+T4OrwQABAAEAAQA
+</formula></code></pardef>
+<par def='20'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;/div&gt;</run></par>
+<pardef id='21' align='center' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='21'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;span style="display:none"&gt;&lt;a id="rProxyForJS" href="/"&gt;&lt;/a&gt;&lt;/span&gt;</run></par>
+<par def='18'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/></run></par>
+<pardef id='22' align='center' hide='web'/>
+<par def='22'><run html='true'><font size='9pt'/></run></par>
+<pardef id='23' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='23'><run html='true'><font name='monospace'/>&lt;div </run><run
+ html='true'><font size='9pt' color='navy'/>class="dialog_content"</run><run
+ html='true'><font name='monospace'/>&gt;</run></par>
+<pardef id='24' align='none' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='24'><run html='true'><font size='9pt'/>&lt;table style="margin:0 auto;"&gt;</run></par>
+<par def='24'><run html='true'><font size='9pt'/>&lt;tr&gt;&lt;td data-string-id="indiplatform.tylc.qsrwjm"&gt;</run><run
+ html='true'><font size='9pt' name='serif'/>请输入文件名(不含后缀)：&lt;/td&gt;&lt;/tr&gt;</run></par>
+<par def='24'><run html='true'><font size='9pt'/>&lt;tr&gt;&lt;td&gt;</run><run
+ html='true'><font size='9pt' name='serif'/><field type='text' kind='editable'
+ name='fldfilename' extrahtmlattrs='data-string-id="indiplatform.tylc.mrzw"'><code
+ event='htmlattributes'><formula compiled='true'>
+JgAJABwAhJKTXTVECu4UM3xgNxx5JmJGxFLJFNn8BAAEAAQABAA=
+</formula></code><code event='defaultvalue'><formula
+ compiled='true'>
+JgAJABwAuN+KRkT004h5NnivozA6XDnpAjTQtt5rBAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='2'
+ afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='serif'/>&lt;/td&gt;&lt;/tr&gt;</run></par>
+<par def='24'><run html='true'><font size='9pt'/>&lt;tr&gt;&lt;td data-string-id="indiplatform.tylc.qxzmb"&gt;</run><run
+ html='true'><font size='9pt' name='serif'/>请选择模板：&lt;/td&gt;&lt;/tr&gt;</run></par>
+<par def='24'><run html='true'><font size='9pt'/>&lt;tr&gt;&lt;td&gt;</run></par>
+<pardef id='25' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR2QDAghocwD9LdonMiqGA1J9ZrCH112upmZ9rhV045g4gQABAAEAAQA
+</formula></code></pardef>
+<par def='25'><run html='true'><font size='9pt' name='serif'/>	&lt;select style="width:300px;height:160px" size="10" name="TitleList" onDblClick="OKClick();"&gt;</run><run
+ html='true'><font size='9pt' name='serif'/><field type='text' kind='computed'
+ name='fldTitleOption'><code event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIWM9kqPaBEyk/SenIPScyUBjM476+zQQ2cEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='serif'/>&lt;/select&gt;</run></par>
+<par def='24'><run html='true'><font size='9pt' name='serif'/>&lt;/td&gt;&lt;/tr&gt;</run></par>
+<par def='24'><run html='true'>&lt;/table&gt;</run></par>
+<par def='23'><run html='true'><font size='9pt' name='serif'/>&lt;/div&gt;</run></par>
+<pardef id='26' leftmargin='1in' hide='web'/><subformref><code event='value'><formula
+ compiled='true'>
+PgAJADQAPNer3thaw4NWQtUBiUw1sjrlKBR4JJlVhfCygyt9JJ43ZiKTaEemuS0JmTI6acN3BAAE
+AAQABAA=
+</formula></code></subformref>
+<pardef id='27' hide='notes'><code event='hidewhen'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR2QDAghocwD9LdonMiqGA1J9ZrCH112upmZ9rhV045g4gQABAAEAAQA
+</formula></code></pardef>
+<par def='27'><run html='true'><font size='9pt' color='blue'/>&lt;div class="dialog_btn"&gt;</run></par>
+<par def='27'><run html='true'><font size='9pt' color='blue'/>&lt;center&gt;</run></par>
+<par def='27'><run html='true'><font size='9pt' color='blue'/>&lt;table&gt;&lt;tr&gt;&lt;td&gt;</run><run
+ html='true'><font size='9pt' color='blue'/><computedtext><code event='value'><formula
+ compiled='true'>
+dgEJAGwB+CSL3eWjn2wm44jzAqmBABUUnA/u92wnQMR2DGsmEe1eG3OYSd+5jSyRkaMzLW5O0FJ0
+NxMfa0EvWrtrNGavYIDbPg1qrgp3Az0SQ2xrLIFc/P8MkgCs7cM5L5j+HkikCEfPMuE81QNR/mcl
+c0MKHB+Fsju/L9eb68fYcIpZJwukWW0CLUNYTMWFVWldn6STNnErdWcER8/TNC3kh0obCcFguxJk
++QnuIskoWsfvntuSBWV/owCULBpGBDfFzcqy6+7oTmJR4osan61JMGmfqKDJXV6P+cbVhb2QXHIE
++8lGHjze/HhzAhWAtLsUIFiYfN8l214CZKVCXgJ6FAmScfVxQGvTw6YxDJWTZBLc3pjSyaKgEiap
+N7bz7DZfcd7ndy8cM9/bZtcF3NXoTUIpDrG9pDqlGuUv0zVA3Rn81iQGA9bFtwQNHeo123wBKmLF
+BiCcg8JPwZHPiDvwIYcYQkrdW2zRG+BZBAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' color='blue'/></run><actionhotspot hotspotstyle='none'><code event='onClick'
+ for='web'><javascript>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><code event='onClick' for='client'><javascript
+>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><run html='true'><font size='9pt' color='blue'/></run></actionhotspot><run
+ html='true'><font size='9pt' color='blue'/>&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</run><actionhotspot
+ hotspotstyle='none'><code event='onClick' for='web'><javascript>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><code event='onClick' for='client'><javascript
+>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><run html='true'><font size='9pt' color='blue'/></run></actionhotspot><run
+ html='true'><font size='9pt' color='blue'/>&lt;/td&gt;&lt;td&gt;</run><run
+ html='true'><font size='9pt' color='blue'/><computedtext><code event='value'><formula
+ compiled='true'>
+ZgEJAFwBRgtYUGfGfhQHp6qW0wChuVySvM7Nk6XT0q01I4llURYi2MtlyzDDf9xxIcurZ1ygSUCE
+mQPDdrNScB17quH7JF4v4xqvQWSv0VhRKeL+5rwMCGkVd72UTo8QKQH7wfBFxZ0OwA1rdbpUIuuz
+vt2edCwar6kjCLxQbg2dVO3W4s/aQ8B8hD0kyziKNNvtiVkBLCXAZzcSkS77pr5J0T10caduyvdP
+IK6/w5WrT5JQArA9R1L5yM6SbcX8TIndVM8hrwYML8HeNAU6e/Mw28iechbCSTLWRohGPDT16Pjp
+o2Ez5nTV4KIURvbdShvN32gtAuhHr3icPRTPpoSBZZ7ck3+QNZln/2CZFiWKeSeNl1JLASa+6rU4
+HrMNQHJX7Bwr9eOsD8ucTTS9UjOl1vxLUIOk19ZwMOm8fFPkFTX6mhJu1se/1GQTgaHnYr/z6skT
+YtkGY4/LkWcEAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' color='blue'/></run><actionhotspot hotspotstyle='none'><code event='onClick'
+ for='web'><javascript>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><code event='onClick' for='client'><javascript
+>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><run html='true'><font size='9pt' color='blue'/></run></actionhotspot><run
+ html='true'><font size='9pt' color='blue'/>&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</run></par>
+<par def='27'><run html='true'><font size='9pt' color='blue'/>&lt;/center&gt;</run></par>
+<par def='27'><run html='true'><font size='9pt' name='serif' color='blue'/>&lt;/div&gt;</run></par>
+<pardef id='28'><code event='hidewhen'><formula compiled='true'>
+NgAJACwA4T2e9gLcRR2QDAghocwD9LdonMiqGA1JX5X+ysf6DViKDs8JrPsufgQABAAEAAQA
+</formula></code></pardef>
+<par def='28'><run html='true'><font size='9pt' color='blue'/>&lt;div class="dialog_btn"&gt;</run></par>
+<par def='28'><run html='true'><font size='9pt' color='blue'/>&lt;center&gt;</run></par>
+<par def='28'><run html='true'><font color='blue'/>&lt;div class='nw_alert' data-string-id="indiplatform.tylc.wmbky"&gt;</run><run
+ html='true'><font size='9pt' name='serif' color='blue'/>对不起，目前没有可用的模板，详细情况请与管理员联系。</run><run
+ html='true'><font color='blue'/>&lt;/div&gt;</run></par>
+<par def='28'><run html='true'><font size='9pt' color='blue'/>&lt;table&gt;&lt;tr&gt;&lt;td&gt;</run><run
+ html='true'><font size='9pt' color='blue'/><computedtext><code event='value'><formula
+ compiled='true'>
+RgEJADwBNQJxrGV8U22LNg8N3po2P1b4rGxI7xevFSORjSjZil9RCuPUOSosGF8EavudNJnJTxGr
+7qTgMr5ns8T8hI2HAKDQSaw/Cp7OWiXnEypObPOKgZFYfAPTEV6d6iO8PR8pwgUKScIzDI4+Bzbl
+w6rFYoVNQDGp/ao7/+Gx+/2vUIG3dplNRjwHUbvGXCVE7mWUzrahZyuWxr3QFVVBGJr4+twRl274
+NdOkgavfu4lhzudwrB7vGfaYJZpOPxxU1cZNCaTkQkXKTPrmMA/7C0orJ5o7QWtqK1vF6qHM5XgN
+INYlQyjAdLOd9j6G/2mgTB8ajwKIcMZlLzrXuyQQIHSk2t5BpIEl6uYaNWV4KImW/bpd0vAqHeM4
+PuC7KKyabzJ0G7pEgl9UXWFGhfV3w5OMsei49nygq3e0BAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' color='blue'/></run><actionhotspot hotspotstyle='none'><code event='onClick'
+ for='web'><javascript>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><code event='onClick' for='client'><javascript
+>document.forms[0].Address.value="fldXyspr";
+SelectPerson();</javascript></code><run><font size='9pt' color='blue'/></run></actionhotspot><run
+ html='true'><font size='9pt' color='blue'/>&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</run></par>
+<par def='28'><run html='true'><font size='9pt' color='blue'/>&lt;/center&gt;</run></par>
+<par def='28'><run html='true'><font size='9pt' name='serif' color='blue'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20071210T160045,85+08</datetime></item>
+<item name='$SubForm_RepIDs' sign='true'><textlist><text>0000000000000000</text><text
+>0000000000000000</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmTemplateSelecter</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,61+08</datetime></item></form>
+

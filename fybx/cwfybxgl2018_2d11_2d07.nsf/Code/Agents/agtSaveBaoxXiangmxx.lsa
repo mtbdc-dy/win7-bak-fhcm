@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtSaveBaoxXiangmxx' alias='保存报销项目信息维护' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='189e' unid='48258072000E0C3F482580610028DFEC' sequence='34'>
+<created><datetime>20161104T152627,64+08</datetime></created>
+<modified><datetime>20181107T195908,50+08</datetime></modified>
+<revised><datetime>20181024T092020,06+08</datetime></revised>
+<lastaccessed><datetime>20181107T195908,50+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195908,50+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092126,29+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>Option Public
+Option Explicit
+Use "CommonLib"   
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	'错误捕获	
+	On Error Goto errhandler
+	Dim	session	As	New	NotesSession
+	Dim	db		As		NotesDatabase
+	Dim	doc		As		NotesDocument
+	Dim 	vec 		As 		NotesViewEntryCollection
+	Dim 	veTmp 	As 		NotesViewEntry
+	Dim	docTmp	As		NotesDocument
+	Dim	note		As		NotesDocument
+	Dim	view		As		NotesView
+	Set note=session.Documentcontext
+	note.form="frmBaoxXiangmxx"
+	Call note.Save(true,False)
+	Exit Sub
+errhandler:
+	ShowError("Initialize")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='7C50159285FEBB154825833500394D02'>
+<agentmodified><datetime>20181025T014921,11+08</datetime></agentmodified>
+<agentrun><datetime>20181107T184324,77+08</datetime></agentrun>
+<runlog>Started running agent 'agtSaveBaoxXiangmxx|保存报销项目信息维护' on 2018-11-07 18:43:24
+Ran LotusScript code
+Done running agent 'agtSaveBaoxXiangmxx|保存报销项目信息维护' on 2018-11-07 18:43:24
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092020,06+08</datetime></item></agent>
+

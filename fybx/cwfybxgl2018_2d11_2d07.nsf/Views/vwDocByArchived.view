@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwDocByArchived' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' showinmenu='false' defaultdesign='true' allowdocselection='true'
+ publicaccess='false' designerversion='8.5.3' language='zh-CN' comment='已经归档公文'
+ unreadmarks='standard' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='false' showmargin='true'
+ shrinkrows='true' extendlastcolumn='false' showhierarchies='false' unreadcolor='maroon'
+ rowlinecount='5' headerlinecount='1' rowspacing='1.25' haslinkcolumn='true'
+ bgcolor='white' altrowcolor='#efefef' totalscolor='blue' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='1a36' unid='482581B6000911FF482581B70014612D' sequence='10'>
+<created><datetime>20171012T114235,97+08</datetime></created>
+<modified><datetime>20181107T195923,60+08</datetime></modified>
+<revised><datetime>20181024T092021,44+08</datetime></revised>
+<lastaccessed><datetime>20181107T195923,60+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195923,60+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+>SELECT (form = "frmWebFlow") &amp; @IsMember("已归档";stat)</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' resort='both' hidedetailrows='false' itemname='$61'
+ width='13.6250' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='true'><font size='9pt'/><columnheader title='&lt;span data-string-id="indiplatform.tylc.qcrq">起草日期&lt;/span>'><font
+ style='bold'/></columnheader><datetimeformat show='datetime' date='yearmonthday'
+ fourdigityear='true' time='hourminutesecond' zone='never' dateformat='yearmonthdayweekday'
+ dayformat='twodigitday' monthformat='twodigitmonth' yearformat='fourdigityear'
+ weekdayformat='shortname' dateseparator1='-' dateseparator2='-' dateseparator3=' '
+ timeseparator=':' timeformat24='true' preference='usersetting'/><numberformat
+ format='general' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='value'><formula>@Text(@Date(fldQiCaoRQ))</formula></code></column>
+<column sort='descending' hidedetailrows='false' itemname='$63' width='10'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' hidden='true'><columnheader><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula>@Created</formula></code></column>
+<column sort='ascending' resort='both' hidedetailrows='false' listseparator='comma'
+ itemname='$64' width='49' resizable='true' separatemultiplevalues='false'
+ sortnoaccent='true' sortnocase='true' showaslinks='true'><font size='9pt'/><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.biaoti">标题&lt;/span>'><font
+ style='bold'/></columnheader><datetimeformat legacy='true' show='date' date='yearmonthday'
+ time='hourminutesecond' zone='never'/><numberformat legacy='true' format='general'
+ digits='2' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='value'><formula>@ReplaceSubstring(fldSubject;"&lt;";"&amp;lt;")</formula></code></column>
+<column hidedetailrows='false' listseparator='comma' itemname='$62' width='13.6250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='true' formatdatatype='datetime'><font size='9pt'/><columnheader
+ title='&lt;span data-string-id="indiplatform.tylc.clzt">处理状态&lt;/span>'><font
+ style='bold'/></columnheader><datetimeformat legacy='true' show='date' date='yearmonthday'
+ time='hourminute' zone='never'/><numberformat legacy='true' format='general'
+ digits='2' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='value'><formula>"&lt;span data-string-id=\"indiplatform.tylc.yiguidang\"&gt;"+stat+"&lt;/span&gt;"</formula></code></column>
+<item name='$TYPE'><text>$SUBVIEW</text></item>
+<item name='$LastBuildTime' sign='true'><datetime>19990726T175344,55+08</datetime></item>
+<item name='$BabelInfo' sign='true'><text>00000172</text></item>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN</text></item></view>
+

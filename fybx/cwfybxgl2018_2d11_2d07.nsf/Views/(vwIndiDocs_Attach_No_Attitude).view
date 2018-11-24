@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='(vwIndiDocs_Attach_No_Attitude)' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' showinmenu='false' publicaccess='false'
+ designerversion='8.5.2' comment='根据主文档ID查询Indi.Doc附件文档(不包含手写批示)' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' totalscolor='gray' headerbgcolor='white' boldunreadrows='false'
+ evaluateactions='false' allownewdocuments='false' allowcustomizations='true'
+ hidemarginborder='false' marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
+<noteinfo noteid='1be' unid='A9520B59F3497E4648256F81001ED747' sequence='55'>
+<created><datetime>20050106T133651,91+08</datetime></created>
+<modified><datetime>20181107T195613,45+08</datetime></modified>
+<revised><datetime>20181024T085441,29+08</datetime></revised>
+<lastaccessed><datetime>20181107T195613,45+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195613,45+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+BgEJAPwAhdiBiiWG6lSuYZwrpNfIIXi9v7WxTg4KqbDR8Ok0HQ8jLVcN1RGBjkCGm1Wod49U7W+i
+o1PusxaNcP3SUNkRffeLN6A90vBcYyom6nUbPee67NXEWE5f5V0OPxqkI8XtoDfkybB/W14aYkBe
+pdpd/mQ6yILlAZ0hu9IGKrFHo1z6rerHbx9adOHynqbha9gZYcBp9NJ2q3AxOfwe8NPzWSSSBBS+
+j1DxqY69d6A2w+U8n0y8xmqTGkyf6k7gTkdBoz/wtvMkx71/ubAKe0/JPVp6Hm/zKd6zUcGPMHqG
+/y5uUQIJwAPzwKZVVz/T0mcVamtlASmuTQsEAAQABAAEAA==
+</formula></code>
+<actionbar bgcolor='#d4d0c8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#d4d0c8'/><border width='0px 0px 1px'/>
+<action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
+<action title='_Edit Document' showinbar='false' systemcommand='edit'/>
+<action title='Send Docu_ment' showinbar='false' systemcommand='send'/>
+<action title='_Forward' showinbar='false' systemcommand='forward'/>
+<action title='_Move To Folder...' showinbar='false' systemcommand='movetofolder'/>
+<action title='_Remove From Folder' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='MainDocUnid' width='46.5000'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><columnheader title='MainDocID'><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+NgAJACwAEqnn/bp7C/C1CQ2c4bdP7NO27KKntilVdVS1WYzmBAbk4GdHlIBfYQQABAAEAAQA
+</formula></code></column>
+<column sort='descending' resort='descending' hidedetailrows='false' itemname='CreatedTime'
+ width='29.3750' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='false'><columnheader title='Created'><font
+ size='9pt' style='bold'/></columnheader><code event='value'><formula compiled='true'>
+NgAJACwAEqnn/bp7C/CRCt5h4CZtLZy+YXCl7xvKzBttZ1iqZDc6pQldJ8+vrQQABAAEAAQA
+</formula></code></column>
+<column hidedetailrows='false' itemname='FileUnid' width='40.2500' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+><font size='9pt' style='bold'/></columnheader><code event='value'><formula
+ compiled='true'>
+LgAJACQAwNmEwBAKhyqks2/DclK6rmZGkjFMByRHcfVBNX7pxZwEAAQABAAEAA==
+</formula></code></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,71+08</datetime></item></view>
+

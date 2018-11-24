@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='按钮区域扩展隐藏条件_custom_hiddenConditon' alias='sfrmFlowButton_Custom_HiddenCondition'
+ xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825807E001E75D5'
+ designerversion='8.5.3' comment='第一排按钮' renderpassthrough='true'>
+<noteinfo noteid='1349e' unid='482581B6000911FF482581B7003E094C' sequence='36'>
+<created><datetime>20171012T191736,12+08</datetime></created>
+<modified><datetime>20181104T225852,55+08</datetime></modified>
+<revised><datetime>20181104T225852,54+08</datetime></revised>
+<lastaccessed><datetime>20181104T225852,54+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T213204,61+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>&lt;div style="display:none;"&gt;</run></par>
+<pardef id='2' leftmargin='1in' hide='notes web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><field type='text' kind='computedfordisplay' name='BHC_print'><code
+ event='defaultvalue'><formula>@If(flownum=9999;@True;"")</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='2'/>
+<par def='2'/>
+<par def='2'/>
+<par def='2'/>
+<par def='2'>				//驳回		需要在流程定义文档的财务支付环节,将驳回的功能禁用掉(需要再讨论)</par>
+<par def='2'><field type='text' kind='computedfordisplay' name='BHC_Chehui'><code
+ event='defaultvalue'><formula>""</formula></code></field><compositedata type='98'
+ prevtype='65418' nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>		//撤回</par>
+<par def='2'><field type='text' kind='computedfordisplay' name='BHC_Trash'><code
+ event='defaultvalue'><formula>@If(tmpZfhj_xm="yes" &amp; fldZfStatus4Hide_xm != "INIT";@True;@False)</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>		//作废</par>
+<par def='2'><field type='text' kind='computedfordisplay' name='BHC_CheZhuan'><code
+ event='defaultvalue'><formula>@If(tmpZfhj_xm="yes" &amp; fldZfStatus4Hide_xm != "INIT";@True;@False)</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>		//管理员撤转</par>
+<par def='1'><field type='text' kind='editable' name='fldZfStatus4Hide_xm'><code
+ event='defaultvalue'><formula>REM {初始值为INIT};
+"INIT"</formula></code></field><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='6' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata>   整个审批文档的支付状态，初始值为INIT，支付返回后可能为SUCCESS\FAILED</par>
+<par def='1'><run html='true'>&lt;input id="fldIsZfhj_xm" name="fldIsZfhj_xm" value="</run><run
+ html='true'><computedtext><code event='value'><formula>tmpZfhj_xm</formula></code></computedtext></run><run
+ html='true'>" /&gt;	</run>	值为yes时表示当前环节为财务支付环节</par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;!--财务改造项目 20181027 以下内容中有web隐藏条件，操作需谨慎--&gt;</run></par>
+<par def='1'><run html='true'>&lt;style type="text/css"&gt;</run></par>
+<par def='1'><run html='true'>	/* 提交按钮,在财务环节 且 fldZfStatus4Hide_xm 不是SUCCESS时,提交按钮将会隐藏</run><run
+ html='true'><computedtext><code event='value'><formula>tmpZfhj_xm</formula></code></computedtext></run><run
+ html='true'>  */</run></par>
+<pardef id='3' leftmargin='1in' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula>REM {在财务环节且fldZfStatus4Hide_xm不是SUCCESS时,将对提交按钮进行隐藏};
+@If(tmpZfhj_xm = "yes" &amp; fldZfStatus4Hide_xm!="SUCCESS";@False;@True)</formula></code></pardef>
+<par def='3'><run html='true'>	#main-btn #button #tableData {</run></par>
+<par def='3'><run html='true'>		display:none;</run></par>
+<par def='3'><run html='true'>	}</run></par>
+<par def='1'><run html='true'>&lt;/style&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmFlowButton_Custom_HiddenCondition</text></item></subform>
+

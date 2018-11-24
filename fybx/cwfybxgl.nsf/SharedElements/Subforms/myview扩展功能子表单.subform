@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='myview扩展功能子表单' alias='sfrmmyviewCustom' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='13426' unid='482581B6000911FF482581B7003C86E4' sequence='39'>
+<created><datetime>20171012T190106,92+08</datetime></created>
+<modified><datetime>20181028T131319,71+08</datetime></modified>
+<revised><datetime>20181028T131319,70+08</datetime></revised>
+<lastaccessed><datetime>20181028T131319,70+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T213203,15+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'>&lt;div style="display:none;"&gt;</run></par>
+<par def='1'><run html='true'><field type='text' kind='editable' name='fldNeed'><code
+ event='defaultvalue'><formula>@If(@LowerCase(viewname)="vwbaoxxiangmubytype"|@LowerCase(viewname)="vwzhuxiangmuxinxi"|@LowerCase(viewname)="vwzixiangmuxinxiformain"|@LowerCase(viewname)="vwkmxx_xm";"no";"yes")</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmmyviewCustom</text></item></subform>
+

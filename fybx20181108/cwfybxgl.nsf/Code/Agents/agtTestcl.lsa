@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtTestcl' alias='批量处理报销人报销部门字段' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' noreplace='true' publicaccess='false'
+ designerversion='8.5.3' restrictions='fulladminunrestricted' enabled='false'>
+<noteinfo noteid='10102' unid='30D37E30BAD9A94448258191000A1119' sequence='14'>
+<created><datetime>20170904T094957,37+08</datetime></created>
+<modified><datetime>20181024T101241,13+08</datetime></modified>
+<revised><datetime>20181024T101241,12+08</datetime></revised>
+<lastaccessed><datetime>20181024T101241,12+08</datetime></lastaccessed>
+<addedtofile><datetime>20170904T094959,31+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T101346,13+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agthybxflowover
+	Created 2016-11-9 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "CommonLib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errhandle
+	
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim note As NotesDocument
+	Dim doc As notesDocument
+	Dim vw As NotesView
+	
+	Set dbCurrent = session.Currentdatabase
+	Set note = session.Documentcontext
+	Set vw = dbCurrent.Getview("vwtestcl")
+
+	Set doc = vw.Getfirstdocument()
+	'If Not doc Is Nothing Then
+	While Not doc Is Nothing
+		doc.fldBaoxiaoRen_xm = doc.fldNiGaoRen(0)
+		doc.fldBaoxiaoBm = doc.fldNiGaoDW(0)
+		doc.fldBaoxiaoBm_id = doc.fldNiGaoDW_id(0)
+		Call doc.Save(True,False)
+		Set doc = vw.Getnextdocument(doc)
+	Wend
+
+	'End If
+
+	Exit sub
+errhandle:
+	MsgBox "agtTestcl has error:" + CStr(Error()) + " at line: " + CStr(Erl())
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170904T101903,82+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20161209T150324,40+08</datetime></item></agent>
+

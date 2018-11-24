@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='vwAllForStat' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ showinmenu='false' defaultdesign='true' publicaccess='false' designerversion='7'
+ language='zh-CN' comment='所有公文－统计用' unreadmarks='standard' onopengoto='lastopened'
+ onrefresh='displayindicator' headers='beveled' opencollapsed='false' showresponsehierarchy='false'
+ showmargin='true' shrinkrows='true' extendlastcolumn='false' showhierarchies='false'
+ unreadcolor='maroon' rowlinecount='5' headerlinecount='1' rowspacing='1.25'
+ bgcolor='white' altrowcolor='#efefef' totalscolor='blue' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='1aa' unid='D6B3B5925542585948256F7700272E31' sequence='55'>
+<created><datetime>20041227T150757,29+08</datetime></created>
+<modified><datetime>20181107T195613,28+08</datetime></modified>
+<revised><datetime>20181024T085440,90+08</datetime></revised>
+<lastaccessed><datetime>20181107T195613,28+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195613,28+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+xgAJALwAV9MbUrBDGsLV7Z4bXE/GNwGWOmRePGi5QGmPH9eceuM6O151b9n30dD3WFE49lywrQir
+crDiiLYFSeV4ngmm7YcI+RszaaKy+lquCuk7dbHn0Nlc4oaKiqaMXGK6Hckd6cuYE1sApWRTgM9i
+pgP6v9uDVZASRq8EwH55Vl2FTJH08sayUDQ3YGdJr7y9aL3JBt6H1eLs7R7CY9UEgBqYZCfGpsAq
+LVCxqOiyOWnGvUU0b30fWBIk/AQABAAEAAQA
+</formula></code>
+<actionbar linestyle='triple' bgcolor='#d2b06a' bordercolor='black'>
+<actionbuttonstyle margintype='fixed' margin='1' bgcolor='none'/><border width='0px 0px 1px'/>
+<action title='分类' showinbar='false' hide='previewedit' systemcommand='categorize'/>
+<action title='编辑文档' showinbar='false' hide='previewedit' systemcommand='edit'/>
+<action title='发送文档' showinmenu='false' showinbar='false' hide='previewedit'
+ systemcommand='send'/>
+<action title='转发' showinbar='false' hide='previewedit' systemcommand='forward'/>
+<action title='移入文件夹...' showinmenu='false' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹...' showinmenu='false' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='fldfwlx' width='10'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='公文类型'><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+LgAJACQA6lxRPOOC2v9wXVebmXA6eHIyHsmiUg1Uc+KHSlpJmP4EAAQABAAEAA==
+</formula></code></column>
+<column sort='descending' hidedetailrows='false' itemname='fldQiCaoRQ' width='13.6250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><font size='9pt'/><columnheader title='日期'><font size='9pt'/></columnheader><datetimeformat
+ legacy='true' show='date' date='yearmonthday' fourdigityear='true' time='hourminutesecond'
+ zone='never'/><code event='value'><formula compiled='true'>
+NgAJACwAzBjxVZmeWPEN0A8vUyTz3E4ROiwxbVgCHbo1Ua3mptR1FrqwNLyA6AQABAAEAAQA
+</formula></code></column>
+<column sort='ascending' hidedetailrows='false' listseparator='comma' itemname='fldSubject'
+ width='49' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='false'><font size='9pt'/><columnheader title='标题'><font
+ size='9pt'/></columnheader><datetimeformat legacy='true' show='date' date='yearmonthday'
+ time='hourminutesecond' zone='never'/><numberformat legacy='true' format='general'
+ digits='2' punctuated='false' parens='false' percent='false' bytes='false'/></column>
+<column hidedetailrows='false' listseparator='comma' itemname='stat' width='13.6250'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false' formatdatatype='datetime'><font size='9pt'/><columnheader
+ title='处理状态'><font size='9pt'/></columnheader><datetimeformat legacy='true'
+ show='date' date='yearmonthday' time='hourminute' zone='never'/><numberformat
+ legacy='true' format='general' digits='2' punctuated='false' parens='false'
+ percent='false' bytes='false'/><code event='value'><formula compiled='true'>
+JgAJABwAZGJJpkypivJnRyEQO+nn/jgktpdNQbmxBAAEAAQABAA=
+</formula></code></column>
+<item name='$TYPE'><text>$SUBVIEW</text></item>
+<item name='$LastBuildTime' sign='true'><datetime>19990726T175344,55+08</datetime></item>
+<item name='$BabelInfo' sign='true'><text>00000172</text></item>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,61+08</datetime></item></view>
+

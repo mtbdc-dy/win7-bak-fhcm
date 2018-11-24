@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmClearLockJS' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3' comment='并发流转清除锁文档的JS'>
+<noteinfo noteid='32a' unid='AED93D28B8DF59ED4825705900355671' sequence='57'>
+<created><datetime>20050810T174235,37+08</datetime></created>
+<modified><datetime>20181025T014915,29+08</datetime></modified>
+<revised><datetime>20181024T085443,56+08</datetime></revised>
+<lastaccessed><datetime>20181025T014915,28+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010757,17+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>//忽略强制解锁
+function fnIgnoreForceLockClear()
+{
+ 	if (document.getElementsByName("hfldIsEditMode")[0])
+ 	{
+ 		document.getElementsByName("hfldForceClearLock")[0].value="0";
+ 	}
+}
+
+//清除锁文档
+function fnClearLock()
+{
+ 	if (document.getElementsByName("hfldIsEditMode")[0])
+	{
+  		if (document.getElementsByName("hfldForceClearLock")[0].value=="1")
+ 		{
+   			fnOpenLockClear();
+ 		}else{
+			//alert("Ignore automatic Lock Clearing");
+		}
+	}
+}</javascript></code>
+<body><richtext>
+<pardef id='1' hide='notes web'/>
+<par def='1'><run html='true'>============================ 自动解锁 ＝＝＝＝＝＝＝＝＝＝＝＝</run></par>
+<pardef id='2'/>
+<par def='2'><run html='true'>&lt;div style="display:none"&gt;</run></par>
+<table widthtype='fixedleft' refwidth='7.4806in'><tablecolumn width='2.3625in'/><tablecolumn
+ width='5.1181in'/>
+<tablerow>
+<tablecell valign='center' bgcolor='#efefef'>
+<pardef id='4' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='4'><run><font size='9pt' style='bold'/>控制域</run></par></tablecell>
+<tablecell valign='center' bgcolor='#efefef'>
+<pardef id='5' align='center' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='5'><run><font size='9pt' style='bold'/>描述</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='6' leftmargin='0.0104in' tabs='L7.3354in' keepwithnext='true'
+ keeptogether='true'/>
+<par def='6'><run><font size='9pt' color='purple'/><field type='text' kind='editable'
+ name='hfldIsEditMode' extrahtmlattrs='type=hidden'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='#5f5f5f'/></run></par></tablecell>
+<tablecell>
+<pardef id='7' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='7'><run><font size='9pt' color='#5f5f5f'/>判断当前文档是否处于编辑模式，如果处于编辑模式才处理解锁问题。</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='8' leftmargin='0.0104in' tabs='L6.3250in' keepwithnext='true'
+ keeptogether='true'/>
+<par def='8'><run><font color='#5f5f5f'/></run><run><font size='9pt' color='#603181'/><field
+ type='text' kind='editable' name='hfldForceClearLock'><code event='defaultvalue'><formula
+ compiled='true'>
+HgAJABQAxAuLO3dDL25DSeh3mf7PLwQABAAEAAQA
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='10' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font color='#5f5f5f'/></run></par></tablecell>
+<tablecell>
+<par def='7'><run><font size='9pt' color='#5f5f5f'/>当值为 “</run><run><font
+ size='9pt' color='#5f5f5f'/>1”时 页面的Unload中强制解锁，</run></par>
+<par def='7'><run><font size='9pt' color='red'/>当值为 “0”时 页面的Unload中中不强制解锁，</run></par></tablecell></tablerow></table>
+<par def='2'/>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>&lt;script language="javascript"&gt;</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>function fnOpenLockClear()</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>{</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>	dojo.xhrGet({</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>		url: "</run><run html='true'><computedtext><code event='value'><formula
+ compiled='true'>
+hgAJAHwAk1jvWchT/Z5yy5+ZRH7fljcBy9j+mNjZmpjI1HStw/AKLZy5qqmT+G10XCUuHvPIHI/H
+BMh/9SUBTqdw8OIiyqmJicY39fFIOuHmefKEpENgSsauC1NIPg4ghgJSNMYTgUVliTMQ/vf3oYf0
+m03lj3co8r26+Z5hBAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>"</run><run html='true'><font
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>,</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>		handleAs: "text",</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>		preventCache: true,</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>		sync: true,</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>		load: function() {</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>			return;</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>		}</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>	});</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>}</run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/></run></par>
+<par def='2'><run html='true'><font name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>&lt;/script&gt;</run></par>
+<par def='1'><run html='true'>============================ 自动解锁 ＝＝＝＝＝＝＝＝＝＝＝＝</run></par>
+<par def='1'/></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmClearLockJS</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,25+08</datetime></item></subform>
+

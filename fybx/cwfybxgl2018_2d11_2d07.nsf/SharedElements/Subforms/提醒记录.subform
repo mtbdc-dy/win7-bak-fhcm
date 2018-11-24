@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='提醒记录' alias='sfrmAlertInfo' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='212' unid='94FE112C9AD42B25482579B4004AE13E' sequence='55'>
+<created><datetime>20120301T213753,26+08</datetime></created>
+<modified><datetime>20181107T195614,59+08</datetime></modified>
+<revised><datetime>20181024T085439,88+08</datetime></revised>
+<lastaccessed><datetime>20181107T195614,59+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195614,59+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>
+ </javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' rightmargin='0%'><parstyle name='html'/></pardef>
+<pardef id='2' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run html='true'>&lt;div class="</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+hgAJAHwAK2x0X6NS0ipwAZCCraH09RVEOD/pH57pyKDIp1h5jrPFVCWG0I884Lzigc/GjxzTMx1C
+HuPJopMm4D/Z1AdPViNhWPe5lC2XLGETTjoYeuhoT4WGIz6AkR0/COb8A8O8Yt6kF1Stgdi9u+lk
+BCZQHOl3lq/D6xQpBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>" data-title="提醒"</run><run html='true'> id="tixingpanel" data-string-id="indiplatform.tylc.tixingt" onclick="fnGetTips('</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+7gAJAOQAVAFghxurlczCf162bqso/zcEd2uI2XF39DuDxLxAVSeXiQEoFdDnL+kUB2GEg3wFajHA
+vTHucQcQW/GIe1T/uDumnDhb23x0RCgMVXf3xEMnDZzpCsPyfmBsRWty5w7gOZiG7YFvIhpJeYvR
+gjY77BXtGiW5EZSzMbO9To4MbfHV3A6QkUmHMFczL28JwYry3/cGm1uYs3tsJpUP1xC8JKOo4/x9
+peBw/E8wuhbxkc5FMNh3DxC3njMdX37z1N7DCqtmqlTXbTP3ZiUoXMnhTr1wFIKh5AmHlNq/02gv
+Jc8EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>');</run><run html='true'>"&gt;</run></par>
+<par def='2'><run html='true'>&lt;h2 class="panel-title"&gt;&lt;span data-string-id="indiplatform.tylc.txjl"&gt;提醒记录&lt;/span&gt;&lt;/h2&gt;</run></par>
+<par def='2'><run html='true'>&lt;div class="panel-content" id="TipsContent"&gt;</run></par>
+<pardef id='3' leftmargin='1.2500in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='3'><run html='true'>&lt;div class="empty no-info" data-string-id="indiplatform.tylc.zwtxjl"&gt;暂无提醒记录&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;script&gt;</run></par>
+<par def='2'><run html='true'>dojo.addOnLoad(function(){fnGetTips("</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+7gAJAOQAVAFghxurlczCf162bqso/zcEd2uI2XF39DuDxLxAVSeXiQEoFdDnL+kUB2GEg3wFajHA
+vTHucQcQW/GIe1T/uDumnDhb23x0RCgMVXf3xEMnDZzpCsPyfmBsRWty5w7gOZiG7YFvIhpJeYvR
+gjY77BXtGiW5EZSzMbO9To4MbfHV3A6QkUmHMFczL28JwYry3/cGm1uYs3tsJpUP1xC8JKOo4/x9
+peBw/E8wuhbxkc5FMNh3DxC3njMdX37z1N7DCqtmqlTXbTP3ZiUoXMnhTr1wFIKh5AmHlNq/02gv
+Jc8EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>");});</run></par>
+<par def='2'><run html='true'>&lt;/script&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmAlertInfo</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210736,49+08</datetime></item></subform>
+

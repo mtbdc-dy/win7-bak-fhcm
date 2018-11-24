@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='needFill' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='2e6' unid='530EA10D5FAF2931482570D0002C0776' sequence='55'>
+<created><datetime>20051207T160054,94+08</datetime></created>
+<modified><datetime>20181107T195617,85+08</datetime></modified>
+<revised><datetime>20181024T085443,85+08</datetime></revised>
+<lastaccessed><datetime>20181107T195617,85+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195617,85+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='needFill'><code event='defaultvalue'><formula
+ compiled='true'>
+NgAJACwA/6P3sHRAXE1IXXn17wMacI2tgghXbdSjs8zZVUHHkU7CPkt94LWbCAQABAAEAAQA
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,75+08</datetime></item></sharedfield>
+

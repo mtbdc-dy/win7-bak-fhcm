@@ -1,0 +1,102 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+Option Public
+Option Explicit
+
+Use "libManagerSetExtBase"
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Public Class ManagerSetCustom As ManagerSetExtBase
+Declare Sub Initialize
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+
+
+
+Public Class ManagerSetCustom As ManagerSetExtBase
+	Public Sub suSaveCustomExt(note As NotesDocument,docProfile As NotesDocument)  
+		On Error GoTo errorHandle  
+		docProfile.fldBaoXiaoxm_xm=note.fldBaoXiaoxm_xm 
+		docProfile.fldFeiYongLx_xm=note.fldFeiYongLx_xm 
+		docProfile.fldDepName_xm=note.fldDepName_xm(0)
+		docProfile.fldDepId_xm=note.fldDepId_xm(0)
+		docProfile.fldDepName1_xm=note.fldDepName1_xm(0)
+		docProfile.fldDepId1_xm=note.fldDepId1_xm(0)
+		docProfile.flddwlingdao_xm=note.flddwlingdao_xm(0)
+		docProfile.fldContractFWQ=note.fldContractFWQ(0)
+		docProfile.fldContractApp=note.fldContractApp(0)
+		docProfile.fldMujizjFeiyonglx_xm=note.fldMujizjFeiyonglx_xm
+		docProfile.fldIfHaveYS_xm=note.fldIfHaveYS_xm(0)
+		docProfile.fldIfHaveYc_xm=note.fldIfHaveYc_xm(0)
+		docProfile.fldIfHaveBg_xm=note.fldIfHaveBg_xm(0)
+		docProfile.fldIfHaveCc_xm=note.fldIfHaveCc_xm(0)
+		
+		Exit Sub
+errorHandle:   
+		ShowError "suSaveCustomExt" 
+	End Sub    
+	Public Sub suOpenCustomExt(note As NotesDocument,docProfile As NotesDocument)   
+		On Error GoTo errorHandle  
+		note.fldBaoXiaoxm_xm=docProfile.fldBaoXiaoxm_xm 
+		note.fldFeiYongLx_xm=docProfile.fldFeiYongLx_xm 
+		note.fldDepName_xm=docProfile.fldDepName_xm(0) 
+		note.fldDepId_xm=docProfile.fldDepId_xm(0)  
+		note.fldDepName1_xm=docProfile.fldDepName1_xm(0) 
+		note.fldDepId1_xm=docProfile.fldDepId1_xm(0)     
+		note.flddwlingdao_xm=docProfile.flddwlingdao_xm(0)
+		note.fldContractFWQ=docProfile.fldContractFWQ(0)
+		note.fldContractApp=docProfile.fldContractApp(0)
+		note.fldMujizjFeiyonglx_xm=docProfile.fldMujizjFeiyonglx_xm
+		note.fldIsAssJD=docProfile.fldIsAssJD(0)
+		
+		If docProfile.fldIfHaveYS_xm(0)<>"" Then
+			note.fldIfHaveYS_xm=docProfile.fldIfHaveYS_xm(0) 
+		Else
+			note.fldIfHaveYS_xm="否"
+		End If
+		If docProfile.fldIfHaveYc_xm(0)<>""Then
+			note.fldIfHaveYc_xm=docProfile.fldIfHaveYc_xm(0)
+		Else
+			note.fldIfHaveYc_xm="否"
+		End If
+		If docProfile.fldIfHaveBg_xm(0)<>""Then
+			note.fldIfHaveBg_xm=docProfile.fldIfHaveBg_xm(0)
+		Else
+			note.fldIfHaveBg_xm="否"
+		End If
+		If docProfile.fldIfHaveCc_xm(0)<>""Then
+			note.fldIfHaveCc_xm=docProfile.fldIfHaveCc_xm(0)
+		Else
+			note.fldIfHaveCc_xm="否"
+		End If
+		Exit Sub
+errorHandle:     
+		ShowError "suOpenCustomExt"  
+	End Sub
+End class
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

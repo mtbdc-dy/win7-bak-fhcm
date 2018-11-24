@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmWebflow-mobile-hq' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' publicaccess='false' designerversion='8.5.3'
+ comment='用于显示移动端子表单（会签文件，以高权限身份打开）' renderpassthrough='true'>
+<noteinfo noteid='4b2' unid='2C7FA141CC9E37BD48257EDD001FAAB6' sequence='57'>
+<created><datetime>20151013T134553,18+08</datetime></created>
+<modified><datetime>20181025T014914,45+08</datetime></modified>
+<revised><datetime>20181024T085445,16+08</datetime></revised>
+<lastaccessed><datetime>20181025T014914,44+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010753,25+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webqueryopen'><formula
+ compiled='true'>
+NgAJACwAOkQMDhZelV7slj5IA/2xUyBSnzHZ29Sd//l3ApQNjDt6CYHS8yH/CgQABAAEAAQA
+</formula></code>
+<body><richtext>
+<pardef id='1'/><subformref><code event='value'><formula compiled='true'>
+PgAJADQAvZjTCqJzWPkZXGBHNmATYzT10OKZhbL8blhlGfnyzhqgm9D+67r+NkfZ+8py7Bh2BAAE
+AAQABAA=
+</formula></code></subformref>
+<par def='1'/>
+<pardef id='2' hide='web'/>
+<par def='2'><run><font size='9pt' color='#5f5f5f' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/><field type='text' kind='computedfordisplay'
+ name='query_string_decoded'><code event='defaultvalue'><formula compiled='true'>
+NgAJACwAwHimNpqWOCfO+EXkBHpaYHnd940cBO4Z05Pu6wbEq0V5J2wJnRcVMgQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmWebflow-mobile-hq</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,53+08</datetime></item></form>
+

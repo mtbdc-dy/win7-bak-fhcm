@@ -1,0 +1,1094 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmSetManager' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' nocompose='true' noquery='true' publicaccess='false'
+ designerversion='8.5.3' comment='设置管理员' editonopen='true'>
+<noteinfo noteid='4da' unid='1AB4637C0734EA7A48257BD500389105' sequence='57'>
+<created><datetime>20130828T181751,41+08</datetime></created>
+<modified><datetime>20181025T014914,23+08</datetime></modified>
+<revised><datetime>20181024T085455,73+08</datetime></revised>
+<lastaccessed><datetime>20181025T014914,22+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010752,89+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='windowtitle'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NWowrqYRrcRtp/jR81qzGhcbK7AYU1+Bb0EAAQABAAEAA==
+</formula></code><code event='webquerysave'><formula compiled='true'>
+PgAJADQAAeR/IdtLwhOcReR7KQgjurfcoBmFdZ6dJNtMlfnkLxqBjbRQei0eHqCrtZxG4DwXBAAE
+AAQABAA=
+</formula></code><code
+ event='webqueryopen'><formula compiled='true'>
+PgAJADQAAeR/IdtLwhOcReR7KQgjusDSlr3g51YWOcnmKVd5mRTtdwKsQv9cNFsj1O8+ME3mBAAE
+AAQABAA=
+</formula></code><code event='htmlbody'><formula
+ compiled='true'>
+bgAJAGQATMe/QYw4pL3c0uSBr3TgZYADltCJXQoWme+LyVggmJJN11n/rENrRQx0XvKxufVijZ92
+w5yFwNMe4BiUFMYbHF2Vzzs2DeUY/3aBZfzQgmnpbmaIaZosHyUr6MsDLjWZBAAEAAQABAA=
+</formula></code><code event='htmlhead'><formula compiled='true'>
+JgMJABwDUmeJmvioXEddY6cKI+XGPN1VjRr7q6c2X9CuadnjC75wWsY3vvf3P/Tq9zeVqVD5tA5M
+TsaYcNoUXPlRA7kDBBXOzm0g2p/8wJOITaU0BIiKe9c7E1C1l6v/VXbEhz/2VLzkN6GJCcpvALJf
+8dCTDK4QLAFJaVWG+6tL5u+ifi4reQh4tlVEJGfjTQ4teoUybzqsIRLj06nw/c9Q3Xjphp6uLCVO
+lWzkc1WVgz7Q/EO6zHDyfVJyANcTnJMGVQc4AGte0ZaoxwXb1hUps1YQvsfUfdzjulLE0REAJ5Bs
+zTBoSOmThlJJErLwjQ+dqbJrLah+5gS/ytwqeIYml0sfIjfG7EofO36UsxK7X68/eTJNCFqKBN5A
+nV/IHQHj+9LSdkyHkhU2BDJ0R0IqylgkH20xOMKLxcxuLZbfNXHyCo+VA6xgr0bF05glQS8c2rtj
+SQkb2fEEO+wKWVxdhctp15bc5ETGg8JutST2reD+bLlzHwjO95m27V0PivCIo8o5m6cLWGfWHeLW
+qavK5t+Mq2hHwjfLztN0F8Sotpr42rfU4F8Sd8S0iW7IsLP0U2EdOl1tXRnirHv3SfSp8ZktdDuN
+gCnGwmUoscPJOFwRGdfOLb0O8S8HVIUcuWF1cVihAJubjah4oGcLQtbILS6HKAsLygREb6bTe7s9
+l5cJa6b+F0A4aXAtEHtTAG8uIVU425Y8umKspIrOyCB7fBxeq3tWojP5uojVPgZt/IuM8qZzeYhw
+xqFeBeHHY0Si2V6rM46UsiYjDnaftRP/0p1I9aQ08RC0zctNARxhEqtBREdmf4jb8WIqLWZMLdH4
+0iT/HNxLuYH2tT0Tf9zJVNIzVHTuj+idocDl8Dr8xhiJDXk03sUqyfCb7YlfINW8zkACBqsArekQ
+vd48eqEkkZx84/NHuTj5uJMq0bgRanvTwKuAOOy6csGiB5Z/5270yXjSi9JdUZf7OhClqSFRbiym
+AvYULb+ZK+lgMZ/eu7avwvU1Bs8pTUqgTw+9LVqFNV2sukCvaAI+frYMcv8LvGmBMawguC7+SOez
+BAAEAAQABAA=
+</formula></code><code
+ event='jsheader' for='web'><javascript>dojo.require('smartdot.Validator');
+smartdot.i18n.requireLocalization("indiplatform.tylc");
+
+function getScanFileName(){
+	var sel=document.forms[0]['fldAttachButton'];
+	if(sel[0].checked ==true)
+		document.getElementById("smfjmc").style.display="table-row"
+	else 
+		document.getElementById("smfjmc").style.display="none"
+}
+//保存退出调用函数
+function CheckForm(){
+	if(!smartdot.Validator.validateAll()){
+		return;
+	}
+	fnSetFldattach();
+	document.forms[0].submit();
+}
+dojo.addOnLoad(function(){
+	dojo.query('input[name=fldFlow]').connect('click',function(){
+		var flowInfo = smartdot.Validator.getItem('fldFlowInfo');
+		if(this.value == "0"){
+			smartdot.Validator.getItem('fldFlowInfo').set('required',false);
+		}else{
+			smartdot.Validator.getItem('fldFlowInfo').set('required',true);
+		}
+	})
+})
+function checkFlowInfoDB(strValue,item){
+	if(document.forms[0].elements["fldFlow"].value === "0") {
+		return true;
+	}
+	item.invalidMessage = smartdot.i18n.getString("indiplatform.tylc.zdsjkbcz","指定的数据库不存在！");	
+	var url = fnGetUrlRoot() + strValue + "/frmflowinfo?readform";
+	var rtn  ;
+	dojo.xhrGet({
+		url: url,
+		sync: true,
+		handleAs:"xml", 
+		load: function(){
+			rtn= true;
+		},
+		error: function(){
+			
+			rtn = false;
+		}
+	});
+	return rtn
+}
+function fnSetFldattach() {
+    dojo.query('[name=fldAttachButton_1]').forEach(function(item){item.name=item.name.replace('_1','');}); //修改域名
+    var items = dojo.query('[name=fldAttachButton]').filter(function (item) {
+        return item.checked;
+    })
+    if(items.length&gt;0){
+        dojo.query('[name=fldAttach]')[0].value='1';
+    }else{
+    	   dojo.query('[name=fldAttach]')[0].value='0';
+    }
+    
+}
+</javascript></code>
+<actionbar bgcolor='#d4d0c8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#d4d0c8'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='分类(_Z)' showinbar='false' systemcommand='categorize'/>
+<action title='编辑文档(_E)' showinbar='false' systemcommand='edit'/>
+<action title='发送文档(_S)' showinbar='false' systemcommand='send'/>
+<action title='转发(_F)' showinbar='false' systemcommand='forward'/>
+<action title='移入文件夹(_M)...' showinbar='false' systemcommand='movetofolder'/>
+<action title='移出文件夹(_R)' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<body><richtext>
+<pardef id='1' align='center'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;div style="display:none"&gt;表单所有隐藏域信息</run></par>
+<table widthtype='fixedcenter' refwidth='6.7326in'><tablecolumn width='2.0083in'/><tablecolumn
+ width='4.7243in'/>
+<tablerow>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='3' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='3'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>隐藏域</run></par></tablecell>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='4' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='4'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>描述</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<pardef id='6' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>共享域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='5' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='5'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><sharedfieldref name='dbPath'/></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<pardef id='7' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>获得该数据库路径信息；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='8' keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run><run><font size='9pt' color='gray' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><sharedfieldref name='configerRoleName'/></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='gray'/></run></par></tablecell>
+<tablecell>
+<pardef id='9' keepwithnext='true' keeptogether='true'/>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='8'><sharedfieldref name='key_NotifyOptions'/></par></tablecell>
+<tablecell>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>系统通知方式</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<par def='5'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><sharedfieldref name='ResourcePath'/></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>获得资源库路径信息；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' bgcolor='#ffefce'>
+<pardef id='10' keepwithnext='true' keeptogether='true'/>
+<par def='10'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>frmRedHeader表单固定域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run><run><font size='9pt' color='gray' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><field type='text' allowmultivalues='true'
+ kind='editable' name='fldArchivePathForSel' listinputseparators='comma semicolon'
+ listdisplayseparator='semicolon'><code event='defaultvalue'><formula compiled='true'>
+NgAJACwAwHimNpqWOCe/3JAT5f8TfA5kaDng6LRmb/qKUTJT18fV9p4XuciTVwQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='gray'/></run></par></tablecell>
+<tablecell>
+<par def='9'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>选择可以存储的归档库</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='11' leftmargin='0.0104in' hide='read edit notes web' tabs='L1.5104in L2.0104in L2.5104in L3.0104in L3.5104in L4.0104in L4.5104in L5.0104in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='11'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><field type='text' kind='editable'
+ name='saveOptions'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL26h6T28uENn8AQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>是否保存该表单创建的文档;值＝（0\1）；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='12' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='12'><run><font color='red' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='computedfordisplay' name='$$return'><code
+ event='defaultvalue'><formula compiled='true'>
+RgAJADwACDWucMAp9ZYOjQUD8eaPMC9WsezkSh7VvSjJSA1fcYaBIi7FcBc6zlAO1Q9TBV49c1g1
+8bhoGpwEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/></run></par></tablecell>
+<tablecell>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>提交返回页面；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>项目扩展域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='13' leftmargin='0.0104in' tabs='L6.5493in L7.0493in L7.5493in L8.0493in L8.5493in L9.0493in L9.5493in L10.0493in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='13'><run><font color='red'/><field type='text' kind='editable' name='Address'
+ extrahtmlattrs='type=hidden'><code event='defaultvalue'><formula compiled='true'>
+LgAJACQA9ngbFZRT/NU359Ac3llbCSdghcVES6dThwPeawNLQg8EAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='14pt'
+ style='bold' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<pardef id='14' leftmargin='0.0104in' hide='notes web' keepwithnext='true'
+ keeptogether='true'/>
+<par def='14'><run><font size='9pt' color='#8f8f8f'/>传递子窗口参数</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='15' hide='web' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='15'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='fldAttachButton'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='3' ui='checkbox'><textlist><text>添加正文|zw</text><text>上传附件|fj</text><text
+>用模板上传|mb</text><text>上传超大附件|dfj</text><text>上传扫描件|sm</text></textlist></keywords></field></par></tablecell>
+<tablecell>
+<pardef id='16' hide='web' keepwithnext='true' keeptogether='true'/>
+<par def='16'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>显示的idx按钮,使用domino自己的规则来将页面生直接写的html标签值存入该域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='17' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='17'><field borderstyle='inset' type='text' kind='editable' name='fldAttach'><keywords
+ helperbutton='false' columns='2' ui='radiobutton'/></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell>
+<tablecell>
+<pardef id='18' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='18'><run html='true'><font size='9pt' name='monospace' color='maroon'/>是否允许添加附件</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='19' keepwithnext='true' keeptogether='true'/>
+<par def='19'><sharedfieldref name='strShowMgrPublishConfig'/></par></tablecell>
+<tablecell>
+<pardef id='20' keepwithnext='true' keeptogether='true'/>
+<par def='20'><run><font size='9pt' name='monospace' color='maroon'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='19'><run html='true'><font color='#5f5f5f'/>&lt;input name="key_PrintAreaSelect" value="</run><run
+ html='true'><sharedfieldref name='key_PrintAreaSelect'/></run><run html='true'><font
+ color='#5f5f5f'/>"&gt;</run></par></tablecell>
+<tablecell>
+<par def='20'><run><font size='9pt' name='monospace' color='maroon'/>打印页面打印区域自定义开关</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='19'><run><font size='9pt' name='monospace' color='maroon'/></run><run
+><font size='9pt' color='maroon' name='monospace'/><sharedfieldref name='$fldIsHq'/></run><run
+><font size='9pt' name='monospace' color='maroon'/></run></par></tablecell>
+<tablecell>
+<par def='20'><run><font size='9pt' name='monospace' color='maroon'/>是否为会签库</run></par></tablecell></tablerow></table>
+<pardef id='21' align='center' leftmargin='1in'><code event='hidewhen' enabled='false'><formula
+ compiled='true'>
+NgAJACwA36X/XRiqV+ov2mOGfZTCiQXVuIgKgC71PGZ51A6SbrGnECmU+T4OrwQABAAEAAQA
+</formula></code></pardef>
+<par def='21'/>
+<pardef id='22' hide='web'/><subformref name='sfrmDojo'/>
+<pardef id='23'/>
+<par def='23'>//控制页面以浏览器标准模式显示</par>
+<par def='23'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/></run></par>
+<par def='21'><run html='true'> &lt;/div&gt;</run></par>
+<pardef id='24' leftmargin='1in' hide='notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/><subformref
+><code event='value'><formula compiled='true'>
+JgAJABwA/3hPwW/JxlkIo/j7wNs7x4x82Z8SNOQOBAAEAAQABAA=
+</formula></code></subformref>
+<par def='24'><run html='true'>&lt;script&gt;</run></par>
+<par def='24'><run html='true'>dojo.require("smartdot.form.SelectPersonTextBox");</run></par>
+<par def='24'><run html='true'>&lt;/script&gt;</run></par>
+<par def='24'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/></run></par>
+<par def='24'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;div nowrap id="btnContainer"&gt;</run></par>
+<pardef id='25' leftmargin='1in' hide='read print notes' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+RgAJADwAGIlyJzIw3M5VnTngw+HsDPNebOWJcMoMwEWatWKFtYsFzaefZgTgmPT1D5xh0/EGL7sY
+9tZAsP8EAAQABAAEAA==
+</formula></code></pardef>
+<par def='25'><run html='true'><font size='9pt' name='monospace' color='maroon'/>	</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>&lt;span class="btn-action-key"&gt;&lt;button </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>type="button" onClick="CheckForm();"</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/> dojoType="smartdot.form.Button" data-string-id="indiplatform.tylc.bctc"&gt;</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>保存退出</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>&lt;/button&gt;&lt;/span&gt;</run></par>
+<par def='24'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/div&gt;</run></par>
+<par def='24'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<pardef id='26' leftmargin='1in' hide='read print preview' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+RgAJADwAGIlyJzIw3M5VnTngw+HsDPNebOWJcMoMwEWatWKFtYsFzaefZgTgmPT1D5xh0/EGL7sY
+9tZAsP8EAAQABAAEAA==
+</formula></code></pardef>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;table class="tableClass" border="0" cellspacing="0" cellpadding="0"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" style="display:none"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel"</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/> data-string-id="indiplatform.tylc.qxzmkld"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;请您选择本模块的领导：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='names' allowmultivalues='true' kind='editable' name='Leaders'
+ listinputseparators='comma semicolon' listdisplayseparator='comma' extrahtmlattrs='dojoType="smartdot.form.SelectPersonTextBox" selectType="single"'><code
+ event='onClick' for='client'><javascript>//alert("请点击右边的“查找”按钮选择用户！");
+SelectPerson();</javascript></code></field></run><run html='true'><font size='9pt'
+ name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zwlx"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;正文类型：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zwlxxz"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldSourceContentType'><keywords helperbutton='false'
+ columns='4' ui='radiobutton'><textlist><text>Editor|1</text><text>正文控件|2</text><text
+>无|0</text></textlist></keywords><code event='onClick' for='web'><javascript
+>if(this.value!="2"){
+	var sel = document.getElementsByName('fldAttachButton_1');
+	sel[0].checked =false;
+	if(sel[1])	sel[1].checked = false;
+}</javascript></code></field></run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;/span&gt;</run></par>
+<pardef id='27' leftmargin='1in' firstlineleftmargin='1.5000in' hide='read print preview'
+ tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+RgAJADwAGIlyJzIw3M5VnTngw+HsDPNebOWJcMoMwEWatWKFtYsFzaefZgTgmPT1D5xh0/EGL7sY
+9tZAsP8EAAQABAAEAA==
+</formula></code></pardef>
+<par def='27'><run html='true'><font size='9pt' name='monospace' color='maroon'/>	</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;div data-show="</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>fldSourceContentType</run><run
+ html='true'><font color='maroon'/>==</run><run html='true'><font size='9pt'
+ name='monospace' color='maroon'/>smartdot.i18n.getString('indiplatform.tylc.zwkj',</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>'正文控件'</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>)" style="margin-top:10px;"&gt;</run></par>
+<pardef id='28' leftmargin='1in' firstlineleftmargin='2in' hide='read print preview'
+ tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+RgAJADwAGIlyJzIw3M5VnTngw+HsDPNebOWJcMoMwEWatWKFtYsFzaefZgTgmPT1D5xh0/EGL7sY
+9tZAsP8EAAQABAAEAA==
+</formula></code></pardef>
+<par def='28'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;label&gt;&lt;input type="checkbox" name="fldAttachButton_1"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/> </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>required="true" indiType="smartdot.form.Validation"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/> value="zw" </run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+VgAJAEwA6NTm8hXjxbuxiklt0NSDIobxF266UNhXioUgUKNQatEENc0/xzLQR6gk/NkJ4ezHKE+0
+ks2chE5OuOaNsiOLK826ItMN5uJYBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/> </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.tjzw"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;添加正文&lt;/span&gt;&lt;/label&gt;</run></par>
+<pardef id='29' leftmargin='1in' firstlineleftmargin='2in' hide='read print preview'
+ tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+VgAJAEwA6NTm8hXjxbtzUxKHNBAaLBNXFxhOnyuLl8Xcmkvv3EbjjCNfRu/Uh8glZGA0beArd89o
+cdlUZ+QxPd86VBw3Fsvj/GrpZYNFBAAEAAQABAA=
+</formula></code></pardef>
+<par def='29'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;label&gt;&lt;input type="checkbox" name="fldAttachButton_1" required="true" indiType="smartdot.form.Validation" value="mb"  </run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+VgAJAEwA6NTm8hXjxbucL5jGbH0KwjSYghAx4BgA5y7+SPHfpkO0tH7375K7JJADtCUv+IlU2w5Y
+tm9LNLKKwXECv1GDkno9GHQAXLBmBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>  </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.ymbsc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;用模板上传&lt;/span&gt;&lt;/label&gt;</run></par>
+<par def='28'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/div&gt;</run></par>
+<par def='27'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top"  class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>       </run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/> &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.fjlx"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;附件类型：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run></par>
+<pardef id='30' leftmargin='1in' firstlineleftmargin='1.7500in' hide='read print preview'
+ tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+RgAJADwAGIlyJzIw3M5VnTngw+HsDPNebOWJcMoMwEWatWKFtYsFzaefZgTgmPT1D5xh0/EGL7sY
+9tZAsP8EAAQABAAEAA==
+</formula></code></pardef>
+<par def='30'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;label&gt;&lt;input type="checkbox" name="fldAttachButton" value="sm" </run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+VgAJAEwA6NTm8hXjxbtQ/3hti90DcG/kbx9eJVu7q5rTde+C5JXLNWaeSVpwohP1is5dsBQzlV/i
+uunzXImUD3Z1MhazDs6HFErFY7yvBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>  &gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.scsmj"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;上传扫描件&lt;/span&gt;&lt;/label&gt;</run></par>
+<par def='30'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;label&gt;&lt;input type="checkbox" name="fldAttachButton" value="fj" </run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+VgAJAEwA6NTm8hXjxbthlQhOCjCmZ5+do+/8aFL61p4Cc6ZjpoyLZ+YLw+GW7n3G9DBpLVDTLhxx
+sMT4+QGHPgTv1qTalXXb3HELzDxbBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>   &gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.scfj"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>上传附件&lt;/span&gt;&lt;/label&gt;</run></par>
+<par def='30'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;label&gt;&lt;input type="checkbox" name="fldAttachButton" value="dfj" </run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+VgAJAEwAJ1vZwb89HIs+lGWRnHTfGwhk32DgAAVpsANnmsJUg3WIPY5fLG0/NmvDUI9nWY13FONI
+ck/GKC9BCUN5GITqH0D16JWuGutOBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>  &gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.sccdfj"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>上传超大附件&lt;/span&gt;&lt;/label&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+vgIJALQC+40HvaSF8DgqW5nfVa/FDIwTQbb0EeXUc294JbdT7mzwriZ5+jcEughQmPjnm7+tPU2y
+v1uUUqpyQAaJ7TiaEY9YXAnTz4jyaOmHIzdkIS4yVJR0NGQU2gA+qqGz10saC5UrRcyR6F/uTxwz
+3Z/4oSJ5Sl2Xgc2EZONJqIfd6X+nqDiZlP3zCKeP8bNb/SJt1DLCOpGhmZzxou62Jzqhpjlzc9ZJ
+bM3CTKmeLiNT57wgTPwKdxyXVLoYhuUca8sgTyPvg869J2ibP4FtpbbzSTf+bS3SryB3jSMG4oqu
+5RHLx39SyPRwFGcMBUe7A1KANo77QYiq66GtmzVDKqAV5T5XWqXzrm1FZZV7sxg1NtrCbhX44bXF
+ZKKPSTtBqAI92tRmbgVYmhi9LnRVe1txCRrW/CMwJfADecHxYtR+3L+tqW4HqgvF3geDwkzbDFUG
+rDtrdsBGS+c68fAjOnrXnEM34sLXcFFZr5yvUKJ2dZg1pHz1oV9JK+1RPwDGiTlNAlrlAhzTuw0e
+GG6YEpfCnc4RlyqYD4De9h2fewZU18JM0CDHklTRHsOHkL7DcNQSzJQrx7VA/GSX4fMiXCztTA6Q
+vExNxNff3wQS2xHI0l7xBddu9pvHdGvGVcg40sMCvnpeL01+ZBFHFlZY44UlBPnIvSV4tKBhEFlt
+MC2IyKOA7TaZd4yxtRWDajbl78MZ8VwJ4P9ANfsxjpPbbtbtC3KdM2EJvR5y6qYHl1WQ8yM79JK/
+M3RJtI/ff0gobpNPXuM6vGKmVFfMgUl+wJDxa3wQcygrjpBjD3QqneSwXdxjsxrWfRHWThJQRGNk
+Q31tZ2uRJCHF1aNOifRLEea3pRoMzXu/Tm/e49zD9EXQ5eXbfNQY+aoKaYqpwuB3w81D1WkwPs6O
+kLfs+cHgwju3NwQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='27'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" id="smfjmc" style="display:</run><run
+ html='true'><font name='宋体' pitch='variable' truetype='true' familyid='0'/><computedtext
+><code event='value'><formula compiled='true'>
+XgAJAFQAXyb++p2UU++Lc5bgFGUC1SRQ1dxSfBLeQgrb1HfolbDIEDm9REsKO4OqyW8bTbqb2/AD
+U1iYvJaO2KIsIyUBHS7yCo5Fpy/75Dilfw6fz2AEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>smfjmc</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>"</run><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&gt;扫描</run><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>附</run><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>件名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldFieldScanName' htmlstyle='width:100%'><code
+ event='htmlattributes'><formula compiled='true'>
+zgAJAMQANL3uWxQ2dWtjoBaLRipX1SxpjmUJr6yh8hXWTyv9SDCZV0gVtN9dWo3bFVNdhbnH2pcL
+GRwwAdRddZ4ad3kYOgi6CV/gBGccsKf2aFdjpWgWVNKURMG83Qg877hBic7dqEbx+a3PSsxEHfbq
+2s3zwEhSAmHG0hKzizBGFmPRAZWTG/qyciwhvPT3EZVYo2Hu6CtJBGGbWP0mN9BPCq9gowwpVCCV
+ihoSEmPWiWAZKaYB/dFhpztkUGWHNR+hCkZgBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='12' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" class="catFirst catLast"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.sfsylc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;是否使用流程：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.shifou"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldFlow'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>是|1</text><text>否|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.lcxxkwz"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;流转信息库位置：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field borderstyle='inset' type='text' kind='editable' name='fldFlowInfo'><keywords
+ helperbutton='false' columns='2' ui='radiobutton'/><code event='htmlattributes'><formula
+ compiled='true'>
+LgEJACQBhKai2/QOz+XgGT96h/ouIV4lHb0xu+JmzohH5WfznUppTKLAy85qUljgA4n8/iR5ZE2Q
+YZWKC/UF/zlmsDc7u28Jmb20LqwXAJT9CdMrXcHEn37CefvGa4+qSdNkXfKtZaPqyuVRp/hvBsWO
+hmyNF7W3IAD+ldatvQmDjacYre4p6Sh+DW7vM+fJCxqS4RYtPI1Vo6h4exgEh0bnbAP8fka/9/oZ
+SmUQ5s1BmiCiPK/MF8cDyk7T8Wj88WqA7y4xS/bqTpv0KQHh1y9bfUuPhasiDc1aZ+iyUWEmAB86
+rRAmT7RinMHpqb8jUMI7fgvl8AViqsLbzi6T2tTjE0Ma8eeM7GtyVLOUtVF9etJ2WWcPqOeBB6k0
++FizYECntRe6BAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='11' containertype='65418' aftercontainercount='1'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<pardef id='31' leftmargin='1in' hide='read print preview' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+dgAJAGwAL9ETuodKamECzj+2WpyQNdsut6a6zHvdp28KX8tPm94ZFcZZG0UQ1Yo1kq7fKtLMwwoN
+e+eXPhKr2jaNOYSLSscXaeY3nBabDWhjLQdjcqOY/+Az6p/dW4iwIIgF9j3mQJ5GS6GuwloEAAQA
+BAAEAA==
+</formula></code></pardef>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.chfyj"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;撤回时发邮件：&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.shifou"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldCheHuiMail'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>是|1</text><text>否|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>   &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.czfyj"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;管理员撤转时发邮件：&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.shifou"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldCheZhuanMail'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>是|1</text><text>否|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.lcjsxsyjtz"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;流程结束时显示邮件通知页面：&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.shifou"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldMailNotify'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>是|1</text><text>否|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>	&lt;div data-show="fldMailNotify==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.mrz"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;默认值:&lt;/span&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.mrzxz"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldNotifyValue'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>起草人|0</text><text>流程参与人|1</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/div&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>	&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldMailNotify==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.qttzr"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;其他需通知的人：&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><font size='9pt' name='monospace'/><field lookupeachchar='false'
+ lookupaddressonrefresh='false' type='names' allowmultivalues='true' kind='editable'
+ name='nmMailNotifyAppend' listinputseparators='comma' listdisplayseparator='comma'><code
+ event='htmlattributes'><formula compiled='true'>
+XgAJAFQA4/YR0f9Ftwf5XXO4In4iUJO0NngHG58yWo5dtV6KDjV1AG4jcg07nCs181pKdTSdikwJ
+vIgF+Q8gpYov3q+WJ5ZPjRgW8SZ2zpx3cQSYpvoEAAQABAAEAA==
+</formula></code></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldMailNotify==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.wxtzr"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;无需通知的人：&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><font size='9pt' name='monospace'/><field lookupeachchar='false'
+ lookupaddressonrefresh='false' type='names' allowmultivalues='true' kind='editable'
+ name='nmMailNotifyRemove' listinputseparators='comma' listdisplayseparator='comma'><code
+ event='htmlattributes'><formula compiled='true'>
+XgAJAFQA4/YR0f9Ftwf5XXO4In4iUJO0NngHG58yWo5dtV6KDjV1AG4jcg07nCs181pKdTSdikwJ
+vIgF+Q8gpYov3q+WJ5ZPjRgW8SZ2zpx3cQSYpvoEAAQABAAEAA==
+</formula></code></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='31'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.bdxgjlms"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;表单修改记录字段描述：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' allowmultivalues='true' kind='editable' name='fldFieldDescribe'
+ listinputseparators='comma' listdisplayseparator='comma' htmlstyle='width:100%'><code
+ event='htmlattributes'><formula compiled='true'>
+JgEJABwBfEc6khJOB2g2d5Fyi5ZAPVT6Mpv07/PD5Q+Wn6+QVruo9H5SMm7EH01igsEMMGO6D7CY
+1CQelpJWy88rXo9ebl/5Cke3rbBO0fmJCgCqewCCUQHhlaHlz5m84g4B+m9GXZQLodUzeb7+UqKu
+/AkX0xxetI9hMt5NE7mjDhBcJ8mTBs5/heQKwe6H5Sa/yQvZtVTbJPZkwmZNouVD6XT8tDESl/CJ
+LqM9aaE23JqjmGAnetuX1Rz7KgMe7mkgx83j6AXhQ1KoVM2CGsC2CGuCEIdW2TRcCwgQaJUiBDd8
+SocMH1tB6WowHLf8z0lSP9QeDbARg5jgzCcN18bpsNrv9Q9cg4VRzh3c52mZG4pH+A6YZpD5QAlN
+2gQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='12' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" &gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.bdxgjlmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;表单修改记录字段名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' allowmultivalues='true' kind='editable' name='fldFieldName'
+ listinputseparators='comma' listdisplayseparator='comma' htmlstyle='width:100%'><code
+ event='htmlattributes'><formula compiled='true'>
+JgEJABwBfEc6khJOB2g2d5Fyi5ZAPVT6Mpv07/PD5Q+Wn6+QVruo9H5SMm7EH01igsEMMGO6D7CY
+1CQelpJWy88rXo9ebl/5Cke3rbBO0fmJCgCqewA96p1rrY6m7/tv9xlAYRsKbXC/8dAtIe/a9UJk
+kx2DEjQIBcvvJyG4ftmTFYQYrxCjLOpFAuIaVsLyp8KCw/GsLrO5doBiLD3chmfOeE6KUTQizjJe
+wol9dNFw47fRwSAW9toDy9vetty2ATCRZHzDf2FaIOjkVLgRgDd3SqDdawcBs/gFKba29Q1He1Vy
+27UChzbmu7I/k6d3e6w+/X4l1FbukREQ3UrNWq4ncS5xU3Obusk2VEVP4GEYlVOt1VgXWBWTN9nY
+OQQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='12' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='red'/>    &lt;tr valign="top" data-show="'</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+DgIJAAQCyAPuoi2A6PiehJp5BrS0HbwatJ7Jh9VZWzkXPp1KEZKXEsO+hiZGbTW/3CJY2lYSnm7s
+nPoo03kGsQ5Cvo1Hj2/UQahANELyruJD5MgtQi87aCtUfh9MDwE+mt/WWPt3rATsQHeVsRfUEedq
+Qhhdc8+sqL2c/tDb8HXqLQdyJsV3eiPKl+SP8k2Yx7pR7hC4uNwJ8LtXt8PYoxYdW5pNNzcgtJeW
+L2JYoJN4Pu/dHIO0ATjd5gMeOiAug+15ZXYhg8fXTRbdBcsgVyGM1WuZTg+t1Tlfw6b4lEI9DFAt
+7A4+IdgZjVAN/tDET3J+VhZytVE0W6RCfippNiAr2ekkLUDheqNAnWSwI7EC3BRcFFyyg++iOUMM
+h7BPCIX20i66Qz8OD/0G8gyFDhkb59dqKTx71r5jO7Dr3aYIA5LP5vxhZI+2Y9QwieZdJ7Ac5CsB
+00j2uJgCCIyiOx6IZb8ncdeVpn+01EKJowVLYeLWUfzmHaQhMoTJ+5JaauCrz4pemVc6H4AXGZOI
+NLrKVO4mK90iU0K3cI/WO5w9oeC8uzCXwvAkAsmLTAVHH2ldHkvTnmzmfW70IJkqxj3D+KXi7/bP
+XKDPUijO/4YZ5M2SGNBmRoM9ArqISywkhW5onZez0WTU+zaaO5o1vfHzViMhS3dndisUVlPvuDyM
+e82iIoEEAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='red'/>'=='1'&amp;&amp;fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='red'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='red'/>data-string-id="indiplatform.tylc.dtbgxgjl"</run><run
+ html='true'><font size='9pt' name='monospace' color='red'/>&gt;表单动态表格修改记录配置：&lt;/td&gt;		</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='red'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><font color='red'/><field type='richtext' kind='editable' name='fldDyncDataField'
+ htmlid='fldDyncDataField' htmlstyle='display:none'/></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='11' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='red'/></run></par>
+<pardef id='32' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/><subformref
+><code event='value'><formula compiled='true'>
+NgAJACwA/6P3sHRAXE2cmuNpQY6JviPNMREQI+SBtxqL35/ayih2CAZr2UbGcAQABAAEAAQA
+</formula></code></subformref>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='red'/>	&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='red'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top"  data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.fou','否')" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.fbanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;发布按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field borderstyle='inset' type='text' kind='editable' name='fldPublicName'><keywords
+ helperbutton='false' columns='2' ui='radiobutton'/></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='11' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel"</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/> data-string-id="indiplatform.tylc.qcztmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;起草状态名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBeginState'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" &gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.lcjsanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;流程结束按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldEndState'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel"</run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/> data-string-id="indiplatform.tylc.hqanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;会签按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldStartDisName'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.jiaqanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;加签按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldAddDisName'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.jianqanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;减签按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldRemoveDisName'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.ryhqanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;人员会签反馈按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnHQGouTongFanKui'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQA9ngbFZRT/NU2tfNrqMh4sfW7dTg34ufR/PaREXqn22QEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.gtanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;沟通按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnGouTong'><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwAuN+KRkT004gHftJEgIVOwa4vD6sfrZTqBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.gtfkanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;沟通反馈按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnGouTongFanKui'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQA9ngbFZRT/NVmz3Lcba4ALfRSUR6aXqZPpgLhglBibZYEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zzgtanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;终止沟通按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnGouTongStop'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQA9ngbFZRT/NUkLU0aHqjZNaa7ulo3TPCypggOF73unK0EAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.lzxxgtrth"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;流转信息中“沟通人”替换为：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldGtrText'><code event='defaultvalue'><formula
+ compiled='true'>
+JgAJABwA/3hPwW/Jxln3GN6t+RFS7e4iE8ktk+nQBAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='10' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.lzxxfqgtth"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;流转信息中“发起沟通”替换为：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldFqgtText'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NUbJw09ybsuNl+n2/VU3zVKqRAi/AlDM2QEAAQABAAEAA==
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='10' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zhanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;知会按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnZhihui'><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwAuN+KRkT004gb23lcUnqGikzqpQOQiQcdBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" &gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zhbbanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;知会办毕按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnZhihuibb'><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwAuN+KRkT004giptxp9HQSXF3yKbPPnywyBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.bfspanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;并发审批按钮名称：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnBfsp'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQA9ngbFZRT/NUtsnOp03UgOr0qWdKUc7wOwsdV0U7dQNgEAAQABAAEAA==
+</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='10' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top"  class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.sfqygd"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;是否启用归档：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.shifou"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldArchive'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>是|1</text><text>否|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldArchive==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.wjjsh"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'>文件结束后</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldDelayDays' htmlstyle='width:80px;'><code
+ event='htmlattributes'><formula compiled='true'>
+bgAJAGQAfASqK64E8RZC/DFymLTkWf2DJpFFa/FhJm4SUI8ly6b38RHqQDSOJrnBNknPJimbZxUx
+KFOkU/bg/R8jjTBR2vBxzMmTxbuAbP4z7LbtlIF7SxxEIsLJ28miIeYelFlTBAAEAAQABAA=
+</formula></code><code event='defaultvalue'><formula
+ compiled='true'>
+HgAJABQAxAuLO3dDL26h6T28uENn8AQABAAEAAQA
+</formula></code></field></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='12' containertype='65418' aftercontainercount='2'
+ afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zdgdtssz"</run><run
+ html='true'>&gt;天自动归档</run><run html='true'><font color='red'/>(0标示不自动归档)</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldArchive==smartdot.i18n.getString('indiplatform.tylc.shi','是')" class="catLast"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.gdsjk"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'>归档数据库</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field usenotesstyle='false' height='0.2028in' width='1in' multiline='true'
+ borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='fldArchivePath' htmlstyle='width: 300px;'><keywords
+ helperbutton='false' columns='2' ui='combobox'><formula compiled='true'>
+NgAJACwAwHimNpqWOCe/3JAT5f8TfA5kaDng6LRmb/qKUTJT18fV9p4XuciTVwQABAAEAAQA
+</formula></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.fou','否')" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.sfbh"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;是否编号：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.shifou"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='strBH'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>是|1</text><text>否|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')||strBH==smartdot.i18n.getString('indiplatform.tylc.shi','是')"" class="catFirst"&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.bhfs"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;编号方式：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zdsd"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='strAutoBH'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>自动|1</text><text>手动|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<pardef id='33' leftmargin='1in' hide='read print preview' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'><code
+ event='hidewhen'><formula compiled='true'>
+bgAJAGQAfASqK64E8Rap4R68/zoxYggXs8YcxSeaWgXwernRFI5Q/nAKcnfuvGYc8NRDIXSnXLlr
+Rs4oXkEYWPwFtolsH2B8S3LgEAx8FG8pAnGBKXC7lXQT+EQn5++kxkj7vNbiBAAEAAQABAA=
+</formula></code></pardef>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top"  class="catFirst" data-show="fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')"&gt;</run></par>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.sfglyzjfb"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;是否允许管理员直接发布：&lt;/td&gt;</run></par>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.shifou"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><field borderstyle='inset' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' kind='editable' name='strShowMgrPublish'><keywords helperbutton='false'
+ columns='2' ui='radiobutton'><textlist><text>是|1</text><text>否|0</text></textlist></keywords></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top" data-show="</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>strShowMgrPublish</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>==smartdot.i18n.getString('indiplatform.tylc.shi','是')&amp;&amp;fldFlow==smartdot.i18n.getString('indiplatform.tylc.shi','是')" &gt;</run></par>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.zjfbanmc"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;直接发布按钮名称：&lt;/td&gt;</run></par>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;</run><run
+ html='true'><field type='text' kind='editable' name='fldBtnMgrPublish'><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwAuN+KRkT004jWtfpYqw+0F4IMEJFY5bsSBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='9' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/td&gt;</run></par>
+<par def='33'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top"  class="catFirst"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.indikmPath"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;导出到文档中心的应用名：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span&gt;</run><run
+ html='true'><field borderstyle='inset' type='text' kind='editable' name='fldindikmPath'><keywords
+ helperbutton='false' columns='2' ui='radiobutton'/></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='11' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;tr valign="top"  class="catFirst" data-show="</run><run
+ html='true'><font color='#5f5f5f'/>key_PrintAreaSelect</run><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>==1"</run><run html='true'><font
+ size='9pt' name='monospace' color='maroon'/>&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdLabel" </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.dyqymrxsx"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;打印区域默认显示项：&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>        &lt;td class="tdContent"&gt;&lt;span </run><run
+ html='true'><font size='9pt' name='serif' color='maroon'/>data-string-id="indiplatform.tylc.printitem"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;</run><run
+ html='true'><font size='9pt' name='monospace'/><field borderstyle='inset'
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' allowmultivalues='true'
+ kind='editable' name='fldPrintShow' listinputseparators='comma' listdisplayseparator='comma'><keywords
+ helperbutton='false' columns='6' ui='checkbox'><formula compiled='true'>
+rgEJAKQBBtgfYhcsjq41VDNAMFvokbAqOLxzr7+xwVOTWP6kpNAwSRsNuD4zvdz9Mpwddwv62Hp4
+SOYhYKZuiOjDtWyA/yie1PJJn5KrsdwB/FsOBS2y5+oYnMY/bdGacIAG77TvchVC7d4f5z9S4hRV
+M3/Nb+c8rhe+P/pUk/pE1hCbTCqsCwN2AmgssRq398w/YzNGJpA9AKSGo5JmpSiiSZ4V0d8DQW9W
+mTgtCllWgiKdXeNJJGD7mI30bbUpvmnKOlDE1d5E5oplHWd+3fsBnCXUmFSNLoaquw0WlwZDhlKF
+EfLgvNVypYViOPJkGxnH6dTes0B0EXznjyFCc80J2EYKhXZPZakm5Hpibo/RPMNLoNCZkaMuOMjZ
+r/yuctxsA9AhZUxj2wakIVeEIF9LAsVuW/0c8uWN3fuLiFStGrC9QoaFoent0dZBvcvQbrEz0PbM
+FJN91qFcTTMF6pEnheOf78fNca2LTnBUxbKeC7fqD+1MZ8SakOiKhr3+GT1HBTziaBVFs/la3Xnc
+/SCUStD241c6lDFnvYmXBNHgaMQAjfgEAAQABAAEAA==
+</formula></keywords><code
+ event='defaultvalue'><formula compiled='true'>
+TgAJAEQA1R3y7DMq7CTL6AIQVbTVBq1PGzTan4j4nNTghnDtaahK8k4IKcoGS9ZGi3+62zzP0nea
+NKA9+OLW/m97/9t/gwQABAAEAAQA
+</formula></code></field></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/span&gt;&lt;/td&gt;</run></par>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>    &lt;/tr&gt;</run></par><subformref
+><code event='value'><formula compiled='true'>
+NgAJACwA9uT5NkQzVMeDjri239neDJq68OtaX74FCCpsLZ4xcHYwXmBS9CNFcQQABAAEAAQA
+</formula></code></subformref>
+<par def='26'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;/table&gt;</run></par>
+<par def='32'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par>
+<par def='32'><run html='true'><font size='9pt' name='monospace' color='maroon'/></run></par></richtext></body>
+<item name='OriginalModTime' sign='true'><datetime>20070718T143355,87+08</datetime></item>
+<item name='$SubForm_RepIDs' sign='true'><textlist><text>0000000000000000</text><text
+>0000000000000000</text><text>0000000000000000</text><text>0000000000000000</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmSetManager</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,65+08</datetime></item></form>
+

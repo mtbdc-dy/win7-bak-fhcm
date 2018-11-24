@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_showFKBtnsAsSubmit' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' designerversion='8.5.3'>
+<noteinfo noteid='306' unid='13FB46EA1496870248257DBE0022A6A2' sequence='55'>
+<created><datetime>20141230T141828,82+08</datetime></created>
+<modified><datetime>20181107T195618,19+08</datetime></modified>
+<revised><datetime>20181024T085444,33+08</datetime></revised>
+<lastaccessed><datetime>20181107T195618,19+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195618,19+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedfordisplay' name='key_showFKBtnsAsSubmit'><code event='defaultvalue'><formula
+ compiled='true'>
+RgIJADwCehw8gICY0sTzrU+tvWJZLpdN0zwEDcaJ3ZYOBAE31ftIZWsxL18ENXBFBexW590+XuOI
+j0cd9EUmsEhl2HeqSnfYzof8/vqjp1feN/v56iQZpng3J5peK8dITP8GJq2qaX/vzWo4MIq2njf2
+3kDpwR3jpQ22P1DyC5dusfFXgP7u1qMyhIuCH9X3yW5YmkoVGV9G+fKNileT/hjKEw+xLl0DBg3M
+ZK7uAtk44UL41fFSQHeYk1LUK1Rwy8MaKTBeLB7y38ejbioZHpCxkL8rJjsLjqpIIi2DxNtreVvg
+mujLEhwaIkCYGS81e7zUpuJhz7l0SKyoBEVOA+766dCW+6j6THJPKpjRMpJCCB2rCVYu4QgZzLgP
+Z3r1vKqeUIUNkv+Eh44eXG+cJmMKszpp+NdOQZhO+xu25ejjgGlT6hWhXRqRDfU0cA6KkDfwKvrT
+CNRAEJr7oKRKKkotnOnRfnv/UFBDWJJT1UtnyV3EQ6J+bZyBrlge3Wb1FWbxkzHFrukLQNcHE/+V
+CKC5cXcciK0fa8YXA7Cx9iIUeUOKTzC+8ybZyr2E9IA9cEu6CWJ4gOvW5DjLPAre/DJAoIjYVxQq
+21vvN44TEvg3fakFnVPR7KvaXydktXcUQJoPZ0pZtToOQz9t3on5BnaVUMTFGlg7PhazGb5+ruCk
+9IeHDgfjObH+NpcjGgCDBsoTiRhHOVjiaCkQn7+g59Z3uD/gOobMoFQdadC6J40tnUCeWqCq7A9h
+Yuo4sAQABAAEAAQA
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210738,97+08</datetime></item></sharedfield>
+

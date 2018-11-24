@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='公文评价View' alias='sfrmGwpjView' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='29a' unid='26132AA6A4997ABA48257C39002F2498' sequence='55'>
+<created><datetime>20131206T163455,60+08</datetime></created>
+<modified><datetime>20181025T014917,91+08</datetime></modified>
+<revised><datetime>20181024T085442,42+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,90+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010801,53+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>function fnSwitchgwpj(objThis,url){
+	var strClassName = objThis.className;
+	var objTbGl = document.getElementById("divgwpj");
+	if( strClassName=="content-title-toexpand" ){
+		objThis.className = "content-title-expanded";
+		objThis.scrollIntoView();
+		fngetgwpj(url);		
+		objTbGl.style.display = "block";
+	}else{
+		objThis.className = "content-title-toexpand";
+		objTbGl.style.display = "none";
+	}
+}
+
+function fngetgwpj(strUrl) {
+     var strMemo = "";
+     var strFen = "";
+     var strUnid = "";
+     //点击时如果不是折叠状态，不发请求
+     /*
+	if(dojo.query("div [data-title=评价]")[0].className.indexOf("collapsed")==-1){
+		return
+	}*/
+	var pjdiv = dojo.query("div [data-title=评价]");
+     if(pjdiv.length == 0){
+     	pjdiv = dojo.query("div [data-title="+smartdot.i18n.getString("indioffice.tylc.pingjia","评价")+"]");
+     }
+	if(pjdiv[0].className.indexOf("collapsed")==-1){
+		return
+	}
+     dojo.xhrGet({
+          url: strUrl,
+          handleAs: 'xml',
+          sync: true,
+          preventCache: true,
+          load: function(data) {
+               var entrydatalist = data.getElementsByTagName("entrydata")
+               if (entrydatalist) {
+                    for (var i = 0; i &lt; entrydatalist.length; i++) {
+                         var entrydata = entrydatalist[i];
+                         if (entrydata) {
+                              if (entrydata.getAttribute("name") == "fldkoufenxiang") {
+                                   if (entrydata.getElementsByTagName("textlist").length &gt; 0) {
+                                        var textlist = entrydata.getElementsByTagName("textlist")[0].getElementsByTagName("text");
+                                        for (var j = 0; j &lt; textlist.length; j++) {
+                                             strMemo = strMemo + "&lt;tr&gt;&lt;td colspan=2&gt;" + getEntryText(textlist[j]) + "&lt;/td&gt;&lt;/tr&gt;";
+                                        }
+                                   } else {
+                                        if (entrydata.getElementsByTagName("text")) {
+                                             strMemo = strMemo + "&lt;tr&gt;&lt;td colspan=2&gt;" + getEntryText(entrydata.getElementsByTagName("text")[0]) + "&lt;/td&gt;&lt;/tr&gt;";
+                                        }
+                                   }
+                              }
+                              if (entrydata.getAttribute("name") == "fldzjdf") {
+                                   strFen = getEntryText(entrydata.getElementsByTagName("number")[0]);
+                              }
+                              if (entrydata.getAttribute("name") == "fldunid") {
+                                   strUnid = getEntryText(entrydata.getElementsByTagName("text")[0]).toLowerCase();
+                              }
+                         }
+                    }
+               }
+               if (strUrl.toLowerCase().indexOf(strUnid) == -1) {
+                    strMemo = "";
+                    strFen = "";
+               }
+
+               if (strMemo + strFen !== "") {
+                    dojo.byId("showgwpj").innerHTML = "&lt;table&gt;" + "&lt;tr&gt;&lt;td width=1% nowrap&gt;"+smartdot.i18n.getString("indioffice.tylc.zjdf","总计得分：")+"&lt;/td&gt;&lt;td align=left&gt;" + smartdot.i18n.getString("indioffice.tylc.fen1",strFen+"分",{"fen":strFen})+"&lt;/td&gt;&lt;/tr&gt;" + "&lt;tr&gt;&lt;td colspan=2&gt;"+smartdot.i18n.getString("indioffice.tylc.kfxm","扣分项目：")+"&lt;/td&gt;&lt;/tr&gt;" + strMemo + "&lt;/table&gt;";
+               }
+          }
+     });
+}</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'>&lt;div class="panel panel-togglable collapsed" data-title="评价" id="pingjiapanel" onclick="fngetgwpj('</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+hgAJAHwAk1jvWchT/Z7Fa+FO/nrs3UZ7lMgukv3LqBGDEfhlYWrZ1KW3rQEnrhZnBERln/WRi7hA
+sTdktLgpuO9WvKxRFOc5TDlfZIOEyESO6N02eqILrSJTqy8v7bo0kp5aoRGjRAqhHd9LoOIbWWnF
+S/HVz2qUVWo4THSYBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>');</run><run html='true'>" data-string-id="indiplatform.tylc.</run><run
+ html='true'>pingjiatitle</run><run html='true'>"&gt;</run></par>
+<pardef id='2' leftmargin='1.2500in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run html='true'>&lt;h2 class="panel-title" data-string-id="indiplatform.tylc.</run><run
+ html='true'>gongwpj</run><run html='true'>"&gt;公文评价&lt;/h2&gt;</run></par>
+<par def='2'><run html='true'>&lt;div class="panel-content" id="</run><run
+ html='true'><font size='9pt'/>showgwpj</run><run html='true'>"&gt;</run></par>
+<pardef id='3' leftmargin='1.5000in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='3'><run html='true'>&lt;div class="empty" data-string-id="indiplatform.tylc.</run><run
+ html='true'>zwgwpjxx</run><run html='true'>"&gt;暂无公文评价信息&lt;/div&gt;</run></par>
+<par def='2'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'>&lt;script&gt;</run></par>
+<par def='1'><run html='true'>fngetgwpj("</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+hgAJAHwAk1jvWchT/Z7Fa+FO/nrs3UZ7lMgukv3LqBGDEfhlYWrZ1KW3rQEnrhZnBERln/WRi7hA
+sTdktLgpuO9WvKxRFOc5TDlfZIOEyESO6N02eqILrSJTqy8v7bo0kp5aoRGjRAqhHd9LoOIbWWnF
+S/HVz2qUVWo4THSYBAAEAAQABAA=
+</formula></code></computedtext></run><run
+ html='true'>");</run></par>
+<par def='1'><run html='true'>&lt;/script&gt;</run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmGwpjView</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210737,45+08</datetime></item></subform>
+

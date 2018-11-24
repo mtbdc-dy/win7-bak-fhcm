@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='sfrmDynamicTableforht_disp' alias='工程费用报销关联合同动态表格_disp' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' comment='公文稿纸显示'>
+<noteinfo noteid='12efa' unid='482581B6000911FF482581B70014B488' sequence='32'>
+<created><datetime>20171012T114609,36+08</datetime></created>
+<modified><datetime>20181025T014915,63+08</datetime></modified>
+<revised><datetime>20181024T092017,98+08</datetime></revised>
+<lastaccessed><datetime>20181025T014915,62+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T182725,91+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='jsheader'
+ for='web'><javascript>//表单oaload事件
+dojo.addOnLoad(function(){
+	var strjkxz=dojo.byId("fldhtxzid_xm").value;
+	if(strjkxz!=""){
+		var arry=new Array()
+		arry=strjkxz.split(",");
+		for(i=0;i&lt;arry.length;i++){
+      		dojo.byId(trim(arry[i])).checked="true";
+    		 }
+    		 
+    		 //合同本期付款金额默认显示
+    		var httmp = document.getElementById("htfkje");
+   		//alert(httmp)
+   		var tmp = document.getElementById("fldHtbqfkje").value;
+   		if(tmp.indexOf(";")==-1){
+   			var strxz=dojo.byId("fldhtxzid_xm").value
+			httmp.innerHTML = "&lt;input type='text'style='width:30%'indiType='smartdot.form.Validation' data-type='number' onBlur='fnCheck(this)' id='ht_"+  strxz+ "'name='ht_" + strxz + "'  value=" + tmp + "&gt;&amp;nbsp;";
+			
+		}else{
+			var arr2 = tmp.split(";")
+   			for(j=0;j&lt;arry.length;j++){
+   				if(j==0){
+					httmp.innerHTML = "&lt;input type='text'style='width:30%'indiType='smartdot.form.Validation' data-type='number' onBlur='fnCheck(this)' id='ht_"+  arry[0]+ "'name='ht_" + arry[0] + "'  value=" + arr2[0] + "&gt;&amp;nbsp;";
+				}else{
+					httmp.innerHTML = httmp.innerHTML + "&lt;input type='text'data-type='number' indiType='smartdot.form.Validation' onBlur='fnCheck(this)' data-type='number' style='width:30%' id='ht_"+ arry[j]+ "' name='ht_" + arry[j] + "' value=" + arr2[j] + "&gt;&amp;nbsp;"
+				} 
+   			}
+		}   	
+
+	//合同本期约定金额默认显示
+    		var httmp = document.getElementById("htydje");
+   		//alert(httmp)
+   		var tmp = document.getElementById("fldHtydje").value;
+   		if(tmp.indexOf(";")==-1){
+   			var strxz=dojo.byId("fldhtxzid_xm").value
+			httmp.innerHTML = "&lt;input type='text'style='width:30%'indiType='smartdot.form.Validation' data-type='number' onBlur='fnCheck(this)' id='htyd_"+  strxz+ "'name='htyd_" + strxz + "'  value=" + tmp + "&gt;&amp;nbsp;";
+			
+		}else{
+			var arr2 = tmp.split(";")
+   			for(j=0;j&lt;arry.length;j++){
+   				if(j==0){
+					httmp.innerHTML = "&lt;input type='text'style='width:30%'indiType='smartdot.form.Validation' data-type='number' onBlur='fnCheck(this)' id='htyd_"+  arry[0]+ "'name='htyd_" + arry[0] + "'  value=" + arr2[0] + "&gt;&amp;nbsp;";
+				}else{
+					httmp.innerHTML = httmp.innerHTML + "&lt;input type='text'data-type='number' indiType='smartdot.form.Validation' onBlur='fnCheck(this)' data-type='number' style='width:30%' id='htyd_"+ arry[j]+ "' name='htyd_" + arry[j] + "' value=" + arr2[j] + "&gt;&amp;nbsp;"
+				} 
+   			}
+		}   		
+	
+ 	 }
+}); 
+
+
+function fncheckbox2(){
+    var arry=new Array();
+    var i=0;
+    dojo.forEach(dojo.query("input[name='ckbox']"),function(obj,m){
+       //将被选中的选项的id添加到数组中
+       if(obj.checked){
+       	//alert(obj.id)
+         arry[i]=obj.id;
+         i=i+1;
+       }
+   })
+  dojo.byId("fldhtxzid_xm").value=arry;
+}
+
+function fncheckbox3(){
+    var arry=new Array();
+    var i=0;
+    dojo.forEach(dojo.query("input[name='ckbox']"),function(obj,m){
+       //将被选中的选项的id添加到数组中
+       if(obj.checked){
+       	//alert(obj.id)
+         arry[i]=obj.id;
+         i=i+1;
+       }
+   })
+  dojo.byId("fldhtxzid_xm").value=arry;
+  //合同阶段付款金额
+   var httmp = document.getElementById("htfkje");
+   //alert(httmp)
+   for(j=0;j&lt;arry.length;j++){
+   	if(j==0){
+		httmp.innerHTML = "&lt;input type='text'style='width:30%'indiType='smartdot.form.Validation' data-type='number'onChange='fngshje(this)' onBlur='fnCheck(this)' id='ht_"+  arry[0]+ "' name='ht_" + arry[0] + "'/&gt;&amp;nbsp;"
+	}else{
+		httmp.innerHTML = httmp.innerHTML + "&lt;input type='text'data-type='number' indiType='smartdot.form.Validation' onChange='fngshje(this)' onBlur='fnCheck(this)' data-type='number' style='width:30%' id='ht_"+ arry[j]+ "' name='ht_" + arry[j] + "'/&gt;&amp;nbsp;"
+	}
+
+   }
+    //合同阶段约定金额
+   var httmpyd = document.getElementById("htydje");
+   //alert(httmpyd)
+   for(k=0;k&lt;arry.length;k++){
+   	if(k==0){
+		httmpyd.innerHTML = "&lt;input type='text'style='width:30%'indiType='smartdot.form.Validation' data-type='number' readOnly id='htyd_"+  arry[0]+ "' name='htyd_" + arry[0] + "'/&gt;&amp;nbsp;"
+	}else{
+		httmpyd.innerHTML = httmpyd.innerHTML + "&lt;input type='text'data-type='number' indiType='smartdot.form.Validation' readOnly data-type='number' style='width:30%' id='htyd_"+ arry[k]+ "' name='htyd_" + arry[k] + "'/&gt;&amp;nbsp;"
+	}
+
+   }
+	
+   var tmp="";
+   var stryd="";
+   var data=dojo.byId("hfldData_htqk").value;
+   var objdata=JSON.parse(data);
+   for(j=0;j&lt;arry.length;j++){
+	for(i=0;i&lt;objdata["items"].length;i++){
+		if(arry[j]==i){
+			if(tmp==""){
+				tmp = objdata["items"][i]["syje"];
+				stryd = objdata["items"][i]["htydje"];
+			}else{
+			 	tmp = tmp + ";" + objdata["items"][i]["syje"];
+			 	stryd = stryd + ";" + objdata["items"][i]["htydje"];
+			}
+			break;
+		}
+   	}
+   } 
+   //alert(tmp);
+   //document.getElementById("fldHtbqfkje").value = tmp;
+   if(tmp.indexOf(";")==-1){
+		 document.getElementById("ht_" + arry[0]).value = tmp;
+	}else{
+		 var arr = tmp.split(";");
+   		 for(i=0;i&lt;arry.length;i++){
+	 		document.getElementById("ht_"+arry[i]).value = arr[i];
+	 
+   		  }
+	}
+	
+	if(stryd.indexOf(";")==-1){
+		 document.getElementById("htyd_" + arry[0]).value = stryd;
+	}else{
+		 var arr = stryd.split(";");
+   		 for(i=0;i&lt;arry.length;i++){
+	 		document.getElementById("htyd_"+arry[i]).value = arr[i];
+	 
+   		  }
+	}
+	
+	for(i=0;i&lt;objdata["items"].length;i++){
+		if(arry[0]==i){
+			dojo.byId("fldContractBH").value = objdata["items"][i]["htbh"];
+			var strhtbh = objdata["items"][i]["htbh"];
+			var strhtunid = objdata["items"][i]["htunid"]
+			var strhtml=""
+			var strUrl = location.href.toLowerCase();
+			strUrl = strUrl.substr(0,strUrl.indexOf(".nsf")+4);
+			strUrl = strUrl + "/agtHuoQuHTJE?openagent&amp;fldhtbh="+escape(strhtunid);
+			//console.log(url)
+   	 		var jsonObj = null;
+   	 		var xhrArgs = 
+    			{
+        			url : strUrl,
+	   			timeout : 10000, 
+	  	 		handleAs : "text", 
+        			sync : true, 
+        	 		preventCache : true,
+        			load : function (data)
+        			{	
+                   		var strdata = data.replace(/[\r\n]/g,"");
+                   		//alert(strdata);
+                   		var arr = strdata.split("&amp;&amp;");
+                   		dojo.byId("fldContractJE").value = parseFloat(arr[0])*10000;
+                   		dojo.byId("fldContractJEBig").value = arr[1];
+				},
+        			error : function (error) { }
+   	 		  }
+    	 		dojo.xhrGet(xhrArgs);
+    	 		//return strhtml;		
+			break;
+		}
+   	}
+}
+
+function fnCheck(obj){	
+	var strq = obj.id;
+	strq = strq.substring(3,4);
+	//alert(strq);
+	var data=dojo.byId("hfldData_htqk").value;
+     var objdata=JSON.parse(data);
+	 for(i=0;i&lt;objdata["items"].length;i++){
+		if(i=strq){
+			tmp = objdata["items"][i]["syje"];
+			//alert(tmp);
+			//alert(obj.value);
+			var flag = true;
+			if(document.getElementById("fldglht")){
+			  if(document.getElementById("fldglht").value == "1"){
+			  flag = false;
+                 }
+			}
+			if(flag){
+			if(parseFloat(obj.value)&gt;parseFloat(tmp)){
+				alert("所填金额不能大于剩余报销申请付款金额,请重新填写！");
+				obj.value = tmp;
+				return false;
+			}
+			}
+			break;
+		}
+   	}
+}
+
+/*格式化金额，为所有的金额添加两位小数*/
+function fngshje(obj){
+   obj.value=parseFloat(obj.value).toFixed(2);
+
+}
+</javascript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div style="display:none"&gt;</run></par>
+<pardef id='2' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='2'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='richtext' kind='editable' name='hfldData_htqkxz'
+ htmlid='hfldData_htqkxz'/></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='2'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='2'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='richtext' kind='editable' name='hfldData_htqk'
+ htmlid='hfldData_htqk'/></run><compositedata type='98' prevtype='65402' nexttype='222'
+ afterparcount='7' containertype='65418' aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<pardef id='3'><code event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='3'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' allowmultivalues='true' kind='editable'
+ name='fldhtxzid_xm' listinputseparators='comma' listdisplayseparator='comma'
+ htmlid='fldhtxzid_xm'/></run><compositedata type='98' prevtype='65402' nexttype='222'
+ afterparcount='9' containertype='65418' aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<pardef id='4' leftmargin='1in' rightmargin='95%' hide='notes'/>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;script&gt;</run></par>
+<pardef id='5' leftmargin='1in' firstlineleftmargin='1.2500in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='5'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>dojo.require("smartdot.DynamicGrid");</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/script&gt;</run></par>
+<par def='4'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div&gt;</run></par>
+<pardef id='6' leftmargin='0.5000in' rightmargin='95%' firstlineleftmargin='0.7500in'><code
+ event='hidewhen' enabled='false'><formula>tmpIsAuthentic!="true"</formula></code></pardef>
+<par def='6'><run html='true'><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div&gt;&amp;nbsp;&lt;/div&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;!--动态表格样例2--start--&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;div id="</run><run html='true'><font size='9pt'
+ style='bold' name='宋体' pitch='variable' truetype='true' familyid='0'/>grid_</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>5" data-dojo-type="smartdot.DynamicGrid" data-dojo-props="datastore:'hfldData_htqk',layout:'inline',editable:false"&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;script type="text/template" data-role="gridNode"&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;table class="grid-table" width=100% id=</run><run
+ html='true'><font size='9pt' style='bold' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>"grid-table"</run><run html='true'><font size='9pt' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/>&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;thead&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;tr&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;th&gt;选择</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/th&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:5%" data-string-id="indiplatform.tylc.xh"&gt;序号&lt;/th&gt; </run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:20%" data-string-id="indiplatform.tylc.htmc"&gt;合同名称&lt;/th&gt; </run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:25%" data-string-id="indiplatform.tylc.htbh"&gt;合同编号&lt;/th&gt; </run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:10%" data-string-id="indiplatform.tylc.xm"&gt;付款阶段/项目&lt;/th&gt; </run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:10%" data-string-id="indiplatform.tylc.htydje"&gt;本阶段/本项目&lt;br&gt;合同约定金额&lt;/th&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;th style="width:10%" data-string-id="indiplatform.tylc.jstj"&gt;付款条件&lt;/th&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> 		&lt;th style="width:10%" data-string-id="indiplatform.tylc.</run><run
+ html='true'><font size='9pt' name='Courier New' pitch='fixed' truetype='true'
+ familyid='30'/>sqzfje</run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>"&gt;本阶段/本项目&lt;br&gt;付款金额&lt;/th&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            {% if document.getElementById("fldglht").value</run><run
+ html='true'> !="1" %}</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th style="width:10%" data-string-id="indiplatform.tylc.</run><run
+ html='true'><font size='9pt' name='Courier New' pitch='fixed' truetype='true'
+ familyid='30'/>syje</run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>"&gt;剩余付款金额&lt;/th&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            {% endif %}</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;th&gt;&lt;/th&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;/tr&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;/thead&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;tbody&gt; </run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	{% if items.length %}</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		{% for item in items %}</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;tr data-role="loopRow" class="dojoDndItem"&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;td style="width:20px"&gt;&lt;input name="ckbox" type="checkbox" onclick="fncheckbox3();" id="{{item.xh}}"/&gt;&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;{{</run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>forloop.counter}}&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;&lt;a href="{{item.ljurl}}" target="_blank"&gt;{{item.htmc|default}}&lt;/a&gt;&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;&lt;a href="{{item.ljurl}}" target="_blank"&gt;{{item.htbh|default}}&lt;/a&gt;&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;{{item.xm|default}}&lt;/a&gt;&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;{{item.htydje|default}}&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            &lt;td&gt;{{item.jstj|default}}&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/> 		&lt;td&gt;{{item.</run><run html='true'><font
+ size='9pt' name='Courier New' pitch='fixed' truetype='true' familyid='30'/>sqzfje</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>|default}}&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            {% if document.getElementById("fldglht").value</run><run
+ html='true'> !="1" %}</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td&gt;{{item.</run><run html='true'><font
+ size='9pt' name='Courier New' pitch='fixed' truetype='true' familyid='30'/>syje</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>|default}}&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>            {% endif %}</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;td class="grid-action"&gt;&lt;/td&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>		&lt;/tr&gt;{% endfor %}{% else %}&lt;tr data-role="empty"&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;#&lt;/td&gt;&lt;td colspan="8"&gt;&lt;/td&gt;&lt;/tr&gt;{% endif %}</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;/tbody&gt;&lt;/table&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	&lt;/script&gt;</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>	</run></par>
+<par def='6'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/div&gt;</run></par></richtext></body>
+<item name='Fldtime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='riqi' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='OriginalModTime' sign='true'><datetime>20060217T154720,20+08</datetime></item>
+<item name='fldFenShu' summary='false' sign='true'><number>0</number></item>
+<item name='Fldfs' summary='false' sign='true'><number>0</number></item>
+<item name='strStartDate' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strStartTime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strEndDate' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='strEndTime' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='fldQiCaoRQ' summary='false' sign='true'>
+<rawitemdata type='400'>
+AAAAAAAAAAA=
+</rawitemdata></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>动态表格_disp</text></item></subform>
+

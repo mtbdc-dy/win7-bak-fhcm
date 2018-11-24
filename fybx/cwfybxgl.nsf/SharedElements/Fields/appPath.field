@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='appPath' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8'>
+<noteinfo noteid='446' unid='75DE23C828A749DF48256E540046B2EF' sequence='55'>
+<created><datetime>20040311T205213,27+08</datetime></created>
+<modified><datetime>20181025T014921,53+08</datetime></modified>
+<revised><datetime>20181024T085444,91+08</datetime></revised>
+<lastaccessed><datetime>20181025T014921,52+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133246,56+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='editable' name='appPath'><code event='defaultvalue'><formula compiled='true'>
+TgAJAEQA/CwdWJ/k3Cze4zuSET9hKJq/riNA2hFqGBmISib9FKZZTKD7Vgxrkh0JhpLp265C0Hj+
+reiWVQFf05TVadIgigQABAAEAAQA
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,77+08</datetime></item></sharedfield>
+

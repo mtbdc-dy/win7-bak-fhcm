@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scriptlibrary name='libPOI' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' hide='v3 v4strict' noreplace='true' designerversion='8.5.3'>
+<noteinfo noteid='25f96' unid='FBEEC96F1B5CA7FB48258334001EA61E' sequence='1'>
+<created><datetime>20181028T133446,06+08</datetime></created>
+<modified><datetime>20181028T133527,78+08</datetime></modified>
+<revised><datetime>20181028T133527,77+08</datetime></revised>
+<lastaccessed><datetime>20181028T133527,77+08</datetime></lastaccessed>
+<addedtofile><datetime>20181028T133527,77+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=smartdot</name><name
+>CN=admin/O=org</name><name>CN=admin/O=crcgas</name><name>CN=admin/O=unipec</name><name
+>CN=admin/O=geidco</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='library'><javaproject
+ class='JavaAgent.class' codepath='e:\Domino\Note9\Data'><java name='POIUtil.java'>import java.io.InputStream;
+import java.util.Date;
+import java.text.DateFormat;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.DateUtil;  
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+
+public class POIUtil { 
+	public static Object[][] getExcelDataToArray(InputStream file,int startRow){
+		//将excel转化成一个java数组
+		//file excel文件
+		//startRow 起始处理的行号(从0开始)
+		Object[][] rtnObjects=null;
+		try {
+			Workbook wb = WorkbookFactory.create(file);
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			
+			Sheet sheet = wb.getSheetAt(0);//得到第一个工作表
+			Row row = null;
+			int rowCount = sheet.getPhysicalNumberOfRows();
+			int colCount=0;
+			for (int j = startRow; j &lt; rowCount; j++) {
+				row = sheet.getRow(j);
+				Cell cell = null;
+				colCount=row.getPhysicalNumberOfCells();
+				if(null==rtnObjects){
+					rtnObjects=new Object[rowCount-startRow][colCount];
+				}
+				for (int k = 0; k &lt; colCount; k++) {
+					cell = row.getCell(k);
+					rtnObjects[j-startRow][k]=POIUtil.getCellValue(evaluator, cell);//得到excel表的所有数据
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rtnObjects;
+		
+	}
+	public static Object getCellValue(FormulaEvaluator evaluator,Cell cell){
+		//获取单元格的内容
+		//获取之前先进行了公式计算
+		CellValue cellValue = evaluator.evaluate(cell);
+		Object rtn=null;
+		if(cellValue!=null){
+			switch (cellValue.getCellType()) {                                                     
+	            case Cell.CELL_TYPE_STRING:                                             
+	                rtn=cell.getRichStringCellValue().getString();
+	                break;                                                      
+	            case Cell.CELL_TYPE_NUMERIC:
+	            	if (DateUtil.isCellDateFormatted(cell)) {                                 
+	            		Date date = cell.getDateCellValue();
+	            		rtn = DateFormat.getDateInstance().format(date);
+	                } else {                                              
+	                	Integer num = new Integer((int) cell.getNumericCellValue());
+	                	rtn = String.valueOf(num);
+	                }       	            
+	               break; 
+	            case Cell.CELL_TYPE_BOOLEAN:                             
+	            	rtn=Boolean.toString(cell.getBooleanCellValue()); 
+	                break;                                                                    
+	            case Cell.CELL_TYPE_FORMULA:       
+	            	rtn=cell.getCellFormula();
+	                break;              	                
+	            default:                                                                         
+	        }   
+		}
+		return rtn;		
+	}
+}</java>
+<sharedlibraryref name='libPOIJar'/></javaproject></code>
+<item name='$POID'><datetime>20130617T154256,48+08</datetime></item>
+<item name='$JavaCompilerSource' sign='true'><text>1.3</text></item>
+<item name='$JavaCompilerTarget' sign='true'><text>1.2</text></item></scriptlibrary>
+

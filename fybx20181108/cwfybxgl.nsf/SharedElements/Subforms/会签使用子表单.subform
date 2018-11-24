@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='会签使用子表单' alias='sfrmgaozhi_print' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' comment='会签表单打印定制'
+ renderpassthrough='true'>
+<noteinfo noteid='12f92' unid='482581B6000911FF482581B70014B4C5' sequence='30'>
+<created><datetime>20171012T114609,97+08</datetime></created>
+<modified><datetime>20181025T014917,99+08</datetime></modified>
+<revised><datetime>20181024T092018,19+08</datetime></revised>
+<lastaccessed><datetime>20181025T014917,98+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T182728,95+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=admin/O=ppm</name><name>CN=OAserver/O=ppm</name><name>CN=admin/O=ppm</name><name
+>CN=OAserver/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='1'><run html='true'><computedtext><code event='value'><formula>@ReplaceSubstring(@Text(subfrmContent);@NewLine;"")</formula></code></computedtext></run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmgaozhi_print</text></item></subform>
+

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtCreatetopdf' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' hide='v3' publicaccess='false' designerversion='8.5.3'>
+<noteinfo noteid='174a' unid='482581B6000911FF48258160002DC3BF' sequence='20'>
+<created><datetime>20170717T161952,31+08</datetime></created>
+<modified><datetime>20181107T195902,29+08</datetime></modified>
+<revised><datetime>20181024T091951,75+08</datetime></revised>
+<lastaccessed><datetime>20181107T195902,29+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195902,29+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092057,99+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='selected'/><code event='options'><lotusscript>%REM
+	Agent agtCreatetopdf
+	Created 2017-7-17 by oanewadmin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim vw As NotesView
+	Dim doc As NotesDocument
+	Dim paramNoteId As String
+	Dim docTmp As NotesDocument
+	
+	Set db = session.Currentdatabase
+	Set vw = db.Getview("vwDocByAll")
+	Set doc = vw.Getfirstdocument()
+	If Not doc Is Nothing Then
+		Call docTmp.Replaceitemvalue("docNoteid", doc.Noteid)
+		Call docTmp.Save(True,False)
+		paramNoteId=docTmp.Noteid
+		
+		Delete doc '删除当前过程对该文档的引用
+		Call db.Getagent("agtCreatePDF2").Run(paramNoteId)
+		
+		Set docTmp=db.Getdocumentbyid(paramNoteId)
+		Call docTmp.Remove(True)
+	End If
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20170717T173319,80+08</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20181024T091951,75+08</datetime></item></agent>
+

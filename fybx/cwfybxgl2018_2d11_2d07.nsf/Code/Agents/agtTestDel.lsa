@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtTestDel' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ hide='v3' noreplace='true' publicaccess='false' designerversion='8.5.3' restrictions='fulladminunrestricted'
+ activatable='false' enabled='false'>
+<noteinfo noteid='f22' unid='0A8F9405E18698BE482580920038D32A' sequence='12'>
+<created><datetime>20161223T182040,74+08</datetime></created>
+<modified><datetime>20181107T195841,65+08</datetime></modified>
+<revised><datetime>20181024T101259,69+08</datetime></revised>
+<lastaccessed><datetime>20181107T195841,65+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195841,65+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T101404,66+08</datetime></designchange>
+<trigger type='scheduled'>
+<schedule type='never' runlocation='specific' runserver='CN=oav5server1/O=ppm'/></trigger><code
+ event='options'><lotusscript>%REM
+	Agent agthybxflowover
+	Created 2016-11-9 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "CommonLib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errhandle
+	
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim note As NotesDocument
+	Dim arr(0 To 31) As String
+	Dim str2 As String
+	Dim str3 As String
+	Dim cwdb As NotesDatabase
+	Dim vwgf As NotesView
+	Dim doc As NotesDocument
+	
+	Set note = session.Documentcontext
+	Set dbCurrent = session.Currentdatabase
+	'arr(0)="dep31"
+  
+	arr(0) = "dep44"
+	arr(1) = "dep31"
+	arr(2) = "dep33"
+	arr(3) = "dep34"
+	arr(4) = "dep35"
+	arr(5) = "dep37"
+	arr(6) = "dep36"
+	arr(7) = "dep32"
+	arr(8) = "dep39"
+	arr(9) = "dep46"
+	arr(10) = "dep47"
+	arr(11) = "dep168"
+	arr(12) = "dep167"
+	arr(13) = "dep165"
+	arr(14) = "dep166"
+	arr(15) = "dep2025"
+	arr(16) = "dep2231"
+	arr(17) = "dep2002"
+	arr(18) = "dep161"
+	arr(19) = "dep106"
+	arr(20) = "dep109"
+	arr(21) = "dep102"
+	arr(22) = "dep101"
+	arr(23) = "dep43"
+	arr(24) = "dep2001"
+	arr(25) = "dep41"
+	arr(26) = "dep48"
+	arr(27) = "dep28"
+	arr(28) = "dep103"
+	arr(29) = "dep164"
+	arr(30) = "dep104"
+	arr(31) = "dep7"
+	Dim vwysforxm As NotesView
+	Dim docysforxm As NotesDocument
+	ForAll a In arr
+		If a&lt;&gt;""Then
+			If a&lt;&gt;"dep7" Then 
+			 str2 = Replace(dbCurrent.Filepath,"dep7",a)
+			 str3 = Replace(str2,"gfcwgl","cwgl")
+			Else
+			 str3 = dbCurrent.Filepath
+			End If
+			Set cwdb = session.Getdatabase("", str3)
+			If cwdb.isopen Then
+				Set vwgf = cwdb.Getview("vwDongjieDocByMainUnid")
+				'删除所有费用报销冻结的文档
+				Set doc = vwgf.Getfirstdocument()
+				Dim doctemp As NotesDocument
+				While Not doc Is Nothing
+					Set doctemp=vwgf.Getnextdocument(doc)
+					Call doc.Remove(true)
+					Set doc=doctemp
+				Wend
+				%rem
+				Set vwysforxm=cwdb.Getview("vwDocByUNIDforyssxm")
+			    '删除所有费用年度预算分项目
+				Set docysforxm=vwysforxm.Getfirstdocument()
+				Dim docystemp As NotesDocument
+				While Not docysforxm Is Nothing 
+					Set docystemp=vwysforxm.Getnextdocument(docysforxm)
+					Call docysforxm.Remove(true)
+					Set docysforxm=docystemp
+				Wend
+				%end rem 
+			End If
+		End if
+	End ForAll
+
+	Exit sub
+errhandle:
+	MsgBox "agtTest has error:" + CStr(Error()) + " at line: " + CStr(Erl())
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='2E27F9132A3A9B1648258094005ABAC8'>
+<agentmodified><datetime>20161224T191016,34+08</datetime></agentmodified>
+<agentrun><datetime>20161226T003104,57+08</datetime></agentrun>
+<runlog>Started running agent 'agtTestDel' on 2016-12-26 00:31:00
+Found 0 document(s) that match search criteria
+Ran LotusScript code
+Done running agent 'agtTestDel' on 2016-12-26 00:31:04
+</runlog></rundata>
+<item name='$POID'><datetime>20161209T150324,40+08</datetime></item></agent>
+

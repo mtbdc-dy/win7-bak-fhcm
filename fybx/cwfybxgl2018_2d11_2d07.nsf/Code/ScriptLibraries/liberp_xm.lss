@@ -1,0 +1,1392 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library liberp_xm
+	Created 2018-10-29 by oanewadmin/ppm
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Sub Initialize
+Declare Sub  suGetGs(doc As NotesDocument)
+Declare Sub suInitinfo_qt(doc As NotesDocument)
+Declare Function getHeaher(note As NotesDocument) As String 
+Declare Sub suInitinfo_cl(doc As NotesDocument)
+Declare Function getBUSS(note As NotesDocument) As String 
+Declare Function fnGetKmId(strname As String,doc As NotesDocument) As String  
+Declare sub suYwlx(doc As NotesDocument) 
+Declare Function getCAPTAIL(note As NotesDocument) As String 
+Declare Function GetDataBySl(data As String,sl As String,strname As String   ) As String 
+Declare Sub  suGetCbzx(doc As NotesDocument,strname As String )
+Declare Function FnGetUserid(struser As String) As String
+Declare Sub geterpjson(doc As NotesDocument,ywdoc As NotesDocument ) 
+Declare Function getCAPTAIL_qt(note As NotesDocument) As Converjsonarray 
+Declare Function sendProcessERP_xm(docMain As NotesDocument,dbCurrent As NotesDatabase) 
+Declare Function getBUSS_qt(docmain As NotesDocument)  As  Converjsonarray
+Declare Function getCAPTAIL_cl(note As NotesDocument) As Converjsonarray 
+Declare Sub   initinfo(doc As NotesDocument) 
+Declare Function getBUSS_cl(docmain As NotesDocument)  As  Converjsonarray
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Dim jsonreader As  Jsonreader
+Dim restheader As String 
+Dim url As String
+Dim fldfwbh As String  ' 流水号
+
+'--头信息
+Dim fldjbr As String  '经办人
+Dim fldbxr As String '报销人
+Dim fldbz As String '备注
+Dim fldtoday As String 
+' buss 信息 
+Dim fldje,fldgzje,fldhxje,fldzphxje As String '金额 
+
+'付款信息 
+Dim fldskr As String   
+Dim fldskrzh As String 
+Dim fldkhh As String  '开户银行
+Dim fldzffs As String   '支付方式
+Dim fldwfyhzh As String '我方银行账号
+Dim fldskflx As String  '收款方类型
+
+' 业务类型   
+Dim strlxid As String  '类型编码 
+Dim strlxname As String   '类型名
+'公司信息 
+Dim gsid As String  
+Dim gsname As String  
+'成本中心
+Dim cbzxid As String 
+Dim cbzxname As String
+'身份证号
+Dim sfzh As String 
+Dim fldXjlbm As String  '现金流编码
+ 
+ 
+
+
+
+
+
+'++LotusScript Development Environment:2:2:Initialize:1:10
+Sub Initialize
+	restheader=|{"@xmlns":"http://xmlns.oracle.com/apps/cux/rest/expenseInsert/insert_expense_data/","Responsibility":"SYSTEM_ADMINISTRATOR","RespApplication":"SYSADMIN","SecurityGroup":"STANDARD","NLSLanguage":"AMERICAN"}|
+    url="http://xmlns.oracle.com/apps/cux/rest/expenseInsert/insert_expense_data/"
+	Set  jsonreader =New Jsonreader
+  
+End Sub
+
+'++LotusScript Development Environment:2:2:suGetGs:9:8
+%REM
+	功能：获取公司代码信息
+	备注：
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Sub  suGetGs(doc As NotesDocument)
+	On Error GoTo h  
+	
+	Dim s As New  NotesSession 
+	Dim db As NotesDatabase
+	Dim vw As NotesView 
+	Dim pzdoc As NotesDocument 
+    Dim strdbpath As String  
+    Dim strdbpatharr As Variant
+    dim i As Integer
+    Dim path As String  
+    
+    strdbpath=doc.Parentdatabase.Filepath
+	strdbpatharr=Split(strdbpath,"\")
+	For i=0 To UBound(strdbpatharr)-1 
+		MsgBox strdbpatharr(i)
+		If path="" Then 
+			path=strdbpatharr(i)
+		Else 
+			path=path+"/"+strdbpatharr(i)
+		End If
+	Next
+	Set db=s.Getdatabase("",path+"/jcsjwh.nsf")
+	If db.Isopen Then 
+		Set vw=db.Getview("vwzzjgycbzxgxpzbyid")
+		If Not vw Is Nothing Then 
+			Set pzdoc=vw.Getdocumentbykey(doc.fldNiGaoDW_id(0), true)
+			If Not pzdoc Is Nothing Then 
+				''获取表单信息
+				
+				gsid=pzdoc.fldSsgs_xm(0)
+				If pzdoc.Hasitem("fldSsgsname_xm") Then 
+					gsname=pzdoc.fldSsgsname_xm(0)
+				End If
+				
+			Else 
+				gsid="9040"
+				gsname="凤凰"
+			End If
+		End If
+	End If
+	
+	
+	
+	Exit Sub  
+h:
+	showerror("suGetGs")
+End Sub
+
+'++LotusScript Development Environment:2:2:suInitinfo_qt:9:8
+%REM
+	功能:其他费报销获取头信息等相关字段
+	备注：《-------修改的是请注意业务类型别修改成其他类型的了---------》
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Sub suInitinfo_qt(doc As NotesDocument)
+	On Error GoTo h
+	
+	fldjbr=FnGetUserid(doc.fldNiGaoRen(0)) '拟稿人/经办人
+	Dim fldjbrname As  New NotesName(doc.fldNiGaoRen(0))
+	Dim tempname As New NotesName(doc.fldBaoxiaoRen_xm(0))
+	fldbxr=FnGetUserid(tempname.Canonical) '报销人
+	If doc.fldZy_xm(0)="" Then 
+		fldbz="报销信息"  '备注
+	Else 
+		fldbz=doc.fldZy_xm(0)  '备注
+	End If
+	fldtoday=CStr(Today)
+	fldje=CStr(doc.fldSfje_xm(0)) '实际支付金额
+	'替换补、退
+	fldje=Replace(fldje,"补","")
+	fldje=Replace(fldje,"退","")
+	
+	fldgzje=CStr(doc.fldGzje_xm(0)) '挂账金额
+	fldzphxje=CStr(doc.fldZphxje_xm(0)) '支票核销金额
+	fldhxje=CStr(doc.fldHxje_xm(0)) '核销金额
+	fldskr=doc.fldSkrxm_xm(0) '收款人
+	fldskrzh=doc.fldSkrzhxx_xm(0) '收款人账号 -不用
+	fldkhh=doc.fldKhh_xm(0)'开户行-不用
+	fldzffs=doc.fldzffs_xm(0) '支付方式
+	fldwfyhzh=doc.fldYhzh_xm(0)' 我方银行账号
+	fldskflx=doc.fldSkflx_xm(0) ' 收款方类型 -不用
+	sfzh=doc.fldSfzxx_xm(0)'身份证号/统一社会信用代码
+	If doc.fldXjlbm_xm(0)="" Then 
+		fldXjlbm="001004"'现金流
+	Else 
+		fldXjlbm=doc.fldXjlbm_xm(0)'现金流
+	End If
+	Exit Sub  
+h:
+	showerror("suInitinfo_qt")
+End Sub
+
+'++LotusScript Development Environment:2:1:getHeaher:9:8
+%REM
+	功能:获取凭证头信息
+	备注：这里的字段值都在initinfo里初始化
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Function getHeaher(note As NotesDocument) As String 
+	On Error GoTo h
+	'创建 P_HEADER_INPUT 头信息json
+	Dim P_HEADER_INPUT As New  Converjsonobject
+	Dim P_vvalue As New Converjsonarray
+	Dim p_vvalue_list As New  Converjsonobject
+	Call p_vvalue_list.Additem("P_INTER_BATCH_ID", fldfwbh) '接口批编号(12位序列号，要求唯一)
+	Call p_vvalue_list.Additem("P_LOOKUP_TYPE",strlxid) '业务类型代码
+	Call p_vvalue_list.Additem("P_TYPE_DESC",strlxname) '业务类型说明
+	Call p_vvalue_list.Additem("P_OU_CODE",gsid)  '公司代码
+	Call p_vvalue_list.Additem("P_OU_NAME",gsname)  '公司名称
+	Call p_vvalue_list.Additem("P_ORDER_NUMBER",fldfwbh) '原始单据编号，用于追溯
+	Call p_vvalue_list.Additem("P_FULL_NAME",fldjbr) '经办人
+	Call p_vvalue_list.Additem("P_EXPENSE_WHO",fldbxr) '报销人
+	Call p_vvalue_list.Additem("P_CURRENCY_CODE","CNY") '币种 默认 CNY币种 默认 CNY
+	Call p_vvalue_list.Additem("P_REMARK",fldbz) ' 摘要
+	Call p_vvalue_list.Additem("P_ERP_PROJECT_NUMBER","")'ERP项目编号 
+	Call p_vvalue_list.Additem("P_ERP_SETTLE_NUMBER","")'ERP结算单号(预留)
+	Call p_vvalue_list.Additem("P_ERP_ORDER_NUMBER","")' ERP订单编号
+	Call p_vvalue_list.Additem("P_GL_DATE",fldtoday)'记账日期,格式(YYYY-MM-DD)
+	Call p_vvalue_list.Additem("P_BUSSINESS_TYPE","非经营")' 业务类型
+	Call p_vvalue_list.Additem("P_PARAM1","")'
+	Call p_vvalue_list.Additem("P_PARAM2","")'
+	Call p_vvalue_list.Additem("P_PARAM3","")'
+	Call p_vvalue_list.Additem("P_PARAM4","")'
+	Call p_vvalue_list.Additem("P_PARAM5","")'
+	Call p_vvalue_list.Additem("P_PARAM6","")'
+	Call p_vvalue_list.Additem("P_PARAM7","")'
+	Call p_vvalue_list.Additem("P_PARAM8","")'
+	Call p_vvalue_list.Additem("P_PARAM9","")'
+	Call p_vvalue_list.Additem("P_PARAM10","")'
+	Call P_vvalue.Additem(p_vvalue_list)
+	Call P_HEADER_INPUT.Additem("P_HEADER_INPUT_ITEM",P_vvalue)
+	getHeaher=P_HEADER_INPUT.Tojson()
+	Exit Function 
+h:
+	showerror("getHeaher")
+End Function
+
+'++LotusScript Development Environment:2:2:suInitinfo_cl:9:8
+%REM
+	功能:差旅费报销获取头信息等相关字段
+	备注：《-------修改的是请注意业务类型别修改成其他类型的了---------》
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Sub suInitinfo_cl(doc As NotesDocument)
+	On Error GoTo h
+	
+	fldjbr=FnGetUserid(doc.fldNiGaoRen(0)) '拟稿人/经办人
+	Dim fldjbrname As  New NotesName(doc.fldNiGaoRen(0))
+	Dim tempname As New NotesName(doc.fldBaoxiaoRen_xm(0))
+	fldbxr=FnGetUserid(tempname.Canonical) '报销人
+	If doc.fldZy_xm(0)="" Then 
+		fldbz="报销信息"  '备注
+	Else 
+		fldbz=doc.fldZy_xm(0)  '备注
+	End If
+	fldtoday=CStr(Today)
+	fldje=CStr(doc.fldSfje_xm(0)) '实际支付金额
+	fldje=Replace(fldje,"补","")
+	fldje=Replace(fldje,"退","")
+	fldgzje=CStr(doc.fldGzje_xm(0)) '挂账金额
+	fldzphxje=CStr(doc.fldZphxje_xm(0)) '支票核销金额
+	fldhxje=CStr(doc.fldHxje_xm(0)) '核销金额
+	fldskr=doc.fldSkrxm_xm(0) '收款人
+	fldskrzh=doc.fldSkrzhxx_xm(0) '收款人账号 -不用
+	fldkhh=doc.fldKhh_xm(0)'开户行-不用
+	fldzffs=doc.fldzffs_xm(0) '支付方式
+	fldwfyhzh=doc.fldYhzh_xm(0)' 我方银行账号
+	fldskflx=doc.fldSkflx_xm(0) ' 收款方类型 -不用
+	sfzh=doc.fldSfzxx_xm(0)'身份证号/统一社会信用代码
+	If doc.fldXjlbm_xm(0)="" Then 
+		fldXjlbm="001004"'现金流
+	Else 
+		fldXjlbm=doc.fldXjlbm_xm(0)'现金流
+	End If
+	
+h:
+	showerror("suInitinfo_cl")
+End Sub
+
+'++LotusScript Development Environment:2:1:getBUSS:37:8
+%REM
+	功能：获取凭证业务分配行主方法
+	备注：
+	{
+        "P_BUSS_LINE_INPUT_ITEM": [
+          {
+            "P_BATCH_HEADER_ID": "1234567",
+            "P_LINE_NUMBER": "1",
+            "P_COST_CENTER": "COST_CENTER",
+            "P_AMOUNT": "12324",
+            "P_TAX_RATE": "TAX_RAT",
+            "P_TAX_AMOUNT": "12",
+            "P_GOODS_TYPE": "GOODS_TYPE",
+            "P_EXPENSE_ACCOUNT": "EXPENSE_ACCOUN",
+            "P_EXPENSE_TYPE_ACCOUNT": "",
+            "P_EXPENSE_TYPE_SUB_ACCOUNT": "",
+            "P_PROJECT_EXPENSE_TYPE": "PROJECT_EXPENSE_TYPE",
+            "P_ERP_FA_TYPE": "ERP_FA_TYPE",
+            "P_EQUIPMENT_NAME": "EQUIPMENT_NAME",
+            "P_EQUIPMENT_MODEL": "EQUIPMENT_MODE",
+            "P_ERP_FA_NUMBER": "ERP_FA_NUMBER",
+            "P_FA_DISPOSAL": "FA_DISPOSAL",
+            "P_PARAM1": "1",
+            "P_PARAM2": "1",
+            "P_PARAM3": "1",
+            "P_PARAM4": "1",
+            "P_PARAM5": "1",
+            "P_PARAM6": "1",
+            "P_PARAM7": "1",
+            "P_PARAM8": "7",
+            "P_PARAM9": "9",
+            "P_PARAM10": "10"
+          }
+        ]
+      }
+%END REM
+Function getBUSS(note As NotesDocument) As String 
+	On Error GoTo h
+		Dim P_BUSS_LINE_INPUT_ITEM   As  New Converjsonobject
+		Dim P_vvalue As New Converjsonarray
+		Dim resarr As New Converjsonarray
+		'获取差旅费用 hfldData
+		Dim sfrmname As String  
+		sfrmname=note.subform(0)
+		Select Case sfrmname 
+			Case "sfrmChaiLvfeebx":
+				Set P_vvalue= getBUSS_cl(note)
+			Case "sfrmQiTafeebx":
+				Set P_vvalue= getBUSS_qt(note)
+		End Select
+		Call  P_BUSS_LINE_INPUT_ITEM.Additem("P_BUSS_LINE_INPUT_ITEM", P_vvalue)
+	
+	 	getBUSS=P_BUSS_LINE_INPUT_ITEM.Tojson()
+	
+	Exit Function 
+h:
+	showerror("getbuss")
+End Function
+
+'++LotusScript Development Environment:2:1:fnGetKmId:7:8
+%REM
+	功能：获取ERP科目信息
+	备注： vwBaoxXiangmuByfymc
+	参数
+	作者：
+%END REM
+Function fnGetKmId(strname As String,doc As NotesDocument) As String  
+	
+	'
+	On Error GoTo h
+	
+	Dim db As NotesDatabase
+	Set db=doc.Parentdatabase
+	Dim vw As NotesView 
+	Dim dockm As NotesDocument
+    Set vw=db.Getview("vwBaoxXiangmuByfymc")
+	Set dockm=vw.Getdocumentbykey(Trim(strname), true)
+	If Not dockm Is Nothing Then 
+		If dockm.Hasitem("strerpkmdm_xm") Then 
+			fnGetKmId=dockm.strerpkmdm_xm(0)
+		Else 
+			fnGetKmId=""
+		End If
+		
+	End If
+	Exit Function 
+h:
+	showerror("fnGetKmId")
+	
+End Function
+
+'++LotusScript Development Environment:2:2:suYwlx:9:8
+%REM
+	功能：获取业务类型
+	备注：
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+sub suYwlx(doc As NotesDocument) 
+	On Error GoTo  h
+	
+	Dim sfrmname As String  
+	sfrmname=doc.subform(0)
+	Select Case sfrmname 
+		Case "sfrmChaiLvfeebx":
+			'strlxid="O3"
+			'strlxname="费用报销-差旅费"
+		Case "sfrmQiTafeebx":
+			'strlxid="O6"
+			'strlxname="费用报销-其他费用报销"
+	End Select
+	
+	'优化后此信息直接从表单获取
+	If doc.Hasitem("fldoalclb_xm") Then  
+		strlxid=doc.fldoalclb_xm(0)
+		strlxname=doc.flowtype(0)
+	End If
+	
+	
+	
+	Exit Sub 
+h:
+	showerror("suYwlx")
+End  Sub 
+
+'++LotusScript Development Environment:2:1:getCAPTAIL:79:8
+%REM
+	功能：获取凭证资金分配行主方法
+	备注：
+	{
+        "P_CAPTAIL_LINE_INPUT_ITEM": [
+          {
+            "P_BATCH_HEADER_ID": "1234567",
+            "P_LINE_NUMBER": "1",
+            "P_PAYEE_REMITTEE": "测试1",
+            "P_PAYEE_TYPE": "单位",
+            "P_VENDOR_SITE_CODE": "供应商地点",
+            "P_ERP_INVOICE_NUMBER": "ERP_INVOICE_NUMBER",
+            "P_HOLD_ORDER_NUMBER": "HOLD_ORDER_NUMBER",
+            "P_ACTUAL_PAY_AMOUNT": "12",
+            "P_HOLD_AMOUNT": "23",
+            "P_CHECK_AMOUNT": "34",
+            "P_VERIFICATION_AMOUNT": "34",
+            "P_PAYMENT_METHOD": "23ee",
+            "P_PAYMENT_CHANNEL": "eewd",
+            "P_BANK_NUMBER": "43234",
+            "P_CASH_OBJECT": "2323",
+            "P_CREDIT_NUMBER": "000000000000000",
+            "P_BUDGET_FLAG": "Y",
+            "P_PAYEE_REMITTEE_NAME": "收款方户名",
+            "P_ADD_FLAG": "N",
+            "P_RECEIVE_BANK_NUMBER": "收款方账户",
+            "P_RECEIVE_BANK_NAME": "收款方银行",
+            "P_RECEIVE_BANK_NUM_NAME": "收款方开户行名称",
+            "P_RECEIVE_CNAPS_NUMBER": "收款方开户行CNAPS",
+            "P_PARAM1": "1",
+            "P_PARAM2": "1",
+            "P_PARAM3": "1",
+            "P_PARAM4": "1",
+            "P_PARAM5": "1",
+            "P_PARAM6": "1",
+            "P_PARAM7": "1",
+            "P_PARAM8": "7",
+            "P_PARAM9": "9",
+            "P_PARAM10": "10"
+          },
+          {
+            "P_BATCH_HEADER_ID": "1234567",
+            "P_LINE_NUMBER": "2",
+            "P_PAYEE_REMITTEE": "测试2",
+            "P_PAYEE_TYPE": "个人",
+            "P_VENDOR_SITE_CODE": "供应商地点",
+            "P_ERP_INVOICE_NUMBER": "ERP_INVOICE_NUMBER",
+            "P_HOLD_ORDER_NUMBER": "HOLD_ORDER_NUMBER",
+            "P_ACTUAL_PAY_AMOUNT": "12",
+            "P_HOLD_AMOUNT": "23",
+            "P_CHECK_AMOUNT": "34",
+            "P_VERIFICATION_AMOUNT": "45",
+            "P_PAYMENT_METHOD": "PAYMENT_METHOD",
+            "P_PAYMENT_CHANNEL": "PAYMENT_CHANNEL",
+            "P_BANK_NUMBER": "23434234324",
+            "P_CASH_OBJECT": "434343",
+            "P_CREDIT_NUMBER": "222222222222222222",
+            "P_BUDGET_FLAG": "Y",
+            "P_PAYEE_REMITTEE_NAME": "收款方户名",
+            "P_ADD_FLAG": "N",
+            "P_RECEIVE_BANK_NUMBER": "收款方账户",
+            "P_RECEIVE_BANK_NAME": "收款方银行",
+            "P_RECEIVE_BANK_NUM_NAME": "收款方开户行名称",
+            "P_RECEIVE_CNAPS_NUMBER": "收款方开户行CNAPS",
+            "P_PARAM1": "1",
+            "P_PARAM2": "1",
+            "P_PARAM3": "1",
+            "P_PARAM4": "1",
+            "P_PARAM5": "1",
+            "P_PARAM6": "1",
+            "P_PARAM7": "1",
+            "P_PARAM8": "7",
+            "P_PARAM9": "9",
+            "P_PARAM10": "10"
+          }
+        ]
+      }
+%END REM
+Function getCAPTAIL(note As NotesDocument) As String 
+	On Error GoTo h
+	'创建 P_HEADER_INPUT 头信息json
+	Dim P_CAPTAIL_LINE_INPUT_ITEM As New  Converjsonobject
+	Dim P_vvalue As New Converjsonarray
+	'获取差旅费用 hfldData
+	Dim sfrmname As String  
+	sfrmname=note.subform(0)
+	Select Case sfrmname 
+		Case "sfrmChaiLvfeebx":
+			Set P_vvalue= getCAPTAIL_cl(note)
+		Case "sfrmQiTafeebx":
+			Set P_vvalue= getCAPTAIL_qt(note)
+	End Select
+	Call P_CAPTAIL_LINE_INPUT_ITEM.Additem("P_CAPTAIL_LINE_INPUT_ITEM",P_vvalue)
+	getCAPTAIL=P_CAPTAIL_LINE_INPUT_ITEM.Tojson()
+	Exit Function 
+h:
+	showerror("getCAPTAIL")
+End Function
+
+'++LotusScript Development Environment:2:1:GetDataBySl:4:8
+%REM
+	功能：获取税率的其他金额之和
+%END REM
+Function GetDataBySl(data As String,sl As String,strname As String   ) As String 
+	On Error GoTo h
+	
+	Dim cljson As Variant
+	Dim cljsonitems As Variant
+	Dim i As Integer
+	Set cljson=jsonreader.Parse(data)
+	cljsonitems=cljson.items
+	Dim  resje As Double 
+	For i=0 To cljsonitems("items").count-1 
+		'jshj  住宿费价税合计 'zsfshm 住宿费税码	'zsfshlv '住宿费税率 'zsfje   住宿费金额	' zsfshe  住宿费税金额
+		If  Trim(cljsonitems("items").items(i).items("zsfshlv"))=Trim(sl) Then 
+			If cljsonitems("items").items(i).items(Trim(strname))<>""  Then 
+				resje=resje+CDbl(cljsonitems("items").items(i).items(Trim(strname)))
+			End If
+			
+		End If
+	Next
+	GetDataBySl=CStr(resje)
+	Exit Function 
+h:
+	showerror("GetDataBySl")
+End Function
+
+'++LotusScript Development Environment:2:2:suGetCbzx:9:8
+%REM
+	功能：获取成本中心
+	备注：
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Sub  suGetCbzx(doc As NotesDocument,strname As String )
+	On Error GoTo h  
+	
+	Dim s As New  NotesSession 
+	Dim db As NotesDatabase
+	Dim vw As NotesView 
+	Dim pzdoc As NotesDocument 
+    Dim strdbpath As String  
+    Dim strdbpatharr As Variant
+    Dim i As Integer
+    Dim path As String  
+    
+    strdbpath=doc.Parentdatabase.Filepath
+	strdbpatharr=Split(strdbpath,"\")
+	For i=0 To UBound(strdbpatharr)-1 
+		MsgBox strdbpatharr(i)
+		If path="" Then 
+			path=strdbpatharr(i)
+		Else 
+			path=path+"/"+strdbpatharr(i)
+		End If
+	Next
+	Set db=s.Getdatabase("",path+"/jcsjwh.nsf")
+	If db.Isopen Then 
+		Set vw=db.Getview("vwzzjgycbzxgxpzbyid")
+		If Not vw Is Nothing Then 
+			Set pzdoc=vw.Getdocumentbykey(strname, True)
+			If Not pzdoc Is Nothing Then 
+				''获取表单信息
+				
+				cbzxid=pzdoc.fldCbzxdm_xm(0)
+				If pzdoc.Hasitem("fldCbzxsm_xm") Then 
+					cbzxname=pzdoc.fldCbzxsm_xm(0)
+				End If
+				
+			Else 
+				cbzxid="9040"
+				cbzxname="凤凰"
+			End If
+		End If
+	End If
+	
+	
+	
+	Exit Sub  
+h:
+	showerror("suGetCbzx")
+End Sub
+
+'++LotusScript Development Environment:2:1:FnGetUserid:8:8
+%REM 
+	功能：根据员工全称获取ERP userid
+	参数：struser 用户全称
+	备注：无
+	日期：2016-11-29
+	作者：kejl
+%END REM
+Function FnGetUserid(struser As String) As String
+	On Error GoTo errorhand
+	Dim s As New NotesSession
+	Dim indidoc As NotesDocument
+	Dim strreturn As String
+	Dim mbdbindi As NotesDatabase
+	Dim mbvwindi As NotesView
+	
+	strreturn = ""
+	Set mbdbindi = s.GetDatabase("", "indishare/indinames.nsf")
+	Set mbvwindi = mbdbindi.GetView("vwRegUserByFullName")
+	Set indidoc = mbvwindi.GetDocumentByKey(struser,True)
+	If Not indidoc Is Nothing Then
+		strreturn = indidoc.Userid(0)
+	End If
+	
+	FnGetUserid = strreturn
+	
+	Exit Function
+errorhand:
+	showerror("FnGetUserid")
+End Function
+
+
+'++LotusScript Development Environment:2:2:geterpjson:9:8
+%REM
+	功能:组装完成的ERP凭证json信息 
+	备注：
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Sub geterpjson(doc As NotesDocument,ywdoc As NotesDocument ) 
+	Dim jsonreader As New Jsonreader
+	Dim INPUT_EXPENSRE_DATA_Input As New  Converjsonobject
+	Dim INPUT_EXPENSRE_DATA_Input_value As New Converjsonobject
+	Call INPUT_EXPENSRE_DATA_Input_value.Additem("@xmlns", url)
+	Call INPUT_EXPENSRE_DATA_Input_value.Additem("RESTHeader", jsonreader.Parse(restheader))
+	Dim InputParameters As New Converjsonobject
+	
+	Call InputParameters.Additem("P_HEADER_INPUT", jsonreader.Parse(getHeaher(ywdoc)))
+	Call InputParameters.Additem("P_BUSS_LINE_INPUT", jsonreader.Parse(getBUSS(ywdoc)))
+	Call InputParameters.Additem("P_CAPTAIL_LINE_INPUT", jsonreader.Parse(getCAPTAIL(ywdoc)))
+	Call INPUT_EXPENSRE_DATA_Input_value.Additem("InputParameters", InputParameters)
+	
+	Call INPUT_EXPENSRE_DATA_Input.Additem("INPUT_EXPENSRE_DATA_Input", INPUT_EXPENSRE_DATA_Input_value)
+	doc.inputdata=INPUT_EXPENSRE_DATA_Input.Tojson()
+	
+End Sub
+
+'++LotusScript Development Environment:2:1:getCAPTAIL_qt:85:8
+%REM
+	功能：获取其他费用报销资金分配行信息
+	备注：
+	{
+        "P_CAPTAIL_LINE_INPUT_ITEM": [
+          {
+            "P_BATCH_HEADER_ID": "1234567",
+            "P_LINE_NUMBER": "1",
+            "P_PAYEE_REMITTEE": "测试1",
+            "P_PAYEE_TYPE": "单位",
+            "P_VENDOR_SITE_CODE": "供应商地点",
+            "P_ERP_INVOICE_NUMBER": "ERP_INVOICE_NUMBER",
+            "P_HOLD_ORDER_NUMBER": "HOLD_ORDER_NUMBER",
+            "P_ACTUAL_PAY_AMOUNT": "12",
+            "P_HOLD_AMOUNT": "23",
+            "P_CHECK_AMOUNT": "34",
+            "P_VERIFICATION_AMOUNT": "34",
+            "P_PAYMENT_METHOD": "23ee",
+            "P_PAYMENT_CHANNEL": "eewd",
+            "P_BANK_NUMBER": "43234",
+            "P_CASH_OBJECT": "2323",
+            "P_CREDIT_NUMBER": "000000000000000",
+            "P_BUDGET_FLAG": "Y",
+            "P_PAYEE_REMITTEE_NAME": "收款方户名",
+            "P_ADD_FLAG": "N",
+            "P_RECEIVE_BANK_NUMBER": "收款方账户",
+            "P_RECEIVE_BANK_NAME": "收款方银行",
+            "P_RECEIVE_BANK_NUM_NAME": "收款方开户行名称",
+            "P_RECEIVE_CNAPS_NUMBER": "收款方开户行CNAPS",
+            "P_PARAM1": "1",
+            "P_PARAM2": "1",
+            "P_PARAM3": "1",
+            "P_PARAM4": "1",
+            "P_PARAM5": "1",
+            "P_PARAM6": "1",
+            "P_PARAM7": "1",
+            "P_PARAM8": "7",
+            "P_PARAM9": "9",
+            "P_PARAM10": "10"
+          },
+          {
+            "P_BATCH_HEADER_ID": "1234567",
+            "P_LINE_NUMBER": "2",
+            "P_PAYEE_REMITTEE": "测试2",
+            "P_PAYEE_TYPE": "个人",
+            "P_VENDOR_SITE_CODE": "供应商地点",
+            "P_ERP_INVOICE_NUMBER": "ERP_INVOICE_NUMBER",
+            "P_HOLD_ORDER_NUMBER": "HOLD_ORDER_NUMBER",
+            "P_ACTUAL_PAY_AMOUNT": "12",
+            "P_HOLD_AMOUNT": "23",
+            "P_CHECK_AMOUNT": "34",
+            "P_VERIFICATION_AMOUNT": "45",
+            "P_PAYMENT_METHOD": "PAYMENT_METHOD",
+            "P_PAYMENT_CHANNEL": "PAYMENT_CHANNEL",
+            "P_BANK_NUMBER": "23434234324",
+            "P_CASH_OBJECT": "434343",
+            "P_CREDIT_NUMBER": "222222222222222222",
+            "P_BUDGET_FLAG": "Y",
+            "P_PAYEE_REMITTEE_NAME": "收款方户名",
+            "P_ADD_FLAG": "N",
+            "P_RECEIVE_BANK_NUMBER": "收款方账户",
+            "P_RECEIVE_BANK_NAME": "收款方银行",
+            "P_RECEIVE_BANK_NUM_NAME": "收款方开户行名称",
+            "P_RECEIVE_CNAPS_NUMBER": "收款方开户行CNAPS",
+            "P_PARAM1": "1",
+            "P_PARAM2": "1",
+            "P_PARAM3": "1",
+            "P_PARAM4": "1",
+            "P_PARAM5": "1",
+            "P_PARAM6": "1",
+            "P_PARAM7": "1",
+            "P_PARAM8": "7",
+            "P_PARAM9": "9",
+            "P_PARAM10": "10"
+          }
+        ]
+      }
+      备注：《-------修改的是请注意业务类型别修改成其他类型的了---------》
+      参数：主文档
+    返回：json数组对象
+    作者：kejl
+    日期：2018-11-06
+    
+%END REM
+Function getCAPTAIL_qt(note As NotesDocument) As Converjsonarray 
+	On Error GoTo h
+	'创建 P_HEADER_INPUT 头信息json
+	Dim P_CAPTAIL_LINE_INPUT_ITEM As New  Converjsonobject
+	Set getCAPTAIL_qt= New Converjsonarray
+	Dim p_vvalue_list As  Converjsonobject
+	'01个人借款资金支付行
+	Set p_vvalue_list=New  Converjsonobject
+	Call P_vvalue_list.Additem("P_BATCH_HEADER_ID", fldfwbh) '头ID 关联头表的接口批编号字段
+	Call P_vvalue_list.Additem("P_LINE_NUMBER", "1") '行号
+	Call P_vvalue_list.Additem("P_PAYEE_REMITTEE", fldjbr) '收款方 
+	Call P_vvalue_list.Additem("P_PAYEE_TYPE", "个人") '个人/单位 fldskflx
+	Call P_vvalue_list.Additem("P_VENDOR_SITE_CODE", "") ' 供应商地点（在类型为单位时写入数据）
+	Call P_vvalue_list.Additem("P_ERP_INVOICE_NUMBER", "") 'ERP发票编号
+	Call P_vvalue_list.Additem("P_HOLD_ORDER_NUMBER", "") '挂账单据编号
+	Call P_vvalue_list.Additem("P_ACTUAL_PAY_AMOUNT", fldje) '实际支付金额
+	Call P_vvalue_list.Additem("P_HOLD_AMOUNT", fldgzje) ' 挂账金额
+	Call P_vvalue_list.Additem("P_CHECK_AMOUNT", fldzphxje) '支票核销金额
+	Call P_vvalue_list.Additem("P_VERIFICATION_AMOUNT", fldhxje) '核销金额
+	Call P_vvalue_list.Additem("P_PAYMENT_METHOD", fldzffs) '支付方式
+	Call P_vvalue_list.Additem("P_PAYMENT_CHANNEL", "") '支付通道
+	Call P_vvalue_list.Additem("P_BANK_NUMBER", fldwfyhzh) '我方银行账户
+	Call P_vvalue_list.Additem("P_CASH_OBJECT", fldXjlbm) '现金流量表象
+	Call P_vvalue_list.Additem("P_CREDIT_NUMBER", sfzh) '统一社会信用代码 'rnd*10
+	Call P_vvalue_list.Additem("P_BUDGET_FLAG", "") '预算标识
+	Call P_vvalue_list.Additem("P_PAYEE_REMITTEE_NAME", fldjbr) '收款方户名
+	Call P_vvalue_list.Additem("P_ADD_FLAG", "E") '新增标识
+	Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUMBER", "") 'fldskrzh收款方账户
+	Call P_vvalue_list.Additem("P_RECEIVE_BANK_NAME","" ) 'fldkhh收款方银行
+	Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUM_NAME","" ) 'fldkhh收款方开户行名称
+	Call P_vvalue_list.Additem("P_RECEIVE_CNAPS_NUMBER", "") '收款方开户行CNAPS
+	Call P_vvalue_list.Additem("P_PARAM1", "")
+	Call P_vvalue_list.Additem("P_PARAM2", "")
+	Call P_vvalue_list.Additem("P_PARAM3", "")
+	Call P_vvalue_list.Additem("P_PARAM4", "")
+	Call P_vvalue_list.Additem("P_PARAM5", "")
+	Call P_vvalue_list.Additem("P_PARAM6", "")
+	Call P_vvalue_list.Additem("P_PARAM7", "")
+	Call P_vvalue_list.Additem("P_PARAM8", "")
+	Call P_vvalue_list.Additem("P_PARAM9", "")
+	Call P_vvalue_list.Additem("P_PARAM10", "")
+	Call getCAPTAIL_qt.Additem(p_vvalue_list)
+	
+	'02 预付款对应的资金支付行，循环动态表格hfldData_fkdw
+	Dim datafk As String  
+	Dim  datafkjson As Variant
+	Dim  datafkitems As Variant
+	Dim i As Integer
+	datafk=note.Getfirstitem("hfldData_fkdw").Text
+	Set datafkjson=jsonreader.Parse(datafk)
+	datafkitems=datafkjson.items
+	For i=0 To datafkitems("items").count-1
+		MsgBox datafkitems("items").items(i).items("skdwxx")
+		Dim strtype As String 
+		strtype=datafkitems("items").items(i).items("strType_xm")
+		Dim skdwzt As String 
+		Dim skfid,skfname,addflag,gysdd,tyshbm ,skfzh,skfyh,skfkhh As String 
+		skdwzt=datafkitems("items").items(i).items("skdwzt")
+		'如果此行信息是从erp选中的那么 收款方户名 、新增标记、供应商地点、统一社会信用代码 都传空
+		If skdwzt="0" Then 
+			skfid=datafkitems("items").items(i).items("skfwydm")    'skfwydm 收款人唯一编码
+			skfname=""
+			addflag=""
+			gysdd=""
+			tyshbm =""
+		Else 
+			'如果是oa新增的 收款方户名 、新增标记、供应商地点、统一社会信用代码 不能传空
+			skfid=""
+			skfname=datafkitems("items").items(i).items("skdwxx")
+			If strtype="单位" Then 
+				addflag="C"
+				tyshbm =datafkitems("items").items(i).items("skdwwybs") '统一社会信用代码
+				skfzh=datafkitems("items").items(i).items("skzhmc") '
+				skfyh=datafkitems("items").items(i).items("skzhmc") '
+				skfkhh=datafkitems("items").items(i).items("skzhmc") '
+			Else
+				addflag="P"
+				tyshbm =datafkitems("items").items(i).items("sfzh") '身份证号
+				skfzh=""
+				skfyh=""
+				skfkhh=""
+			End If
+			gysdd=""
+			
+		End If
+		Dim tempzfje,tempgzje,tempzphxje,temphxje As String 
+		tempzfje=datafkitems("items").items(i).items("sfje") '实付金额
+		tempgzje=datafkitems("items").items(i).items("gzje") '挂账金额
+		tempzphxje=datafkitems("items").items(i).items("zphxje") '支票核销金额
+		temphxje=datafkitems("items").items(i).items("hxje") '核销金额
+		
+		Set p_vvalue_list=New  Converjsonobject
+		Call P_vvalue_list.Additem("P_BATCH_HEADER_ID", fldfwbh) '头ID 关联头表的接口批编号字段
+		Call P_vvalue_list.Additem("P_LINE_NUMBER", CStr(i+1+1)) '行号
+		Call P_vvalue_list.Additem("P_PAYEE_REMITTEE", skfid) '收款方 
+		Call P_vvalue_list.Additem("P_PAYEE_TYPE", strtype) '个人/单位 fldskflx
+		Call P_vvalue_list.Additem("P_VENDOR_SITE_CODE", "") ' 供应商地点（在类型为单位时写入数据）
+		Call P_vvalue_list.Additem("P_ERP_INVOICE_NUMBER", "") 'ERP发票编号
+		Call P_vvalue_list.Additem("P_HOLD_ORDER_NUMBER", "") '挂账单据编号
+		Call P_vvalue_list.Additem("P_ACTUAL_PAY_AMOUNT", tempzfje) '实际支付金额
+		Call P_vvalue_list.Additem("P_HOLD_AMOUNT", tempgzje) ' 挂账金额
+		Call P_vvalue_list.Additem("P_CHECK_AMOUNT", tempzphxje) '支票核销金额
+		Call P_vvalue_list.Additem("P_VERIFICATION_AMOUNT", temphxje) '核销金额
+		Call P_vvalue_list.Additem("P_PAYMENT_METHOD", fldzffs) '支付方式
+		Call P_vvalue_list.Additem("P_PAYMENT_CHANNEL", "") '支付通道
+		Call P_vvalue_list.Additem("P_BANK_NUMBER", fldwfyhzh) '我方银行账户
+		Call P_vvalue_list.Additem("P_CASH_OBJECT", fldXjlbm) '现金流量表象
+		Call P_vvalue_list.Additem("P_CREDIT_NUMBER", tyshbm) '统一社会信用代码 'rnd*10
+		Call P_vvalue_list.Additem("P_BUDGET_FLAG", "") '预算标识
+		Call P_vvalue_list.Additem("P_PAYEE_REMITTEE_NAME", skfname) '收款方户名
+		Call P_vvalue_list.Additem("P_ADD_FLAG", addflag) '新增标识
+		Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUMBER", skfzh) '收款方账户
+		Call P_vvalue_list.Additem("P_RECEIVE_BANK_NAME", skfyh) '收款方银行
+		Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUM_NAME", skfkhh) '收款方开户行名称
+		Call P_vvalue_list.Additem("P_RECEIVE_CNAPS_NUMBER", "") '收款方开户行CNAPS
+		Call P_vvalue_list.Additem("P_PARAM1", "")
+		Call P_vvalue_list.Additem("P_PARAM2", "")
+		Call P_vvalue_list.Additem("P_PARAM3", "")
+		Call P_vvalue_list.Additem("P_PARAM4", "")
+		Call P_vvalue_list.Additem("P_PARAM5", "")
+		Call P_vvalue_list.Additem("P_PARAM6", "")
+		Call P_vvalue_list.Additem("P_PARAM7", "")
+		Call P_vvalue_list.Additem("P_PARAM8", "")
+		Call P_vvalue_list.Additem("P_PARAM9", "")
+		Call P_vvalue_list.Additem("P_PARAM10", "")
+		Call getCAPTAIL_qt.Additem(p_vvalue_list)
+	Next
+	Exit Function 
+h:
+	showerror("getCAPTAIL-qt")
+End Function
+
+'++LotusScript Development Environment:2:1:sendProcessERP_xm:17:8
+
+%REM	
+『函数功能』
+	凭证制证功能
+『函数接口』
+	docMain 当前文档
+	dbCurrent   当前数据库
+『函数返回值』
+	无
+『作者』
+	Created By 2016-12-22   yinaj	慧点科技
+『说明』	
+	
+『修改历史』
+	
+%END REM
+Function sendProcessERP_xm(docMain As NotesDocument,dbCurrent As NotesDatabase) 
+	%REM 
+		'流程结束的时候生成凭证信息 yinaj add 2017/1/9
+	%end rem 
+	'初始化数据
+	Call initinfo(docMain)
+	
+	Dim docxml As NotesDocument
+	Set docxml = dbCurrent.Createdocument()
+	docxml.form = "frmSendMsg"
+	Call docMain.Copyallitems(docxml)
+	docxml.fldFromServer = docMain.fldFromServer(0)
+	docxml.fldFromDB = docMain.fldFromDB(0)
+	docxml.DocumentID = docMain.DocumentID(0)
+	docxml.fldType_xm = "jkpz"
+	docxml.appName = docMain.appName(0)
+	docxml.FLDBUSINESS_ID = docMain.Fldfwbh(0)
+	'
+	docxml.stat = "f"
+	
+	docxml.xmlns=url 'url
+	docxml.RESTHeader=restheader 'restheader
+	docxml.P_HEADER_INPUT=getHeaher(docMain) '头信息
+	docxml.P_BUSS_LINE_INPUT=getBUSS(docMain) '业务信息
+	docxml.P_CAPTAIL_LINE_INPUT=getCAPTAIL(docMain) '付款信息
+	Call geterpjson(docxml,docMain)
+	Dim servername As NotesName
+	Set servername=New NotesName(dbCurrent.Server)
+	MsgBox "准备发送函件库..."+"dbme_erp_"+servername.Common
+	docxml.sendto = "dbme_erp_"+servername.Common
+	Call docxml.send(False)
+	'MsgBox "准备发送函件库..."	
+End Function
+
+
+
+'++LotusScript Development Environment:2:1:getBUSS_qt:9:8
+%REM
+	功能:其他费用报销业务分配行信息 
+	备注：《-------修改的是请注意业务类型别修改成其他类型的了---------》
+	参数：主文档
+	返回：json数组对象
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Function getBUSS_qt(docmain As NotesDocument)  As  Converjsonarray
+	On Error GoTo h
+	Set getBUSS_qt=New Converjsonarray
+	Dim P_vvalue_list As Converjsonobject
+	Dim data As String 
+	Dim cljson As Variant
+	Dim cljsonitems As Variant
+	data=docmain.Getfirstitem("hfldData").Text
+	Set cljson=jsonreader.Parse(data)
+	cljsonitems=cljson.items
+	MsgBox "明细数=="+CStr(cljsonitems("items").count)
+	Dim i As Integer
+	Dim n As Integer
+	Dim je,sl,se ,wzlb As String   '税率
+	Dim strfylb,strfylx, kmid,kmname As String 
+	strfylb=docmain.fldfylx_xm(0) '费用类别
+	strfylx=docmain.fldqtfylx_xm(0) '费用类型
+	kmid=fnGetKmId(strfylb+"+"+strfylx,docmain)
+	For i=0 To cljsonitems("items").count-1 
+		je=cljsonitems("items").items(i).items("jashuihj")
+		sl=cljsonitems("items").items(i).items("zsfshlv")
+		se=cljsonitems("items").items(i).items("shuie")
+		'物资类别，只有发行集团总部报销“维修材料费用报销”OA给ERP传物资类别，不需要传科目、成本中心
+		wzlb=""  
+		Set P_vvalue_list=  New Converjsonobject
+		Call P_vvalue_list.Additem("P_BATCH_HEADER_ID", fldfwbh) '头ID 关联头表的接口批编号字段
+		Call P_vvalue_list.Additem("P_LINE_NUMBER", CStr(i+1)) ' 行号
+		Call P_vvalue_list.Additem("P_COST_CENTER", cbzxid) '成本中心代码
+		Call P_vvalue_list.Additem("P_AMOUNT", je) '金额
+		Call P_vvalue_list.Additem("P_TAX_RATE", sl) '税率(需要传送【税分类代码】)
+		Call P_vvalue_list.Additem("P_TAX_AMOUNT", se) '税额
+		Call P_vvalue_list.Additem("P_GOODS_TYPE", wzlb) '物资类别
+		Call P_vvalue_list.Additem("P_EXPENSE_ACCOUNT", "") '费用辅助核算
+		Call P_vvalue_list.Additem("P_EXPENSE_TYPE_ACCOUNT", kmid) '费用类型-科目
+		Call P_vvalue_list.Additem("P_EXPENSE_TYPE_SUB_ACCOUNT", "0") '费用类型-子科目
+		Call P_vvalue_list.Additem("P_PROJECT_EXPENSE_TYPE", "0") '项目费用类别-预留
+		Call P_vvalue_list.Additem("P_ERP_FA_TYPE", "") 'ERP资产类别
+		Call P_vvalue_list.Additem("P_EQUIPMENT_NAME", "") '设备名称
+		Call P_vvalue_list.Additem("P_EQUIPMENT_MODEL", "") '设备型号
+		Call P_vvalue_list.Additem("P_ERP_FA_NUMBER", "") 'ERP资产编号
+		Call P_vvalue_list.Additem("P_FA_DISPOSAL", "") '资产处置类型
+		Call P_vvalue_list.Additem("P_PARAM1", "")
+		Call P_vvalue_list.Additem("P_PARAM2", "")
+		Call P_vvalue_list.Additem("P_PARAM3", "")
+		Call P_vvalue_list.Additem("P_PARAM4", "")
+		Call P_vvalue_list.Additem("P_PARAM5", "")
+		Call P_vvalue_list.Additem("P_PARAM6", "")
+		Call P_vvalue_list.Additem("P_PARAM7", "")
+		Call P_vvalue_list.Additem("P_PARAM8", "")
+		Call P_vvalue_list.Additem("P_PARAM9", "")
+		Call P_vvalue_list.Additem("P_PARAM10", "")
+		
+		Call getBUSS_qt.Additem(P_vvalue_list)
+	Next
+	
+	
+	
+	
+	
+	
+	Exit Function 
+h:
+	showerror("getBUSS_qt")
+	
+End Function
+
+'++LotusScript Development Environment:2:1:getCAPTAIL_cl:85:8
+%REM
+	功能：获取差旅费资金分配行信息
+	备注：
+	{
+        "P_CAPTAIL_LINE_INPUT_ITEM": [
+          {
+            "P_BATCH_HEADER_ID": "1234567",
+            "P_LINE_NUMBER": "1",
+            "P_PAYEE_REMITTEE": "测试1",
+            "P_PAYEE_TYPE": "单位",
+            "P_VENDOR_SITE_CODE": "供应商地点",
+            "P_ERP_INVOICE_NUMBER": "ERP_INVOICE_NUMBER",
+            "P_HOLD_ORDER_NUMBER": "HOLD_ORDER_NUMBER",
+            "P_ACTUAL_PAY_AMOUNT": "12",
+            "P_HOLD_AMOUNT": "23",
+            "P_CHECK_AMOUNT": "34",
+            "P_VERIFICATION_AMOUNT": "34",
+            "P_PAYMENT_METHOD": "23ee",
+            "P_PAYMENT_CHANNEL": "eewd",
+            "P_BANK_NUMBER": "43234",
+            "P_CASH_OBJECT": "2323",
+            "P_CREDIT_NUMBER": "000000000000000",
+            "P_BUDGET_FLAG": "Y",
+            "P_PAYEE_REMITTEE_NAME": "收款方户名",
+            "P_ADD_FLAG": "N",
+            "P_RECEIVE_BANK_NUMBER": "收款方账户",
+            "P_RECEIVE_BANK_NAME": "收款方银行",
+            "P_RECEIVE_BANK_NUM_NAME": "收款方开户行名称",
+            "P_RECEIVE_CNAPS_NUMBER": "收款方开户行CNAPS",
+            "P_PARAM1": "1",
+            "P_PARAM2": "1",
+            "P_PARAM3": "1",
+            "P_PARAM4": "1",
+            "P_PARAM5": "1",
+            "P_PARAM6": "1",
+            "P_PARAM7": "1",
+            "P_PARAM8": "7",
+            "P_PARAM9": "9",
+            "P_PARAM10": "10"
+          },
+          {
+            "P_BATCH_HEADER_ID": "1234567",
+            "P_LINE_NUMBER": "2",
+            "P_PAYEE_REMITTEE": "测试2",
+            "P_PAYEE_TYPE": "个人",
+            "P_VENDOR_SITE_CODE": "供应商地点",
+            "P_ERP_INVOICE_NUMBER": "ERP_INVOICE_NUMBER",
+            "P_HOLD_ORDER_NUMBER": "HOLD_ORDER_NUMBER",
+            "P_ACTUAL_PAY_AMOUNT": "12",
+            "P_HOLD_AMOUNT": "23",
+            "P_CHECK_AMOUNT": "34",
+            "P_VERIFICATION_AMOUNT": "45",
+            "P_PAYMENT_METHOD": "PAYMENT_METHOD",
+            "P_PAYMENT_CHANNEL": "PAYMENT_CHANNEL",
+            "P_BANK_NUMBER": "23434234324",
+            "P_CASH_OBJECT": "434343",
+            "P_CREDIT_NUMBER": "222222222222222222",
+            "P_BUDGET_FLAG": "Y",
+            "P_PAYEE_REMITTEE_NAME": "收款方户名",
+            "P_ADD_FLAG": "N",
+            "P_RECEIVE_BANK_NUMBER": "收款方账户",
+            "P_RECEIVE_BANK_NAME": "收款方银行",
+            "P_RECEIVE_BANK_NUM_NAME": "收款方开户行名称",
+            "P_RECEIVE_CNAPS_NUMBER": "收款方开户行CNAPS",
+            "P_PARAM1": "1",
+            "P_PARAM2": "1",
+            "P_PARAM3": "1",
+            "P_PARAM4": "1",
+            "P_PARAM5": "1",
+            "P_PARAM6": "1",
+            "P_PARAM7": "1",
+            "P_PARAM8": "7",
+            "P_PARAM9": "9",
+            "P_PARAM10": "10"
+          }
+        ]
+      }
+     备注：《-------修改的是请注意业务类型别修改成其他类型的了---------》
+      参数：主文档
+    返回：json数组对象
+    作者：kejl
+    日期：2018-11-06
+    
+%END REM
+Function getCAPTAIL_cl(note As NotesDocument) As Converjsonarray 
+	On Error GoTo h
+	'创建 P_HEADER_INPUT 头信息json
+	Dim P_CAPTAIL_LINE_INPUT_ITEM As New  Converjsonobject
+	Set getCAPTAIL_cl= New Converjsonarray
+	Dim p_vvalue_list As  Converjsonobject
+	'01个人借款资金支付行
+	Set p_vvalue_list=New  Converjsonobject
+	Call P_vvalue_list.Additem("P_BATCH_HEADER_ID", fldfwbh) '头ID 关联头表的接口批编号字段
+	Call P_vvalue_list.Additem("P_LINE_NUMBER", "1") '行号
+	Call P_vvalue_list.Additem("P_PAYEE_REMITTEE", fldjbr) '收款方 
+	Call P_vvalue_list.Additem("P_PAYEE_TYPE", "个人") '个人/单位 fldskflx
+	Call P_vvalue_list.Additem("P_VENDOR_SITE_CODE", "") ' 供应商地点（在类型为单位时写入数据）
+	Call P_vvalue_list.Additem("P_ERP_INVOICE_NUMBER", "") 'ERP发票编号
+	Call P_vvalue_list.Additem("P_HOLD_ORDER_NUMBER", "") '挂账单据编号
+	Call P_vvalue_list.Additem("P_ACTUAL_PAY_AMOUNT", fldje) '实际支付金额
+	Call P_vvalue_list.Additem("P_HOLD_AMOUNT", fldgzje) ' 挂账金额
+	Call P_vvalue_list.Additem("P_CHECK_AMOUNT", fldzphxje) '支票核销金额
+	Call P_vvalue_list.Additem("P_VERIFICATION_AMOUNT", fldhxje) '核销金额
+	Call P_vvalue_list.Additem("P_PAYMENT_METHOD", fldzffs) '支付方式
+	Call P_vvalue_list.Additem("P_PAYMENT_CHANNEL", "") '支付通道
+	Call P_vvalue_list.Additem("P_BANK_NUMBER", fldwfyhzh) '我方银行账户
+	Call P_vvalue_list.Additem("P_CASH_OBJECT", fldXjlbm) '现金流量表象
+	Call P_vvalue_list.Additem("P_CREDIT_NUMBER", sfzh) '统一社会信用代码 'rnd*10
+	Call P_vvalue_list.Additem("P_BUDGET_FLAG", "") '预算标识
+	Call P_vvalue_list.Additem("P_PAYEE_REMITTEE_NAME", fldjbr) '收款方户名
+	Call P_vvalue_list.Additem("P_ADD_FLAG", "E") '新增标识
+	Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUMBER", "") 'fldskrzh收款方账户
+	Call P_vvalue_list.Additem("P_RECEIVE_BANK_NAME","" ) 'fldkhh收款方银行
+	Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUM_NAME","" ) 'fldkhh收款方开户行名称
+	Call P_vvalue_list.Additem("P_RECEIVE_CNAPS_NUMBER", "") '收款方开户行CNAPS
+	Call P_vvalue_list.Additem("P_PARAM1", "")
+	Call P_vvalue_list.Additem("P_PARAM2", "")
+	Call P_vvalue_list.Additem("P_PARAM3", "")
+	Call P_vvalue_list.Additem("P_PARAM4", "")
+	Call P_vvalue_list.Additem("P_PARAM5", "")
+	Call P_vvalue_list.Additem("P_PARAM6", "")
+	Call P_vvalue_list.Additem("P_PARAM7", "")
+	Call P_vvalue_list.Additem("P_PARAM8", "")
+	Call P_vvalue_list.Additem("P_PARAM9", "")
+	Call P_vvalue_list.Additem("P_PARAM10", "")
+	Call getCAPTAIL_cl.Additem(p_vvalue_list)
+	
+	'02 预付款对应的资金支付行，循环动态表格hfldData_fkdw
+	Dim datafk As String  
+	Dim  datafkjson As Variant
+	Dim  datafkitems As Variant
+	Dim i As Integer
+	datafk=note.Getfirstitem("hfldData_fkdw").Text
+	Set datafkjson=jsonreader.Parse(datafk)
+	datafkitems=datafkjson.items
+	For i=0 To datafkitems("items").count-1
+		MsgBox datafkitems("items").items(i).items("skdwxx")
+		Dim strtype As String 
+		strtype=datafkitems("items").items(i).items("strType_xm")
+		Dim skdwzt As String 
+		Dim skfid,skfname,addflag,gysdd,tyshbm ,skfzh,skfyh,skfkhh As String 
+		skdwzt=datafkitems("items").items(i).items("skdwzt")
+		'如果此行信息是从erp选中的那么 收款方户名 、新增标记、供应商地点、统一社会信用代码 都传空
+		If skdwzt="0" Then 
+			skfid=datafkitems("items").items(i).items("skfwydm")    'skfwydm 收款人唯一编码
+			skfname=""
+			addflag=""
+			gysdd=""
+			tyshbm =""
+		Else 
+			'如果是oa新增的 收款方户名 、新增标记、供应商地点、统一社会信用代码 不能传空
+			skfid=""
+			skfname=datafkitems("items").items(i).items("skdwxx")
+			If strtype="单位" Then 
+				addflag="C"
+				tyshbm =datafkitems("items").items(i).items("skdwwybs") '统一社会信用代码
+				skfzh=datafkitems("items").items(i).items("skzhmc") '
+				skfyh=datafkitems("items").items(i).items("skzhmc") '
+				skfkhh=datafkitems("items").items(i).items("skzhmc") '
+			Else
+				addflag="P"
+				tyshbm =datafkitems("items").items(i).items("sfzh") '身份证号
+				skfzh=""
+				skfyh=""
+				skfkhh=""
+			End If
+			gysdd=""
+			
+		End If
+		Dim tempzfje,tempgzje,tempzphxje,temphxje As String 
+		tempzfje=datafkitems("items").items(i).items("sfje") '实付金额
+		tempgzje=datafkitems("items").items(i).items("gzje") '挂账金额
+		tempzphxje=datafkitems("items").items(i).items("zphxje") '支票核销金额
+		temphxje=datafkitems("items").items(i).items("hxje") '核销金额
+		
+		Set p_vvalue_list=New  Converjsonobject
+		Call P_vvalue_list.Additem("P_BATCH_HEADER_ID", fldfwbh) '头ID 关联头表的接口批编号字段
+		Call P_vvalue_list.Additem("P_LINE_NUMBER", CStr(i+1+1)) '行号
+		Call P_vvalue_list.Additem("P_PAYEE_REMITTEE", skfid) '收款方 
+		Call P_vvalue_list.Additem("P_PAYEE_TYPE", strtype) '个人/单位 fldskflx
+		Call P_vvalue_list.Additem("P_VENDOR_SITE_CODE", "") ' 供应商地点（在类型为单位时写入数据）
+		Call P_vvalue_list.Additem("P_ERP_INVOICE_NUMBER", "") 'ERP发票编号
+		Call P_vvalue_list.Additem("P_HOLD_ORDER_NUMBER", "") '挂账单据编号
+		Call P_vvalue_list.Additem("P_ACTUAL_PAY_AMOUNT", tempzfje) '实际支付金额
+		Call P_vvalue_list.Additem("P_HOLD_AMOUNT", tempgzje) ' 挂账金额
+		Call P_vvalue_list.Additem("P_CHECK_AMOUNT", tempzphxje) '支票核销金额
+		Call P_vvalue_list.Additem("P_VERIFICATION_AMOUNT", temphxje) '核销金额
+		Call P_vvalue_list.Additem("P_PAYMENT_METHOD", fldzffs) '支付方式
+		Call P_vvalue_list.Additem("P_PAYMENT_CHANNEL", "") '支付通道
+		Call P_vvalue_list.Additem("P_BANK_NUMBER", fldwfyhzh) '我方银行账户
+		Call P_vvalue_list.Additem("P_CASH_OBJECT", fldXjlbm) '现金流量表象
+		Call P_vvalue_list.Additem("P_CREDIT_NUMBER", tyshbm) '统一社会信用代码 'rnd*10
+		Call P_vvalue_list.Additem("P_BUDGET_FLAG", "") '预算标识
+		Call P_vvalue_list.Additem("P_PAYEE_REMITTEE_NAME", skfname) '收款方户名
+		Call P_vvalue_list.Additem("P_ADD_FLAG", addflag) '新增标识
+		Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUMBER", skfzh) '收款方账户
+		Call P_vvalue_list.Additem("P_RECEIVE_BANK_NAME", skfyh) '收款方银行
+		Call P_vvalue_list.Additem("P_RECEIVE_BANK_NUM_NAME", skfkhh) '收款方开户行名称
+		Call P_vvalue_list.Additem("P_RECEIVE_CNAPS_NUMBER", "") '收款方开户行CNAPS
+		Call P_vvalue_list.Additem("P_PARAM1", "")
+		Call P_vvalue_list.Additem("P_PARAM2", "")
+		Call P_vvalue_list.Additem("P_PARAM3", "")
+		Call P_vvalue_list.Additem("P_PARAM4", "")
+		Call P_vvalue_list.Additem("P_PARAM5", "")
+		Call P_vvalue_list.Additem("P_PARAM6", "")
+		Call P_vvalue_list.Additem("P_PARAM7", "")
+		Call P_vvalue_list.Additem("P_PARAM8", "")
+		Call P_vvalue_list.Additem("P_PARAM9", "")
+		Call P_vvalue_list.Additem("P_PARAM10", "")
+		Call getCAPTAIL_cl.Additem(p_vvalue_list)
+	Next
+	Exit Function 
+h:
+	showerror("getCAPTAIL-cl")
+End Function
+
+'++LotusScript Development Environment:2:2:initinfo:9:8
+%REM
+	功能:获取凭证头主方法
+	备注：根据不同的业务类型进行组装
+	参数：主文档
+	返回：
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Sub   initinfo(doc As NotesDocument) 
+	On Error GoTo h
+	
+	'初始化业务类型
+	Call  suYwlx(doc)
+	'初始化公司信息 
+	Call suGetGs(doc)
+	'初始化成本中心
+	Call suGetCbzx(doc,doc.fldNiGaoRen(0)) '
+	fldfwbh=right(doc.fldfwbh(0),12)  '流水号
+	Dim sfrmname As String  
+	sfrmname=doc.subform(0)
+	Select Case sfrmname 
+		Case "sfrmChaiLvfeebx":
+		   Call suInitinfo_cl(doc)	
+		Case "sfrmQiTafeebx":
+			Call suInitinfo_qt(doc)	
+	End Select
+	
+	
+	
+	
+	
+	
+h:
+	showerror("initinfo")
+End Sub
+
+'++LotusScript Development Environment:2:1:getBUSS_cl:9:8
+%REM
+	功能:差旅费用报销业务分配行信息 
+	备注：《-------修改的是请注意业务类型别修改成其他类型的了---------》
+	参数：主文档
+	返回：json数组对象
+	作者：kejl
+	日期：2018-11-06
+%END REM
+Function getBUSS_cl(docmain As NotesDocument)  As  Converjsonarray
+	On Error GoTo h
+	Set getBUSS_cl=New Converjsonarray
+	Dim P_vvalue_list As Converjsonobject
+	Dim data As String 
+	Dim cljson As Variant
+	Dim cljsonitems As Variant
+	data=docmain.Getfirstitem("hfldData").Text
+	Set cljson=jsonreader.Parse(data)
+	cljsonitems=cljson.items
+	MsgBox "差旅明细数=="+CStr(cljsonitems("items").count)
+	Dim i As Integer
+	Dim n As Integer
+	Dim  jtfe As Long  '交通费
+	Dim zsfje As Long  '住宿费-考虑不同税率放后面计算
+	Dim gzf,hsbz As Long '公杂费
+	Dim qtlxf As Long  '其他零星费
+	Dim sl As String   '税率
+	For i=0 To cljsonitems("items").count-1 
+		'jtfje -交通费金额
+		'jshj  住宿费价税合计  'zsfshm 住宿费税码	 'zsfshlv '住宿费税率   'zsfje   住宿费金额	' zsfshe  住宿费税金额
+		'gongzfee 公杂费补助  huoshifee 伙食费补助
+		'qtlxfee 其他零星费用
+		If cljsonitems("items").items(i).items("jtfje")<>"" Then 
+			jtfe=jtfe+CLng(cljsonitems("items").items(i).items("jtfje")) '交通
+		End If
+		If cljsonitems("items").items(i).items("gongzfee")<>"" Then 
+			gzf=gzf+CLng(cljsonitems("items").items(i).items("gongzfee")) '公杂费
+			hsbz=hsbz+CLng(cljsonitems("items").items(i).items("huoshifee")) '伙食补助
+		End If
+		If cljsonitems("items").items(i).items("qtlxfee")<> "" Then 
+			qtlxf=qtlxf+CLng(cljsonitems("items").items(i).items("qtlxfee")) '其他
+		End If
+		If sl="" Then 
+			sl=cljsonitems("items").items(i).items("zsfshlv")
+		Else 
+			sl=sl+","+cljsonitems("items").items(i).items("zsfshlv")
+		End If
+	Next
+	Dim  bussarr(0 To 2) As String 
+	Dim strfylb, jtkmid,jtkmname,gzkmid,gzkmname,qtkmid,qtkmname As String 
+	strfylb=docmain.fldfylx_xm(0) '费用类别
+	jtkmid=fnGetKmId(strfylb+"+差旅费-交通费",docmain)
+	gzkmid=fnGetKmId(strfylb+"+差旅费-补助费",docmain)
+	qtkmid=fnGetKmId(strfylb+"+差旅费-其他零星费用",docmain)
+	bussarr(0)=CStr(jtfe)+","+jtkmid+","+jtkmname '交通 从 vwBaoxXiangmuByfymc试图获取
+	bussarr(1)=CStr(gzf+hsbz)+","+gzkmid+","+gzkmname  '补助-公杂
+	bussarr(2)=CStr(qtlxf)+","+qtkmid+","+qtkmname '其他
+	For i=0 To  UBound(bussarr)
+		Dim values As Variant 
+		values=Split(bussarr(i),",") 
+		Set P_vvalue_list=  New Converjsonobject
+		Call P_vvalue_list.Additem("P_BATCH_HEADER_ID", fldfwbh) '头ID 关联头表的接口批编号字段
+		Call P_vvalue_list.Additem("P_LINE_NUMBER", CStr(i+1)) ' 行号
+		Call P_vvalue_list.Additem("P_COST_CENTER", cbzxid) '成本中心代码
+		Call P_vvalue_list.Additem("P_AMOUNT", values(0)) '金额
+		Call P_vvalue_list.Additem("P_TAX_RATE", "") '税率(需要传送【税分类代码】)
+		Call P_vvalue_list.Additem("P_TAX_AMOUNT", "") '税额
+		Call P_vvalue_list.Additem("P_GOODS_TYPE", "") '物资类别
+		Call P_vvalue_list.Additem("P_EXPENSE_ACCOUNT", "") '费用辅助核算
+		Call P_vvalue_list.Additem("P_EXPENSE_TYPE_ACCOUNT", values(1)) '费用类型-科目
+		Call P_vvalue_list.Additem("P_EXPENSE_TYPE_SUB_ACCOUNT", "0") '费用类型-子科目
+		Call P_vvalue_list.Additem("P_PROJECT_EXPENSE_TYPE", "0") '项目费用类别-预留
+		Call P_vvalue_list.Additem("P_ERP_FA_TYPE", "") 'ERP资产类别
+		Call P_vvalue_list.Additem("P_EQUIPMENT_NAME", "") '设备名称
+		Call P_vvalue_list.Additem("P_EQUIPMENT_MODEL", "") '设备型号
+		Call P_vvalue_list.Additem("P_ERP_FA_NUMBER", "") 'ERP资产编号
+		Call P_vvalue_list.Additem("P_FA_DISPOSAL", "") '资产处置类型
+		Call P_vvalue_list.Additem("P_PARAM1", "")
+		Call P_vvalue_list.Additem("P_PARAM2", "")
+		Call P_vvalue_list.Additem("P_PARAM3", "")
+		Call P_vvalue_list.Additem("P_PARAM4", "")
+		Call P_vvalue_list.Additem("P_PARAM5", "")
+		Call P_vvalue_list.Additem("P_PARAM6", "")
+		Call P_vvalue_list.Additem("P_PARAM7", "")
+		Call P_vvalue_list.Additem("P_PARAM8", "")
+		Call P_vvalue_list.Additem("P_PARAM9", "")
+		Call P_vvalue_list.Additem("P_PARAM10", "")
+		
+		Call getBUSS_cl.Additem(P_vvalue_list)
+		n=n+1
+	Next
+	'住宿费的航项目归集
+	Dim slarr As variant  '税率数组
+	slarr=Split(sl,",")
+	slarr=arrayunique(slarr)
+	Dim j As Integer
+	For j=0 To UBound(slarr)
+		'MsgBox slarr(j)
+		'根据这两个税率生成行信息
+		Dim tempzsje As String   '本税率的住宿金额之和
+		Dim tempzsse As String  '本税率的住宿费税额之和
+		Dim zsfkmid As String  
+		zsfkmid=fnGetKmId(strfylb+"+差旅费-住宿费",docmain)
+		tempzsje=GetDataBySl(data,slarr(j),"zsfje")
+		tempzsse=GetDataBySl(data,slarr(j),"zsfshe")
+		Set P_vvalue_list=  New Converjsonobject
+		Call P_vvalue_list.Additem("P_BATCH_HEADER_ID", fldfwbh) '头ID 关联头表的接口批编号字段
+		Call P_vvalue_list.Additem("P_LINE_NUMBER", CStr(n+j+1)) ' 行号
+		Call P_vvalue_list.Additem("P_COST_CENTER", cbzxid) '成本中心代码
+		Call P_vvalue_list.Additem("P_AMOUNT", tempzsje) '金额
+		Call P_vvalue_list.Additem("P_TAX_RATE", slarr(j)) '税率(需要传送【税分类代码】)
+		Call P_vvalue_list.Additem("P_TAX_AMOUNT", tempzsse) '税额
+		Call P_vvalue_list.Additem("P_GOODS_TYPE", "") '物资类别
+		Call P_vvalue_list.Additem("P_EXPENSE_ACCOUNT", "") '费用辅助核算
+		Call P_vvalue_list.Additem("P_EXPENSE_TYPE_ACCOUNT", zsfkmid) '费用类型-科目
+		Call P_vvalue_list.Additem("P_EXPENSE_TYPE_SUB_ACCOUNT", "0") '费用类型-子科目
+		Call P_vvalue_list.Additem("P_PROJECT_EXPENSE_TYPE", "0") '项目费用类别-预留
+		Call P_vvalue_list.Additem("P_ERP_FA_TYPE", "") 'ERP资产类别
+		Call P_vvalue_list.Additem("P_EQUIPMENT_NAME", "") '设备名称
+		Call P_vvalue_list.Additem("P_EQUIPMENT_MODEL", "") '设备型号
+		Call P_vvalue_list.Additem("P_ERP_FA_NUMBER", "") 'ERP资产编号
+		Call P_vvalue_list.Additem("P_FA_DISPOSAL", "") '资产处置类型
+		Call P_vvalue_list.Additem("P_PARAM1", "")
+		Call P_vvalue_list.Additem("P_PARAM2", "")
+		Call P_vvalue_list.Additem("P_PARAM3", "")
+		Call P_vvalue_list.Additem("P_PARAM4", "")
+		Call P_vvalue_list.Additem("P_PARAM5", "")
+		Call P_vvalue_list.Additem("P_PARAM6", "")
+		Call P_vvalue_list.Additem("P_PARAM7", "")
+		Call P_vvalue_list.Additem("P_PARAM8", "")
+		Call P_vvalue_list.Additem("P_PARAM9", "")
+		Call P_vvalue_list.Additem("P_PARAM10", "")
+		Call getBUSS_cl.Additem(P_vvalue_list)
+	Next
+	
+	
+	
+	Exit Function 
+h:
+	showerror("getBUSS_cl")
+	
+End Function

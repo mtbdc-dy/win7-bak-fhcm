@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='模块扩展功能子表单' alias='sfrmCustom' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='127b2' unid='482581B6000911FF48257B2000140728' sequence='35'>
+<created><datetime>20130228T113845,52+08</datetime></created>
+<modified><datetime>20181107T174346,46+08</datetime></modified>
+<revised><datetime>20181107T174346,45+08</datetime></revised>
+<lastaccessed><datetime>20181107T174346,45+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T182730,27+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'/>
+<pardef id='2' leftmargin='1in'/><subformref name='模块扩展功能子表单内容 | sfrmCustomContent'/>
+<par def='2'/>
+<table widthtype='fixedcenter' refwidth='6.6931in'><tablecolumn width='1.9688in'/><tablecolumn
+ width='4.7243in'/>
+<tablerow>
+<tablecell columnspan='2' bgcolor='#ffefce'>
+<pardef id='4' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='4'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>扩展域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='5' hide='notes' keepwithnext='true' keeptogether='true'/>
+<par def='5'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='datetime' kind='computedwhencomposed' name='fldQiCaoRQ'
+ htmlid='fldQiCaoRQ' htmlclass='input'><datetimeformat show='datetime' date='yearmonthday'
+ fourdigityear='true' fourdigityearfor21stcentury='true' time='hourminutesecond'
+ zone='never' dateformat='yearmonthdayweekday' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1='/' dateseparator2='/'
+ dateseparator3=' ' timeseparator=':' timeformat24='true' preference='usersetting'/><code
+ event='defaultvalue'><formula>@Created</formula></code></field></run></par></tablecell>
+<tablecell>
+<pardef id='6' keepwithnext='true' keeptogether='true'/>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='7' hide='read preview notes' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/><field type='text' kind='editable' name='fldIsAssJD' htmlid='fldIsAssJD'><code
+ event='defaultvalue'><formula>@GetProfileField("ManagerSet";"fldIsAssJD")</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='8' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ color='gray'/></run></par></tablecell>
+<tablecell>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>OA流程类别</run></par></tablecell>
+<tablecell>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/></run><run><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/><field type='text' kind='computedwhencomposed'
+ name='fldoalclb_xm' htmlid='fldoalclb_xm'><code event='defaultvalue'><formula
+>@If(@UrlQueryString("unid")!="";@GetDocField(@UrlQueryString("unid");"fldOalclxdm_xm");"")</formula></code></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='gray'/></run></par></tablecell></tablerow></table>
+<par def='2'/></richtext></body>
+<item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmCustom</text></item></subform>
+

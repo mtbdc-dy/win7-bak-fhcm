@@ -1,0 +1,609 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='会签确认表单' alias='frmHQStart' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='c22' unid='648C4DBA1FAC79D04825804C0035D6B2' sequence='57'>
+<created><datetime>20161014T174803,70+08</datetime></created>
+<modified><datetime>20181107T195828,34+08</datetime></modified>
+<revised><datetime>20181024T085445,86+08</datetime></revised>
+<lastaccessed><datetime>20181107T195828,34+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195828,34+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='htmlhead'><formula
+ compiled='true'>
+xgMJALwDSGNiqxjGuWzwtyRbUaizYw0jfFxXFATnSZfwfxZBVJjQLtx5R4ZIPnj+ecGkx5e1deMz
+INhcyc4sZNQUratvj8ZxczvpopXGYQWmYPqnLC8uavNBH086Sb3+y9DoCPy0ow4QHEGGrsIMsrQd
+6llU6Igu49dE1BI7B1HzCvCTFThp7wFKKmWL/9z3O7oxBWoiWHEwBoCpJGuRpavW765ZkkAERmeQ
+HCWBqnUQNN57/HbkCCR38OcZ76cboNWkQ5wW2GkYUp/F5BzAXIdXwDH591If4VyzED+bOEawl3nn
+b/UjCerZTUmsjgnaglDxmUZwZicfmFLQpr74pJmdp4PYDteAX0w4l+TBNP+7xxOkz+WFxdmkSmqR
+Z8BmmYaIXC7u9HQqreMLX7yJ700APX/Uc1p3cpZLUXBW+T8lQRHB/hj3TnddaqZcwr59JECHeAXl
+xC2jbp/n0OVq6LK+lOACQdZkjXVyxTuOhRv+J3yQbHOpoSyFVbfQuvw15qDaGOQkZEOiuKo3Cxqc
+hCs8XxZ8tIUda9cFrfZlcUl3RDvyRkzy/4BGSln53RXTdpo/9osv8CoykL8bww+ogp+UW655IV7g
+/iE3RWNeCVjxgh5VzZKP4ZttpeejE2ghGokHyojqO+TvyfgPJnywNOaoJIa6IDkB1sN0oqz006St
+fVEMma5umVs9q9pOAXKpnZF5mkT0s9J0kbLNANgMpaLuI9HEIjn77Qj6iuzoa111wUQucPH9dXHu
+1CX0V6WpmW4gwcU9/jAR0Z9A1ZuBu8PL478pzb/fa0vEbkagTYopSmQanSPcjcjxk8k0jZBuM5Wm
+sQ3M5FyVzkygPBf2dklvs+hqI/AI43op3FLGHWrrMaYjazyqI9PwSuzFPjK4CQVwYjRFSOvXDf8F
+LZX2rpsPQTZlK3NY9dQ4ZYuiE/op2zMiG0KtyLtHLKzlKI+mqtwAcol/B52de40CCMqn9lhP5AFt
+AVb9hwz7hrXU3JUkvFHzAEEdqssroLjpt/P27SRgycv/iy7eJfS8BJ3sz4whwzsOiF86/mHiwL0i
+djiZyOm3c1dCp8SXnT9UAwzqumtnFq/3xuzEH/A03LRoajiwbT1kx0HP/h/mIAKjkbpWaSQ27dgN
+QoFimtBwfOroiX+McOcCPQEyfYh603kHo9JJjUi+7gU63r58njHwkqsw70CnMfriiqt64Opc0qNp
+V5RaEBilEoEaXLfxG93Op1quRztRu+65jElj2a8S6A92Es0P5MEJfoCmqcA13wQABAAEAAQA
+</formula></code><code event='jsheader' for='web'><javascript
+>smartdot.i18n.requireLocalization("indiplatform.tylc");
+smartdot.i18n.requireLocalization("indiplatform.oaresource");
+
+var g_strUserTo = "";
+var g_hqShowtzfs = "";	//会签确认表单通知方式是否显示
+
+function OKClick(){
+	var objDep = dojo.query("[name=strDepID]")[0];
+	var objUser = dojo.query("[name=nmUser]")[0];
+	var objUserMail = dojo.query("[name=fldMailSend]")[0];
+	var objUserSms = dojo.query("[name=fldSms]")[0];
+	var strNotify = dojo.query("[name=strNotify]")[0].value;
+	var objUserMail_ryhq = dojo.query("[name=fldMailSend_ryhq]")[0];
+	var objUserSms_ryhq = dojo.query("[name=fldSms_ryhq]")[0];
+	if( objDep.value==="" &amp;&amp; objUser.value==="" ){
+		alert(smartdot.i18n.getString("indiplatform.tylc.qxzhqrybm","请选择"+document.forms[0].fldStartDisName.value+"人员或部门"));
+		return false;
+	}
+	
+	if(g_hqShowtzfs=="yes"){
+		//会签表单显示通知方式，从表单中获取通知方式   
+		if(dojo.query("[name=fldMailSend_Sel]")[0]){
+			objUserMail.value = dojo.query("[name=fldMailSend_Sel]")[0].checked ? "yes":"no";   		
+		}
+		if(dojo.query("[name=fldSms_Sel]")[0]){
+			objUserSms.value = dojo.query("[name=fldSms_Sel]")[0].checked ? "yes":"no"; 
+		}
+	}
+	
+	var data = new Object();
+	data.dep = getPostData().data;
+	data.user = objUser.value;
+	data.sendmail = objUserMail.value;
+	data.sendsms = objUserSms.value;
+	data.sendmail_ryhq = objUserMail_ryhq.value;
+	data.sendsms_ryhq = objUserSms_ryhq.value;
+	data.huiqiantype = document.getElementById("fldHuiQianType").value;
+	
+	if(typeof(fnHQGTSelectConfirm_custom)=="function"){
+		fnHQGTSelectConfirm_custom(data);
+	}
+	
+	//委托检测（会签部门）
+	if(!fnCheckDbStatus_hqdep(objDep.value)){
+		return false;
+	}
+	//委托检测（会签人员）
+	fnCheckDbStatus_hq(objUser.value);
+	
+	if(g_strUserTo!=""){
+		data.user = g_strUserTo;		//赋值为真实处理人，用于fnHQGTCheck判断
+	}
+	if( parent.fnHQGTCheck(data)==false ){
+		return false;
+	}
+	data.user = objUser.value;	//判断完成后，处理人赋值为选择的人员（代理中会对选择的人员再次获取被委托人）
+	if ($$Dialog) {
+		$$Dialog.postMessage(data);
+	}
+
+}
+function CancelClick() {	
+	$$Dialog.postMessage("cancel");
+}
+	
+function fnCheckDbStatus_hq(strUser) {
+	g_strUserTo = "";
+	//获取会签人员有委托或状态异常的人员
+	var dataResult = fnGetUserTo(strUser);
+	if(dataResult &amp;&amp; dataResult.userinfo){
+		var userObj = dataResult.userinfo;
+		var arrUserTo = canonicalizeToAbbreviates(strUser).split(",");
+		var blnflag = false;
+		for(var i=0;i&lt;userObj.length;i++){
+			var tmpUser = "";
+			for(var tmp in userObj[i]){
+				tmpUser = tmp;
+				break;	//只需要获取第一个key
+			}
+			tmpuser = canonicalizeToAbbreviates(tmpUser);
+			var tmpuserto = "";
+			if(userObj[i][tmpuser].bwtr){
+				//有委托
+				tmpuserto = canonicalizeToAbbreviates(userObj[i][tmpuser].bwtr.name);
+			}
+			if(tmpuserto){
+				//有委托，处理人替换成被委托人
+				var ind = arrayGetIndex(arrUserTo,tmpuser);
+				if(ind!=-1){
+					blnflag = true;
+					arrUserTo[ind] = tmpuserto;
+				}
+			}
+		}
+		if (blnflag) {
+			g_strUserTo = arrUserTo.join(",");
+		}
+	}
+}
+
+function fnGetUserTo(strUser){
+	var strDbpath = "";
+	var strflowname = "";
+	var hjcode = "";
+	var unid = "";
+	var req = null;
+	if(window.parent){
+		if(window.parent.document.getElementsByName("dbPath_forJS")[0]){
+			strDbpath = window.parent.document.getElementsByName("dbPath_forJS")[0].value;
+		}
+		if(window.parent.flow_branch){
+			strflowname = window.parent.flow_branch.jsonInfor.flowrefkey;
+		}
+		if(window.parent.document.getElementsByName("curflownum_forJS")[0]){
+			hjcode = window.parent.document.getElementsByName("curflownum_forJS")[0].value;
+		}
+		if(dojo.query("input[name='docUnid_forJS']",window.parent.document)[0]){
+			unid = dojo.query("input[name='docUnid_forJS']",window.parent.document)[0].value;
+		}
+	}
+	var strUrl = "/"+strDbpath+"/agtCheckUser?open";
+	var param = {
+			'action': 'ryhq',
+			'user': strUser,
+			'dbname': strDbpath,
+			'flowname': strflowname,
+			'hjcode': hjcode,
+			'unid': unid,
+			'returnuser': '1'
+	}
+	dojo.xhrPost({
+		url: strUrl,
+		content: param,
+		handleAs: 'json',
+		sync: true,
+		preventCache: true,
+		load: function(dataReturn){
+			req = dataReturn;
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+	return req;
+}
+
+dojo.addOnLoad( function(){
+	var dataParam;
+	if (typeof($$Dialog) !== "undefined") {
+		if ($$Dialog) {
+			dataParam = $$Dialog.params;
+		}
+	}
+	if(dojo.byId("strKeyHqConfirmShowNotifyOptions_for_JS")){
+		g_hqShowtzfs = dojo.byId("strKeyHqConfirmShowNotifyOptions_for_JS").value=="1"?"yes":"no";
+	}
+	if(window.parent &amp;&amp; window.parent.document.forms[0].fldNiGaoDW_id_js){
+		document.forms[0].fldNiGaoDW_id_js.value = window.parent.document.forms[0].fldNiGaoDW_id_js.value;
+	}
+ 	fnReciveData(dataParam);
+});
+function fnSelectDept(){	
+	var strUrl = "/indishare/gwpz.nsf/frmSelectDept?openform&amp;treetype="+encodeURI("会签管理")+"&amp;distzfs="+g_hqShowtzfs+"&amp;srcdb="+location.pathname;
+	var strFeature = "status=yes,scrollbars=no,screenX=50,screenY=50,width="+450+",height="+425;
+	window.open( strUrl,"",strFeature )
+}
+function getPostData( ){
+	var objDepID = dojo.query("[name=strDepID]")[0];
+	var objDepName = dojo.query("[name=strDep]")[0];
+	
+	var initvalue = objDepID.value; 
+	var initname = objDepName.value;
+	initvalue = initvalue.replace(/, /gi,",");
+	initname = initname.replace(/, /gi,",");
+	var oInitv = initvalue.split(",");
+	var oInitn = initname.split(",");
+	
+	var dataParam = new Object();
+	var data = dojo.map( oInitv, function(item,i){
+		return {
+			id: item,
+			name: oInitn[i]
+		}
+	});
+	dataParam.data = data
+	
+	if (typeof($$Dialog) !== "undefined") {
+		if ($$Dialog) {
+			if($$Dialog.params.huiqiantype){
+				dataParam.huiqiantype = document.getElementById("fldHuiQianType").value ;				
+			}
+		}
+	}
+	
+	return dataParam;
+}
+function fnReciveData( dataParam ){
+	var objDepID = dojo.query("[name=strDepID]")[0];
+	var objDepName = dojo.query("[name=strDep]")[0];
+	
+	if( dataParam ){
+		if(g_hqShowtzfs!="yes"){
+			//会签页面不显示通知方式时，通知方式从选择人员或选择部门表单中获取
+			if(document.forms[0].fldMailSend.value==""){
+				document.forms[0].fldMailSend.value = "no";
+			}
+			if(document.forms[0].fldSms.value==""){
+				document.forms[0].fldSms.value = "no";
+			}
+			if( document.forms[0].fldMailSend_ryhq ){
+				if(document.forms[0].fldMailSend_ryhq.value==""){
+					document.forms[0].fldMailSend_ryhq.value = "no";
+				}	
+			}
+			if( document.forms[0].sendsms_ryhq){
+				if(document.forms[0].sendsms_ryhq.value=="" ){
+					document.forms[0].sendsms_ryhq.value = "no";
+				}	
+			}
+			
+			if( dataParam.sendmail ){
+					document.forms[0].fldMailSend.value = dataParam.sendmail;
+			}
+			if( dataParam.sendsms ){
+					document.forms[0].fldSms.value = dataParam.sendsms;
+			}
+			if( dataParam.sendmail_ryhq ){
+				if(document.forms[0].fldMailSend_ryhq){
+					document.forms[0].fldMailSend_ryhq.value = dataParam.sendmail_ryhq;
+				}	
+			}
+			if( dataParam.sendsms_ryhq ){
+				if(document.forms[0].fldSms_ryhq){
+					document.forms[0].fldSms_ryhq.value = dataParam.fldSms_ryhq;
+				}
+			}
+		}
+		if('struser' in dataParam){ //会签人员
+			document.getElementsByName('Address')[0].value = "nmUser";
+			document.getElementsByName('nmUser')[0].value = dataParam.struser;
+			
+			onSelect();
+			return;
+		}
+		var strDepId = "" ;
+		var strDepName = "";
+		dojo.forEach(dataParam.dep,function(item){
+			strDepId += (strDepId==""?"":",") + item.id ;
+			strDepName += (strDepName==""?"":",") + item.name ;
+		});
+		objDepID.value = strDepId ;
+		objDepName.value = strDepName ;
+		objDepName.parentNode.setAttribute("data-department",strDepId);
+		if( document.getElementsByName('Address')[0] ){
+			document.getElementsByName('Address')[0].value = "strDep";
+			onSelect();
+		}	
+		if( document.getElementById("fldHuiQianType") )
+		{	
+			if( dataParam.huiqiantype ){
+				document.getElementById("fldHuiQianType").value= dataParam.huiqiantype;
+			}
+		}
+		fnOnSelDep("strDep");	//部门显示多语言
+	}
+}
+function fnSelHQry() {
+
+	document.getElementsByName('Address')[0].value = "nmUser";
+	
+	var strDbpath = "";
+	var flowid = "";
+	var flowrefkey = "";
+	var hjcode = "";
+	if(window.parent){
+		if(window.parent.document.getElementsByName("dbPath_forJS")[0]){
+			strDbpath = window.parent.document.getElementsByName("dbPath_forJS")[0].value;
+		}
+		if(window.parent.flow_branch){
+			flowid = window.parent.flow_branch.jsonInfor.flowunid;
+			flowrefkey = window.parent.flow_branch.jsonInfor.flowrefkey;
+		}else if(dojo.query("input[name='flowid']",window.parent.document)[0]){
+			flowid = dojo.query("input[name='flowid']",window.parent.document)[0].value;
+		}
+		if(window.parent.document.getElementsByName("curflownum_forJS")[0]){
+			hjcode = window.parent.document.getElementsByName("curflownum_forJS")[0].value;
+		}
+	}
+	var uts = dojo.config.cacheBust?"&amp;"+dojo.config.cacheBust:"";
+	var sSelectPersonURL = 'indishare/oaresource.nsf/frmSubmitNode?OpenForm&amp;mode=all&amp;distzfs='+g_hqShowtzfs+"&amp;docdbpath=" + strDbpath+"&amp;flowId="+flowid+"&amp;flowRefKey="+flowrefkey+"&amp;fudraftdep="+ document.forms[0].fldNiGaoDW_id_js.value+"&amp;flowNum="+hjcode+"&amp;actLb=ryhq&amp;checkUserEmpty=no&amp;readdefault=1" + uts;
+    	var url = fnGetUrlRoot() +sSelectPersonURL;
+    	var width = 740;
+    	var height="440"; 
+    	var wid="choosenew"; 
+    	window.open(url,wid,'status=yes,scrollbars=no,screenX=50,screenY=50,width='+width+',height='+height);
+}</javascript></code>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'>&lt;div style="display:none"&gt;</run></par>
+<pardef id='2' hide='web'/><subformref name='sfrmDojo'/>
+<par def='1'>//控制页面以浏览器标准模式显示</par>
+<par def='1'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='2'><sharedfieldref name='ResourcePath'/></par>
+<par def='2'><field type='text' kind='editable' name='strAction'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><field type='text' kind='editable' name='Address'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/><field borderstyle='none'
+ type='text' kind='editable' name='fldMailSend' htmlid='fldMailSend'><keywords
+ helperbutton='false' recalcchoices='true' columns='2' ui='radiobutton'/></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='14' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/><field borderstyle='none'
+ type='text' kind='editable' name='fldSms' htmlid='fldSms'><keywords helperbutton='false'
+ recalcchoices='true' columns='2' ui='radiobutton'/></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='22' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/><field borderstyle='none'
+ type='text' kind='editable' name='fldMailSend_ryhq' htmlid='fldMailSend_ryhq'><keywords
+ helperbutton='false' recalcchoices='true' columns='2' ui='radiobutton'/></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='30' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/><field borderstyle='none'
+ type='text' kind='editable' name='fldSms_ryhq' htmlid='fldSms_ryhq'><keywords
+ helperbutton='false' recalcchoices='true' columns='2' ui='radiobutton'/></field></run><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='38' containertype='65418'
+ aftercontainercount='2' afterbegincount='5'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><field type='text' allowmultivalues='true' kind='editable' name='strDepID'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='htmlattributes'><formula compiled='true'>
+RgAJADwAGIlyJzIw3M4PiHfpVyzFWCfnIcwgSobaPPpNJf6SbIXPGYFdu5YctBTUwbIGrjRviA2X
+ncU64AkEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><field type='text'
+ kind='editable' name='fldHuiQianType' htmlid='fldHuiQianType'/><compositedata
+ type='98' prevtype='65402' nexttype='222' afterparcount='14' containertype='65418'
+ aftercontainercount='2' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><sharedfieldref
+ name='key_NotifyOptions'/><sharedfieldref name='key_hideHQDep'/></par>
+<par def='1'><run html='true'>&lt;input name="strIsHQDB" value="</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='strIsHQDB'><code
+ event='defaultvalue'><formula compiled='true'>
+NgAJACwA9uT5NkQzVMdyMRiQT52W6YuPj3Dh+51B27u5V/fYNpfUMKS02j83pQQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>"&gt;</run></par>
+<par def='1'><run html='true'>&lt;input name="strNotify" value="</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAPCoz+6OID/KLUuClMA9MLwXNKDAJDNEvNp7weiTxCh4EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'>"&gt;</run></par>
+<par def='1'><run html='true'>&lt;input name="fldNiGaoDW_id_js" id="fldNiGaoDW_id_js" value=""&gt;</run></par>
+<par def='1'><run html='true'>//是否可以嵌套会签</run></par>
+<par def='1'><run html='true'>&lt;input id="key_LoopHQ" name="key_LoopHQ" value="</run><run
+ html='true'><sharedfieldref name='key_LoopHQ'/></run><run html='true'>" /&gt;</run></par>
+<pardef id='3' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='3'><sharedfieldref name='dbPath'/><run html='true'><font color='maroon'/></run></par>
+<par def='3'><run html='true'><font color='maroon'/>&lt;input value="</run><run
+ html='true'><font color='red'/><computedtext><code event='value'><formula
+ compiled='true'>
+JgAJABwA+aVW2i4VdQYpRO87+gWgqD4gw9SU7Bs3BAAEAAQABAA=
+</formula></code></computedtext></run><run html='true'><font
+ color='maroon'/>" name="dbPath_forJS" type=text &gt;</run></par>
+<par def='1'>//会签表单是否显示通知方式</par>
+<par def='1'><run html='true'>&lt;input name="strKeyHqConfirmShowNotifyOptions_for_JS" id="strKeyHqConfirmShowNotifyOptions_for_JS" value="</run><run
+ html='true'><sharedfieldref name='key_HqConfirmShowNotifyOptions'/></run><run
+ html='true'>"&gt;</run></par>
+<par def='3'><run html='true'>&lt;input name="fldStartDisName" id="fldStartDisName" value="</run><run
+ html='true'><font size='9pt' color='red'/><field type='text' kind='computed'
+ name='fldStartDisName' htmlid='fldStartDisName'><code event='defaultvalue'><formula
+ compiled='true'>
+hgAJAHwA8f5kX2yMnnU3Pc5cJklqsjxoc0Wl5p9oYoVMHYsqlR1OX04+AZkdoPVuNweDlpi+SuNp
+FMPbvPpAbwA5lchP2BbZedcQUxEJTMATxjySiLuR98T07wkAP/Gm8J9thKgIjZ4QAzEUPlnQ2ryi
+XDzH0PA0J8VwSX0FBAAEAAQABAA=
+</formula></code></field></run><compositedata type='98' prevtype='65402'
+ nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='2'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>"&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;table align="center" class="</run><run
+ html='true'><font size='9pt'/><computedtext><code event='value'><formula
+ compiled='true'>
+XgAJAFQAz6hGAidF2vnP4C6M6OWdoQa3KYDCZ7cQznjJQyBtoT2bFwGgfLudhr6q5q9+MVtcuxYq
+nUsAKAyAunZi9XvLLnTH9Cl03Bj6glvh0Psoa6kEAAQABAAEAA==
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>" style="width:450px"&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" align="right" style="width:60px" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.hqry"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAxlObK2ryBUWYkgyB767FsvAVklUGLToFUKmypq5iru8EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>人员</run><run
+ html='true'><font style='bold' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>：</run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;span class="userName"&gt;</run><run
+ html='true'><field type='text' allowmultivalues='true' kind='editable' name='nmUser'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='htmlattributes'><formula compiled='true'>
+NgAJACwAynp+sh9Aibgv/z77vCrms+DHfmh0AvI460PlYpV3raP190FgvuzwSgQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'>&lt;/span&gt;</run><run
+ html='true'><font size='9pt' color='maroon'/><computedtext><code event='value'><formula
+ compiled='true'>
+rgAJAKQAsENxcL2cJOP+rNQyGIt8ZMuvseAigyFuXijIOSyHmzhUtF9KL6pr/x8wDTKyFQvSVXPY
+N/h0aDPExylF4/BF17rhHDPtSHUMh0XUrJEn+59EDHrGH4RxMyxGCcFBJCkcKT1XjddI0bb0NDUP
+8OTKmp6xYeP4jweYpvmDxB03Z+Ew+UiUP+lUs3NF8e/ReOMoXXSfzSBALU3Y05pPDRb3VgQABAAE
+AAQA
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr</run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/> </run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+lgAJAIwASxxR5KjEwPZEVoYzQkNI4gESdkHt+RqOUyrFszz7dABa6uU4K6REihxp7nANtLmejoxN
+5ioFGJx30nV1PU0N3knYLnt99Xd9K6i7N3BQutzEiYXCPaXCQoEl9pwJLl5yzu4OsQXZXd8STDXk
+/h1rbEvlGMmAFWDSHDPaw/e4UCJhV1YKyLeecwQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" align="right" style="width:60px" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.hqbm"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+LgAJACQAxlObK2ryBUWYkgyB767FsvAVklUGLToFUKmypq5iru8EAAQABAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>部门</run><run
+ html='true'><font style='bold' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>：</run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;&lt;span class="userName"&gt;</run><run
+ html='true'><field type='text' allowmultivalues='true' kind='editable' name='strDep'
+ listinputseparators='comma semicolon' listdisplayseparator='semicolon'><code
+ event='htmlattributes'><formula compiled='true'>
+NgAJACwAynp+sh9Aibgv/z77vCrms+DHfmh0AvI460PlYpV3raP190FgvuzwSgQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/span&gt;</run><run
+ html='true'><font size='9pt' color='maroon'/><computedtext><code event='value'><formula
+ compiled='true'>
+5gAJANwA7QLhn7hw71/MQl9AiKrPbrU4Xx/IXNMDMRP/7J5XcTm3R9MTJFC8HMMp6gDb3TSCqOFH
+PDYt6tvgCTZg+SVkEiGW0xxJiw5N7yx2gowSUhPcKkifYiRW8qAG0dllTAxXYKRBUXH9Mm2TMZ7S
+jDEQVHcCLtIpwjoddprmnTVYjTpGGCepD/dZ581lwewANIAzE5YB/O2nt8Au3XaCb8EOg0R589l6
+eL1IovVajmuWdLOg0eg34pVKUHWdpMmwfO6z/R6qLQa5P3o06R3yH2i+gXjXjNvEL9giBAAEAAQA
+BAA=
+</formula></code></computedtext></run><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;tr style="display:</run><run html='true'><computedtext
+><code event='value'><formula compiled='true'>
+fgAJAHQAkfZAGDR+JsISAQxU30MF1oGH0Rh4odoJPrLTHggUhQnqBs5iNnFCD8qC2O8qSfh9m2aZ
+AAU1bGc7PU3UuLA/Z83HYin+EeJumlY4yyuAlF4eaTk9QQxCB+z0YQHlkDj6dRAiGTOLZqZ9G5TT
+02cG7wQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>"&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdLabel" align="right" style="width:60px" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.tzfs"</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/>&gt;通知方式</run><run
+ html='true'><font size='9pt' style='bold' name='宋体' pitch='variable' truetype='true'
+ familyid='0'/>：</run><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;td class="tdContent"&gt;</run><run html='true'><font
+ size='9pt'/>&lt;span </run><run html='true'><font size='9pt'/><computedtext
+><code event='value'><formula compiled='true'>
+dgAJAGwA4VCYuX7I28+M58A1mSiSwUpS9wXtx3NMid6S2U9vb/G4q0HOuH7TVtdhbuMlkh48qIqp
+1rt13OImxK8IgxL3Z6Znin2X9WL43Jbi7/EnpStkv3S4jFZ+W/1+9/D5pUuqHypdY34GYkEEAAQA
+BAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt'/> data-string-id="indiplatform.tylc.fldMailSend"&gt;</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='fldMailSend_Sel'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ recalcchoices='true' columns='2' ui='checkbox'><formula compiled='true'>
+DgEJAAQB+pKb4m5C51H+FEw6ceuw2ZjW+LW2tivrLB0ga6Zel/lsnCF/ua9rDT3PvSDzgFPdzOjr
+iW8io1oPFr3C9SXeCJYGOsJ0OTgafCL5RI7IAm6Fhzr1tgQ1RHnthjr8chqL+x1b47L5aeHEBhQk
+g6hroPYqlDLsjKWxUTuYKDu7lkJ1YI9+8HKIrhhOccXMyo2Rmvwrif2CuMOLLO6vsTLPX/pAGY5b
+z+k5LMdirKFhyuWqwtkZCm2jk6fSCU9kjuyLUCht2lCQm25KV+tJqlsBJvxfgmf5YCj1RO4cRIZe
+qVlshL3Q5PhHX+tnOvQEOb1iseSZu2jgZfatPabtoFCnkgQABAAEAAQA
+</formula></keywords></field></run><run
+ html='true'><font size='9pt'/>&lt;/span&gt;&lt;span </run><run html='true'><font
+ size='9pt'/><computedtext><code event='value'><formula compiled='true'>
+dgAJAGwA4VCYuX7I28+dmplT7X/B1dukU/n9PUlPQ4cotIn3yvhvEI6EGi6+Qw8uUCMU3YL6T311
+rZ6i5SPHYXXWyTHZ47MSKmlSTUsVVgVnRnJKkCxppssEP+2HS/EdzHdqwBkrNEe9FjzaN34EAAQA
+BAAEAA==
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt'/> data-string-id="indiplatform.tylc.fldSms"&gt;</run><run
+ html='true'><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='fldSms_Sel'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ recalcchoices='true' columns='2' ui='checkbox'><formula compiled='true'>
+DgEJAAQB+pKb4m5C51H+FEw6ceuw2ZjW+LW2tivrLB0ga6Zel/lsnCF/ua9rDT3PvSDzgFPdzOjr
+iW8io1oPFr3C9SXeCJYGOsJ0OTgafCL5RI7IAm6Fhzr1tgQ1RHnthjr8chqL+x1b47L5aeHEBhQk
+g6hroOA5YdRavwSy57d6kxnPxUk++3m8FcmeVOiTIdVfzWLMDTbp4hCFH1N4BJUx9Dlo0BSBCZEn
+qLFhnjNZN42+TxY74gj0EAoRllTif/DNruViPWRgBZkRkg22602/Eq2nMgPWPMM29WEtR7+stW2o
+3ggOIWsG77yWk9If/cStw5Ub++B+Dyu3tt9ZmtkpyqzPPQQABAAEAAQA
+</formula></keywords></field></run><run
+ html='true'><font size='9pt'/>&lt;/span&gt;</run><run html='true'><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0'/>&lt;/td&gt;</run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/tr&gt;</run></par><subformref><code event='value'><formula
+ compiled='true'>
+NgAJACwAwB2AjhpRRaFXFUS2W/+jrZk6D7xbY4hJwSq+tVtj3BePyZKmXLLtfAQABAAEAAQA
+</formula></code></subformref>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/>&lt;/table&gt;</run></par>
+<par def='1'><run html='true'>&lt;div style="text-align:center;margin:5px 0 10px 0;"&gt;</run></par>
+<par def='1'><run html='true'>	&lt;span class="btn-action-key"&gt;</run></par>
+<par def='1'><run html='true'>		</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;button type="button" dojoType="smartdot.form.BusyButton" onClick="return OKClick('</run><run
+ html='true'><computedtext><code event='value'><formula compiled='true'>
+HgAJABQAih7ax96zRwTmMKHYTaiGigQABAAEAAQA
+</formula></code></computedtext></run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>');" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.sure"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;确认&lt;/button&gt;</run></par>
+<par def='1'><run html='true'>	&lt;/span&gt;</run></par>
+<par def='1'><run html='true'>	</run><run html='true'><font size='9pt' name='monospace'
+ color='maroon'/>&lt;button type="button" dojoType="smartdot.form.Button" onClick="CancelClick" </run><run
+ html='true'><font size='9pt'/>data-string-id="indiplatform.tylc.cancel"</run><run
+ html='true'><font size='9pt' name='monospace' color='maroon'/>&gt;取消&lt;/button&gt;</run></par>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par></richtext></body>
+<item name='$SubForm_RepIDs' sign='true'><textlist><text>0000000000000000</text><text
+>0000000000000000</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmHuiQianConfirm</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,71+08</datetime></item></form>
+

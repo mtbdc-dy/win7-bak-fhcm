@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtDeleteDjwd' alias='代理获取冻结文档修改预算文档并删除冻结文档' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='184e' unid='48258072000E0C3F4825806700595785' sequence='36'>
+<created><datetime>20161111T001551,09+08</datetime></created>
+<modified><datetime>20181107T195906,64+08</datetime></modified>
+<revised><datetime>20181024T092021,17+08</datetime></revised>
+<lastaccessed><datetime>20181107T195906,64+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195906,64+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092127,10+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtCreatDjDoc
+	Created 2016-11-3 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonLib"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim note As NotesDocument
+	Dim strnoteid As String 
+	Set dbCurrent=session.Currentdatabase
+	Dim agent As NotesAgent
+    Set agent=session.Currentagent
+	strnoteid=agent.Parameterdocid
+	Set note=dbCurrent.Getdocumentbyid(strnoteid)
+	If Not note Is Nothing Then
+		Dim strdepid As String  '部门编号
+		Dim strnd As String  '年度
+		Dim strfylx As String  '费用类型
+		Dim strxmbh As String  '会议费用项目编号
+		Dim strMainDocUnid As String '会议费用文档unid
+		Dim strkeyforys As String  '获取预算文档的key
+		Dim strkeyforyskh As String '获取预算考核文档的key
+		Dim strkeyforysxm As String '获取预算项目文档的key
+		Dim strzxys As String ' 是否为专项预算
+		Dim strsqfyzj As String  '申请费用
+		
+		
+		Dim dbys   As NotesDatabase'预算数据库
+		Dim viewys As NotesView'预算文档视图
+		Dim viewyskh As NotesView'预算考核文档视图
+		Dim viewysxm As NotesView'预算中项目文档视图
+		Dim viewdjwd As NotesView '获取冻结文档视图
+		
+		Dim docys As NotesDocument '预算文档
+		Dim docyskh As NotesDocument'预算考核文档
+		Dim docysxm As NotesDocument'预算项目文档
+		Dim docdjwd As NotesDocument'获取冻结文档
+		
+		strdepid=CStr(note.fldNiGaoDW_id(0))
+		strnd=CStr(note.fldyear_xm(0))
+		strfylx=CStr(note.fldfylx_xm(0))
+		'strxmbh=note.fldHyfeeXmbh_xm(0)
+		strMainDocUnid=note.fldunid(0)
+		strkeyforys=strdepid+"+"+strnd+"+"+strfylx
+		strzxys=CStr(note.fldyszx_xm(0))
+		'strsqfyzj=note.fldTotalFee_xm(0)
+		Dim appPath As String 
+	    appPath=StrLeftBack(note.dbPath(0),"/")
+		
+		'先根据当前文档的unid获取冻结文档
+		Set viewdjwd=dbCurrent.Getview("vwDongjieDocByMainUnid")
+		Set docdjwd=viewdjwd.Getdocumentbykey(note.fldunid(0))
+		
+		If Not docdjwd Is Nothing  Then
+			strsqfyzj=docdjwd.flddjed(0)'获取真正的冻结额度，防止驳回的时候有人修改额度再驳回
+			strxmbh=docdjwd.fldxmbh(0)
+			'获取预算数据库
+			Set dbys=session.Getdatabase("", appPath+"/cwfyysgl.nsf")
+			If dbys.Isopen Then
+				Set viewyskh=dbys.Getview("vwDocByPublishedNdyskhbyunid")
+				Set viewysxm=dbys.Getview("vwDocByUNIDforyssxm")
+				strkeyforyskh=docdjwd.fldyswdunid(0)
+				Set docyskh=viewyskh.Getdocumentbykey(strkeyforyskh)'其次获取预算考核文档
+				If Not docyskh Is Nothing Then
+					'对预算考核文档的额度进行冻结并做调整
+					If strzxys="1" Then
+						
+						docyskh.fldbnzxysdj=CStr(Format(CDbl(docyskh.fldbnzxysdj(0))-CDbl(strsqfyzj),"Fixed"))'专项冻结数增加
+						docyskh.fldbnzxyskys=CStr(Format(CDbl(docyskh.fldbnzxyskys(0))+CDbl(strsqfyzj),"Fixed"))'专项实际可用减少
+					Else 
+						docyskh.fldbnybysdj=CStr(Format(CDbl(docyskh.fldbnybysdj(0))-CDbl(strsqfyzj),"Fixed"))'一般冻结数增加
+						docyskh.fldbnybyskys=CStr(Format(CDbl(docyskh.fldbnybyskys(0))+CDbl(strsqfyzj),"Fixed"))'一般实际可用减少
+					End If
+					docyskh.fldbnysdjs=CStr(Format(CDbl(docyskh.fldbnysdjs(0))-CDbl(strsqfyzj),"Fixed"))'总的预算冻结
+					docyskh.fldbnyskys=CStr(Format(CDbl(docyskh.fldbnyskys(0))+CDbl(strsqfyzj),"Fixed"))'总的可用预算
+					Call docyskh.save(True,False)
+				End If
+				'对预算项目中的预算冻结进行调整
+				strkeyforysxm=docdjwd.fldyswdunid(0)+"+"+strxmbh
+				Set docysxm=viewysxm.Getdocumentbykey(strkeyforysxm)
+				If Not docysxm Is Nothing Then
+					If strzxys="1" Then
+						docysxm.fldbnzxysdjs=CStr(Format(CDbl(docysxm.fldbnzxysdjs(0))-CDbl(strsqfyzj),"Fixed"))'专项冻结数增加
+						docysxm.fldbnzxkyys=CStr(Format(CDbl(docysxm.fldbnzxkyys(0))+CDbl(strsqfyzj),"Fixed"))'专项实际可用减少
+					Else
+						docysxm.fldbnybysdjs=CStr(Format(CDbl(docysxm.fldbnybysdjs(0))-CDbl(strsqfyzj),"Fixed"))'一般冻结数增加
+						docysxm.fldbnybkyys=CStr(Format(CDbl(docysxm.fldbnybkyys(0))+CDbl(strsqfyzj),"Fixed"))'一般实际可用减少
+					End If
+					docysxm.fldbnysdjs=CStr(Format(CDbl(docysxm.fldbnysdjs(0))-CDbl(strsqfyzj),"Fixed"))'总的预算冻结
+					docysxm.fldbnkyys=CStr(Format(CDbl(docysxm.fldbnkyys(0))+CDbl(strsqfyzj),"Fixed"))'总的可用预算
+					Call docysxm.save(True,False)
+				End If
+		    End If
+			Call docdjwd.Remove(True)
+		End If
+		
+	End if
+	Exit sub
+errorhandle:
+	showerror("agtDeleteDjwd")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='9E982845D5E96F844825833500082BDF'>
+<agentmodified><datetime>20181025T014920,29+08</datetime></agentmodified>
+<agentrun><datetime>20181107T152128,48+08</datetime></agentrun>
+<runlog>Started running agent 'agtDeleteDjwd|代理获取冻结文档修改预算文档并删除冻结文档' on 2018-11-07 15:21:28
+Ran LotusScript code
+Done running agent 'agtDeleteDjwd|代理获取冻结文档修改预算文档并删除冻结文档' on 2018-11-07 15:21:28
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092021,17+08</datetime></item></agent>
+

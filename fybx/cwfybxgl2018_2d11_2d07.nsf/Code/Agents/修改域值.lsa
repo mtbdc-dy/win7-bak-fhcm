@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='修改域值' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='4825833E00419143'
+ hide='v3' noreplace='true' publicaccess='false' designerversion='8.5.3'>
+<noteinfo noteid='153e' unid='D58DD2FAEBFC15D34825811C000AC3C7' sequence='12'>
+<created><datetime>20170510T095734,79+08</datetime></created>
+<modified><datetime>20181107T195856,95+08</datetime></modified>
+<revised><datetime>20181024T101241,21+08</datetime></revised>
+<lastaccessed><datetime>20181107T195856,95+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195856,95+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T101346,22+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='selected'/><code event='options'><lotusscript>%REM
+	Agent 修改域值
+	Created 2017-5-10 by oanewadmin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim doc As NotesDocument
+	
+	Set db=session.Currentdatabase
+	Set doc=db.Getdocumentbyunid("CBD3D0DCE0BBDA00482581160034D2F4")
+	Dim jsonstr As String 
+	jsonstr=|{
+"items":[
+{
+"ccpersondept":"领导班子/股份公司总部/江苏凤凰出版传媒股份有限公司/凤凰出版传媒集团",
+"ccpersondeptid":"13",
+"ccperson":"顾军/ppm,徐云祥/ppm",
+"startdate":"2017-05-03",
+"enddate":"2017-05-04",
+"startaddr":"南京",
+"endaddr":"南通",
+"cxtype":"汽车",
+"jtfje":"",
+"jshj":"680.00",
+"zsfshlv":"6%",
+"zsfje":"641.51",
+"zsfshe":"38.49",
+"daynum":"1",
+"pingjzsf":"680.00",
+"gongzfee":"",
+"huoshifee":"400.00",
+"qtlxfee":"",
+"xiaoji":"1080.00",
+"_tmp_ccpersondeptid":"",
+"_dynid_":"8022976023",
+"bh": 1
+}
+]
+}|
+	If Not doc Is Nothing Then
+		If doc.Hasitem("hfldData") Then
+			MsgBox doc.fldSubject(0)
+			Call doc.Removeitem("hfldData")
+			Dim itemrich As NotesRichTextItem
+			Set itemrich=doc.Createrichtextitem("hfldData")
+			Call itemrich.Appendtext(jsonstr)
+		End If
+		Call doc.save(True,false)
+	End If
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='366171E8FC12859A4825811C000B87FD'>
+<agentmodified><datetime>20170510T100548,53+08</datetime></agentmodified>
+<agentrun><datetime>20170510T095727,41+08</datetime></agentrun>
+<runlog>开始运行代理 '修改域值'(在 2017-05-10 09:57:25)
+在选定的文档上运行: 合计 1 个
+找到 1 个匹配搜索条件的文档
+运行 LotusScript 代码
+完成代理 '修改域值'(在 2017-05-10 09:57:27)
+</runlog></rundata></agent>
+

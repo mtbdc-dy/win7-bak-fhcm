@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE view SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<view name='(vwIDX_Attach_No_History)' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' showinmenu='false' publicaccess='false' designerversion='8.5.3'
+ comment='不包含痕迹稿原始稿' unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='beveled' opencollapsed='false' showresponsehierarchy='false' showmargin='true'
+ shrinkrows='false' extendlastcolumn='false' showhierarchies='false' unreadcolor='black'
+ rowlinecount='1' headerlinecount='1' rowspacing='1' bgcolor='white' totalscolor='gray'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='1f2' unid='32B933583FAA3A3148257D0A0032B1D5' sequence='55'>
+<created><datetime>20140703T171343,25+08</datetime></created>
+<modified><datetime>20181025T014919,71+08</datetime></modified>
+<revised><datetime>20181024T085504,30+08</datetime></revised>
+<lastaccessed><datetime>20181025T014919,70+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133243,58+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='selection'><formula
+ compiled='true'>
+PgEJADQB0vS/NjiyYpoERbbMqhkjnh5qwiOsO8jGoz+VzpYKwitEIx2rmoGENORw3kESknGX5b/Y
+hpsOupTNWQXD5hRdsN/QTAY8ez2O0nkgL5pwJb5SK6L6IkghqsUT0CKzw5EsUiXOKXKr4OA5J09W
+6T7wGkslS/2YgFyns/Izh6gx5LlLks8FN9yq0zdZfsBUN2vcQpjRa5+54zJZIZXzjk2fJKJjh5R+
+be58V0bnJSTE+PH6ZY6rnPuwPDJiR6664zmDARLiRei9Gh7rhm+BhSoHYdrCQ7PC+Prv4XwrGNoI
+8U/4WgU7lac3J8m5Pb1PkJ2bpF2t9ZQWnmU7X7+EGJuuX30d1N5iG5hLwh7128fGsJLE+jk7Ktdr
+Bb4WwiKK+n2K98HPLOBGc9F/k5RLuieLVQQABAAEAAQA
+</formula></code>
+<actionbar bgcolor='#d4d0c8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#d4d0c8'/><border width='0px 0px 1px'/>
+<action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
+<action title='_Edit Document' showinbar='false' systemcommand='edit'/>
+<action title='Send Docu_ment' showinbar='false' systemcommand='send'/>
+<action title='_Forward' showinbar='false' systemcommand='forward'/>
+<action title='_Move To Folder...' showinbar='false' systemcommand='movetofolder'/>
+<action title='_Remove From Folder' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='MainDocUnid' width='46.5000'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><columnheader title='MainDocID'><font size='9pt' style='bold'/></columnheader><code
+ event='value'><formula compiled='true'>
+NgAJACwAEqnn/bp7C/C1CQ2c4bdP7NO27KKntilVdVS1WYzmBAbk4GdHlIBfYQQABAAEAAQA
+</formula></code></column>
+<column sort='descending' resort='descending' hidedetailrows='false' itemname='CreatedTime'
+ width='29.3750' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='false'><columnheader title='Created'><font
+ size='9pt' style='bold'/></columnheader><code event='value'><formula compiled='true'>
+NgAJACwAEqnn/bp7C/CRCt5h4CZtLZy+YXCl7xvKzBttZ1iqZDc6pQldJ8+vrQQABAAEAAQA
+</formula></code></column>
+<column hidedetailrows='false' itemname='FileUnid' width='40.2500' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+><font size='9pt' style='bold'/></columnheader><code event='value'><formula
+ compiled='true'>
+LgAJACQAwNmEwBAKhyqks2/DclK6rmZGkjFMByRHcfVBNX7pxZwEAAQABAAEAA==
+</formula></code></column>
+<item name='TmpViewDesignCollation' sign='true'><text>zh-CN@UCA</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,85+08</datetime></item></view>
+

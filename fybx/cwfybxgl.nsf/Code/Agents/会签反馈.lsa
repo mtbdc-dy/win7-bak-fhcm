@@ -1,0 +1,2648 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='会签反馈' alias='agtHuiQianFanKui' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' hide='v3' runaswebuser='true'
+ publicaccess='false' designerversion='8.5.3' restrictions='fulladminunrestricted'>
+<noteinfo noteid='81e' unid='7149DCEB09D266EF48257D7200162202' sequence='50'>
+<created><datetime>20141015T120144,98+08</datetime></created>
+<modified><datetime>20181025T014926,51+08</datetime></modified>
+<revised><datetime>20181024T085456,73+08</datetime></revised>
+<lastaccessed><datetime>20181025T014926,50+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133250,26+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T085603,48+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent 会签反馈（同服务器）
+	Created 2012-4-18 by admin/Smartdot
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+Use "libHQFKExtCustom"
+Use "libFlowHQ"
+Use "libConcurrent"
+Use "libIndiDocX"
+Use "libUploadtoIdx"
+Use "libFzjh"
+
+</lotusscript></code><code event='declarations'><lotusscript>Dim session As NotesSession
+
+Dim g_hqfkcustom As HQFKCustom
+
+Dim VattnamesNew List As String
+Dim VattnamesOld List As String
+Dim g_HQYjFieldParam List As Variant		'意见域结构化信息
+
+
+
+
+
+
+
+
+Class clFkMsg
+	Public strXML As String
+	Public aryAttName As Variant
+	Public strSameDepDealType As String
+End Class
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	%REM
+		编写人：王晓振
+		编写时间：2012-4-18
+		函数功能：同服务器的会签反馈
+	%END REM
+	
+	On Error GoTo errhandler
+	
+	
+	Set g_hqfkcustom = New HQFKCustom
+	
+	Dim docMain As NotesDocument		'对应的主文档
+	Dim dbCurrent As NotesDatabase		'当前数据库
+	Dim dbFrom As NotesDatabase
+	Dim docFrom As NotesDocument
+	
+	Dim nmCurSer As NotesName
+	Dim nmTarSer As NotesName
+	Dim agtCurrent As NotesAgent
+	Dim strNoteID As String
+	
+	Set session = New NotesSession	
+	Set dbCurrent = session.Currentdatabase
+	Set docMain = session.Documentcontext
+	If docMain Is Nothing Then	
+		Set agtCurrent = session.Currentagent
+		strNoteID = agtCurrent.Parameterdocid
+		Set docMain = dbCurrent.Getdocumentbyid( strNoteID)
+		
+		docMain.flowNum_beforSubmit = docMain.flownum(0)
+	End If
+	Set nmCurUser = New NotesName( docMain.nmCurUserHq(0))
+	
+	Set nmCurSer = New NotesName(dbCurrent.Server )
+	Set nmTarSer = New NotesName(docMain.fldSrcServer(0))
+	
+	strHuiQianKey = docMain.strHqRefKey(0) 
+	Dim con As Concurrent
+	If  nmCurSer.Abbreviated = nmTarSer.Abbreviated Then
+		'by sunxz 2015-4-9 处理前加锁,避免会签反馈，人员会签反馈，沟通反馈出现覆盖
+		Dim LockID As Integer
+		Dim LockName As String
+		LockName= docMain.fldFromunid(0)  &amp; "_agtlock"
+		LockID= fnGetCodeLock(LockName)
+		
+		Set dbFrom=session.getdatabase("",docMain.fldFromdatabase(0))
+		Set docFrom=getDocumentByUnid(dbFrom,docMain.fldFromunid(0))
+		If docFrom Is Nothing Then
+			Call suReleaseCodeLock(lockID,lockName)
+			Exit Sub
+		End If
+
+	Else
+		Set nmCurUser = New NotesName( docMain.nmCurUserHq(0))	
+		
+	End If
+	
+	Dim cTodo As New clTODO
+	Dim aParamTodo List As Variant
+	Set cTodo.curuser=nmCUrUser
+	Call cTodo.storeFieldsWhenStart(docMain, aParamTodo)
+	
+	Dim astrAuthors As Variant
+	Dim strStat As String
+	Dim endstat As String
+	Dim aParam List As Variant
+	Dim aParamCustom As Variant
+	Dim astrName As Variant
+	Dim strKysp As String
+	
+	strStat = docMain.stat(0) &amp; "(部门反馈)"
+	docMain.fldFanKui = "1"
+	If getConfigKey("key_HQFKToEnd")="0" Then
+		
+		endstat = docMain.stat(0)
+		strKysp = docMain.idx_CanHandAttitude(0)
+		If docMain.idx_CanHandAttitude(0)="0" Then
+			docMain.idx_CanHandAttitude = "1"
+		End If
+		Call doWithResponse(dbCurrent,docMain,nmCurUser,strStat ,endstat)
+		docMain.idx_CanHandAttitude = strKysp
+		aParam("stat") = strStat
+		aParam("action") = "hqfk"
+		
+		aParamCustom = g_flowcustom.fnWriteHistoryCustomExt( docMain)
+		If Not IsEmpty(aParamCustom) Then
+			ForAll v In aParamCustom	
+				aParam(ListTag(v))=v
+			End ForAll
+		End If
+		Call suWriteHistory(docMain,nmCurUser,aParam)
+		
+	Else
+		'增加秘书代录领导意见功能开始
+		Call suSetLeaderForMsdl(docMain,docMain.tmpCurUser_msdl(0))
+		'增加秘书代录领导意见功能结束
+		
+		'提交时知会	
+		Dim dbFlow As NotesDatabase
+		Dim docFlow As NotesDocument
+		Call getFlowDoc( session , dbCurrent , docMain , dbFlow , docFlow )
+		Call suGetTJZH(docMain,docFlow,CStr(docMain.flownum(0)))
+		Call suGetDDZH(docmain,docFlow,"9999")
+		Call suZhihui(docMain, nmCurUser.Abbreviated, Split(""))
+		
+		Call  docMain.Replaceitemvalue("fldlaststepflownum", docMain.flownum(0))
+		Call docMain.Replaceitemvalue("flownum", 9999)
+		Call docMain.replaceItemValue("stat","完成反馈")
+		
+		If docMain.fldDrspgz(0) = "3" Then
+			astrAuthors = FullTrim(Replace(docMain.DocumentAuthors, nmCurUser.Canonical,""))
+			astrAuthors = ArrayUnique(FullTrim(ArrayAppend(astrAuthors, docMain.nmGouTongAuthors)))
+			Call docMain.Replaceitemvalue("fldAlldealers", ArrayAppend(docMain.fldAllDealers,astrAuthors))
+			Call docMain.Replaceitemvalue("tmpChangeToDaiYueUsers",astrAuthors )
+		End If
+		
+		docMain.DocumentAuthors = ""
+		docMain.alldealer = ""
+		
+		'如果没有，则创建答复文档（审批意见），如果有，则处理审批意见
+		
+		endstat = "流程结束"
+		If docMain.fldEndState(0)&lt;&gt;"" Then
+			endstat =  docMain.fldEndState(0)
+		End If
+		strKysp = docMain.idx_CanHandAttitude(0)
+		If docMain.idx_CanHandAttitude(0)="0" Then
+			docMain.idx_CanHandAttitude = "1"
+		End If
+		Call doWithResponse(dbCurrent,docMain,nmCurUser,strStat ,endstat)
+		docMain.idx_CanHandAttitude = strKysp
+		'--wangwz 2014-2-19 修改  start ----------
+		
+		aParam("stat") = strStat
+		aParam("action") = "hqfk"
+		
+		
+		aParamCustom = g_flowcustom.fnWriteHistoryCustomExt( docMain)
+		If Not IsEmpty(aParamCustom) Then
+			ForAll v In aParamCustom	
+				aParam(ListTag(v))=v
+			End ForAll
+		End If
+		Call suWriteHistory(docMain,nmCurUser,aParam)
+		
+		'--wangwz 2014-2-19 修改  end ----------
+		
+		docMain.editable="no"
+		docMain.fldFrombfsp=""
+		docMain.DocStat = "已反馈"
+		docMain.fldFlowOverRQ = Now 	'会签结束时间
+		
+		'写入上一编辑人权限 zhangxh 2012-09-18
+		docMain.fldLastEditor = nmCurUser.abbreviated
+		docMain.fldLastStepReader = nmCurUser.Canonical
+		docMain.fldLastStepAuthor = nmCurUser.Canonical
+		Call writeToReadersField(docMain,"fldlaststepreader",docMain.fldlaststepreader)
+		Call writeToAuthorsField(docMain,"fldlaststepauthor",docMain.fldlaststepauthor)
+		
+		'－－－－－流程结束时，改变待办状态－－－－－－－－
+		Call cTodo.dealTodo(docMain, aParamTodo)
+		'－－－－－－－－－－－－－－－－－－－－－－－－
+		
+		Call suRemoveDocLock( dbCurrent , docMain )
+
+	End If
+	'liuyc  会签意见反馈   功能迁移到 会签文档意见处理完成之后 在回写反馈意见 
+	
+	'处理意见附件信息
+	If docMain.Hasitem("Idx_Tmp_Attach_5") Then
+		If docMain.Idx_Tmp_Attach_5(0) &lt;&gt; "" Then
+			If docMain.Idx_All_Attach_5(0) = "" Then
+				docMain.Idx_All_Attach_5 = docMain.Idx_Tmp_Attach_5
+			Else
+				docMain.Idx_All_Attach_5 = docMain.Idx_All_Attach_5(0) + "|" + docMain.Idx_Tmp_Attach_5(0) 
+			End If
+			
+		End If
+	End If
+	
+	'反馈前调用扩展，定制反馈的意见和上表单的意见
+	Dim arrListFKYJ List As Variant
+	Dim aParamHQFK List As Variant
+	Call g_flowcustom.fnSetDeptHQFanKuiResultCustom(docMain, arrListFKYJ, aParamHQFK)
+	If Not IsEmpty(arrListFKYJ) Then
+		If IsList(arrListFKYJ) Then
+			'定制上表单的意见
+			If IsElement(arrListFKYJ("toform")) Then
+				docMain.fldseletyjform = arrListFKYJ("toform")
+			End If
+			'定制反馈的意见
+			If IsElement(arrListFKYJ("toflow")) Then
+				docMain.fldseletyj = arrListFKYJ("toflow")
+			End If
+		End If
+	End If
+	
+	If  nmCurSer.Abbreviated = nmTarSer.Abbreviated Then
+		Call suFanKui( docMain )
+		Call suReleaseCodeLock(lockID,lockName)
+	Else
+		'已原会签发起人进行会签消息引擎相关发送处理
+		Set nmCurUser = New NotesName(docMain.DocumentFromReader(0))
+		Call sendResponseWithMail(session,dbCurrent,docMain,nmCuruser,"")	
+		'已会签反馈人进行后续流转记录处理
+		Set nmCurUser = New NotesName( docMain.nmCurUserHq(0))		
+	End If
+	'2016-05-05 yym 移动意见反馈到此位置，否则委托人会签反馈时，娶不到委托人的信息
+	'2015-03-08 zhengwen	更新委托记录
+	Dim wtParam List As Variant
+	wtParam("type") ="tijiao"
+	Call suDealWtInfo(session, docMain, nmCurUser, wtParam)
+	
+	REM 在前面已经将文档作者清空了，没有权限保存文档。也不用save
+	If Not agtCurrent Is Nothing Then
+		'通过代理调用的时候需要调用save
+		
+		Call docMain.Replaceitemvalue("fldClientType", "") 
+		Call docMain.Save(True,False)
+	End If
+	
+		
+	Dim strMsg As String
+	Dim strLink As String
+	Dim strCrumb As String
+
+	strMsg=getI18nString("indiplatform.tylc.bmfkwc", "部门办理反馈完成！")
+	strLink = |&lt;a href="/| + getdbpath(dbCurrent) + |/vwDocByDate/| + docMain.universalid + |?opendocument"&gt;|+getI18nString("indiplatform.tylc.tipclickres", "单击这里返回")+|&lt;&lt;&lt;/a&gt;|
+	Call printMessageOk( "/indishare/oaresource.nsf/" , strMsg , strLink , strCrumb )
+	
+	Erase aParam
+	Call g_flowcustom.suOnHuiQianExitCustomExt(docMain,nmCurUser,aParam)
+		
+	Exit Sub
+errhandler:
+	Call suReleaseCodeLock(lockID,lockName)
+	ShowError("Initialize")
+End Sub
+
+</lotusscript></code><code event='fnGetFormHtmlMsg'><lotusscript>Function fnGetFormHtmlMsg(docMain As NotesDocument,yjfield As String) As String
+	On Error GoTo ErrorHandle
+	
+	Dim session As New NotesSession
+	Dim dbFlow As NotesDatabase,docFlow As NotesDocument
+	Dim dbFlowInfo As NotesDatabase,docFlowInfo As NotesDocument
+	
+	Dim domParser As NotesDOMParser
+	Dim stream As NotesStream
+	Dim domSpyj As NotesDOMElementNode
+	Dim documentList As NotesDOMNodeList
+	Dim strhtml As String
+	Dim strxmlyj As String
+	Dim strYjtp As String
+	Dim strSignature As String
+	Dim Strattname As String
+	Dim  strDeptName As String
+	Dim stryj As String
+	Dim struser As String
+	Dim strtime As String
+	Dim i , j As Integer
+	Dim item As NotesRichTextItem
+	Dim num As Integer
+	
+	Call fnGetResponseDoc( docMain.Parentdatabase,docMain,dbFlowInfo,docFlowInfo )
+	Call getFlowDoc( session,docMain.Parentdatabase,docMain,dbFlow,docFlow )
+	
+	strDeptName=Replace(docMain.fldDep(0),"/","_")
+	
+	Set item = docFlowInfo.Getfirstitem("fldyj")
+	strxmlyj = item.Getunformattedtext()
+	strxmlyj = |&lt;spyj&gt;|+strxmlyj + |&lt;/spyj&gt;|
+	
+	Set stream = session.Createstream()
+	Set domParser=session.CreateDOMParser( strxmlyj ,stream)
+	domParser.Process	
+	Set documentList = domParser.Document.GetElementsByTagName ("yjitem")
+	
+	num = CInt(docMain.flowNum_beforSubmit(0))
+	
+	Dim domYJItem As NotesDOMElementNode
+	Dim domYJItemTmp As NotesDOMElementNode
+	Dim domFKDep As NotesDOMElementNode
+	Dim domFKDepList As NotesDOMNodeList	
+	Dim numSeq As Long
+	Dim m As Long
+	Dim strFanKuiType As String,strLuoKuanType As String
+	
+	If docMain.isSeletYJ(0)="1" Then
+		strFanKuiType = "select"
+	Else
+		strLuoKuanType = "zjfk"
+	End If
+	
+	Set domSpyj = domParser.Document.Getelementsbytagname("spyj").Getitem(1)
+	
+	numSeq = 1
+	Set domYJItem = domSpyj.Firstchild
+	While Not (domYJItem Is Nothing  )
+		
+		If Not (domYJItem.Nextsibling Is Nothing Or domYJItem.Nextsibling.Isnull) Then
+			Set domYJItemTmp = domYJItem.Nextsibling 
+		Else
+			Set domYJItemTmp = Nothing
+		End If
+		
+		Set domFKDepList = domYJItem.Getelementsbytagname("subhqfk")
+		If domFKDepList.Numberofentries&lt;&gt;0 Then
+			For m=1 To domFKDepList.Numberofentries
+				Set domFKDep = domFKDepList.Getitem(m)
+				If Not IsNull(ArrayGetIndex(  docMain.fldseletyjform ,CStr(numSeq) )) Then
+					strHtml =strHtml + fnParseYjToForm( domFKDep,strFanKuiType,strLuoKuanType,docMain,docFlow,num ,yjfield)
+				End If
+				numSeq = numSeq + 1	
+			Next
+		Else
+
+			If Not IsNull(ArrayGetIndex(  docMain.fldseletyjform ,CStr(numSeq) )) Then
+				If domYJItemTmp Is Nothing Then
+					strLuoKuanType = "zjfk"
+					strHtml =strHtml + fnParseYjToForm( domYJItem,strFanKuiType,strLuoKuanType,docMain,docFlow,num ,yjfield)
+				Else
+					strHtml =strHtml + fnParseYjToForm( domYJItem,strFanKuiType,strLuoKuanType,docMain,docFlow,num ,yjfield)
+				End If
+			End If
+			
+			numSeq = numSeq + 1	
+		End If
+		
+		Set domYJItem = domYJItemTmp
+		
+	Wend
+	
+	fnGetFormHtmlMsg = strhtml
+	
+	Exit Function
+ErrorHandle:
+	ShowError "fnGetFormHtmlMsg"
+End Function
+
+</lotusscript></code><code event='sendResponseWithMail'><lotusscript>Sub sendResponseWithMail(s As NotesSession,dbCurrent As NotesDatabase, docMain As NotesDocument,nmCurUser As NotesName,strSubAction As String)
+	'把部门的意见发送到消息引擎	
+	On Error GoTo errhandle
+	Dim strTargetApp As String
+	Dim strTargetServer As String
+	Dim yj  As String
+	Dim itm As NotesItem	
+	Dim blnSuccess As Variant
+	'应用名
+	strTargetApp=fnGetAppNameFromAppDbPath(docMain.fldFromdatabase(0))
+	'部门库所在服务器名称
+	Dim nm As New NotesName( fnGetValidServer(docMain.fldSrcserver(0)))
+	strTargetServer = nm.common
+	Dim docMsg_MaindocUNID As String
+	Dim aParamHqMsg List As Variant
+	
+	aParamHqMsg("type") = "hqfk"
+	If strTargetServer&lt;&gt;"" Then
+		'给消息引擎发邮件
+		Dim docMsg As NotesDocument
+		Set docMsg = dbCurrent.createDocument()
+		docMsg.form = "frmWebFlowReply"
+		
+		docMsg_MaindocUNID = docMsg.UniversalID
+		docMsg.fldSmsMainID = docMsg_MaindocUNID 'add by zhaocx 2007-6-29 增加此赋值，附件中调用
+		
+		docMsg.strHqRefKey = strHuiQianKey
+		
+		docMsg.fldObjectID = "hqSend"	' 对象标识
+		docMsg.fldActionID = "ResponseReply"		' 动作标识
+		
+		docMsg.fldAppSource =fnGetAppNameFromAppDbPath(dbCurrent.filepath)	' 源所属应用
+		docMsg.fldAppObject = strTargetApp	' 迁移目标应用
+		docMsg.fldSrcServer = fnGetServerLogic(dbCurrent.Server)
+		docMsg.fldSrcDbPath = GetDbpath(dbCurrent)	'zhangxh
+		docMsg.fldObjDbPath = docMain.fldFromDatabase(0)
+		docMsg.fldObjDocUNID = docMain.fldFromUnid(0)	' 目标源文档id
+		'2007-10-08	zhuyn	发送操作序列号*****************
+		docMsg.hfldFromDjSeqNum = docMain.hfldFromDjSeqNum(0)
+		docMsg.fldAction=docMain.hfldAction(0)
+		'2007-10-08 end***************************
+		Call docMsg.replaceItemValue("fldFromServer",fnGetServerLogic(dbCurrent.server))
+		Call docMsg.replaceItemValue("fldFromDatabase",getdbpath(dbCurrent))
+		Call docMsg.replaceItemValue("fldFromUnid",docMain.universalid)
+		
+		'wxl 2012-04-09  
+		docMsg.SubAction = strSubAction
+		docMsg.DeptNameAndCode = fnGetDepNameAndCodebyDBFileName(s,dbCurrent)
+		docMsg.fldAttitude = docMain.GetFirstItem("fldAttitude").text
+		docMsg.fldAttPic = fnGetHAHtmlsrc(docMain) 'docMain.idx_CurHAFile(0)
+		docMsg.fldDep=docMain.fldObjDep(0)   '部门名称
+		'end	
+		Dim clFkMsg As New clFkMsg
+		Set clFkMsg = fnGetFkyjXmlMsg(docMain)
+		Call docMsg.Createrichtextitem("fldFormHtml").Appendtext( fnGetFormHtmlMsg(docMain,"") )
+		Call docMsg.Createrichtextitem("fldYjXml").Appendtext( clFkMsg.strXML )			
+		docMsg.strSameDepDealType = clFkMsg.strSameDepDealType
+		
+		Call docMsg.replaceItemValue("fldFromDep",docMain.fldObjDep(0))
+		
+		'返回当前会签的部门和部门id，显现到反馈域中使用 zhangxh 2012-12-14
+		Call docMsg.replaceItemValue("fldDep",docMain.fldDep(0))
+		Call docMsg.replaceItemValue("fldDepId",docMain.fldDepId(0))
+
+		docMsg.fldFromManager=nmCurUser.Canonical
+		docMsg.fldCurUserHq = docMain.nmCurUserHq(0)	'会签反馈人
+		
+		docMsg.fldfktime = Now
+		'add by zhaocx 2007-6-28 如果当前服务器所在的域和文档来源域不一样则需要在sendto上加@域名
+		If docMain.FromDomain(0) &lt;&gt; fngetCurDomain(dbCurrent) And docMain.FromDomain(0)&lt;&gt;"" Then
+			docMsg.sendto = "dbme_" + strTargetServer + "@" + docMain.FromDomain(0)
+		Else
+			docMsg.sendto = "dbme_" + strTargetServer	' 目标服务器	2002-09-22 huanghy
+		End If
+		'end by zhaocx 
+		
+		'处理附件，部门会签的时候如果添加了附件，反馈到主文档中。
+		Dim IDXDocs As NotesDocumentCollection	
+		Set IDXDocs=GetIDXDocs(docMain.idx_MainDocUNID(0))		
+		Dim k As Integer	
+	                    
+		'--------------end
+		
+		
+		Dim i As Integer
+		i=0
+		
+		'会签反馈时将附件信息也显示到稿纸的意见区域		yanwu	2013.01.07
+		Dim strAttXml As String
+		strAttXml = ""
+		
+		If docMain.fldClientType(0)="yes" Then
+			'对indiimages进行处理
+			Dim IndiImgDoc As NotesDocument
+			Call docMsg.replaceItemValue("Server",docMain.getItemValue("Server"))
+			Call docMsg.replaceItemValue("pageNo",docMain.getItemValue("pageNo"))
+			Call docMsg.replaceItemValue("ImgList",docMain.getItemValue("ImgList"))
+			Call docMsg.replaceItemValue("ImgNum",docMain.getItemValue("ImgNum"))
+			
+			Set IndiImgDoc=GetIndiImageDoc(docMain)
+			If Not IndiImgDoc Is Nothing Then			
+				
+				'indiimages为一个消息附件
+				aParamHqMsg("attType") = "indiimage"
+				blnSuccess = fnSendMsgAttachmentToTargetServer(docMsg,IndiImgDoc, strTargetServer, 1,docMsg_MaindocUNID,Nothing,aParamHqMsg)
+				docMsg.fldAttachNum = 1
+				i = i+1
+				
+			End If
+		Else
+			'----------IndiDocx 控件必备域
+			
+			Call docMsg.replaceItemValue("idx_MainDocUNID",docMsg_MaindocUNID)
+			
+			Dim tmpdoc As NotesDocument
+			Dim j As Integer
+			Dim arrIdxTmp As Variant
+			Dim newIDXDoc As NotesDocument
+			
+			'by sunxz 2015-5-8 通附件的反馈
+			Dim varquerystring As Variant
+			Dim aDeptName  As Variant
+			Dim strFileName As String
+			Dim aNormalAtt As Variant
+			aNormalAtt=fnFkNormalAtt(docMain,docMsg,"get_attname")
+			If Not IsEmpty(aNormalAtt) Then
+				If Not IsEmpty(clFkMsg.aryAttName) Then
+					clFkMsg.aryAttName=appendAryToList(clFkMsg.aryAttName,aNormalAtt)
+				Else
+					clFkMsg.aryAttName=aNormalAtt
+				End If
+			End If
+			
+			If Not IsEmpty(clFkMsg.aryAttName) Then
+				
+				For j=1 To IDXDocs.count
+					Set tmpdoc = IDXDocs.GetNthDocument( j )
+					
+					If getindex(clFkMsg.aryAttName,formatxml(tmpdoc.FileName(0)))&lt;&gt;-1 Or	getindex(clFkMsg.aryAttName,tmpdoc.FileName(0))&lt;&gt;-1	Then
+						aParamHqMsg("attType") = "indidoc"
+						blnSuccess = fnSendMsgAttachmentToTargetServer(docMsg,tmpdoc, strTargetServer, j,docMsg_MaindocUNID,Nothing,aParamHqMsg)
+						i = i+1
+					End If				
+					
+				Next j	
+			End If
+			'附件总数标记(如果是发文,则附件个数减去痕迹文件个数).
+			docMsg.fldAttachNum =  i
+			
+		End If
+		
+		
+		'将意见xml 写入消息引擎文档
+		Dim dbFlowInfo As NotesDatabase
+		Dim docFlowIn As NotesDocument
+		Call fnGetResponseDoc( docMain.Parentdatabase,docMain, dbFlowInfo,docFlowIn )
+		Dim item As NotesRichTextItem
+		Set item = docFlowIn.Getfirstitem("fldyj")
+		
+		Call docMsg.replaceItemValue("fldMainyj",item.Getunformattedtext())
+		Call docMsg.replaceItemValue("Idx_FanKui",docMain.Idx_FanKui(0))
+		Call docMsg.replaceItemValue("Idx_FanKui_Normal",docMain.Idx_FanKui_Normal)
+		Call docMsg.replaceItemValue("fldseletyjform",docMain.fldseletyjform)
+		Call docMsg.replaceItemValue("fldseletyj",docMain.fldseletyj)
+		Call docMsg.replaceItemValue("isSeletYJ",docMain.isSeletYJ(0))
+		
+		docMsg.DeliveryPriority = "H" 			' 邮件优先级
+		
+		Call docMsg.send(False)
+		
+	End If
+	Exit Sub
+errhandle:
+	ShowError("sendResponseWithMail")
+End Sub
+
+</lotusscript></code><code event='SetXMLChild'><lotusscript>Function SetXMLChild(domDocNode As NotesDOMDocumentNode,domNode As NotesDOMElementNode,aParam As Variant) As NotesDOMElementNode  
+	%REM  
+	功能: 将指定的列表值附加到某一节点下面,并可设置节点的属性值  
+	创建: 
+	参数:aParam  tagname:节点名	value:节点值		其他:节点属性
+	%END REM  
+	On Error GoTo Errorhandle  
+	Set SetXMLChild = Nothing  
+	
+	Dim domList As NotesDOMNodeList
+	Dim domNewNode As NotesDOMElementNode  
+	Dim docTextNode As NotesDOMTextNode  
+	Dim domChildNode As NotesDOMElementNode  
+	Dim strNodeName As String  
+	Dim strNodeValue As String  
+	Dim strAttName As String  
+	Dim strAttValue As String  
+	
+	strNodeName = aParam("tagname")
+	strNodeValue = aParam("value")
+	Set domNewNode = domDocNode.Createelementnode(strNodeName)  
+	
+	ForAll v In aParam
+		If ListTag(v)&lt;&gt;"tagname" And ListTag(v)&lt;&gt;"value" Then
+			strAttName =  ListTag(v)
+			strAttValue = CStr(v)	
+			Call domNewNode.Setattribute(strAttName, strAttValue)  
+			Call domNode.Appendchild(domNewNode)  								
+		End If
+	End ForAll
+	
+	'创建文本节点  
+	Set docTextNode = domDocNode.Createtextnode("#text")  
+	docTextNode.Nodevalue = strNodeValue  
+	Call domNewNode.Appendchild(docTextNode)  
+
+	
+	Exit Function  
+Errorhandle:  
+	showerror("SetXMLChild") 
+End Function  
+
+</lotusscript></code><code event='fnGetDepCodeByDbPath'><lotusscript>Function fnGetDepCodeByDbPath(strDbpath As String) As String
+	%REM
+	Description: 根据公文数据库路径从公文配置中获取部门编号
+	%END REM
+	On Error GoTo errHandler
+	
+	Dim dbGwpz As NotesDatabase
+	Dim vwGwpz As NotesView
+	Dim docGwpz As NotesDocument
+	
+	If strDbpath &lt;&gt; "" Then
+		strDbpath = Replace(strDbpath,"\","/")
+		Set dbGwpz = session.Getdatabase("", "indishare/gwpz.nsf", False)
+		If Not dbGwpz Is Nothing Then
+			Set vwGwpz = dbGwpz.Getview("vwbyfilename")
+			If Not vwGwpz Is Nothing Then
+				Set docGwpz = vwGwpz.Getdocumentbykey(strDbpath, True)
+				If Not docGwpz Is Nothing Then
+					fnGetDepCodeByDbPath = docGwpz.hfldBmbh(0)
+					Exit Function
+				End If
+			End If
+		End If
+	End If
+	
+	fnGetDepCodeByDbPath = ""
+	Exit Function
+errHandler:
+	showError( "fnGetDepCodeByDbPath" )
+	fnGetDepCodeByDbPath = ""
+End Function
+
+</lotusscript></code><code event='fnSaveYjFieldValueForHqfk'><lotusscript
+>Function fnSaveYjFieldValueForHqfk(docMain As NotesDocument,yjfield As String,yjAction As String,aParam As Variant)
+%REM
+	部门会签反馈，意见上稿纸
+%END REM
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim strYjXml As String
+	Dim domParser As NotesDOMParser
+	Dim stream As NotesStream
+	Dim documentNode As NotesDOMDocumentNode
+	Dim documentList As NotesDOMNodeList,docNodeList As NotesDOMNodeList
+	Dim yjFieldENode As NotesDOMElementNode,yjTabENode As NotesDOMElementNode
+	Dim tmpYjTabENode As NotesDOMElementNode
+	Dim yjTextNode As NotesDOMTextNode
+	Dim tmpNode As NotesDOMNode
+	Dim tmpENode As NotesDOMElementNode
+	Dim count As Integer,i As Integer
+	Dim blnFirstYj As Boolean
+	Dim strDepName As String
+	Dim blnCoverFlag As Boolean
+	Dim intInd As Integer
+	
+	strYjXml = fnGetRtfFieldText(docMain,"rtfYjFieldXML")
+	'无意见时
+	If strYjXml = "" Then
+		strYjXml = |&lt;yjfieldxml&gt;&lt;/yjfieldxml&gt;|
+	End If
+	'不是通过扩展定制的意见，则fkyj为xml
+	If Not IsElement(aParam("customhtml")) Then
+		strYjXml = StrLeft(strYjXml,"&lt;/yjfieldxml&gt;")
+		strYjXml = strYjXml+|&lt;tempyj&gt;|+aParam("fkyj")+|&lt;/tempyj&gt;&lt;/yjfieldxml&gt;|
+	End If
+	
+	Set stream = session.Createstream()
+	Set domParser=session.CreateDOMParser(strYjXml,stream)
+	domParser.Process
+	
+	strDepName = aParam("depname")
+	yjfield = LCase(yjfield)
+	Set documentNode = domParser.Document
+	'拼接新的意见xml-----start
+	'通过扩展接口定制了上稿纸的意见html
+	If IsElement(aParam("customhtml")) Then
+		Set yjTabENode = documentNode.Createelementnode("yjtab")
+		Call yjTabENode.Setattribute("dephqfk","1")
+		Call yjTabENode.Setattribute("hqdep",strDepName)
+		Call yjTabENode.Setattribute("dephqfkcustom","1")	'标识当前意见为定制的
+		Set yjTextNode = documentNode.Createtextnode("#text")
+		yjTextNode.Nodevalue = aParam("fkyj")
+		Call yjTabENode.Appendchild(yjTextNode)
+	Else
+		Set docNodeList = documentNode.Getelementsbytagname("tempyj")
+		Set tmpENode = docNodeList.Getitem(1)
+		Set docNodeList = tmpENode.Getelementsbytagname("yjtab")
+		Set yjTabENode = docNodeList.Getitem(1)
+	End If
+	'拼接新的意见xml-----end
+	
+	'获取意见域XML对象
+	Set documentList = documentNode.Getelementsbytagname("yjtofield")
+	If documentList.Numberofentries&gt;0 Then
+		count = documentList.Numberofentries
+		For i=1 To count
+			Set yjFieldENode = documentList.Getitem(i)
+			If yjFieldENode.Getattribute("field") = yjfield Then
+				'已找到，退出循环
+				Exit For
+			Else
+				Set yjFieldENode = Nothing
+			End If
+		Next
+	End If
+	blnFirstYj = False	'默认标记为不是意见域中的第一个意见
+	'未获取到意见XML对象，说明此意见域是第一次记录意见
+	If yjFieldENode Is Nothing Then
+		blnFirstYj = True
+		Set yjFieldENode = documentNode.Createelementnode("yjtofield")
+		Call yjFieldENode.Setattribute("field", yjfield)	'记录意见域名
+	End If
+	If blnFirstYj Then
+		'需将新建的dom加入xml文档中
+		Call yjFieldENode.Appendchild(yjTabENode)
+		Call documentNode.Documentelement.Appendchild(yjFieldENode)
+	Else
+		'同部门覆盖“0”
+		If yjAction=0 Then
+			Set docNodeList = yjFieldENode.Getelementsbytagname("yjtab")
+			count = docNodeList.Numberofentries
+			For i=count To 1 Step -1
+				Set tmpYjTabENode = docNodeList.Getitem(i)
+				'是部门反馈意见，且同部门，则替换
+				If tmpYjTabENode.Getattribute("dephqfk")="1" And tmpYjTabENode.Getattribute("hqdep")=strDepName Then
+					Call yjFieldENode.Removechild(tmpYjTabENode)
+					blnCoverFlag = True
+					Exit For
+				End If
+			Next
+		End If
+		Call yjFieldENode.Appendchild(yjTabENode)
+		'替换意见且意见不只一条且替换的意见不是最后一条
+		If blnCoverFlag And count&gt;1 And i&lt;count Then
+			Set docNodeList = yjFieldENode.Getelementsbytagname("yjtab")
+			'将替换掉的意见所在位置之后的意见移动到新添加的意见之后，确保新意见在被替换的意见位置上
+			intInd = i
+			For i=intInd To count-1
+				Set tmpYjTabENode = docNodeList.Getitem(intInd)
+				Call yjFieldENode.Appendchild(tmpYjTabENode)
+			Next
+		End If
+	End If
+	'将临时节点删除
+	If Not tmpENode Is Nothing Then
+		Call tmpENode.Parentnode.Removechild(tmpENode)
+	End If
+	'先删除rtf域，再重新创建域并赋值
+	If docMain.Hasitem("rtfYjFieldXML") Then
+		Call docMain.Removeitem("rtfYjFieldXML")
+	End If
+	
+	Call domParser.Serialize()
+	strYjXml = stream.Readtext()
+	'先截取正确的xml内容，防止读取出来的内容前后包含其他字符
+	strYjXml = StrRight(StrLeft(strYjXml,"&lt;/yjfieldxml&gt;"),"&lt;yjfieldxml&gt;")
+	
+	Call WriteToRtfWithHtmlStyle(docMain,"rtfYjFieldXML","&lt;yjfieldxml&gt;"+strYjXml+"&lt;/yjfieldxml&gt;")
+	
+	Exit Function
+errorhandle:
+	showerror("fnSaveYjFieldValueForHqfk")
+End Function
+
+</lotusscript></code><code event='fnFKNormalAtt'><lotusscript>%REM
+	Description: 普通附件反馈
+%END REM
+Function fnFKNormalAtt(docMain As NotesDocument,docFrom As NotesDocument,sAction As String) As Variant
+	On Error GoTo errHandler
+	Dim funids As Variant
+	Dim varquerystring As Variant
+	Dim doc As  NotesDocument
+	Dim newIDXDoc As NotesDocument
+	Dim aDeptName  As Variant
+	Dim strFileName As String
+	Dim aFkFileNames As Variant
+	Dim aParam List As Variant
+	Dim clFlow As New clFlow(Nothing, aParam)
+	funids=docMain.Getitemvalue("idx_FanKui_Normal")
+	
+	
+	ForAll funid In funids
+		If CStr(funid)&lt;&gt;"" Then
+			Set doc=GetIDXDocByFileID(docMain.idx_MainDocUNID(0),CStr(funid))
+			If Not doc Is Nothing Then
+				
+				'同服务器直接copy
+				If sAction="copy_to_main" Then
+					
+					'从主文档发过来的再反馈回去之前要把fileunid重新赋值避免重复
+					If InStr(doc.querystring(0),"&lt;Ext&gt;fromMaindoc&lt;/Ext&gt;")&gt;0 Or InStr(doc.querystring(0),"&lt;CusAttributes&gt;fromMaindoc&lt;/CusAttributes&gt;")&gt;0 Then
+						Dim inputAttachment As NotesEmbeddedObject
+						Dim sOriFileName As String
+						Dim newfileunid As String
+						Dim newquerystring As String
+						Dim rt As NotesRichTextItem
+						Dim item As NotesItem
+						
+						sOriFileName=doc.GetItemValue("$file")(0)
+						Set inputAttachment = doc.GetAttachment(sOriFileName) '获取文件
+						If Not inputAttachment Is Nothing Then
+							
+							Dim url As String
+							url = session.GetEnvironmentString("Directory",True)   '路径为\domino\data目录
+							
+							If Dir$(url+"\AttachmentTemp",16) ="" Then   
+								MkDir url + "\AttachmentTemp"  '在url下面创建一个名为AttachmentTemp的文件夹
+							End If
+
+							newfileunid=CreateFileUNID(doc.Universalid)
+							url = url +"\AttachmentTemp\"+newfileunid+getFileType(doc.FileName(0))
+							'将附件存放到指定路径目录下 
+							Call inputAttachment.ExtractFile(url) 
+							'再将附件附加到新文档
+							Set newIDXDoc = New NotesDocument(docFrom.Parentdatabase)
+							Set rt = New NotesRichTextItem(newIDXDoc, "AttachmentFiles" )
+							Call rt.embedObject(EMBED_ATTACHMENT,"",url,"")       
+							
+							
+							'处理附件参数
+							newIDXDoc.querystring=doc.querystring(0)
+							newIDXDoc.querystring=Replace(newIDXDoc.querystring(0),	docMain.idx_MainDocUNID(0),docFrom.idx_MainDocUNID(0))
+							newIDXDoc.querystring=Replace(newIDXDoc.querystring(0),"&lt;CatNum&gt;-1&lt;/CatNum&gt;","&lt;CatNum&gt;0&lt;/CatNum&gt;")
+							'附件名称处理，加上部门，避免反馈回去重名
+							aDeptName=Split(docMain.fldDep(0),"/")
+							newIDXDoc.FileName=aDeptName(0)+"("+Replace(CStr(Now),":","：")+")"+doc.FileName(0)
+							newIDXDoc.querystring=Replace(newIDXDoc.querystring(0),"&lt;file_name&gt;"+doc.FileName(0)+"&lt;/file_name&gt;","&lt;file_name&gt;"+newIDXDoc.FileName(0)+"&lt;/file_name&gt;")
+							newIDXDoc.querystring=Replace(newIDXDoc.querystring(0),"&lt;file_unid&gt;"+doc.FileUnid(0)+"&lt;/file_unid&gt;","&lt;file_unid&gt;"+newfileunid+"&lt;/file_unid&gt;")
+							
+							Call newIDXDoc.replaceitemvalue("$PublicAccess","1")
+							Set item = New NotesItem ( newIDXDoc, "Author", "*" )
+							item.IsSummary = True
+							item.IsAuthors = True
+							Call newIDXDoc.replaceitemvalue("CREATEDTIME",doc.CREATEDTIME(0))
+							Call newIDXDoc.replaceitemvalue("FileUnid",newfileunid)
+							Call newIDXDoc.replaceitemvalue("Form","frmIndiDocs")           '指定了此表单，那么vwIndiDocs视图即可找到这个附件文档
+							Call newIDXDoc.replaceitemvalue("MAINDOCUNID",docFrom.idx_MainDocUNID(0))      '指定了这个unid，那么就知道这个附件是哪个主文档的
+							Call newIDXDoc.replaceitemvalue("SaveOptions","1")
+							
+							newIDXDoc.Save True,False
+							Kill url
+						End If
+					Else
+						Set newIDXDoc = doc.CopyToDatabase(docFrom.Parentdatabase)
+						
+						'新文档使用与原文档不同的maindocunid
+						newIDXDoc.MaindocUNID = docFrom.idx_MainDocUNID(0)
+						newIDXDoc.querystring=Replace(newIDXDoc.querystring(0),	docMain.idx_MainDocUNID(0),docFrom.idx_MainDocUNID(0))			
+						
+						'正文当成附件反馈回去
+						newIDXDoc.querystring=Replace(newIDXDoc.querystring(0),	"&lt;CatNum&gt;-1&lt;/CatNum&gt;","&lt;CatNum&gt;0&lt;/CatNum&gt;")
+						
+						'附件名称处理，加上部门，避免反馈回去重名
+						aDeptName=Split(docMain.fldDep(0),"/")
+						newIDXDoc.FileName=aDeptName(0)+"("+Replace(CStr(Now),":","：")+")"+newIDXDoc.FileName(0)
+						newIDXDoc.querystring=Replace(newIDXDoc.querystring(0),"&lt;file_name&gt;"+doc.FileName(0)+"&lt;/file_name&gt;","&lt;file_name&gt;"+newIDXDoc.FileName(0)+"&lt;/file_name&gt;")
+						Call newIDXDoc.save(True,False)
+					End If
+					If Not newIDXDoc Is Nothing Then
+						'拷贝文档发送域转换命令
+						If getConfigKey("key_isDeployPretransfFile")="1" Then
+							Call clFlow.fnSendFileToPretransf(newIDXDoc.Parentdatabase ,newIDXDoc)
+						End If
+					End If
+				ElseIf sAction="get_attname" then'跨服务器返回名称
+	
+					If IsEmpty(aFkFileNames) Then
+						ReDim aFkFileNames(0)
+					End If
+					aFkFileNames=FullTrim(ArrayUnique(ArrayAppend(aFkFileNames,doc.FileName(0))))
+				Else
+					MsgBox "no Action matched"
+				End If
+				
+			End If
+		End If
+	End ForAll
+	
+	
+	fnFKNormalAtt=aFkFileNames
+	
+	Exit Function
+errHandler:
+	fnFKNormalAtt=aFkFileNames
+	showError( "fnFKNormalAtt" )
+End Function
+
+</lotusscript></code><code event='fnGetFkyjXmlMsg'><lotusscript>Function fnGetFkyjXmlMsg(docMain As NotesDocument) As Variant
+	On Error GoTo errHandler
+	
+	Dim session As New NotesSession
+	Dim stream As NotesStream
+	Dim domSpyj As NotesDOMElementNode
+	Dim dbFlowInfo As NotesDatabase,docFlowInfo As NotesDocument
+	Dim domParser As NotesDOMParser
+	Dim documentList As NotesDOMNodeList
+	Dim strxmlyj As String
+	Dim subyjxml As String	
+	Dim i As Integer
+	Dim item As NotesRichTextItem
+	Dim strdepCode As String
+	Dim tmpnmCurUser As NotesName
+	Set tmpnmCurUser= nmCurUser    '记录当前用户的值
+	Set nmCurUser = New NotesName( docMain.nmCurUserHq(0))	
+	subyjxml = ""
+	i = 0
+	
+	Call fnGetResponseDoc( docMain.Parentdatabase,docMain, dbFlowInfo,docFlowInfo )
+	
+	Set item = docFlowInfo.Getfirstitem("fldyj")
+	strxmlyj = item.Getunformattedtext()
+	strxmlyj = |&lt;spyj&gt;|+strxmlyj + |&lt;/spyj&gt;|
+	
+	Set stream = session.Createstream()
+	Set domParser=session.CreateDOMParser( strxmlyj,stream )
+	domParser.Process	
+	Set documentList = domParser.Document.GetElementsByTagName ("yjitem")
+	
+	Dim docIdx As NotesDocument
+	Dim strUNID As String
+	Dim strAttName As String		'附件名称临时变量
+	Dim strAttHAName As String		'手写批示临时变量
+	
+	Dim domYJItem As NotesDOMElementNode
+	Dim domYJItemTmp As NotesDOMElementNode
+	Dim domFKDep As NotesDOMElementNode
+	Dim domFKDepList As NotesDOMNodeList	
+	Dim numSeq As Long
+	Dim j,m As Long
+	Dim domTmpNew As NotesDOMElementNode
+	Dim strXMLTmp As String
+	
+	Dim aParam As Variant
+	Dim strExtendAttr As String
+	aParam = g_hqfkcustom.fnGetExtendAttr(docMain, nmCurUser)
+	
+	If Not IsEmpty(aParam) Then
+		ForAll v In aParam		
+			strExtendAttr = strExtendAttr &amp; | | &amp; ListTag(v) &amp; |="| &amp; CStr(v) &amp; |"|
+		End ForAll
+	End If
+	Dim aryAttName As Variant
+	Dim aryYJAttr As Variant
+	aryYJAttr = Split("user,wtfromuser,signature,time,shenpijibie,stat,flownum,clienttype,yj,yjatt,yjtp,wtfromuser,bwtrisdealer,abfromuser",",")
+	strdepCode = fnGetDepCodeByDbPath(docMain.Parentdatabase.Filepath)
+	If docMain.isSeletYJ(0)="1" Then
+		
+		'当前审批用户的审批信息		
+		Set domYJItem = documentList.Getitem( documentList.Numberofentries )
+		subyjxml = |&lt;fkdep user="|+ domYJItem.Getelementsbytagname("user").GetItem(1).Firstchild.Nodevalue+_
+		|" shenpijibie="|+domYJItem.Getelementsbytagname("shenpijibie").GetItem(1).Firstchild.Nodevalue+_
+		|" stat="|+domYJItem.Getelementsbytagname("stat").GetItem(1).Firstchild.Nodevalue+_
+		|"&gt;|+docMain.fldDep(0)+|&lt;/fkdep&gt;|+_
+		|&lt;fkdepid&gt;|+strdepCode+|&lt;/fkdepid&gt;|+_
+		|&lt;fkdetail hqserver="|+getSSLConfig(docMain.Parentdatabase)+|" hqflowdb="|+docMain.hfldFlowDefPath(0)+_
+		|" hqflowid="|+docMain.flowid(0)+|" user="|+nmCurUser.Abbreviated+|"|+strExtendAttr+| /&gt;|
+		'选择的反馈意见信息  数据结构增加 &lt;subhqfk&gt;
+		
+		Set domSpyj = domParser.Document.Getelementsbytagname("spyj").Getitem(1)
+		
+		numSeq = 1
+		Set domYJItem = domSpyj.Firstchild
+		While Not (domYJItem Is Nothing  )
+			
+			If Not (domYJItem.Nextsibling Is Nothing Or domYJItem.Nextsibling.Isnull) Then
+				Set domYJItemTmp = domYJItem.Nextsibling 
+			Else
+				Set domYJItemTmp = Nothing
+			End If
+			
+			Set domFKDepList = domYJItem.Getelementsbytagname("subhqfk")
+			If domFKDepList.Numberofentries&lt;&gt;0 Then
+				For m=1 To domFKDepList.Numberofentries
+					
+					If m&lt;=domYJItem.Getelementsbytagname("subhqfk").Numberofentries Then
+						Set domFKDep = domFKDepList.Getitem(m)
+						If IsNull(ArrayGetIndex(  docMain.fldseletyj ,CStr(numSeq) )) Then
+							Set domYJItem = domFKDep.Parentnode
+							Call domFKDep.Parentnode.Removechild(domFKDep)						
+							m=m-1
+						End If
+						numSeq = numSeq + 1	
+					End If
+					
+				Next
+				
+			Else
+
+				If IsNull(ArrayGetIndex(  docMain.fldseletyj ,CStr(numSeq) )) Then
+					Call domYJItem.Parentnode.Removechild(domYJItem)
+				Else
+					Set domTmpNew = domParser.Document.Createelementnode("subhqfk")			
+					If domYJItem.Nextsibling Is Nothing Or domYJItem.Nextsibling.Isnull Then
+						Call domTmpNew.Setattribute( "type","zjfk")
+					End If
+					
+					ForAll v In aryYJAttr
+						Set domFKDepList = domYJItem.Getelementsbytagname( CStr(v))
+						If domFKDepList.Numberofentries&lt;&gt;0 Then
+							Call domTmpNew.Appendchild( domFKDepList.getItem(1) )
+						End If
+					End ForAll
+					
+					Call domYJItem.Parentnode.Appendchild( domTmpNew )
+					
+					Call domYJItem.Parentnode.Replacechild( domTmpNew,domYJItem)
+				End If
+				
+				numSeq = numSeq + 1	
+			End If
+			
+			Set domYJItem = domYJItemTmp
+			
+		Wend
+		
+		Set domFKDepList = domParser.Document.Getelementsbytagname("yjitem")
+		For j=1 To domFKDepList.Numberofentries	
+			If j&lt;=domParser.Document.Getelementsbytagname("yjitem").Numberofentries Then
+				Set domFKDep = domFKDepList.Getitem(j)
+				If domFKDep.Getelementsbytagname("fkdep").Numberofentries&lt;&gt;0 Then
+					If domFKDep.Getelementsbytagname("subhqfk").Numberofentries=0 Then
+						Call domFKDep.Parentnode.Removechild( domFKDep )
+						j = j -1
+					End If
+				End If
+			End If
+		Next
+		
+		Dim domYJAttList As NotesDOMNodeList
+		Dim domYJAtt As NotesDOMNode
+		Set domYJAttList = domParser.Document.Getelementsbytagname("yjatt")
+		
+		If domYJAttList.Numberofentries&lt;&gt;0 Then
+			For j=1 To domYJAttList.Numberofentries
+				Set domYJAtt = domYJAttList.Getitem(j)
+				strAttName = domYJAtt.Firstchild.FirstChild.Nodevalue
+				
+				If strAttName&lt;&gt;"" Then
+					If IsEmpty(aryAttName) Then
+						aryAttName = Split(strAttName,"")
+					Else
+						aryAttName = ArrayAppend(aryAttName,strAttName)
+					End If
+				End If
+			Next
+		End If
+		
+		Set domYJAttList = domParser.Document.Getelementsbytagname("yjtp")
+		
+		If domYJAttList.Numberofentries&lt;&gt;0 Then
+			For j=1 To domYJAttList.Numberofentries
+				Set domYJAtt = domYJAttList.Getitem(j)
+				If domYJAtt.Firstchild.Isnull Then
+					strAttName = ""
+				Else
+					strAttName = domYJAtt.Firstchild.Nodevalue
+				End If
+				
+				If strAttName&lt;&gt;"" Then
+					strUNID = StrRight( strAttName,"(vwIndiDocs_Attach)/")
+					strUNID = StrLeft(strUNID,"/$file")
+					Set docIdx = Getdocumentbyunid(docMain.Parentdatabase,strUNID)
+					strAttName = docIdx.FileName(0)				
+					If IsEmpty(aryAttName) Then
+						aryAttName = Split(strAttName,"")
+					Else
+						aryAttName = ArrayAppend(aryAttName,strAttName)
+					End If
+				End If
+			Next
+		End If
+		
+		Call domParser.Serialize()
+		
+		strXMLTmp = stream.Readtext()
+		strXMLTmp = StrRight( strXMLTmp , "&lt;spyj&gt;")
+		strXMLTmp = StrLeftBack( strXMLTmp ,"&lt;/spyj&gt;")
+		
+		subyjxml = subyjxml + strXMLTmp
+		
+	Else
+		
+		'开关关闭时，只反馈当前用户的审批信息及选择的意见附件
+		subyjxml =|&lt;user&gt;|+docMain.fldDep(0)+|&lt;/user&gt;|+_
+		|&lt;fkdetail hqserver="|+getSSLConfig(docMain.Parentdatabase)+|" hqflowdb="|+docMain.hfldFlowDefPath(0)+_
+		|" hqflowid="|+docMain.flowid(0)+|" user="|+nmCurUser.Abbreviated+|"|+strExtendAttr+| /&gt;|+_
+		|&lt;signature&gt;|+getxmlnodevalue(strxmlyj,"signature",docMain.fldseletyj(0))+|&lt;/signature&gt;|+_
+		|&lt;time&gt;|+getxmlnodevalue(strxmlyj,"time",docMain.fldseletyj(0))+|&lt;/time&gt;|+_
+		|&lt;shenpijibie&gt;|+getxmlnodevalue(strxmlyj,"shenpijibie",docMain.fldseletyj(0))+|&lt;/shenpijibie&gt;|+_
+		|&lt;stat&gt;|+getxmlnodevalue(strxmlyj,"stat",docMain.fldseletyj(0))+|&lt;/stat&gt;|+_
+		|&lt;flownum&gt;|+getxmlnodevalue(strxmlyj,"flownum",docMain.fldseletyj(0))+|&lt;/flownum&gt;|+_
+		|&lt;clienttype&gt;|+getxmlnodevalue(strxmlyj,"clienttype",docMain.fldseletyj(0))+|&lt;/clienttype&gt;|+_
+		|&lt;yj&gt;|+getxmlnodevalue(strxmlyj,"yj",docMain.fldseletyj(0))+|&lt;/yj&gt;|
+		
+		Dim arrIdxTmp As Variant
+		
+		If docMain.Hasitem("Idx_FanKui") Then
+			If docMain.Getfirstitem("Idx_FanKui").Text &lt;&gt; "" Then
+				arrIdxTmp = Split(docMain.Getfirstitem("Idx_FanKui").Text,"|")
+				Dim k As Integer
+				For k = LBound(arrIdxTmp) To UBound(arrIdxTmp)		
+					strAttName = arrIdxTmp(k)			
+					
+					If IsEmpty(aryAttName) Then
+						aryAttName = Split(strAttName,"")
+					Else
+						aryAttName = ArrayAppend(aryAttName,strAttName)
+					End If
+					
+					subyjxml=subyjxml+|&lt;yjatt&gt;|
+					subyjxml=subyjxml+|&lt;attname&gt;|+formatxml(strAttName)+|&lt;/attname&gt;|
+					subyjxml=subyjxml+|&lt;attunid&gt;|+formatxml(strAttName)+|&lt;/attunid&gt;|
+					subyjxml=subyjxml+|&lt;atturl&gt;|+formatxml(strAttName)+|&lt;/atturl&gt;|
+					subyjxml=subyjxml+|&lt;/yjatt&gt;|					
+				Next
+			End If
+		End If
+		
+		strAttHAName = getxmlnodevalue(strxmlyj,"yjtp",docMain.fldseletyj(0))	
+		
+		If strAttHAName&lt;&gt;"" Then
+			strUNID = StrRight( strAttHAName,"(vwIndiDocs_Attach)/")
+			strUNID = StrLeft(strUNID,"/$file")
+			Set docIdx = Getdocumentbyunid(docMain.Parentdatabase,strUNID)
+			strAttName = docIdx.FileName(0)				
+			If IsEmpty(aryAttName) Then
+				aryAttName = Split(strAttName,"")
+			Else
+				aryAttName = ArrayAppend(aryAttName,strAttName)
+			End If
+		End If	
+		
+		subyjxml = subyjxml+|&lt;yjtp&gt;|+strAttHAName+|&lt;/yjtp&gt;|
+	End If
+	
+	subyjxml=Replace(subyjxml,Chr(10),"")
+	subyjxml=Replace(subyjxml,Chr(13),"")
+	Dim clFkMsg As New clFkMsg
+	clFkMsg.strXML = |&lt;yjitem&gt;|+subyjxml+|&lt;/yjitem&gt;|
+	clFkMsg.aryAttName = aryAttName
+	
+	Dim dbFlow As NotesDatabase,docFlow As NotesDocument
+	Call getFlowDoc( session,docMain.Parentdatabase,docMain,dbFlow,docFlow )
+	
+	If docFlow.Hasitem("tmphqSelfield_override"+Cstr(docMain.flowNum_beforSubmit(0))) Then
+		clFkMsg.strSameDepDealType = docFlow.GetItemValue("tmphqSelfield_override"+Cstr(docMain.flowNum_beforSubmit(0)))(0)
+	End If
+	
+	Set  nmCurUser =tmpnmCurUser   '将当前用户的值替换回进入本函数前的值
+	Set fnGetFkyjXmlMsg = clFkMsg
+	Exit Function
+errHandler:
+	showError( "fnGetFkyjXmlMsg" )
+End Function
+
+</lotusscript></code><code event='getxmlnodevalue'><lotusscript>Function getxmlnodevalue(sResult As String,nodename As String,l As String) As String
+	On Error GoTo errorhandle
+	On Error Resume Next
+	
+	Dim session As New NotesSession
+	Dim domParser As NotesDOMParser
+	Dim docNode As NotesDOMDocumentNode
+	Dim domNode As NotesDOMNode
+	Dim elementNode As NotesDOMElementNode 
+	Dim docList As NotesDOMNodeList 
+	Dim statusList As NotesDOMNodeList
+
+
+	Set domParser=session.CreateDOMParser()
+	
+	
+	Call domParser.SetInput(sResult)
+	domParser.Process
+	Set docNode = domParser.Document 
+	Dim iLength As Long
+	Set docList = docNode.GetElementsByTagName("yjitem")
+	Dim nodeList As NotesDOMNodeList
+	Dim node As NotesDOMElementNode
+	'For iLength = 1 To docList.Numberofentries  
+	
+	Set node = docList.Getitem(l)
+	
+	Set nodeList = node.GetElementsByTagName(nodename)
+	If Not nodeList.Getitem(1) Is Nothing Then  
+		getxmlnodevalue = formatxml(nodeList.Getitem(1).Firstchild.Nodevalue)  
+		Exit Function
+	End If
+	'Next
+	
+	getxmlnodevalue = ""
+	Exit Function
+Errorhandle:  
+	showerror("getxmlnodevalue")
+	getxmlnodevalue = "" 
+End Function
+
+</lotusscript></code><code event='suFanKui'><lotusscript>Sub suFanKui( docMain As NotesDocument )
+	
+	On Error GoTo errorhandle
+	
+	Dim dbCurrent As NotesDatabase
+	Dim dbFrom As NotesDatabase
+	Dim docFrom As NotesDocument
+	
+	Dim nmCurSer As NotesName
+	Dim nmTarSer As NotesName
+	
+	Dim dbGwpz As NotesDatabase
+	Dim docDept As NotesDocument
+	Dim dbFlow As NotesDatabase
+	Dim docFlow As NotesDocument
+	Dim dbFlowFrom As NotesDatabase
+	Dim docFlowFrom As NotesDocument
+	Dim dbFlowInfoFrom As NotesDatabase
+	Dim docFlowInfoFrom As NotesDocument
+	Dim yjxml As String
+	Dim strYj As String
+	Dim strAttXml As String
+	Dim strAttName As String
+	Dim strDeptName As String
+	Dim strDeptId As String
+	Dim strSpjb As String
+	Dim ritem As NotesRichTextItem		'fullhistory 存储流程跟踪信息rtf
+	Dim mmstrm As String				'步骤字符串
+	Dim hqkey As String
+	Dim astrAllDealer As Variant
+	Dim astrAllDep As Variant
+	Dim astrHqMgr As Variant
+	Dim nmUser As NotesName
+	Dim i As Integer
+	Dim blnStartNext As Boolean
+	
+	Set dbCurrent = session.Currentdatabase
+	Set nmCurSer = New NotesName(dbCurrent.Server )
+	Set nmTarSer = New NotesName(docMain.fldSrcServer(0))
+	
+	
+	Set dbFrom=session.getdatabase("",docMain.fldFromdatabase(0))
+	Set docFrom=getDocumentByUnid(dbFrom,docMain.fldFromunid(0))
+	If docFrom Is Nothing Then
+		'找不到原主文档
+		Exit Sub
+	End If
+	
+	Dim cTodo As New clTODO
+	Dim aParamTodo List As Variant
+	Call cTodo.storeFieldsWhenStart(docFrom, aParamTodo)
+	
+	docfrom.strUnComputeDateTime = "1"
+	Call getFlowDoc( session , dbCurrent , docFrom , dbFlowFrom , docFlowFrom )
+	If docFlowFrom Is Nothing Then
+		'找不到原主文档的流程定义文档
+		Exit Sub
+	End If
+	
+	'处理原发起文档的本次反馈相关记录及意见到流转记录文档，并处理会签意见写入域
+	If g_hqfkcustom.fnGetXMLYJ( docMain )&lt;&gt;"" Then
+		Call doWithHQResponseForCustom(docFrom,docFlowFrom,docMain)
+	Else
+		Call doWithHQResponse(docFrom,docFlowFrom,docMain)
+	End If
+	
+	
+	strDeptName = docMain.fldDep(0)
+	strDeptId=docMain.fldDepId(0)
+	
+	'记录已完成会签单位
+	docFrom.history=docFrom.history(0)+strDeptName+"（部门处理）" + CStr(Now) + "-&gt;"
+	docFrom.fldHuiQianDWList = FullTrim(ArrayUnique(ArrayAppend(docFrom.fldHuiQianDWList,strDeptName)))
+	docFrom.fldHuiQianDWList_id = FullTrim(ArrayUnique(ArrayAppend(docFrom.fldHuiQianDWList_id,strDeptId)))
+	docFrom.fldHuiQianDWListid = docFrom.fldHuiQianDWList_id  '添加对fldHuiQianDWListid的设置 供工作查询按部门编号使用
+	
+	
+	'------将已会签的部门及对应的部门接收人从会签中列表中移出 start------
+	Set dbGwpz = session.Getdatabase("", "indishare/gwpz.nsf")
+	Set docDept= getDepartmentDocByKey(dbGwpz,docMain.fldObjDep(0),"会签管理")
+	astrAllDep = docFrom.alldealer_spbm  		'取出所有审批部门 ,格式是部门名+部门编号	
+	
+	ForAll v In astrAllDep
+		If StrRightBack(v,"|") = strDeptId Then
+			blnStartNext = True
+			astrAllDep = RebuildList(astrAllDep,CStr(v))
+			Exit ForAll
+		End If	
+	End ForAll
+	
+	docFrom.alldealer_spbm=astrAllDep
+	Call suSetAlldealer_spbmid(docFrom)
+	'------将已会签的部门及对应的部门接收人从会签中列表中移出 end------
+	
+	'部门会签反馈，将主表单中记录会签环节意见写入主表单域中相关信息删除
+	Dim aParamHq List As Variant
+	aParamHq("depid") = strDeptId
+	Call fnUpdateMDocHqYjfieldInfo(docFrom, aParamHq)
+	
+	'如果所有部门均会签完毕
+	If astrAllDep(0)="None" Or astrAllDep(0)="" Then  
+		'docFrom.DocumentAuthors_spr=""
+		docFrom.DocumentAuthors_spbm=""
+		docFrom.alldealer_spbm = ""
+		Call suSetAlldealer_spbmid(docFrom)
+		'docFrom.stat_bfsp=""
+		'by sunxz 2014-11-13 会签部门+会签人员都为空，则设置审批状态为空
+		docFrom.fldLastEditor = docMain.fldLastEditor
+		If  docFrom.nmHQGouTongAuthors(0)=""  Then
+			docFrom.stat_bfsp=""
+		End If
+
+		REM 若所有部门已反馈则将主文档的fldIsFkAll置为“1” 2014-01-21 add hems Ver5.1
+		docFrom.fldIsFkAll = "1"			
+
+	End If	
+	
+	Set nmUser = New NotesName(docMain.nmCurUserHq(0))
+	
+	REM 发邮件通知给主文档当前处理人
+	Dim strSubject As String
+	Dim strContent As String
+	Dim mailParam List As Variant
+	mailParam("type") = "bmfk"
+	strContent= g_mailcustom.fnIniMailContentExt(docFrom,"部门反馈")(1)
+	strSubject = "部门反馈"+|（|+dbFrom.title+|）通知单|++"："+docFrom.fldSubject(0)
+	mailParam("subject") = strSubject
+	mailParam("content") = strContent
+	mailParam("sendSingle") = "no"
+	If fnNeedSendMailInCfg() Then
+		mailParam("defsend") = True
+	End If
+	Call fnFlowMail(docFrom, "", nmUser, docFrom.DocumentAuthors, mailParam)
+	
+
+	
+	If docFrom.fldHuiQianType(0)="顺序审批"  And blnStartNext Then
+		Set nmUser = New NotesName(docMain.DocumentFromReader(0))
+		Call suStartNextDep( docFrom,nmUser)
+	End If
+	
+	Dim dbFlowInfo As NotesDatabase,docFlowInfo As NotesDocument
+	Call fnGetResponseDoc(docFrom.Parentdatabase,docFrom,dbFlowInfo,docFlowInfo)
+	Call docFlowInfo.Save(True,False)
+	
+	If docFrom.stat_bfsp(0)="" Then
+		docFrom.nmHuiQian_wait=""
+	End If
+	Call cTodo.dealTodo(docFrom, aParamTodo)
+
+	docfrom.strUnComputeDateTime = ""
+	Call docFrom.save(True,True)
+	
+	
+	Exit Sub
+errorhandle:
+	showerror("suFanKui")
+End Sub
+
+</lotusscript></code><code event='fnGetUpdatedHQInfor'><lotusscript>Function fnGetUpdatedHQInfor( docFlowInfo As NotesDocument,aParam As Variant) As String
+	%REM
+	更新会签发起方流■¬记录xml中对应节点信息	
+	%END REM
+	On Error GoTo errorhandle
+	
+	Dim ritem As NotesRichTextItem
+	Dim strXml As String
+	Dim i As Integer
+	Dim domParser As NotesDOMParser
+	Dim stream As NotesStream
+	Dim documentList As NotesDOMNodeList
+	Dim eNode As NotesDOMElementNode
+	Dim strDepID As String
+
+	Set ritem = docFlowInfo.Getfirstitem("fullhistory")
+	strXml = ritem.GetUnformattedText()
+	
+	Set stream = session.Createstream()
+	Set domParser=session.CreateDOMParser("&lt;root&gt;" &amp; strXml &amp; "&lt;/root&gt;",stream )
+	domParser.Process
+	Set documentList = domParser.Document.GetElementsByTagName ("item")
+	For i = documentList.NumberOfEntries To 1 Step -1			
+		Set eNode = documentList.GetItem(i)
+
+		strDepID = eNode.Getattribute("depid")
+		If strDepID&lt;&gt;"" Then
+			Dim varTmp As Variant
+			varTmp = Split(strDepID,",")
+			ForAll v In varTmp
+				If CStr(v)= aParam("depid") Then
+					Call SetXMLChild( domParser.Document , eNode, aParam )
+					GoTo returnxml
+				End If
+			End ForAll
+		Else
+			If eNode.Getattribute("refkey") = strHuiQianKey Then			
+				Call SetXMLChild( domParser.Document , eNode, aParam )
+				GoTo returnxml
+			End If
+		End If
+		
+		
+	Next
+
+returnxml:	
+	Call domParser.Serialize()
+	strXML = stream.Readtext()
+	strXML = StrRight( strXML , "&lt;root&gt;")
+	strXML = StrLeftBack( strXML ,"&lt;/root&gt;")
+	fnGetUpdatedHQInfor = strXML
+	
+	Exit Function
+errorhandle:
+	showerror("fnGetUpdatedHQInfor")
+	
+End Function
+
+</lotusscript></code><code event='fnCopyYJattToSrcDb'><lotusscript>Function fnCopyYJattToSrcDb(docMain As NotesDocument,docFrom As NotesDocument,strAttname As String) As String
+	'将相关idx文件拷贝到对应审批库
+	On Error GoTo errorhandle
+	
+	If docMain.idx_MainDocUNID(0)="" Then
+		Exit Function
+	End If
+	
+	If docMain.idx_MainDocUNID(0)&lt;&gt;"" Then
+		Dim vwIdx As NotesView
+		Dim dc As NotesDocumentCollection
+		Dim doc As NotesDocument
+		Set vwIdx = docMain.Parentdatabase.Getview("(vwIndiDocs)")
+		Set dc = vwIdx.Getalldocumentsbykey(docMain.idx_MainDocUNID(0), True)
+		If dc.Count=0 Then Exit Function
+		Set doc = dc.Getfirstdocument()
+		Dim arrIdxTmp As Variant
+		Dim k As Integer
+		Dim newIDXDoc As NotesDocument
+		Dim varquerystring As Variant
+		Dim strquerystring As String
+		Dim strDeptName As String
+		Dim aParam List As Variant
+		Dim clFlow As New clFlow(Nothing, aParam)
+		While Not(doc Is Nothing)
+			'意见附件 拷贝
+			
+			If strAttname=formatxml(doc.FileName(0)) Or  strAttname=doc.FileName(0) Then
+				Set newIDXDoc = doc.CopyToDatabase(docFrom.Parentdatabase)
+				'新文档使用与原文档不同的maindocunid
+				newIDXDoc.MaindocUNID = docFrom.idx_MainDocUNID(0)					
+				strDeptName=Replace(docMain.fldDep(0),"/","_")
+				varquerystring = Split(newIDXDoc.querystring(0),"&lt;file_name&gt;"+newIDXDoc.FileName(0)+"&lt;/file_name&gt;")
+				'增加随机数 防止附件名重复
+				newIDXDoc.FileName=strDeptName+"_"+CStr(CInt(Rnd()*1000))+"_"+newIDXDoc.FileName(0)
+				If UBound(varquerystring)&gt;0 Then
+					newIDXDoc.querystring = varquerystring(0)+"&lt;file_name&gt;"+newIDXDoc.FileName(0)+"&lt;/file_name&gt;"+varquerystring(1)
+				End If
+				'FileUnids(j) = newIDXDoc.FileUnid(0)
+				Call newIDXDoc.save(True,False)
+				
+				'拷贝文档发送域转换命令
+				If getConfigKey("key_isDeployPretransfFile")="1" Then
+					Call clFlow.fnSendFileToPretransf(newIDXDoc.Parentdatabase ,newIDXDoc)
+				End If
+				
+				'将拷贝过去的附件名追加到Idx_All_Attach_5中，使之在当前环节意见区不显示
+				If docFrom.Hasitem("Idx_All_Attach_5") Then
+					If docFrom.Idx_All_Attach_5(0)="" Then
+						Call docFrom.Replaceitemvalue("Idx_All_Attach_5", newIDXDoc.FileName(0))
+					Else
+						Call docFrom.Replaceitemvalue("Idx_All_Attach_5", docFrom.Idx_All_Attach_5(0)+"|"+newIDXDoc.FileName(0))
+					End If
+				Else
+					Call docFrom.Replaceitemvalue("Idx_All_Attach_5", newIDXDoc.FileName(0))
+				End If
+				Call docFrom.Save(False,False)
+				
+				fnCopyYJattToSrcDb = newIDXDoc.FileName(0)
+				Exit Function
+			End If
+			
+			'手写批示拷贝
+			Dim strCurHAFile As String
+			Dim docfilename As String
+			
+			strCurHAFile=StrRightBack(LCase(strAttname),"/")
+			docfilename=LCase(doc.FileUnid(0))
+			strCurHAFile=Left(strCurHAFile,Len(strCurHAFile)-Len(GetFileType(strCurHAFile)))
+			
+			If docfilename=strCurHAFile Then
+				Set newIDXDoc = doc.CopyToDatabase(docFrom.Parentdatabase)
+				'新文档使用与原文档不同的maindocunid
+				newIDXDoc.MaindocUNID = docFrom.idx_MainDocUNID(0)					
+				strDeptName=Replace(docMain.fldDep(0),"/","_")
+				varquerystring = Split(newIDXDoc.querystring(0),"&lt;file_name&gt;"+newIDXDoc.FileName(0)+"&lt;/file_name&gt;")
+				newIDXDoc.FileName=strDeptName+"_"+CStr(CInt(Rnd()*1000))+"_"+newIDXDoc.FileName(0)
+				If UBound(varquerystring)&gt;0 Then
+					newIDXDoc.querystring = varquerystring(0)+"&lt;file_name&gt;"+newIDXDoc.FileName(0)+"&lt;/file_name&gt;"+varquerystring(1)
+				End If
+				'FileUnids(j) = newIDXDoc.FileUnid(0)
+				Call newIDXDoc.save(True,False)
+				'将拷贝过去的附件名追加到Idx_All_Attach_5中，使之在当前环节意见区不显示
+				If docFrom.Hasitem("Idx_All_Attach_5") Then
+					If docFrom.Idx_All_Attach_5(0)="" Then
+						Call docFrom.Replaceitemvalue("Idx_All_Attach_5", newIDXDoc.FileName(0))
+					Else
+						Call docFrom.Replaceitemvalue("Idx_All_Attach_5", docFrom.Idx_All_Attach_5(0)+"|"+newIDXDoc.FileName(0))
+					End If
+				Else
+					Call docFrom.Replaceitemvalue("Idx_All_Attach_5", newIDXDoc.FileName(0))
+				End If
+				fnCopyYJattToSrcDb = "/"+Replace(docFrom.Parentdatabase.Filepath,"\","/")+"/(vwIndiDocs_Attach)/"+newIDXDoc.Universalid+"/$file/"+newIDXDoc.FileUnid(0)+GetFileType(StrRight(LCase(strAttname),"/"))
+				Exit Function
+			End If
+			
+			Set doc = dc.Getnextdocument(doc)
+		Wend
+	End If
+	
+	Exit Function
+errorhandle:
+	showerror("fnCopyYJattToSrcDb")
+	
+End Function
+
+</lotusscript></code><code event='fnGetHQYjSigatureByTmpl'><lotusscript>Function fnGetHQYjSigatureByTmpl(dbMain As NotesDatabase,docMain As NotesDocument,docFlow As NotesDocument,num As Integer,yjfield As String,strSignature As String,strDep As String,strtime As String,struser As String,strType As String ) As String
+	%REM
+『作者』	sunxz 2014-10-31
+『功能』	意见落款样式从配置中读取，优先级：流程定义环节的样式&gt;app/pubflowdef.nsf中配置
+『修改历史』
+
+	%END REM
+	On Error GoTo errHandler
+	
+	Dim strSignatureTmpl As String
+	Dim strSigature As String
+	Dim tmpFieldName As String
+	
+	'找流程定义中的模板
+	If strType="zjfk" Then		'总结反馈
+		If docFlow.Hasitem("tmphqfieldtmpl"+Cstr(num)) Then
+			strSignatureTmpl = Trim(docFlow.GetItemValue("tmphqfieldtmpl"+Cstr(num))(0))
+			tmpFieldName = "tmphqfieldtmpl"
+		End If
+	Else						
+		If docFlow.Hasitem("tmphqhjfieldtmpl"+Cstr(num)) Then
+			strSignatureTmpl = Trim(docFlow.GetItemValue("tmphqhjfieldtmpl"+Cstr(num))(0))
+			tmpFieldName = "tmphqhjfieldtmpl"
+		End If		
+	End If
+	
+	'判断是否使用意见落款,如果不启用则返回空  wangwz 2015-6-1 add
+	If docFlow.Hasitem(tmpFieldName + "checkbox" + CStr(num)) Then
+		If Trim(docFlow.GetItemValue(tmpFieldName + "checkbox" + CStr(num))(0)) = "no" Then
+			fnGetHQYjSigatureByTmpl = ""
+			Exit Function 
+		End If		
+	End If
+	
+	'没找到，去意见域维护中找
+	If strSignatureTmpl ="" Then
+		Dim dbOAConfig As NotesDatabase
+		Dim vwOAConfig As NotesView
+		Dim docOAConfig As NotesDocument
+
+		Set dbOAConfig=session.getdatabase("","indishare/oaconfig.nsf")
+		If dbOAConfig.isopen Then
+			Set vwOAConfig=dbOAConfig.getview("vwYJLKConfig")
+			Set docOAConfig = vwOAConfig.Getfirstdocument()
+			If Not docOAConfig Is Nothing Then
+				If strType="zjfk" Then		'总结反馈
+					strSignatureTmpl=docOAConfig.fldHqYjFieldTmpl(0) 
+				Else						
+					strSignatureTmpl=docOAConfig.fldhqhjfieldtmpl(0) 
+				End If			
+			End If
+		End If
+	End If
+	
+	g_HQYjFieldParam("signTmpl") = strSignatureTmpl		'记录落款样式
+	g_HQYjFieldParam("data-user") = struser		'记录用户
+	If strSignatureTmpl&lt;&gt;""  Then
+		'时间
+		Dim strActionTimeInField  ,strFmt As String
+		If InStr(strSignatureTmpl,"{time")&gt;0 Then
+			strFmt=StrRight(strSignatureTmpl,"time=")
+			strFmt=StrLeft(strFmt,"}")
+			strtime=Format(strtime,strFmt)
+			g_HQYjFieldParam("data-time") = strtime		'记录审批时间
+		End If
+		'人员处理
+		If strSignature&lt;&gt;"" Then
+			g_HQYjFieldParam("signpic") = strSignature	'记录用户签名图片
+			strUser = |&lt;div class="sign"&gt;&lt;img height="50px" src="|+strSignature+|" alt="|+struser+|" title="|+struser+|" /&gt;&lt;/div&gt;|
+		Else
+			strUser=|&lt;span class="userName"&gt;|+struser+|&lt;/span&gt;|
+		End If
+		
+		'{user}  ({dept})签发于{time=YYYY-MM-dd}
+		strSignature=Replace(strSignatureTmpl,"{dept}","&lt;span data-department='"+docMain.fldDepId(0)+"'&gt;"+strdep+"&lt;/span&gt;")
+		strSignature=Replace(strSignature,"{user}",strUser)
+		If InStr(strSignatureTmpl,"{time=")&gt;0 Then
+			Dim sL As String
+			Dim sR As String
+			sL=StrLeft(strSignature,"{time=")
+			sR=StrRight(strSignature,"{time=")
+			strSignature=sL+strtime+StrRightBack(sR,"}")
+		Else
+			strSignature=Replace(strSignature,"{time}",strtime)
+		End If
+	Else
+		g_HQYjFieldParam("data-time") = strtime		'记录审批时间
+		'签名图片
+		If strSignature&lt;&gt;"" Then
+			g_HQYjFieldParam("signpic") = strSignature	'记录用户签名图片
+			strSignature = |&lt;div class="sign"&gt;&lt;img height="50px" src="|+strSignature+|" alt="|+struser+|" title="|+struser+|" /&gt; |+strtime+|&lt;/div&gt;|
+		Else
+			strSignature = |&lt;span class="userName" dept="|+strdep+|"&gt;| +struser+|&lt;/span&gt;|+strtime
+		End If
+	End If
+	
+	fnGetHQYjSigatureByTmpl=strSignature
+	
+	Exit Function
+errHandler:
+	ShowError( "fnGetHQYjSigatureByTmpl" )
+End Function
+
+</lotusscript></code><code event='fnFKyjxml'><lotusscript>
+%REM
+	Function fnFKyjxml
+	Description: Comments for Function
+%END REM
+Function fnFKyjxml(docMain As NotesDocument,docFlowIn As NotesDocument,docFrom As NotesDocument) As String
+	On Error GoTo errHandler
+	Dim strxmlyj As String
+	Dim subyjxml As String
+	Dim strdepCode As String
+	subyjxml = ""
+	Dim i As Integer
+	i = 0
+	Dim item As NotesRichTextItem
+	Set item = docFlowIn.Getfirstitem("fldyj")
+	strxmlyj = item.Getunformattedtext()
+	strxmlyj = |&lt;spyj&gt;|+strxmlyj + |&lt;/spyj&gt;|
+	
+	Dim session As New NotesSession
+	Dim stream As NotesStream
+	Dim domParser As NotesDOMParser
+	Dim domSpyj As NotesDOMElementNode
+	Dim documentList As NotesDOMNodeList
+
+	Set stream = session.Createstream()
+	Set domParser=session.CreateDOMParser( strxmlyj,stream )
+	domParser.Process	
+	Set documentList = domParser.Document.GetElementsByTagName ("yjitem")
+	
+	Dim strAttName As String		'附件名称临时变量
+	Dim strAttHAName As String		'手写批示临时变量
+	Dim domYJItem As NotesDOMElementNode
+	Dim domYJItemTmp As NotesDOMElementNode
+	Dim domFKDep As NotesDOMElementNode
+	Dim domFKDepList As NotesDOMNodeList	
+	Dim numSeq As Long
+	Dim j,m As Long
+	Dim domTmpNew As NotesDOMElementNode
+	Dim strXMLTmp As String
+	
+	Dim aParam As Variant
+	Dim strExtendAttr As String
+	aParam = g_hqfkcustom.fnGetExtendAttr(docMain, nmCurUser)
+	
+	If Not IsEmpty(aParam) Then
+		ForAll v In aParam		
+			strExtendAttr = strExtendAttr &amp; | | &amp; ListTag(v) &amp; |="| &amp; CStr(v) &amp; |"|
+		End ForAll
+	End If
+	
+	Dim aryYJAttr As Variant
+	aryYJAttr = Split("user,wtfromuser,signature,time,shenpijibie,stat,flownum,clienttype,yj,yjatt,yjtp,wtfromuser,bwtrisdealer,abfromuser",",")
+	strdepCode = fnGetDepCodeByDbPath(docMain.Parentdatabase.Filepath)
+	If docMain.isSeletYJ(0)="1" Then
+		
+		Set domYJItem = documentList.Getitem( documentList.Numberofentries )
+		subyjxml = |&lt;fkdep user="|+ domYJItem.Getelementsbytagname("user").GetItem(1).Firstchild.Nodevalue+_
+		|" shenpijibie="|+domYJItem.Getelementsbytagname("shenpijibie").GetItem(1).Firstchild.Nodevalue+_
+		|" stat="|+domYJItem.Getelementsbytagname("stat").GetItem(1).Firstchild.Nodevalue+_
+		|"&gt;|+docMain.fldDep(0)+|&lt;/fkdep&gt;|+_
+		|&lt;fkdepid&gt;|+strdepCode+|&lt;/fkdepid&gt;|+_
+		|&lt;fkdetail hqserver="|+getSSLConfig(docMain.Parentdatabase)+|" hqflowdb="|+docMain.hfldFlowDefPath(0)+_
+		|" hqflowid="|+docMain.flowid(0)+|" user="|+nmCurUser.Abbreviated+|"|+strExtendAttr+| /&gt;|
+		'选择的反馈意见信息  数据结构增加 &lt;subhqfk&gt;
+		
+		Set domSpyj = domParser.Document.Getelementsbytagname("spyj").Getitem(1)
+		
+		numSeq = 1
+		Set domYJItem = domSpyj.Firstchild
+		While Not (domYJItem Is Nothing  )
+			
+			If Not (domYJItem.Nextsibling Is Nothing Or domYJItem.Nextsibling.Isnull) Then
+				Set domYJItemTmp = domYJItem.Nextsibling 
+			Else
+				Set domYJItemTmp = Nothing
+			End If
+			
+			Set domFKDepList = domYJItem.Getelementsbytagname("subhqfk")
+			If domFKDepList.Numberofentries&lt;&gt;0 Then
+				For m=1 To domFKDepList.Numberofentries
+					
+					If m&lt;=domYJItem.Getelementsbytagname("subhqfk").Numberofentries Then
+						Set domFKDep = domFKDepList.Getitem(m)
+						If IsNull(ArrayGetIndex(  docMain.fldseletyj ,CStr(numSeq) )) Then						
+							Call domFKDep.Parentnode.Removechild(domFKDep)	
+							m=m-1
+						End If
+						numSeq = numSeq + 1	
+					End If
+					
+				Next
+			Else
+
+				If IsNull(ArrayGetIndex(  docMain.fldseletyj ,CStr(numSeq) )) Then
+					Call domYJItem.Parentnode.Removechild(domYJItem)
+				Else
+					Set domTmpNew = domParser.Document.Createelementnode("subhqfk")			
+					If domYJItem.Nextsibling Is Nothing Or domYJItem.Nextsibling.Isnull Then
+						Call domTmpNew.Setattribute( "type","zjfk")
+					End If
+					
+					ForAll v In aryYJAttr
+						Set domFKDepList = domYJItem.Getelementsbytagname( CStr(v))
+						If domFKDepList.Numberofentries&lt;&gt;0 Then
+							Call domTmpNew.Appendchild( domFKDepList.getItem(1) )
+						End If
+					End ForAll
+					
+					Call domYJItem.Parentnode.Appendchild( domTmpNew )
+					
+					Call domYJItem.Parentnode.Replacechild( domTmpNew,domYJItem)
+				End If
+				
+				numSeq = numSeq + 1	
+			End If
+			
+			Set domYJItem = domYJItemTmp
+			
+		Wend
+		
+		Set domFKDepList = domParser.Document.Getelementsbytagname("yjitem")
+		For j=1 To domFKDepList.Numberofentries	
+			If j&lt;=domParser.Document.Getelementsbytagname("yjitem").Numberofentries Then
+				Set domFKDep = domFKDepList.Getitem(j)
+				If domFKDep.Getelementsbytagname("fkdep").Numberofentries&lt;&gt;0 Then
+					If domFKDep.Getelementsbytagname("subhqfk").Numberofentries=0 Then
+						Call domFKDep.Parentnode.Removechild( domFKDep )
+						j = j -1
+					End If
+				End If
+			End If
+		Next
+		
+		Dim domYJAttList As NotesDOMNodeList
+		Dim domYJAtt As NotesDOMNode
+		Set domYJAttList = domParser.Document.Getelementsbytagname("yjatt")
+		
+		If domYJAttList.Numberofentries&lt;&gt;0 Then
+			For j=1 To domYJAttList.Numberofentries
+				Set domYJAtt = domYJAttList.Getitem(j)
+				strAttName = domYJAtt.Firstchild.FirstChild.Nodevalue
+				
+				If strAttName&lt;&gt;"" Then
+					'附件拷贝前后的名称存为数组  上表单意见时使用
+					VattnamesOld(i) = strAttName
+					strAttName = fnCopyYJattToSrcDb(docMain,docFrom,strAttName)
+					VattnamesNEW(i) = strAttName
+					i = i+1
+					
+					Set domYJAtt = domYJAtt.Firstchild
+					domYJAtt.FirstChild.Nodevalue = strAttName
+					Set domYJAtt = domYJAtt.Nextsibling
+					domYJAtt.FirstChild.Nodevalue = strAttName
+					Set domYJAtt = domYJAtt.Nextsibling
+					domYJAtt.FirstChild.Nodevalue = strAttName
+				End If
+			Next
+		End If
+		
+		Set domYJAttList = domParser.Document.Getelementsbytagname("yjtp")
+		
+		If domYJAttList.Numberofentries&lt;&gt;0 Then
+			For j=1 To domYJAttList.Numberofentries
+				Set domYJAtt = domYJAttList.Getitem(j)
+				If domYJAtt.Firstchild.Isnull Then
+					strAttName = ""
+				Else
+					strAttName = domYJAtt.Firstchild.Nodevalue
+				End If
+				
+				If strAttName&lt;&gt;"" Then
+					'附件拷贝前后的名称存为数组  上表单意见时使用
+					VattnamesOld(i) = strAttName
+					strAttName = fnCopyYJattToSrcDb(docMain,docFrom,strAttName)
+					VattnamesNEW(i) = strAttName
+					i = i+1
+					
+					domYJAtt.FirstChild.Nodevalue = strAttName
+				End If
+			Next
+		End If
+		
+		Call domParser.Serialize()
+		
+		strXMLTmp = stream.Readtext()
+		strXMLTmp = StrRight( strXMLTmp , "&lt;spyj&gt;")
+		strXMLTmp = StrLeftBack( strXMLTmp ,"&lt;/spyj&gt;")
+		
+		subyjxml = subyjxml + strXMLTmp
+		
+	Else
+		
+		subyjxml =|&lt;user&gt;|+docMain.fldDep(0)+|&lt;/user&gt;|+_
+		|&lt;userid&gt;|+strdepCode+|&lt;/userid&gt;|+_
+		|&lt;fkdetail hqserver="|+getSSLConfig(docMain.Parentdatabase)+|" hqflowdb="|+docMain.hfldFlowDefPath(0)+_
+		|" hqflowid="|+docMain.flowid(0)+|" user="|+nmCurUser.Abbreviated+|"|+strExtendAttr+| /&gt;|+_
+		|&lt;signature&gt;|+getxmlnodevalue(strxmlyj,"signature",docMain.fldseletyj(0))+|&lt;/signature&gt;|+_
+		|&lt;time&gt;|+getxmlnodevalue(strxmlyj,"time",docMain.fldseletyj(0))+|&lt;/time&gt;|+_
+		|&lt;shenpijibie&gt;|+getxmlnodevalue(strxmlyj,"shenpijibie",docMain.fldseletyj(0))+|&lt;/shenpijibie&gt;|+_
+		|&lt;stat&gt;|+getxmlnodevalue(strxmlyj,"stat",docMain.fldseletyj(0))+|&lt;/stat&gt;|+_
+		|&lt;flownum&gt;|+getxmlnodevalue(strxmlyj,"flownum",docMain.fldseletyj(0))+|&lt;/flownum&gt;|+_
+		|&lt;clienttype&gt;|+getxmlnodevalue(strxmlyj,"clienttype",docMain.fldseletyj(0))+|&lt;/clienttype&gt;|+_
+		|&lt;yj&gt;|+getxmlnodevalue(strxmlyj,"yj",docMain.fldseletyj(0))+|&lt;/yj&gt;|
+		
+		Dim arrIdxTmp As Variant
+		
+		If docMain.Hasitem("Idx_FanKui") Then
+			If docMain.Getfirstitem("Idx_FanKui").Text &lt;&gt; "" Then
+				arrIdxTmp = Split(docMain.Getfirstitem("Idx_FanKui").Text,"|")
+				Dim k As Integer
+				For k = LBound(arrIdxTmp) To UBound(arrIdxTmp)		
+					strAttName = arrIdxTmp(k)
+					
+					'附件拷贝前后的名称存为数组  上表单意见时使用
+					VattnamesOld(i) = strAttName
+					strAttName = fnCopyYJattToSrcDb(docMain,docFrom,strAttName)
+					VattnamesNEW(i) = strAttName
+					i = i+1
+					
+					
+					subyjxml=subyjxml+|&lt;yjatt&gt;|
+					subyjxml=subyjxml+|&lt;attname&gt;|+formatxml(strAttName)+|&lt;/attname&gt;|
+					subyjxml=subyjxml+|&lt;attunid&gt;|+formatxml(strAttName)+|&lt;/attunid&gt;|
+					subyjxml=subyjxml+|&lt;atturl&gt;|+formatxml(strAttName)+|&lt;/atturl&gt;|
+					subyjxml=subyjxml+|&lt;/yjatt&gt;|					
+				Next
+			End If
+		End If
+		
+		strAttHAName = getxmlnodevalue(strxmlyj,"yjtp",docMain.fldseletyj(0))
+		If strAttHAName&lt;&gt;"" Then
+			
+			'手写批示拷贝前后的名称存为数组  上表单意见时使用
+			VattnamesOld(i) = strAttHAName
+			strAttHAName = fnCopyYJattToSrcDb(docMain,docFrom,strAttHAName)
+			VattnamesNEW(i) = strAttHAName
+			i = i+1
+			
+		End If
+		
+		subyjxml = subyjxml+|&lt;yjtp&gt;|+formatxml(strAttHAName)+|&lt;/yjtp&gt;|
+	End If
+	fnFKyjxml = |&lt;yjitem&gt;|+subyjxml+|&lt;/yjitem&gt;|
+	Exit Function
+errHandler:
+	showError( "fnFKyjxml" )
+End Function
+
+</lotusscript></code><code event='doWithHQResponse'><lotusscript>
+Sub doWithHQResponse(docFrom As NotesDocument,docFlowFrom As NotesDocument,docMain As NotesDocument)
+	%REM
+	1.将反馈的意见信息写会到流转记录文档
+	2.将反馈意见写入审批稿纸	
+	%END REM
+	
+	On Error GoTo errorhandle
+	
+	Dim yjxml As String			'反馈意见xml（含意见附件）
+	Dim strDeptName As String		'反馈部门名称
+	strDeptName=Replace(docMain.fldDep(0),"/","_")
+	Dim dbFrom As NotesDatabase, dbFlowFrom As NotesDatabase, dbFlowInfoFrom As NotesDatabase
+	Dim docFlowInfoFrom As NotesDocument
+	Dim ritem As NotesRichTextItem,itemYj As NotesItem
+	
+	Dim num As Integer,i As Integer
+	Dim strFieldName As String
+	Dim YJSeq As String,YJAction As String,strSignaturePicPath As String,strSignature As String
+	Dim strHtml As String, mmstrm As String,hqkey As String
+	'
+	'反馈普通附件
+	Call fnFKNormalAtt(docMain,docFrom,"copy_to_main")
+	
+	Dim dbFlowInfo As NotesDatabase
+	Dim docFlowIn As NotesDocument
+	Call fnGetResponseDoc( docMain.Parentdatabase,docMain, dbFlowInfo,docFlowIn )
+	
+	'组装 意见xml
+	yjxml =fnFKyjxml(docMain,docFlowIn,docFrom)
+
+	Set dbFrom = docFrom.Parentdatabase
+	Call fnGetResponseDoc( dbFrom,docFrom, dbFlowInfoFrom,docFlowInfoFrom )
+	Call WriteToRtfWithHtmlStyle(docFlowInfoFrom,"fldyj",yjxml)
+	
+	
+	Set ritem = docFlowInfoFrom.Getfirstitem("fullhistory")
+	mmstrm = ritem.GetUnformattedText()
+	
+	Call ritem.Remove()
+	hqkey = |hqkey| &amp; docMain.fldMainKey(0)
+	mmstrm = replacestring(mmstrm , hqkey,"1")
+	Set ritem = New NotesRichTextItem( docFlowInfoFrom,"fullhistory")
+	Call WriteToRtfWithHtmlStyle(docFlowInfoFrom,"fullhistory",mmstrm)
+	Call docFlowInfoFrom.save(True,True)
+	
+	
+	num = CInt(docFrom.flownum(0))
+	If docFlowFrom.getItemValue("tmphqyjToField"+Cstr(num))(0) ="yes" Then
+		strFieldName = docFlowFrom.GetItemValue("tmphqFieldname"+Cstr(num))(0)
+		YJSeq = "1"
+		yjAction = "0"
+		
+		'保留全部“1” ,同部门覆盖“0”
+		If docFlowFrom.Hasitem("tmphqSelfield_override"+Cstr(num)) Then
+			yjAction = docFlowFrom.GetItemValue("tmphqSelfield_override"+Cstr(num))(0)
+		End If
+		
+		If Trim(strFieldName)&lt;&gt;"" And docFrom.HasItem(strFieldName) Then
+			'组装 上表单table
+			Dim dbFlow As NotesDatabase,docFlow As NotesDocument
+			Call getFlowDoc( session , docMain.Parentdatabase , docMain , dbFlow , docFlow )
+			
+			If getConfigKey("key_HQFKTBMCLFS")="1" Then
+				If docFlow.Hasitem("tmphqSelfield_override"+Cstr(docMain.flowNum_beforSubmit(0))) Then
+					yjAction = docFlow.GetItemValue("tmphqSelfield_override"+Cstr(docMain.flowNum_beforSubmit(0)))(0)
+				End If
+			End If
+			
+			strHtml = fngetformhtml(docMain,docFlowIn,docFlow,strFieldName)
+			'意见域意见存储为RTF
+			If docFrom.key_yjFieldSaveAsRTF(0)="1" Then
+				Dim aParamYj List As Variant
+				strHtml = |&lt;yjtab dephqfk="1" hqdep="|+docMain.fldDep(0)+|"&gt;|+strHtml+|&lt;/yjtab&gt;|
+				aParamYj("depname") = docMain.fldDep(0)
+				aParamYj("fkyj") = strHtml
+				Call fnSaveYjFieldValueForHqfk(docFrom,strFieldName,yjAction,aParamYj)
+			Else
+				Set itemyj = docFrom.GetFirstItem(strFieldName)
+				'保留全部“1” ,同部门覆盖“0”
+				
+				Dim vYj As Variant
+				vYj = itemyj.Values
+				If yjAction= "0" Then
+					For i= UBound(vYj)  To 0 Step -1 
+						If InStr(vYj(i),|data-dept='| &amp; docMain.fldDep(0) &amp; |'|)&gt; 0 Then
+							vYj(i) = strHtml
+							itemyj.Values = vYj
+							GoTo TheEnd	'存在该部门的意见覆盖替换后got到最后退出
+						End If
+					Next
+				End If
+				
+				Call itemyj.AppendToTextList(strHtml)
+			End If
+		End If
+	End If
+	
+
+theend:
+	Exit Sub
+errorhandle:
+	showerror("doWithHQResponse")
+End Sub
+
+</lotusscript></code><code event='fnParseYjToForm'><lotusscript>Function fnParseYjToForm( domYJ As NotesDOMElementNode,strFanKuiType As String,strLuoKuanType As String,docMain As NotesDocument,docFlow As NotesDocument,num As Integer,yjfield As String) As String
+	'将审批意见行转换为对应上稿纸效果的HTML
+	
+	On Error GoTo errorhandle
+	Dim aParam As Variant
+	Dim i,j As Long
+	Dim strUser As String,strTime As String,strStat As String,strSignature As String,strYjwb As String,strYjtp As String,strYjatt As String
+	Dim strHtml As String
+	Dim aParamYj List As Variant,aParamYjAtt List As Variant
+	Dim arrTmpYjAtt As Variant
+	
+	aParam = fnParseYj( domYj )
+	strUser = aParam("user")
+	strTime = aParam("time")
+	strYjwb = aParam("yjwb")
+	strYjatt = aParam("yjatt")
+	strYjtp = aParam("yjtp")
+	
+	If strYjwb = "NoAttitude_Handler" Then
+		strYjwb = ""  
+	End If
+	
+	strYjwb = Replace( strYjwb , Chr(10),"&lt;br&gt;")
+	strYjwb = Replace( strYjwb , Chr(13),"")
+	
+	' 意见附件 手写批示  意见 都为空时 不做talbe表格
+	If (strFanKuiType="select" And (strYjatt&lt;&gt;"" Or strYjtp&lt;&gt;"" Or strYjwb&lt;&gt;""))Or (strFanKuiType="" And (docMain.Getfirstitem("Idx_FanKui").Text&lt;&gt;"" Or strYjtp&lt;&gt;"" Or strYjwb&lt;&gt;"" )) Then
+		aParamYj("user") = strUser
+		aParamYj("time") = strTime
+		aParamYj("yj") = strYjwb
+		aParamYj("yjtp") = ""
+		If strFanKuiType = "select" Then
+			'意见附件不为空 创建
+			If strYjatt&lt;&gt;"" Then
+				i = 0
+				ForAll vv In VattnamesOld			
+					If CStr(vv)=strYjatt Then
+						strYjatt = VattnamesNEW(i)
+					End If
+					i=i+1
+				End ForAll
+				aParamYjAtt("attname") = strYjatt
+				aParamYjAtt("atturl") = fnGetIdxUrlByFileName(docMain, strYjatt)
+				aParamYj("yjatt") = aParamYjAtt
+				strYjatt = |&lt;div&gt;&lt;a href="javascript:OpenMyFile('| &amp; strYjatt &amp; |')" title="| &amp; strYjatt &amp; |"&gt;&lt;img src="/indishare/oaresource.nsf/images/icon29.png" title="| &amp; strYjatt &amp; |"&gt;&lt;font data-string-id='indiplatform.tylc.djccckfj'&gt;点击此处查看附件&lt;/font&gt;&lt;/a&gt;&lt;/div&gt;|					
+			End If
+		Else
+			'处理选择的多个附件
+			Dim arrIdxTmp As Variant
+			Dim strAtt As String
+			If docMain.Hasitem("Idx_FanKui") Then
+				If docMain.Getfirstitem("Idx_FanKui").Text &lt;&gt; "" Then
+					arrIdxTmp = Split(docMain.Getfirstitem("Idx_FanKui").Text,"|")
+					Dim k As Integer
+					For k = LBound(arrIdxTmp) To UBound(arrIdxTmp)		
+						strAtt = arrIdxTmp(k)	
+						i = 0
+						ForAll vv In VattnamesOld
+							
+							If CStr(vv)=strAtt Then
+								strAtt = VattnamesNEW(i)
+							End If
+							i=i+1
+						End ForAll
+						If Not IsElement(aParamYj("yjatt")) Then
+							aParamYj("yjatt") = "{yjatt}"
+						End If
+						aParamYjAtt("attname") = strAtt
+						aParamYjAtt("atturl") = fnGetIdxUrlByFileName(docMain, strAtt)
+						If IsEmpty(arrTmpYjAtt) Then
+							arrTmpYjAtt = Split(fnConvertListToXml(aParamYjAtt),"$$$$$")
+						Else
+							arrTmpYjAtt = ArrayAppend(arrTmpYjAtt,fnConvertListToXml(aParamYjAtt))
+						End If
+						strYjatt = strYjatt + |&lt;div&gt;&lt;a href="javascript:OpenMyFile('| &amp; strAtt &amp; |')" title="| &amp; strAtt &amp; |"&gt;&lt;img src="/indishare/oaresource.nsf/images/icon29.png" title="| &amp; strAtt &amp; |"&gt;&lt;font data-string-id='indiplatform.tylc.djccckfj'&gt;点击此处查看附件&lt;/font&gt;&lt;/a&gt;&lt;/div&gt;|					
+					Next
+				End If
+			End If
+		End If
+		
+		'手写批示不为空 创建
+		If strYjtp&lt;&gt;"" Then
+
+			'根据数组 替换附件名称
+			j = 0
+			ForAll vv In VattnamesOld				
+				If CStr(vv)=strYjtp Then
+					strYjtp = VattnamesNEW(j)
+				End If
+				j=j+1
+			End ForAll
+			aParamYj("yjtp") = strYjtp
+			strYjtp =|&lt;a onclick="fnShowSxtp('','|+strYjtp+|')"&gt;&lt;img src="/indishare/oaresource.nsf/images/tablet-icon.png" title="点击此处查看手写批示" data-string-id="indiplatform.tylc.djcccksxps1" height="32" width="32"&gt;&lt;/a&gt;|
+			
+		End If
+		
+		strSignature=fnGetHQYjSigatureByTmpl(docMain.parentdatabase,docMain ,docFlow ,num ,yjfield ,strSignature ,docMain.fldDep(0),strtime ,struser ,strLuoKuanType )
+
+		'拼接落款属性
+		Dim tmpAttribute As String
+		'意见域开启记录详细信息
+		If Not IsEmpty(g_HQYjFieldParam) And docMain.key_YJFieldRecordDetails(0)="1" And docMain.key_yjFieldSaveAsRTF(0)&lt;&gt;"1" Then
+			ForAll attr In g_HQYjFieldParam
+				Dim strTmpValue As String
+				If IsArray(attr) Then
+					strTmpValue = Join(attr,",")
+				Else
+					strTmpValue = attr
+				End If
+				If tmpAttribute = "" Then
+					tmpAttribute = | |+ListTag(attr)+|="|+strTmpValue+|"|
+				Else
+					tmpAttribute = tmpAttribute+| |+ListTag(attr)+|="|+strTmpValue+|"|
+				End If
+			End ForAll
+		End If
+		'意见域意见存储为RTF
+		If docMain.key_yjFieldSaveAsRTF(0)="1" Then
+			'其他属性（落款样式、签名图片等）
+			If IsList(g_HQYjFieldParam) Then
+				If IsElement(g_HQYjFieldParam("signTmpl")) Then
+					aParamYj("signTmpl") = g_HQYjFieldParam("signTmpl")
+				End If
+				If IsElement(g_HQYjFieldParam("signpic")) Then
+					aParamYj("signpic") = g_HQYjFieldParam("signpic")
+				End If
+			End If
+			aParamYj("signature") = strSignature
+			strHtml = |&lt;subyjtab&gt;|+fnConvertListToXml(aParamYj)+|&lt;/subyjtab&gt;|
+			If Not IsEmpty(arrTmpYjAtt) Then
+				strHtml = Replace(strHtml,"&lt;yjatt&gt;{yjatt}&lt;/yjatt&gt;","&lt;yjatt&gt;"+join(arrTmpYjAtt,"&lt;/yjatt&gt;&lt;yjatt&gt;")+"&lt;/yjatt&gt;")
+			End If
+		Else
+			strHtml =strHtml + |&lt;table width=100% border=0 data-dept='| &amp; docMain.fldDep(0) &amp; |'&gt;|
+			strHtml = strHtml + |&lt;tr&gt;&lt;td&gt;| &amp; strYjwb &amp; |&lt;/td&gt;&lt;/tr&gt;|
+			strHtml = strHtml &amp; |&lt;tr class='yjAttAndPic'&gt;&lt;td&gt;| &amp; strYjatt &amp; | | &amp; strYjtp &amp; |&lt;/td&gt;&lt;/tr&gt;|
+			strHtml = strHtml + |&lt;tr|+tmpAttribute+|&gt;&lt;td align=right&gt;| &amp; strSignature &amp; |&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;|
+		End If
+	End If
+	
+	fnParseYjToForm = strHtml
+	
+	Exit Function
+errorhandle:
+	showerror("fnParseYjToForm")	
+End Function
+
+</lotusscript></code><code event='suStartNextDep'><lotusscript>Sub suStartNextDep( docFrom As NotesDocument,nmUser As NotesName)
+	%REM
+		启动下一个部门的会签流程
+	%END REM
+	On Error GoTo errorhandle
+	
+	Dim session As New NotesSession
+	Dim dbCurrent As NotesDatabase
+	Dim dbGwpz As NotesDatabase
+	Dim docDep As NotesDocument
+	Dim dbFlowDef As NotesDatabase
+	Dim docFlowDef As NotesDocument
+	Dim dbFlowInfo As NotesDatabase
+	Dim docFlowInfo As NotesDocument
+	Dim dbFrom As NotesDatabase
+	Dim dbTar As NotesDatabase
+	Dim nmCurSer As NotesName
+	Dim nmTarSer As NotesName	
+	Dim SendTo As Variant
+	Dim strDepName As String
+	Dim strDepID As String
+	Dim astrDeptNameAndCodeList As Variant	
+	Dim strTemp As String
+	Dim strFlowNum As String
+	Dim strDbPath As String	
+	Dim ritem As NotesRichTextItem
+	Dim mmstrm As String
+	
+	Set dbGwpz = session.Getdatabase("", "indishare/gwpz.nsf")
+	Set dbCurrent = session.Currentdatabase	
+	Set dbFrom = docFrom.Parentdatabase
+	
+	astrDeptNameAndCodeList = docFrom.alldealer_spbm
+	
+nextDep:
+	
+	If astrDeptNameAndCodeList(0)="" Or astrDeptNameAndCodeList(0)="None" Then
+		docFrom.DocumentAuthors_spr=""
+		docFrom.DocumentAuthors_spbm=""
+		docFrom.stat_bfsp=""	
+		docFrom.alldealer_spbm = ""	
+		Call suSetAlldealer_spbmid(docFrom)
+		
+		Exit Sub
+	End If
+	
+	Set docDep = fnGetDeptConfDoc( session , dbGwpz , CStr(astrDeptNameAndCodeList(0)) , "会签管理" )
+
+	strDepName = StrLeft( astrDeptNameAndCodeList(0) , "|" )
+	strDepID = StrRightBack(astrDeptNameAndCodeList(0) , "|" )
+	
+	Dim strTmp As String
+	Dim varTmp As Variant
+	Dim aParam List As Variant
+	Dim strXML As String
+	
+	strKeyHQAutoGL = fnGetConfigKey(docFrom.Parentdatabase,"key_HQAutoGL")
+	
+	If Not docDep Is Nothing Then
+		Set nmCurSer = New NotesName(dbCurrent.Server )
+		Set nmTarSer = New NotesName(docDep.fldServername(0))
+		If fnIsSameServer(nmCurSer.Canonical,nmTarSer.Canonical) Then
+			Set dbTar = session.Getdatabase("", docDep.fldSjkwjm(0) )
+			Set dbFlowDef = session.Getdatabase("",docDep.fldYym(0)+"/pubflowdef.nsf" )
+			Set docFlowDef = fnGetDeptHqFlowDoc( session,docFrom.Parentdatabase,docDep,dbTar,dbFlowDef,docFrom )
+			
+			SendTo = fnGetDeptHqMgr( session,docFrom.Parentdatabase,docDep,docFrom )
+			
+			Dim varTargetDocTmp As Variant
+			varTargetDocTmp=CreatDocToDepHq( dbFrom,docFrom,strDepName,dbTar,nmUser,Sendto,docDep,docFlowDef)
+			'会签委托情况从谁给了谁  wuzhao   2016-4-6
+			Dim varwtfrom As Variant
+			Dim varwtto As Variant		
+			varwtfrom  = fnReverseArray(SendTo,Split(varTargetDocTmp(2),","))
+			varwtto = fnReverseArray(Split(varTargetDocTmp(2),","),SendTo)
+			'----end------wuzhao---
+			aParam("tagname") = "subitem"
+			aParam("value") = ""
+			aParam("huiqian") = "1"
+			aParam("mainkey") = "mainkey_" &amp; docRecdocMainKey 
+			aParam("hqfinished") = "hqkey" &amp; docRecdocMainKey
+			aParam("user") = strDepName
+			aParam("recipient") = varTargetDocTmp(2)
+			'会签委托情况从谁给了谁  wuzhao   2016-4-6
+			aParam("sender") = Join(SendTo,",")
+			aParam("wtfrom") = Join(varwtfrom ,",")
+			aParam("wtto") = Join(varwtto ,",")
+			'----end------wuzhao---
+			aParam("time") = CStr(Now)
+			aParam("stat") = "部门会签"
+			aParam("flownum") = CStr(docFrom.flowNum_beforSubmit(0))
+			aParam("serverdomain") = getSSLConfig(dbTar)
+			aParam("url") = ""
+			aParam("depid") = strDepID
+			aParam("hqflowdb") = getdbpath(dbFlowDef)
+			aParam("hqflowid") = docFlowDef.refKey(0)
+			
+			Dim docProfile As NotesDocument
+			Dim strTmpHqFlowInfoDbPath As String
+			Set docProfile = dbTar.Getprofiledocument("ManagerSet")
+			strTmpHqFlowInfoDbPath = ""
+			If Not docProfile Is Nothing Then
+				strTmpHqFlowInfoDbPath = docProfile.fldFlowInfo(0)
+			End If
+			
+			aParam("url") = "/" +strTmpHqFlowInfoDbPath + "/vwxml/"+docRecdocMainKey+"?open"
+			
+			Call fnGetResponseDoc(docFrom.Parentdatabase,docFrom,dbFlowInfo,docFlowInfo)
+			strXML = fnGetUpdatedHQInfor( docFlowInfo,aParam )	
+			
+			Call docFlowInfo.Removeitem("fullhistory")
+			Call WriteToRtfWithHtmlStyle(docFlowInfo,"fullhistory",strXML)
+			Call docFlowInfo.Save( True,False )	
+			
+			'发送邮件
+			Dim mailParam List As Variant
+			Dim aContent As Variant
+			mailParam("type") = "huiqian"
+
+			If Not IsEmpty(SendTo) Then
+				Dim strNotifyTmp As String
+				
+				ForAll v In SendTo
+					If Not IsEmpty(v) Then
+						Dim dbRec As NotesDatabase
+						Dim docRec As NotesDocument
+						Set dbRec = session.Getdatabase("", varTargetDocTmp(0))
+						Set docRec = Getdocumentbyunid(dbRec,varTargetDocTmp(1))
+						If Not docRec Is Nothing Then
+							strNotifyTmp = "请您处理:" + dbRec.title + "中的【" + docFrom.fldSubject(0)+"】文件"
+							If docFrom.fldMailSend(0)="yes" Then
+								mailParam("sendvalid") = True
+							End If
+							aContent = fnIniMailContentHQ(docRec,docFrom.fldType(0))
+							mailParam("subject") = aContent(0)
+							mailParam("content") = aContent(1)
+							Call fnFlowMail(docRec, "", nmCurUser, Split(v), mailParam)
+							If docFrom.fldSms(0)="yes" Then
+								Dim tmpSmSMsg As String
+								tmpSmSMsg =g_flowcustom.fnGetSmsMsg(dbCurrent ,docFrom, nmCurUser.Canonical , Split(v),docFrom.fldStartDisName(0))
+								If tmpSmsMsg&lt;&gt;"" Then
+									strNotifyTmp =tmpSmsMsg
+								End If	
+								Dim aParam_sms List As Variant 
+								Call suSendSmsNoticeWithParam( dbCurrent , docFrom , nmCurUser.Canonical ,  Split(v) , strNotifyTmp  , aParam_sms )
+							End If
+						End If
+						
+					End If				
+				End ForAll
+				
+			End If	
+		Else
+			
+			Dim tmpuniddoc As NotesDocument
+			Set tmpuniddoc = dbCurrent.Createdocument()
+			
+			docRecdocMainKey = tmpuniddoc.Universalid+Cstr(Hour(Now))+Cstr(Minute(Now))+Cstr(Second(Now))
+			
+			docFrom.tmptosendhqmainkey = docRecdocMainKey	'在跨服务器发送前生成会签文档的mainkey 减签和其他的显示时使用 zhangxh
+			
+			Dim nmUserTmp As NotesName
+			Set nmUserTmp = nmCurUser
+			Set nmCurUser = nmUser
+			Dim aParamHqMsg List As Variant
+			aParamHqMsg("type") = "hqfk"
+			Call suSendMsgDocToTargetServer("huiqian",docFrom.Parentdatabase,docFrom,docDep,aParamHqMsg)
+			Set nmCurUser = nmUserTmp 
+			
+			aParam("tagname") = "subitem"
+			aParam("value") = ""
+			aParam("huiqian") = "1"
+			aParam("mainkey") = "mainkey_" &amp; docRecdocMainKey 
+			aParam("hqfinished") = "hqkey" &amp; docRecdocMainKey
+			aParam("user") = strDepName
+			aParam("recipient") = "%hquser" &amp; docRecdocMainKey + "%"
+			aParam("sender") = "%sender" &amp; docRecdocMainKey +"%"
+			aParam("wtfrom") = "%wtfrom" &amp; docRecdocMainKey +"%"
+			aParam("wtto") = "%wtto" &amp; docRecdocMainKey +"%"
+			aParam("time") = CStr(Now)
+			aParam("stat") = "部门会签"
+			aParam("flownum") = CStr(docFrom.flowNum_beforSubmit(0))
+			aParam("serverdomain") = getSSLConfigOfApp(docDep.fldYym(0))
+			aParam("url") = ""
+			aParam("depid") = strDepID
+			
+			aParam("url") = "/%hqflowinfopath"+docRecdocMainKey+"%/vwxml/"+docRecdocMainKey+"?open"
+			
+			Call fnGetResponseDoc(docFrom.Parentdatabase,docFrom,dbFlowInfo,docFlowInfo)
+			strXML = fnGetUpdatedHQInfor( docFlowInfo,aParam )	
+			
+			Call docFlowInfo.Removeitem("fullhistory")
+			Call WriteToRtfWithHtmlStyle(docFlowInfo,"fullhistory",strXML)
+			Call docFlowInfo.Save( True,False )
+			
+			'发消息引擎到原服务器上，由原服务器上触发下一部门会签
+		End If
+		'清空会签临时域tmptosendhqmainkey
+		'避免多次会签+顺序会签时，顺序会签的部门会签使用了前一个部门会签的此域值
+		'从而导致会签流转记录显示异常的问题
+		If docFrom.Hasitem("tmptosendhqmainkey") Then
+			Call docFrom.Removeitem("tmptosendhqmainkey")
+		End If
+		
+		If docFrom.alldealer_spbm(0)="" Then
+			docFrom.DocumentReaders_spbm=SendTo
+			docFrom.DocumentAuthors_spbm=SendTo
+		Else
+			docFrom.DocumentReaders_spbm=ArrayAppend(docFrom.DocumentReaders_spbm,SendTo)
+			docFrom.DocumentAuthors_spbm=ArrayAppend(docFrom.DocumentAuthors_spbm,SendTo)
+		End If
+	Else
+		astrDeptNameAndCodeList = RebuildList(astrDeptNameAndCodeList,astrDeptNameAndCodeList(0))
+		GoTo nextDep
+	End If
+
+	Exit Sub
+errorhandle:
+	showerror("suStartNextDep")
+	
+End Sub
+
+</lotusscript></code><code event='fnParseYj'><lotusscript>Function fnParseYj( eNode As NotesDOMElementNode) As Variant
+	'获取审批意见行相关属性
+	
+	On Error GoTo errorhandle
+	
+	Dim docNodeList As NotesDOMNodeList
+	Dim eNodeTmp As NotesDOMElementNode
+	Dim i,j As Long
+	Dim strUser As String,strTime As String,strStat As String,strSignature As String,strYjwb As String,strYjtp As String,strYjatt As String
+	Dim aParam List As Variant
+	
+	Set docNodeList = eNode.Getelementsbytagname("user")
+	Set eNodeTmp = docNodeList.GetItem(1)	
+	strUser = eNodeTmp.Firstchild.Nodevalue
+	
+	Set docNodeList = eNode.Getelementsbytagname("time")
+	Set eNodeTmp = docNodeList.GetItem(1)
+	strTime = eNodeTmp.Firstchild.Nodevalue
+	
+	Set docNodeList = eNode.Getelementsbytagname("signature")
+	Set eNodeTmp = docNodeList.GetItem(1)
+	If Not eNodeTmp Is Nothing Then			
+		If eNodeTmp.Firstchild.Isnull Then
+			strSignature = ""
+		Else
+			strSignature = eNodeTmp.Firstchild.Nodevalue
+		End If
+	End If
+	
+	Set docNodeList = eNode.Getelementsbytagname("stat")
+	Set eNodeTmp = docNodeList.GetItem(1)
+	strStat = eNodeTmp.Firstchild.Nodevalue
+	
+	Set docNodeList = eNode.Getelementsbytagname("yjtp")
+	Set eNodeTmp = docNodeList.GetItem(1)
+	If eNodeTmp.Firstchild.Isnull Then
+		strYjtp = ""
+	Else
+		strYjtp = eNodeTmp.Firstchild.Nodevalue
+	End If
+
+	Set docNodeList = eNode.Getelementsbytagname("yj")
+	Set eNodeTmp = docNodeList.GetItem(1)
+	If eNodeTmp.Firstchild.Isnull Then
+		strYjwb = ""
+	Else
+		strYjwb = eNodeTmp.Firstchild.Nodevalue
+	End If
+	strYjwb = Replace(strYjwb,"&lt;","&amp;lt;")
+	
+	strYjatt = ""
+	Set docNodeList = eNode.Getelementsbytagname("yjatt") 
+	If docNodeList.Numberofentries&lt;&gt;0  Then
+		Set eNodeTmp = docNodeList.GetItem(1)
+		Set docNodeList = eNodeTmp.Getelementsbytagname("attname")
+		Set eNodeTmp = docNodeList.GetItem(1)
+		strYjatt = eNodeTmp.Firstchild.Nodevalue
+	End If
+	
+	aParam("user") = strUser
+	aParam("time") = strTime
+	aParam("stat") = strStat
+	aParam("yjwb") = strYjwb
+	aParam("yjatt") =  strYjatt
+	aParam("yjtp") = strYjtp
+	
+	fnParseYj = aParam
+	
+	Exit Function
+errorhandle:
+	showerror("fnParseYj")	
+End Function
+
+</lotusscript></code><code event='fngetformhtml'><lotusscript>Function fngetformhtml(docMain As NotesDocument,docFlowIn As NotesDocument,docFlow As NotesDocument,yjfield As String) As String
+	On Error GoTo ErrorHandle
+	
+	Dim strhtml As String
+	Dim strxmlyj As String
+	Dim strYjtp As String
+	Dim strSignature As String
+	Dim Strattname As String
+	Dim  strDeptName As String
+	Dim stryj As String
+	Dim struser As String
+	Dim strtime As String
+	Dim num As Integer
+	Dim i , j As Integer
+	strDeptName=Replace(docMain.fldDep(0),"/","_")
+	
+	Dim item As NotesRichTextItem
+	Set item = docFlowIn.Getfirstitem("fldyj")
+	strxmlyj = item.Getunformattedtext()
+	strxmlyj = |&lt;spyj&gt;|+strxmlyj + |&lt;/spyj&gt;|
+	
+	Dim session As New NotesSession
+	Dim stream As NotesStream
+	Dim domParser As NotesDOMParser
+	Dim domSpyj As NotesDOMElementNode
+	Dim documentList As NotesDOMNodeList
+	Set stream = session.Createstream()
+	Set domParser=session.CreateDOMParser( strxmlyj ,stream)
+	domParser.Process	
+	Set documentList = domParser.Document.GetElementsByTagName ("yjitem")
+	
+	num = CInt(docMain.flowNum_beforSubmit(0))
+	
+	Dim domYJItem As NotesDOMElementNode
+	Dim domYJItemTmp As NotesDOMElementNode
+	Dim domFKDep As NotesDOMElementNode
+	Dim domFKDepList As NotesDOMNodeList	
+	Dim numSeq As Long
+	Dim m As Long
+	Dim strFanKuiType As String,strLuoKuanType As String
+	
+	If docMain.isSeletYJ(0)="1" Then
+		strFanKuiType = "select"
+	Else
+		strLuoKuanType = "zjfk"
+	End If
+	
+	Set domSpyj = domParser.Document.Getelementsbytagname("spyj").Getitem(1)
+	
+	numSeq = 1
+	Set domYJItem = domSpyj.Firstchild
+	While Not (domYJItem Is Nothing  )
+		
+		If Not (domYJItem.Nextsibling Is Nothing Or domYJItem.Nextsibling.Isnull) Then
+			Set domYJItemTmp = domYJItem.Nextsibling 
+		Else
+			Set domYJItemTmp = Nothing
+		End If
+		
+		Set domFKDepList = domYJItem.Getelementsbytagname("subhqfk")
+		If domFKDepList.Numberofentries&lt;&gt;0 Then
+			For m=1 To domFKDepList.Numberofentries
+				Set domFKDep = domFKDepList.Getitem(m)
+				If Not IsNull(ArrayGetIndex(  docMain.fldseletyjform ,CStr(numSeq) )) Then
+					strHtml =strHtml + fnParseYjToForm( domFKDep,strFanKuiType,strLuoKuanType,docMain,docFlow,num ,yjfield)
+				End If
+				numSeq = numSeq + 1	
+			Next
+		Else
+
+			If Not IsNull(ArrayGetIndex(  docMain.fldseletyjform ,CStr(numSeq) )) Then
+				If domYJItemTmp Is Nothing Then
+					strLuoKuanType = "zjfk"
+					strHtml =strHtml + fnParseYjToForm( domYJItem,strFanKuiType,strLuoKuanType,docMain,docFlow,num ,yjfield)
+				Else
+					strHtml =strHtml + fnParseYjToForm( domYJItem,strFanKuiType,strLuoKuanType,docMain,docFlow,num ,yjfield)
+				End If
+			End If
+			
+			numSeq = numSeq + 1	
+		End If
+		
+		Set domYJItem = domYJItemTmp
+		
+	Wend
+	
+	fngetformhtml = strhtml
+	
+	Exit Function
+ErrorHandle:
+	ShowError "fngetformhtml"
+End Function
+
+</lotusscript></code><code event='GetIndiImageDoc'><lotusscript>
+
+Function GetIndiImageDoc(docMain As NotesDocument) As NotesDocument
+	' 获得数据库中指定主文档的附件文件集
+	'	错误捕获
+	On Error GoTo errorHandler
+	Dim indiimgsession As New NotesSession
+	Dim indiimgdb As NotesDatabase
+	Dim indiimgview As NotesView
+	Set indiimgdb=indiimgsession.CurrentDatabase
+	Set indiimgview=indiimgdb.GetView("vwContent")
+	Set GetIndiImageDoc=indiimgview.getdocumentbykey(docMain.fldSDocNumber(0),True)
+errorHandler:
+	MsgBox CStr(Erl)+":"+Error$+"GetIndiImageDoc"
+End Function
+
+</lotusscript></code><code event='doWithHQResponseForCustom'><lotusscript
+>
+Sub doWithHQResponseForCustom(docFrom As NotesDocument,docFlowFrom As NotesDocument,docMain As NotesDocument)
+	%REM
+	1.将反馈的意见信息写会到流转记录文档
+	2.将反馈意见写入审批稿纸	
+	%END REM
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim rtfItemYjXml As NotesRichTextItem
+	Dim domParser As NotesDOMParser
+	Dim stream As NotesStream
+	Dim documentNode As NotesDOMDocumentNode
+	Dim documentList As NotesDOMNodeList,docNodeList As NotesDOMNodeList
+	Dim yjFieldENode As NotesDOMElementNode,yjTabENode As NotesDOMElementNode
+	Dim yjTextNode As NotesDOMTextNode
+	Dim tmpNode As NotesDOMNode
+	Dim count As Integer
+	Dim blnFirstYj As Boolean
+	
+	Dim strYJXML As String		'反馈的意见xml
+	Dim strYJHTML As String	'反馈的上稿纸yj html内容
+	
+	Dim dbFlowInfoFrom As NotesDatabase, docFlowInfoFrom As NotesDocument
+	
+	Dim ritem As NotesRichTextItem,mmstrm As String,hqkey As String
+	
+	Dim itemYj As NotesItem
+	Dim num As Integer,i As Integer
+	Dim strFieldName As String,YJSeq As String,YJAction As String,strDeptName As String
+	
+	strYJXML = g_hqfkcustom.fnGetXMLYJ(docMain)
+	strYJHTML = g_hqfkcustom.fnGetGZYJ(docMain)
+	
+	Call fnGetResponseDoc( docFrom.Parentdatabase,docFrom, dbFlowInfoFrom,docFlowInfoFrom )
+	Call WriteToRtfWithHtmlStyle(docFlowInfoFrom,"fldyj",strYJXML)
+	
+	Set ritem = docFlowInfoFrom.Getfirstitem("fullhistory")
+	mmstrm = ritem.GetUnformattedText()
+	
+	Call ritem.Remove()
+	hqkey = |hqkey| &amp; docMain.fldMainKey(0)
+	mmstrm = Replace(mmstrm , hqkey,"1")
+	Set ritem = New NotesRichTextItem( docFlowInfoFrom,"fullhistory")
+	Call WriteToRtfWithHtmlStyle(docFlowInfoFrom,"fullhistory",mmstrm)
+	Call docFlowInfoFrom.save(True,True)
+	
+	num = CInt(docFrom.flownum(0))
+	strDeptName = docMain.fldDep(0)
+	If docFlowFrom.getItemValue("tmphqyjToField"+Cstr(num))(0) ="yes" Then
+		strFieldName = docFlowFrom.GetItemValue("tmphqFieldname"+Cstr(num))(0)
+		yjAction = "0"
+		
+		'保留全部“1” ,同部门覆盖“0”
+		If docFlowFrom.Hasitem("tmphqSelfield_override"+Cstr(num)) Then
+			yjAction = docFlowFrom.GetItemValue("tmphqSelfield_override"+Cstr(num))(0)
+		End If
+		
+		If Trim(strFieldName)&lt;&gt;"" And docFrom.HasItem(strFieldName) Then
+			'意见域意见存储为RTF
+			If docFrom.key_yjFieldSaveAsRTF(0)="1" Then
+				Dim aParamYj List As Variant
+				aParamYj("depname") = strDeptName
+				aParamYj("fkyj") = strYJHTML
+				aParamYj("customhtml") = "1"
+				Call fnSaveYjFieldValueForHqfk(docFrom,strFieldName,yjAction,aParamYj)
+			Else
+				Set itemyj = docFrom.GetFirstItem(strFieldName)
+				'保留全部“1” ,同部门覆盖“0”
+				Dim vYj As Variant
+				vYj = itemyj.Values
+				If yjAction= "0" Then
+					For i= UBound(vYj)  To 0 Step -1
+						If InStr(vYj(i),strDeptName)&gt; 0 Then
+							vYj(i) = strYJHTML
+							itemyj.Values = vYj
+							GoTo TheEnd	'存在该部门的意见覆盖替换后got到最后退出
+						End If
+					Next
+				End If
+				Call itemyj.AppendToTextList( strYJHTML )
+			End If
+		End If
+	End If
+	
+	
+
+theend:
+	Exit Sub
+errorhandle:
+	showerror("doWithHQResponseForCustom")
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20171213T113219,22+08</datetime></agentmodified></rundata>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210746,50+08</datetime></item>
+<item name='$POID'><datetime>20181024T085456,73+08</datetime></item></agent>
+

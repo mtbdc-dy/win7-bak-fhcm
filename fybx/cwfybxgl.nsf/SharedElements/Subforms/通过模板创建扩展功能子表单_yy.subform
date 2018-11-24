@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE subform SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<subform name='通过模板创建扩展功能子表单_yy' alias='sfrmTemplateSelecter_Custom_yy' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825807E001E75D5' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='f72' unid='1AE094016D7C507D4825805300246A91' sequence='48'>
+<created><datetime>20161021T143745,77+08</datetime></created>
+<modified><datetime>20181025T014918,83+08</datetime></modified>
+<revised><datetime>20181024T085443,95+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,82+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010803,65+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<body><richtext>
+<pardef id='1' leftmargin='1in' hide='web'/>
+<par def='1'><run html='true'> </run></par><subformref><code event='value'><formula
+ compiled='true'>
+PgAJADQAH3af4aYskU+yL1meZMhHX3q2W6dhnIkTg21KVNagXTvqOVDA7iI60JG9Xdz1GJUIBAAE
+AAQABAA=
+</formula></code></subformref>
+<par def='1'><run html='true'> </run></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>sfrmCustomContent</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210735,97+08</datetime></item></subform>
+

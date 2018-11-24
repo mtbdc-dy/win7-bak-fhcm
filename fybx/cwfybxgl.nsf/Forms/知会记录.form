@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='知会记录' alias='frmNotifyLog' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' publicaccess='false' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='46e' unid='B0D16D11ABC0B3B9482577DE000BC7BE' sequence='57'>
+<created><datetime>20101117T100840,30+08</datetime></created>
+<modified><datetime>20181025T014918,93+08</datetime></modified>
+<revised><datetime>20181024T085446,58+08</datetime></revised>
+<lastaccessed><datetime>20181025T014918,92+08</datetime></lastaccessed>
+<addedtofile><datetime>20171012T010803,85+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='webqueryopen'><formula
+ compiled='true'>
+NgAJACwAyfjEx4oL+x7uIP1QdOx6lT1DU4clqY62BIQrPTtv1y/iAYGkDaYttwQABAAEAAQA
+</formula></code><code event='htmlbody'><formula compiled='true'>
+ZgAJAFwA2R4VkjrQaImtC+o7UcjxGvebzp0qI3AKG7iJ80TT7VbP+zWmA2OidGtRGUocoQDl1zbF
+IUQCUEH2pyHfrNd8jfdH6dGA3f5OIOUWBbqDSZ6V55dLfdXL0gQABAAEAAQA
+</formula></code><code
+ event='htmlhead'><formula compiled='true'>
+xgMJALwDSGNiqxjGuWzwtyRbUaizYw0jfFxXFATnSZfwfxZBVJjQLtx5R4ZIPnj+ecGkx5e1deMz
+INhcyc4sZNQUratvj8ZxczvpopXGYQWmYPqnLC8uavNBH086Sb3+y9DoCPy0ow4QHEGGrsIMsrQd
+6llU6Igu49dE1BI7B1HzCvCTFThp7wFKKmWL/9z3O7oxBWoiWHEwBoCpJGuRpavW765ZkkAERmeQ
+HCWBqnUQNN57/HbkCCR38OcZ76cboNWkQ5wW2GkYUp/F5BzAXIdXwDH591If4VyzED+bOEawl3nn
+b/UjCerZTUmsjgnaglDxmUZwZicfmFLQpr74pJmdp4PYDteAX0w4l+TBNP+7xxOkz+WFxdmkSmqR
+Z8BmmYaIXC7u9HQqreMLX7yJ700APX/Uc1p3cpZLUXBW+T8lQRHB/hj3TnddaqZcwr59JECHeAXl
+xC2jbp/n0OVq6LK+lOACQdZkjXVyxTuOhRv+J3yQbHOpoSyFVbfQuvw15qDaGOQkZEOiuKo3Cxp5
+WN9MF+AfdL9Hai82PMXyKVDDsDhsn94/3Yn32+aOAm5+QLuOaf79ns3a53kCIEum68aYM3cDco0l
+4F8oo2xlzls13eRoDjvYDjenMrdOvlMog7MLdbGsrrnmG2enbcYLrH7Zbm7rRKFZUCnnQl5Pa4/h
+gIhXTVMFfNkgo2WBloWF2s7rw/XBAXWehURtX1b6tQTS7UdHSQNN9VoZr9LXuABd5Z5C1bP+ciZ+
+dFNRHwe6VSq92TLEy56qs+LEr6bsjj3q8rFdd2zeMxlpdISrEGfSqGYMdyhUymOkVYIUlbwtwgn/
+Yfy1JmXZlk/V7Cpa3SSwjgWl5BuxVeeQ8a541m6SL+/R0Elo19f65JEMuuGEUoRgG1+0Ni0cUu5q
+Ji5v6sWtJlRjABHtVkQivzRUm6d5NiEYNmIjFyQDwT9xXpg/03xkX7sbkc0oF+HtkVfIaVfleYRC
+yHrFF4sFC4E1f5wxn3SpRgk25y+XXlJR42Fxu+mLj6ven5qT20ivVuZlKRhBRrfZEfXMh0t+RgP1
+QBaJHtrQ+NtHS8ebr86bE2upSlmTWxL1q0L9kxuzU90JEtnx1BKj1ZFDyv/u7nNoWaRODgd70p3Q
+0ldnaXQKqQS0FwR3QRiEteiBmDrQ+WW58E0dOlt87cKIiBrm+xxkIq+7zuAkuaIK2ruPsDO8kWtX
+I0kpapAtkq9CJ2Lr/2NgKaZ/eu/LnNNjMLhsEUXA321HGHYX1E07ctoURZMgRQQABAAEAAQA
+</formula></code><code event='jsheader'
+ for='web'><javascript>smartdot.i18n.requireLocalization("indiplatform.tylc");</javascript></code>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run html='true'>&lt;div style="display:none"&gt;</run></par>
+<par def='1'/>
+<table widthtype='fixedcenter' refwidth='6.6931in'><tablecolumn width='1.9688in'/><tablecolumn
+ width='4.7243in'/>
+<tablerow>
+<tablecell>
+<pardef id='3' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='3'><run html='true'><font size='9pt' color='red'/>&lt;input name="fldBtnZhihui" value="</run><run
+ html='true'><font size='9pt'/><field type='text' kind='computedfordisplay'
+ name='fldBtnZhihui'><code event='defaultvalue'><formula compiled='true'>
+dgAJAGwAKxRpWixjeMq4fmOnjoXSUqjTlgt+3iJ+aE3zyb4072PwGPWh6IrJoV4fmbgp+FjGCyd+
+pSW5yhoX2q+wkZIkylY+TFIMKY4RzKR4pX6asclZ7idd9YezYz1AGSckobUm+9NxWgpwU98EAAQA
+BAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='11' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/>"&gt;</run></par></tablecell>
+<tablecell>
+<pardef id='4' keepwithnext='true' keeptogether='true'/>
+<par def='4'><run><font size='9pt' color='red'/>知会按钮</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<par def='3'><run html='true'><font size='9pt' color='red'/>&lt;input name="fldBtnZhihuibb" value="</run><run
+ html='true'><font size='9pt'/><field type='text' kind='computedfordisplay'
+ name='fldBtnZhihuibb'><code event='defaultvalue'><formula compiled='true'>
+dgAJAGwAC47Em/ahtxrsAlMeqlRpSmG4MU8pydwUTry+R298Fw0SGZY066sM8H1WpEEG2WhJnt/+
+a5G/oaD8JJn5k5WWoi8Tlpb1hjYdDypdEGWUX380m5/5Bg9RhU/DqnWj4kZpZStTGj8zwIEEAAQA
+BAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' color='red'/>"&gt;</run></par></tablecell>
+<tablecell>
+<par def='4'><run><font size='9pt' color='red'/>知会办毕按钮</run></par></tablecell></tablerow></table>
+<pardef id='2' leftmargin='1in'/>
+<par def='2'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0'/></run></par>
+<par def='1'><sharedfieldref name='ResourcePath'/></par>
+<pardef id='5' hide='web'/>
+<par def='5'>被知会人：<field type='names' allowmultivalues='true' kind='editable'
+ name='nmNotifiers' listinputseparators='comma' listdisplayseparator='comma'/></par>
+<par def='5'>被知会人已查阅人：<field type='names' allowmultivalues='true' kind='editable'
+ name='nmHaveRead' listinputseparators='comma' listdisplayseparator='comma'/></par>
+<par def='5'>被知会人查阅记录：<field type='richtext' kind='editable' name='strReadHistory'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='5'><field type='authors' kind='editable' name='nmAuthors'><code
+ event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL27EdfXzFEPTGAQABAAEAAQA
+</formula></code></field><field
+ type='text' kind='computedfordisplay' name='maindocid'><code event='defaultvalue'><formula
+ compiled='true'>
+LgAJACQA/mlENZ1cFeM3+ruq/kDrhtuePoDpc9OEWddesTfNqRAEAAQABAAEAA==
+</formula></code></field><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='11' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par><subformref name='sfrmDojo'/>
+<par def='5'/>
+<par def='1'><run html='true'>&lt;/div&gt;</run></par>
+<pardef id='6' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='6'><run html='true'>&lt;p style="display:none"&gt;&lt;span data-string-id="indiplatform.tylc.zhjbxx"&gt;知会基本信息：&lt;/span&gt;&lt;span id="fldNotifyRecord"&gt;</run><run
+ html='true'><field type='richtext' kind='computed' name='fldRecord'><code
+ event='defaultvalue'><formula compiled='true'>
+JgAJABwA9t6HEzhn5CJ0EPOwcxaN6EZ+30T7B+6vBAAEAAQABAA=
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run html='true'>&lt;/span&gt;&lt;/p&gt;&lt;br&gt;</run></par>
+<par def='6'><run html='true'>&lt;p style="display:none"&gt;&lt;span data-string-id="indiplatform.tylc.yyzhrcyjl"&gt;已阅知会人查阅记录：&lt;/span&gt;&lt;span id="strReadHistory"&gt;</run><run
+ html='true'><font size='9pt'/><computedtext><code event='value'><formula
+ compiled='true'>
+NgAJACwA4T2e9gLcRR3Yp9HhoiDkeWO7k9WFnh2Tt+OT/3ryFcqy3QPw9rG6cwQABAAEAAQA
+</formula></code></computedtext></run><run html='true'>&lt;/span&gt;&lt;/p&gt;&lt;br&gt;</run></par>
+<par def='6'><run html='true'>&lt;p style="display:none"&gt;已阅知会人意见：&lt;/span&gt;&lt;span id="strReadHistoryYj"&gt;</run><run
+ html='true'><field type='richtext' kind='computed' name='strReadHistoryYj'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAxlObK2ryBUU7Nq2FLR9hWrtcWUdAGBYlt3QulNcd2eAEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run html='true'>&lt;/span&gt;&lt;/p&gt;&lt;br&gt;</run></par>
+<par def='6'><run html='true'>&lt;p style="display:none"&gt;已阅知会人意见：&lt;/span&gt;&lt;span id="strRecordCount"&gt;</run><run
+ html='true'><field type='text' kind='computedfordisplay' name='strRecordCount'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAtj3AHvPBrIWi4ng6YeGatmVZCXaDqMyHNmSjcOdZchMEAAQABAAEAA==
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata><run html='true'>&lt;/span&gt;&lt;/p&gt;&lt;br&gt;</run></par><subformref
+><code event='value'><formula compiled='true'>
+NgAJACwAwB2AjhpRRaEJf6UlCktA3jfbFn6vfiFahAj46BeDrhRzL+r1wYqs4gQABAAEAAQA
+</formula></code></subformref>
+<par def='6'><run html='true'><font size='9pt' name='monospace' color='maroon'/>&lt;script&gt;fnShowZhihuiRecord();&lt;/script&gt;</run></par></richtext></body>
+<item name='$SubForm_RepIDs' sign='true'><textlist><text>0000000000000000</text><text
+>0000000000000000</text></textlist></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmNotifyLog</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,95+08</datetime></item></form>
+

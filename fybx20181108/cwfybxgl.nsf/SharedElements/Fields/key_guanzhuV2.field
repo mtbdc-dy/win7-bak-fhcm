@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE sharedfield SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<sharedfield name='key_guanzhuV2' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825807E001E75D5' designerversion='8.5.3'>
+<noteinfo noteid='3e6' unid='8F4B6506DFED3A8348257DB100450DFE' sequence='55'>
+<created><datetime>20141217T203415,66+08</datetime></created>
+<modified><datetime>20181025T014922,39+08</datetime></modified>
+<revised><datetime>20181024T085444,55+08</datetime></revised>
+<lastaccessed><datetime>20181025T014922,38+08</datetime></lastaccessed>
+<addedtofile><datetime>20161203T133246,08+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><field type='text'
+ kind='computedwhencomposed' name='key_guanzhuV2'><code event='defaultvalue'><formula
+ compiled='true'>
+NgIJACwCjyt5cpmT0+iDJvFfTiQCC6ycv6/MAtYbD/vKQveJGZ1X7SbBWfGiMOYWbwYiV4PXhUaF
+tLG09ag2snileU9ge6NiYZRLZPxaYPRb4lZclPZR2PWs5Bl8PLLkMBiw3t/uXhv0nVKLzUMn9MjT
+MoEmelF+ib2A6yTqD5lelVHYrEyXJVs/xSYmc7Xv2BNJ+M0+Bef+ADcB7RUBeKebPFl7dJEYizTt
+VjbeH3UXzlQ1pkmtak+SHXw4TUNKr9d50ixjd4O0Zo0smvLwFLPFt6DW7L+4wZSLmgYldFPF+1eo
+AvJTmdYBDvdC6akLjE9xSHqTu5jpnq9iETHp4+mG9UQXabcYqF+u+09BEgpafb6rOiPMvVCYU71M
+2qL5IkXghdTF+smQdUrpjxpL91gIdAe+KzXt7SzQYcxzWqWspH8aoPGS2sFNEambtDGcu/09SW9z
+edQU+PZCZgIwUS8fPpO4Q/hpfT+IJ2knhqAGaEso7h23Lat4Ax+In0mqBC6Km8wQJevnE5uYJrq+
+SkmP1G1YggRvQF4QIHPpKcoXM1fnlsKVO5gIB0mz0WrJ+LckO7M8urtInrPyoFp14u2IzZsbSPFA
+Pe+KzBwSd2Yta47g/Rb81xgJJUXfT7bCQaMm7aj2n3WHFce62HWeTE96Iy1z/6Vlyi0kLjpjrpZB
+m89IoCMWkgkWUGmWRoUL/ZNaU1h7fQ1LI+Epe1eJSyEwMZTp/Aj9HreZobefBAAEAAQABAA=
+</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210739,03+08</datetime></item></sharedfield>
+

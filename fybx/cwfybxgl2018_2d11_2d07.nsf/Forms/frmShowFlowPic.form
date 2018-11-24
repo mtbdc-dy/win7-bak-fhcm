@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE form SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<form name='frmShowFlowPic' xmlns='http://www.lotus.com/dxl' version='9.0'
+ replicaid='4825833E00419143' publicaccess='false' designerversion='8.5.3'
+ comment='查看流程图' editonopen='true'>
+<noteinfo noteid='416' unid='548238EB06F8382748257A3B001F625E' sequence='57'>
+<created><datetime>20120714T134247,98+08</datetime></created>
+<modified><datetime>20181107T195624,11+08</datetime></modified>
+<revised><datetime>20181024T085455,60+08</datetime></revised>
+<lastaccessed><datetime>20181107T195624,11+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195624,11+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=SeuSpc/O=SeuSpc</name><name>CN=admin/O=org</name><name
+>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby><code event='windowtitle'><formula
+ compiled='true'>
+LgAJACQAqfghn/k7Jgd3d3cs5yaqKbk21bhpQKYLGIRYRF7oSroEAAQABAAEAA==
+</formula></code><code event='htmlbody'><formula compiled='true'>
+fgAJAHQAE0ZxETXC32t8K7PAk3l8Cmdpey/Cfao4ccbf8dMl202XN8Iw0ivngZKaG9w2yWsUGs8Z
+UFtYsaXIiQOJIMM83H95V6+icA1mk5aXDU6Ee56d6Qvje4JZR+ZlaEnVR2vw+aHXcUPDnuMdKdHA
+11uhXAQABAAEAAQA
+</formula></code><code
+ event='htmlhead'><formula compiled='true'>
+hgEJAHwBoXXE7kDzOYaHeUCMUw1Z+kIYIjGfCJyXeM/M/M+8Ft0dqfmLwdbxwbxCE/0n3xGkkJBL
+SI3TNWJ6QbsPHolSl72Nyjo9QHC3iOpaIQYDxjPyeGt+M/uLqZee4ys4Uac5v25mSrmAXnlAUWHU
+UNE/pbD5nsE9914GlE0n4pe9PlSwYG0kW9u7TnXNDXThEj3xGTqDddetq96AJDCkvjdIkhKz9ijk
+2MGBlu1c41Uo+bxA/lfKAbxalTDILwx+cEopdu2CUjQjZmgkao4xNKf2ZKOwYdoLB3oJswjZyV9H
+705cDXZIzTQxjK7ZWdzKxjGvVdivTNZ7xHwcdl1QqDHROQ1llDLcsCVrXMgrriFUiOTtTjto1/9L
+U7ROxO3vAWmtv0+FlXkPIW75f0mBzVuj7P+880q01EiZTGpS+/THbfOaxAMKl5OGq8klv77yXkTj
+ow9AVfQxO0pXM86NvNaC46gvXZ0XOd/v3BophP7LfR4fK5Rsh51HpwQABAAEAAQA
+</formula></code>
+<actionbar bgcolor='#d4d0c8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#d4d0c8'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
+<action title='_Edit Document' showinbar='false' systemcommand='edit'/>
+<action title='_Send Document' showinbar='false' systemcommand='send'/>
+<action title='_Forward' showinbar='false' systemcommand='forward'/>
+<action title='_Move To Folder...' showinbar='false' systemcommand='movetofolder'/>
+<action title='_Remove From Folder' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<body><richtext>
+<pardef id='1' align='center'/>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;div style="display:none"&gt;表单所有隐藏域信息</run></par>
+<table widthtype='fixedcenter' refwidth='6.6931in'><tablecolumn width='1.9688in'/><tablecolumn
+ width='4.7243in'/>
+<tablerow>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='3' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='3'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>隐藏域</run></par></tablecell>
+<tablecell valign='center' bgcolor='silver'>
+<pardef id='4' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='4'><run><font size='9pt' style='bold' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='navy'/>描述</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<pardef id='6' align='center' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>共享域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='5' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='5'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><sharedfieldref name='dbPath'/></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<pardef id='7' leftmargin='0.0104in' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>获得该数据库路径信息；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<par def='5'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><sharedfieldref name='ResourcePath'/></run><run
+><font size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0'
+ color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>获得资源库路径信息；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>frmRedHeader表单固定域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='center'>
+<pardef id='8' leftmargin='0.0104in' hide='read edit notes web' tabs='L1.5104in L2.0104in L2.5104in L3.0104in L3.5104in L4.0104in L4.5104in L5.0104in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='red'/></run><run><font size='9pt' color='red' name='宋体'
+ pitch='variable' truetype='true' familyid='0'/><field type='text' kind='editable'
+ name='saveOptions'><code event='defaultvalue'><formula compiled='true'>
+HgAJABQAxAuLO3dDL26h6T28uENn8AQABAAEAAQA
+</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='10' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='9pt'
+ name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/></run></par></tablecell>
+<tablecell valign='center'>
+<par def='7'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='gray'/>是否保存该表单创建的文档;值＝（0\1）；</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell columnspan='2' valign='center' bgcolor='#ffefce'>
+<par def='6'><run><font size='9pt' name='宋体' pitch='variable' truetype='true'
+ familyid='0' color='blue'/>项目扩展域</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell>
+<pardef id='9' hide='notes web' keepwithnext='true' keeptogether='true'/>
+<par def='9'><field type='text' kind='editable' name='Query_String_Decoded'/><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></tablecell>
+<tablecell>
+<pardef id='10' hide='notes web' keepwithnext='true' keeptogether='true'/>
+<par def='10'/></tablecell></tablerow></table>
+<pardef id='11'/>
+<par def='11'/>
+<pardef id='12' hide='web'/><subformref name='sfrmDojo'/>
+<par def='11'>//控制页面以浏览器标准模式显示</par>
+<par def='11'><field type='text' kind='computedfordisplay' name='$$HTMLFrontMatter'><code
+ event='defaultvalue'><formula compiled='true'>
+LgAJACQAqfghn/k7JgcAiNJ4xwYmPfQvIxEnL/vLnTWS315fGXsEAAQABAAEAA==
+</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run html='true'><font
+ size='9pt' name='宋体' pitch='variable' truetype='true' familyid='0' color='red'/></run></par>
+<par def='1'><run html='true'><font size='9pt' name='宋体' pitch='variable'
+ truetype='true' familyid='0' color='red'/>&lt;/div&gt;</run></par>
+<pardef id='13' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='13'><run html='true'><font size='9pt' color='navy'/>&lt;table align=center class="tableClass" width="100%"&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt'/>  &lt;tr&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt'/>    &lt;td</run><run html='true'><font
+ size='9pt'/>&gt;&lt;img src=</run><computedtext><code event='value'><formula
+ compiled='true'>
+LgAJACQAIgPmHWb1O6R6MiiFTwOBELUV/FLzl4M/H019m1v+/P4EAAQABAAEAA==
+</formula></code></computedtext><run html='true'><font size='9pt'/>&gt;&lt;/td&gt;</run></par>
+<par def='13'><run html='true'><font size='9pt'/>  &lt;/tr&gt;</run></par>
+<pardef id='14' tabs='L6.2986in'/>
+<par def='14'><run html='true'><font size='9pt'/>&lt;/table&gt;</run></par></richtext></body>
+<item name='fldLsh' summary='false' sign='true'><number>0</number></item>
+<item name='OriginalModTime' sign='true'><datetime>20071012T144346,74+08</datetime></item>
+<item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>frmShowFlowPic</text></item>
+<item name='$HideInfo' summary='false' sign='true'><datetime>20180312T210740,25+08</datetime></item></form>
+

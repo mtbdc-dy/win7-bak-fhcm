@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE agent SYSTEM 'xmlschemas/domino_9_0.dtd'>
+<agent name='agtgetdepid' alias='通过部门名称获取部门id' xmlns='http://www.lotus.com/dxl'
+ version='9.0' replicaid='4825833E00419143' hide='v3' publicaccess='false'
+ designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='1856' unid='48258072000E0C3F4825806100272546' sequence='30'>
+<created><datetime>20161104T150734,46+08</datetime></created>
+<modified><datetime>20181107T195906,77+08</datetime></modified>
+<revised><datetime>20181024T092021,25+08</datetime></revised>
+<lastaccessed><datetime>20181107T195906,77+08</datetime></lastaccessed>
+<addedtofile><datetime>20181107T195906,77+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name
+>CN=oanewadmin/O=ppm</name><name>CN=oav5server1/O=ppm</name><name>CN=oanewadmin/O=ppm</name></updatedby>
+<wassignedby><name>CN=oanewadmin/O=ppm</name></wassignedby>
+<designchange><datetime>20181024T092127,49+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent agtgetdepid
+	Created 2016-11-2 by admin/ppm
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Declare
+Use "commonlib"
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo errorhandle
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim view As NotesView
+	Dim doc As NotesDocument
+	Dim note As NotesDocument
+	Set db=session.Getdatabase("", "indishare/indinames.nsf")
+	Set doc=session.Documentcontext
+	
+	Dim depname As String 
+	depname=Getrefvalue(doc.Query_string_Decoded(0),"depname=")
+	Set view=db.Getview("vwDepByDepFullName")
+	Set note=view.Getdocumentbykey(depname)
+	Dim depid As String 
+	If Not note Is Nothing Then
+		depid=note.DepartmentCode(0)
+	End If
+	Dim jsonarry As New Converjsonobject
+	Call jsonarry.Additem("depid", depid)
+	Print |Content-Type:text/plain;Charset=GB2312|
+	Print jsonarry.Tojson()
+	Exit sub
+errorhandle:
+	showerror("agtgetdepid")
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0' agentdata='BB49E7EEB6DFBD87482583370020E09E'>
+<agentmodified><datetime>20181025T014920,55+08</datetime></agentmodified>
+<agentrun><datetime>20181107T170208,47+08</datetime></agentrun>
+<runlog>Started running agent 'agtgetdepid|通过部门名称获取部门id' on 2018-11-07 17:02:08
+Ran LotusScript code
+Done running agent 'agtgetdepid|通过部门名称获取部门id' on 2018-11-07 17:02:08
+</runlog></rundata>
+<item name='$POID'><datetime>20181024T092021,25+08</datetime></item></agent>
+
