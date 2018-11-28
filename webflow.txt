@@ -1,0 +1,1663 @@
+/* 此JS用于扩展webflowMain.js */
+
+//提交后返回页面定制
+function fnToWorkSpaceClickCustom(){
+	//console.log("三只手")
+	var strprintmsg = localStorage.getItem("printmsg");
+	var printmsg = dojo.fromJson(strprintmsg);
+	var strHref = printmsg.strHref;
+	var strHref = strHref.substring(0,strHref.indexOf("?"))+"?editdocument";
+	var i = strHref.indexOf(".nsf");
+	var j = strHref.substring(0,i).lastIndexOf("/");
+	var dbname = strHref.substring(j+1,i);
+	var hostname = strHref.substring(0,strHref.substring(0,j).lastIndexOf("/"));
+	var fldflow,subform,subform,subHTML;
+	if(dbname=="gwyg"){
+		dojo.xhrGet({
+			url:strHref,
+			handleAs:"text",
+			sync:true,
+			preventCache:true,
+			load:function(data){
+			console.log(data)
+				fldflow = fnGetvaluefromHTML('<input name="fldFlow" value="','"></font></td>',data);
+				if(fldflow==0){
+					subform = fnGetvaluefromHTML('<input name="subform" value="','" type=hidden>',data);
+					appPath = fnGetvaluefromHTML('<input name="appPath" value="','"></font></td>',data);
+					if(subform=="sfrmygxx"){
+						location.href = hostname+"/"+appPath+"/gwyg.nsf/frmgwxxtree?openform&type=ygxx";
+					}else{
+						location.href = hostname+"/"+appPath+"/gwyg.nsf/frmgwxxtree?openform&type=gwxx";
+					}
+				}else{
+					top.location.href = hostname+"/indishare/office.nsf/(frame)/frame";
+				}
+			}
+		});
+	}else{
+		top.location.href= "/indishare/office.nsf/(frame)/frame";
+	}
+}
+function fnGetToWorkSpaceLabelCustom(){
+	
+	var strprintmsg = localStorage.getItem("printmsg");
+	var printmsg = dojo.fromJson(strprintmsg);
+	var strHref = printmsg.strHref;
+	var strHref = strHref.substring(0,strHref.indexOf("?"))+"?editdocument";
+	var i = strHref.indexOf(".nsf");
+	var j = strHref.substring(0,i).lastIndexOf("/");
+	var dbname = strHref.substring(j+1,i);
+	var fldflow;
+	var returnstring = "返回个人工作台";
+	if(dbname=="gwyg"){
+		dojo.xhrGet({
+			url:strHref,
+			handleAs:"text",
+			sync:true,
+			preventCache:true,
+			load:function(data){
+				fldflow = fnGetvaluefromHTML('<input name="fldFlow" value="','"></font></td>',data);
+				if(fldflow=="0"){
+					returnstring = "返回本模块";
+				}
+			}
+		});
+	}
+	return returnstring;
+}
+/*
+ *获取HTML中文本框中value的值
+ */
+function fnGetvaluefromHTML(firstStr,secondStr,HTML){
+	var i = HTML.indexOf(firstStr);
+	var subHTML = HTML.substring(i+firstStr.length,HTML.length);
+	var j = subHTML.indexOf(secondStr);
+	var value = subHTML.substring(0,j);
+	return value;
+}
+
+/*
+ * 校验金额格式
+ * 
+ */
+dojo.require("smartdot.Validator");
+smartdot.Validator.typeReg["moneyAmount"] = {
+		//reg:/^(-)?(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
+		//reg:/^([+-]?)((\d{1,3}(,\d{3})*)|(\d+))(\.\d{1,2})?$/,
+		reg:/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
+		message:'请输入正确的金额格式'
+}
+
+/*
+ * 校验金额格式
+ * 
+ */
+dojo.require("smartdot.Validator");
+smartdot.Validator.typeReg["moneyAmount2"] = {
+		//reg:/^(-)?(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
+		//reg:/^([+-]?)((\d{1,3}(,\d{3})*)|(\d+))(\.\d{1,2})?$/,
+		reg:/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
+		message:'请输入正确的金额格式'
+}
+
+/*
+ *  校验正整数
+ */
+smartdot.Validator.typeReg["numsl"] = {
+		reg:/^\+?[0-9]\d*$/,
+		message:'请输入正整数'
+}
+/*
+ *  校验纳税人识别号格式（包含数字和英文及英文状态破折号）
+ */
+smartdot.Validator.typeReg["nssbhcheck"] = {
+		reg:/^[A-Za-z0-9-]+$/,		
+		message:'请输入正确的纳税人识别号格式'
+}
+
+/*
+ *  校验中文汉字（开户行）
+ */
+smartdot.Validator.typeReg["checkhz"] = {
+		reg:/^[\u4e00-\u9fa5]+$/,
+		message:'请输入正确的开户行格式'
+}
+
+/*
+ * 校验两位小数
+ * 
+ */
+dojo.require("smartdot.Validator");
+smartdot.Validator.typeReg["numss"] = {
+		//reg:/^(-)?(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
+		//reg:/^([+-]?)((\d{1,3}(,\d{3})*)|(\d+))(\.\d{1,2})?$/,
+		reg:/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
+		message:'请输入带两位小数的正数'
+}
+
+
+function OpenFileCustom(fname){
+    //窗体保护打开
+	if(document.getElementsByName("dbPath")[0]){
+		if	(document.getElementsByName("dbPath")[0].value.indexOf("swgl")>-1){
+		slCtl.Content.Control.EditFile(fname,14)
+	}
+	}
+	return true;
+}
+
+function SaveFileCustom(fname){
+	if(document.getElementsByName("dbPath")[0]){
+	if	(document.getElementsByName("dbPath")[0].value.indexOf("swgl")>-1){
+		slCtl.Content.Control.SaveFileToLocal(fname,"true");
+	}
+	}
+}
+/**
+function SaveFileCustom(fname){
+	if(document.getElementsByName("dbPath")[0]){
+	if	(document.getElementsByName("dbPath")[0].value.indexOf("ioboard")>-1){
+		slCtl.Content.Control.SaveFileToLocal(fname,"false");
+	}
+	}
+}
+**/
+
+dojo.addOnLoad(function(){
+	if (document.getElementsByName("dbPath")[0]){
+		if	(document.getElementsByName("dbPath")[0].value.indexOf("swgl")>-1){
+			if(document.forms[0].idx_downloadtype){
+				document.forms[0].idx_downloadtype.value="1";
+			}
+		}
+	}
+	
+	//2018-11-27 10:19 added by tianyq@smartdot.com 
+	fnDoReadOnlyOnCwcshj_xm();
+});
+
+//日期字典
+function tranDate(str){
+var datArr,dayArr;
+var  result="";
+var tmp;
+var i,j;
+datArr=new Array();
+datArr[0]="0";
+datArr[1]="1";
+datArr[2]="2";
+datArr[3]="3";
+datArr[4]="4";
+datArr[5]="5";
+datArr[6]="6";
+datArr[7]="7";
+datArr[8]="8";
+datArr[9]="9";
+dayArr=new Array();
+dayArr[0]="年";
+dayArr[1]="月";
+dayArr[2]="日";
+tmp=str.split("-");
+for(i=0;i<tmp.length;i++){
+   tmp[i]=tmp[i].replace(/^0/,"");
+     
+   for(j=0;j<tmp[i].length;j++){
+	result=result+datArr[tmp[i].charAt(j)];
+	}
+   result=result+dayArr[i];
+   //alert(result);
+ }
+ //alert(result);
+ return result;
+}
+
+//日期字典
+function tranDate_bak(str){
+var datArr,dayArr;
+var  result="";
+var tmp;
+var i,j;
+datArr=new Array();
+datArr[0]="〇";
+datArr[1]="一";
+datArr[2]="二";
+datArr[3]="三";
+datArr[4]="四";
+datArr[5]="五";
+datArr[6]="六";
+datArr[7]="七";
+datArr[8]="八";
+datArr[9]="九";
+dayArr=new Array();
+dayArr[0]="年";
+dayArr[1]="月";
+dayArr[2]="日";
+tmp=str.split("-");
+for(i=0;i<tmp.length;i++){
+   tmp[i]=tmp[i].replace(/^0/,"");
+     
+   for(j=0;j<tmp[i].length;j++){
+	result=result+datArr[tmp[i].charAt(j)];
+	}
+   result=result+dayArr[i];
+   //alert(result);
+ }
+ //alert(result);
+ return result;
+}
+
+function loadIdxOneRowCustom(aTds,userFile,oArea){   
+    //oArea.filecontrol.qinggao   oArea.filecontrol.gaizhang    oArea.filecontrol.taoda    
+	if(userFile.AllowPrint&&oArea.filecontrol.qinggao&&userFile.CatNum!=-1){
+            
+            if ($$idx.user.isdealer&&userFile.AllowOnlineEdit){
+            	var strtmp = smartdot.i18n.getString("indiplatform.oaresource.qinggao","清稿");
+				strTd="<td><a class='idx_qinggao' title='"+strtmp+"' onClick=\"QingGaoFile('"+userFile.FileName+"')\"></a></td>";				
+
+				//把清稿按钮插入到盖章按钮后面
+				aTds.splice(2, 0, strTd);
+
+            }
+        }
+}
+
+function fngetliuzhuanxinxi3(url, server) {
+	var objDialog;
+	var strURL = server + url;
+	var xhrArgs = {
+		url: strURL,
+		handleAs: "xml",
+		preventCache: true,
+		error: function() { //wxl 错误的时候不显示
+			objDialog = new dijit.Dialog({
+				title: smartdot.i18n.getString("indioffice.indiofficeres.lzjl","流转记录")
+			});
+
+			htmlstr = '<table width=450 border=0 cellspacing="3" cellpadding="3" class="blue20" style="margin:10px">';
+			htmlstr += '<colgroup><col></col><col width="150"></col><col width="100"></col></colgroup>';
+			htmlstr += '<tr><td colspan=3><div class="msg"><span>'+smartdot.i18n.getString("indioffice.indiofficeres.mykcylzjl","目前还没有您可查阅的流转记录！")+'</span></div></td></tr>';
+			htmlstr += "</table>";
+			//htmlstr = "<table border=0><tr><td width=10>&nbsp;</td><td>" + htmlstr + "</td></tr></table>";
+			objDialog.attr("content", htmlstr);
+			objDialog.show();
+		},
+		load: function(data) {
+			alert('123')
+			var xmlDoc = data;
+			objDialog = new dijit.Dialog({
+				title: smartdot.i18n.getString("indioffice.indiofficeres.lzjl","流转记录")
+			});
+
+			htmlstr = '<table id="lzjl"  width=450 border=0 cellspacing="3" cellpadding="3" class="blue20" style="margin:10px">';
+			if(getGoutongUrl&&getGoutongUrl.data){
+				getGoutongUrl.data={}
+			}
+			if (xmlDoc) {
+				htmlstr += '<tr><td aligh="center" style="font-weight:bold;width: 145px;">'+smartdot.i18n.getString("indioffice.indiofficeres.shijian","时间")+'</td>';
+				htmlstr += '<td aligh="center" style="font-weight:bold;width: 135px;">'+smartdot.i18n.getString("indioffice.indiofficeres.zhuangtai","状态")+'</td>';
+				htmlstr += '<td aligh="center" style="font-weight:bold">'+smartdot.i18n.getString("indioffice.indiofficeres.czr","操作人")+'</td>';
+				htmlstr += '<td aligh="center" style="font-weight:bold">'+smartdot.i18n.getString("indioffice.indiofficeres.yj","意见")+'</td></tr>';
+				var flowNodeList = xmlDoc.getElementsByTagName("item");
+				var vparamMap;
+				for (var i = 0; i < flowNodeList.length; i++) { 
+					vparamMap={	gtdataurl:url,
+							flownodei18nFun:function(nodeid,nodename){
+												if(document.cookie.indexOf('indi_locale=zh-cn')>-1) return nodename;
+												var param = {};
+												param.server ="http://" +  server;
+												var app=xmlDoc.childNodes[0].getAttribute("fromdb");
+												param.app = app.substring(0,app.indexOf("/"));
+												param.flowid = xmlDoc.childNodes[0].getAttribute("flowid");
+												param.nodeid = nodeid;
+												param.nodename = nodename;
+												return flowinfoi18nUtil.fnGetFlowNodeI18nName(param);	
+							}
+						};
+					htmlstr = htmlstr + fnMakeRow(flowNodeList[i], xmlDoc, i + 1,vparamMap);
+				}
+			} else {
+				htmlstr += '<tr><td colspan=3><div class="msg"><span>'+smartdot.i18n.getString("indioffice.indiofficeres.mykcylzjl","目前还没有您可查阅的流转记录！")+'</span></div></td></tr>';
+			}
+			if (i < 5) {
+				for (var j = 0; j < 5 - i; j++) {
+					htmlstr += '<tr><td colspan=3>&nbsp;</td></tr>';
+				}
+			}
+			htmlstr += "</table>";
+			objDialog.attr("content", htmlstr);
+			objDialog.show();
+			dojo.query('#lzjl span.userName').forEach(function(span){ initSpan(span);})
+		}
+	}
+	dojo.xhrGet(xhrArgs);
+}
+
+/*
+ * 增加隐藏审批意见区域按钮
+ */
+function addButtonHide(){
+	var crumb = dojo.byId("crumb");
+	var spyj = dojo.query(".form-action")[0];
+	if(crumb&&spyj){
+		crumb.innerHTML = crumb.innerHTML + "<a id='spyjbutton' onclick='toggleSpyj()' style='position:relative;margin-right:30px;color:red;text-decoration:underline;float:right'>&gt;&gt;&gt;&gt;隐藏审批意见区域</a>"
+		if(window.outerWidth < 1280){
+			toggleSpyj();
+		}
+	}
+}
+
+/*
+ * 	隐藏或显示意见区域
+ */
+function toggleSpyj(){
+	var content = dojo.byId("content");
+	var spyj = dojo.query(".form-action")[0];
+	var button = dojo.byId("spyjbutton");
+	if(spyj.style.display=="block"){
+		spyj.style.display = "none";
+		dojo.animateProperty({node:"content", duration:200,
+			properties: {
+			marginRight: { start: '272', end: '0', units:"px" }
+		}
+		}).play();
+		button.innerHTML = "显示审批意见区域&lt;&lt;&lt;&lt;"
+	}else{
+		dojo.animateProperty({node:"content", duration:200,
+			properties: {
+			marginRight: { start: '0', end: '272', units:"px" }
+		}
+		}).play();
+		spyj.style.display = "block";
+		button.innerHTML = "&gt;&gt;&gt;&gt;隐藏审批意见区域"
+	}
+}
+
+dojo.addOnLoad(addButtonHide);
+/**
+function fnShowCyyCustomExt(arrCyy){
+    var arrZDY = new Array();   //自定义审批语
+
+    var arrSys = new Array();   //系统默认审批语
+    var index = -1;
+    //获取系统默认的审批语
+    dojo.forEach(arrCyy,function(item,ind){
+        if(item.text.indexOf("#_#")!=-1){
+            if(index<0)  index = ind;
+            arrSys.push(item);
+        }else{
+            arrZDY.push(item);
+        }
+    });
+    //有自定义审批语且系统默认审批语不在最前面显示，则调整
+    if(index>0 && arrZDY.length>0){
+        //将系统默认的审批语显示在前面
+        var j=0;
+        for(var i=0;i < arrSys.length;i++){
+            arrCyy[j++] = arrSys[i];
+        }
+        //将自定义放在后面显示
+        for(var i=0;i < arrZDY.length;i++){
+            arrCyy[j++] = arrZDY[i];
+        }
+    }
+}
+**/
+
+function fnShowCyyCustomExt(arrCyy){
+	//alert(document.getElementsByName("strDep_xm")[0].value);
+	var strurltmp="/ppm/zdyspy.nsf/agtGetDep?openagent";
+	var strDep;
+    dojo.xhrGet({
+		url: strurltmp,
+		handleAs: "json",
+		preventCache:true,
+		sync:true,
+		load: function(data){
+    		strDep=data["items"];
+    	}          
+    });	
+	//var strDep = document.getElementsByName("strDep_xm")[0].value;
+	var tmpstr;
+    //var strBaseUrl = location.href.toLocaleLowerCase();
+    //strBaseUrl = strBaseUrl.substr(0,strBaseUrl.indexOf(".nsf")+4);
+	var strurl="/ppm/zdyspy.nsf/agtGetzdyspy?openagent&dep="+escape(strDep);
+    dojo.xhrGet({
+		url: strurl,
+		handleAs: "json",
+		preventCache:true,
+		sync:true,
+		load: function(data){
+    		tmpstr=data["items"];
+    	}          
+    });
+    //alert(tmpstr);
+    var arr = tmpstr.split(",");
+    for(j=0;j<arr.length;j++){
+    	var name = "#_#" + arr[j];
+    	var value = "#_#" + arr[j];
+    	 var selObj = document.getElementsByName('fldCyy')[0];
+    	 var objlen=selObj.options.length;
+    	    
+    	   //循环查看是否存在这样的值
+   	  for(var i=0;i<objlen;i++){
+   		  if(selObj.options[i].text==name && selObj.options[i].value==value){
+   			  	//如果存在则retuan false程序就此停止
+   			  return false;
+   		  }
+   	  }
+   	   // 如果不存在则长度加1
+   	  objlen++;
+  	   //alert(selObj)
+  	    var objOption = document.createElement("OPTION"); 
+  	    objOption.text = name;
+  	    objOption.value = value;  
+  		selObj.options.add(objOption); 
+   		//alert(selObj.options.length);
+    }  
+}
+
+//2018-11-03 add by tianyq@smartdot.com
+//说明：弹出窗口获取税码及税率信息
+function fnSelZsfsm_xm(o,dbpath){
+	var tempstrl = "选取税码信息";
+	var strurl = window.location.href;
+	strurl = strurl.substr(0,strurl.indexOf(".nsf"));
+	strurl = strurl.substr(0,strurl.lastIndexOf("/"))
+	
+	var strUrl = strurl+ "/jcsjwh.nsf/myview?openform&view=vwshuilv&count=20&mycustom=1";	
+	
+	var dlg = new smartdot.IframeDialog({
+		title:tempstrl,
+		src:strUrl,
+		width:"750px",
+		height:"300px",
+		onReceiveMessage:function(data){
+			dojo.query("input[name='zsfshm']")[0].value = data.zsfsm;
+			dojo.query("input[name='zsfshlv']")[0].value = data.zsfshl;
+			fnjsbhsje();
+			dlg.hide().then(function(){dlg.destroy()});
+		}
+	});
+	dlg.show();
+}
+
+//2018-11-26 tianyq@smartdot.com 组件点击时，重新计算不含税金额和税额
+function fnUpdateSeAndBhsje_xm(strwidget){
+	var numValue = dijit.byId(strwidget).getValue();
+	if(isNaN(parseFloat(document.forms[0].se_bak.value))){
+		return;
+	}
+	document.forms[0].se.value=parseFloat(parseFloat(document.forms[0].se_bak.value) + numValue).toFixed(2);
+	document.forms[0].bhsje.value=parseFloat(parseFloat(document.forms[0].jshj.value) - parseFloat(document.forms[0].se.value)).toFixed(2);
+}
+
+/*根据传入参数param对象
+ * 参数： db---选择的数据库
+ *		 view---获取选择数据库所对应的视图
+ *		 flds---获取域值的字段
+ *       count---弹出选择每页文档数量  可空
+ *       title---弹出窗口标题
+ *       mode---模式  单选为0  多选为1
+ *返回值：json 
+ *add by liuwl 2015-05-18
+ *modify by tianyq 2016-11-19 add allowempty attribute for displaying clear button
+ */
+function fnSelect(paramObj) {
+    //判断参数为空
+    var db=paramObj.db;
+    var view=paramObj.view;
+    var flds=paramObj.flds;
+    var count=paramObj.count;
+    var title=paramObj.title;
+    var mode=paramObj.mode;
+    var key= paramObj.key;
+    var filter= paramObj.filter;						//2017-3-27 tianyq added
+    var strAllowEmpty = paramObj.allowempty||"";		//允许显示清空按钮
+	
+    strUrl = "/indishare/dzbz_selectdb.nsf/xpsel.xsp?open&seldb="+db+"&viewname="+view+"&flds="+flds+"&allowempty="+strAllowEmpty;
+    if (count !== undefined) {
+    	strUrl = strUrl + "&count="+count;
+    }
+    if (mode !== undefined) {
+    	strUrl = strUrl + "&mode="+mode;
+    }
+    if (key !== undefined) {
+    	strUrl = strUrl + "&key="+key;
+    }
+  //2017-3-27 tianyq added
+    if (filter !== undefined && filter !== "") {
+    	strUrl = strUrl + "&filter="+filter.replace(/%/g,"%25");
+    }
+    
+	var dialog = new smartdot.IframeDialog({
+		src : strUrl,
+		title : title,
+		width : "600px",
+		height : "400px",
+		onReceiveMessage : function(data) {
+			paramObj.callbackFun.call(this,data);
+			dialog.hide();
+		}
+	});
+	dialog.show();
+} 
+
+
+
+/*-------------------------------------------------------------------财务改造/资金计划、支付相关代码---------------------------------------------------------------------*/
+
+function fnBanding4Rgcl_xm(){
+	if(!dojo.byId("fldIsZfhj_xm")){
+		return;
+	}
+	var strSfzfhj = dojo.byId("fldIsZfhj_xm").value;			//是否支付环节 yes no
+	if(strSfzfhj != "yes"){
+		return;
+	}
+	dojo.query("[name='fldRgcl_xm']").onclick(function(){
+		if(this.value == "是"){
+			//是财务处理的话，那就把提交一下步的按钮显示出来
+			dojo.query("#main-btn #button #tableData")[0].style.display="inline-block";
+			if(dijit.byId("btnZf_xm")){
+				dijit.byId("btnZf_xm").domNode.style.display="none";	//人工处理时,支付按钮隐藏
+			}
+			if(dijit.byId("btnZf_skr_xm")){
+				dijit.byId("btnZf_skr_xm").domNode.style.display="none";	//人工处理时,收款人支付按钮隐藏
+			}
+		//人工处理时，收款单位支付按钮屏蔽
+			dojo.query("[name='btnZf_In_dyna']").attr("style","display:none")
+			
+		}else{
+			//否则，就是要走支付接口了。那就隐藏提交下一环节按钮
+			dojo.query("#main-btn #button #tableData")[0].style.display="none";
+			if(dijit.byId("btnZf_xm") && dojo.byId("fldZfStatus4Hide_xm").value=="INIT"){
+				dijit.byId("btnZf_xm").domNode.style.display="inline-block";	//人工处理时,支付按钮隐藏
+			}
+			if(dijit.byId("btnZf_skr_xm")){
+				dijit.byId("btnZf_skr_xm").domNode.style.display="inline-block";	//人工处理时,收款人支付按钮隐藏
+			}
+			//人工处理时，收款单位支付按钮屏蔽
+			dojo.query("[name='btnZf_In_dyna']").attr("style","display:inline-block")
+		}
+	});
+}
+
+dojo.addOnLoad(fnBanding4Rgcl_xm);
+
+/*
+方法说明：	弹出层方式选择付款单位账户信息
+			双击选择，会将相关的单位名称、用户名称、用户账户、开户行信息返回 存储到表单中的指定字段
+使用方式：	通用界面，项目后期运维可以通过增加扩展方法的方式满足不同表单的特性需求
+限制条件：	仅适用2018年11月改造的财务类模块
+作    者:	tianyq@smartdot.com
+日    期:	2018-10-28
+*/
+function fnSelYz(o){
+	var tempstrl = "付款单位账号信息";
+
+	var strDBPath = dojo.query("input[name='dbPath_forJS']")[0].value;
+	var arrTmp = strDBPath.split("/");
+	arrTmp.pop();
+
+	strDBPath = arrTmp.join("/") + "/jcsjwh.nsf";
+	var strUrl ="/"+strDBPath+ "/myview?openform&view=vwfkdwzhxxwh_xm&count=10&mycustom=1";	
+
+	var dlg = new smartdot.IframeDialog({
+		title:tempstrl,
+		src:strUrl,
+		width:"1000px",
+		height:"400px",
+		onReceiveMessage:function(data){
+			dojo.byId("fldDwmc_xm").value = data.dwmc;
+			dojo.byId("fldYhmc_xm").value = data.yhmc;
+			dojo.byId("fldYhzh_xm").value = data.yhzh;
+			dojo.byId("fldYhkhh_xm").value = data.khh;
+			dojo.byId("fldFkdwbh_xm").value = data.fkdwbh;
+			dojo.byId("fldCwgsnbzh_xm").value = data.cwgsnbzh;
+			dojo.byId("fldYhdhbh_Fk_xm").value = data.yhdhbh;
+			dlg.hide().then(function(){
+				dlg.destroy();
+			});
+		}
+	});
+	dlg.show();
+}
+
+/*
+	方法说明：	弹出层，通过接口调用，显示所有符合筛选条件的资金计划文档，
+				用户选定数据后，会将资金计划编号、现金流项目名称、现金流编号，以及可能存在的现金流明细项目回传到主表单
+	使用方式：	在表单界面的fldZjjhbh_xm字段中，onClick事件中触发
+	限制条件：	在_Edit业务子表单中，（一般在最上方，确保有字段rtfMxlbItems_xm）
+				表单可见区域（即table内容中），有fldZjjhbh_xm、fldXjlbm_xm、fldXjlmc_xm等相关字段（付款区域系通用设计，可以从已完成开发的设计中获取）
+	作    者:	tianyq@smartdot.com
+	日    期:	2018-11-03
+*/
+var dialogLoading;
+function fnSelectZjjh_xm(){
+	var tempStr = "资金计划选择";
+	var strUrl = "/indishare/indiWSCenter.nsf/myview_zjsj_xm?openform";
+	
+	var dialog = null;
+	if(dijit.byId("zjjh_xm_dlg")){
+		dialog = dijit.byId("zjjh_xm_dlg");
+	}else{
+		dialog = new smartdot.IframeDialog({
+			src : strUrl,
+			preventCatch : true,
+			title : tempStr,
+			width : "1000px",
+			height : "390px",
+			id:"zjjh_xm_dlg",
+			onReceiveMessage : function(data) {
+				if(data.flag == "success"){
+					dojo.query("[name=fldZjjhbh_xm]")[0].value = data.zjjhbh;  //资金计划编号 
+					dojo.query("[name=fldXjlbm_xm]")[0].value = data.xjlbh;
+					dojo.query("[name=fldXjlmc_xm]")[0].value = data.xjlxm;
+
+					//给下拉选择框 fldXjlmxlb_xm 中添加下拉选项,同时将这些可选项缓存到页面中的域rtfMxlbItems_xm中
+					dojo.byId("rtfMxlbItems_xm").innerHTML = data.mxlb;
+					fnCreateSel_xm("");
+				}
+
+				dialog.hide().then(function(){
+					dialog.destroy();
+				});
+			},
+			onShow:function(){return;
+				if(dialogLoading){
+					dialogLoading.hide().then(function(){
+						dialogLoading.destroy();
+					});
+				}
+			}
+		});
+	}
+	
+	dialog.show();
+}
+
+/*
+方法说明：	创建（初始）下拉选择框
+			需求背景：选择资金计划及相关的现金流之后，会将相关的现金流明细（多值）带到业务子表单上，用户需要选择其一。
+使用方式：	该方法唯一参数strSelectedValue如果为空，相当于是初始化一个未经过用户选中的下拉组件；不为空时，则相当于是_Edit界面打开时，为用户还原下拉组件及之前选中的数值
+限制条件：	仅适用于表单中有selXjlmxlb_xm的情况
+作    者:	tianyq@smartdot.com
+日    期:	2018-11-03
+*/
+function fnCreateSel_xm(strSelectedValue){
+	var objSelect = dojo.byId("selXjlmxlb_xm");
+	dojo.empty(objSelect);
+
+	var strArr = dojo.byId("rtfMxlbItems_xm").value||"[]";
+	var arr = dojo.fromJson(strArr);
+
+	//为下拉选择框,创建选项
+	var objOption;
+
+	//先加个空选项,默认值是空
+	objOption = dojo.create("option",{value:"",innerHTML:""});
+	dojo.place(objOption, objSelect);
+
+	dojo.forEach(arr, function(item,index){
+		objOption = dojo.create("option",{value:item.DETAIL_ID,innerHTML:item.CLTNAME});
+		dojo.place(objOption, objSelect);
+	});
+
+	//把值赋进去
+	if(strSelectedValue != ""){
+		dojo.attr(objSelect,"value", strSelectedValue);
+	}else{
+		dojo.attr(objSelect,"value", "");
+	}
+}
+
+//在页面加载完成之后，对fnCreateSel_xm进行调用，完成为组件（及初始值）的创建
+dojo.addOnLoad(function(){
+	//页面加载时,若fldXjlmxlb_xm存在,则进行初始化
+	var objSelTmp = dojo.byId("selXjlmxlb_xm");
+	var objSelect = dojo.byId("fldXjlmxlb_xm");
+	if(objSelTmp && objSelect){
+		var strValueSelect = objSelect.value;
+		fnCreateSel_xm(strValueSelect);
+	} 
+});
+
+/*
+方法说明：	调用支付接口(延迟等待)
+使用方式：	当strdynid为空时，说明支付操作发生在动态行之外，或表单上根本没有动态行（如借款管理、非经营类预付申请等没有动态表格，且整个单据上只需要支付一次的情况）
+		不为空时，该值为动态行所的_dynid_值，可以根据这个值找到生成支付操作的动态行，用于获取具体的支付信息
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-10-28
+*/
+function fnEmitZf_xm(strdynid){
+	var strZffs = dojo.query("[name='fldZf_xm']")[0].value;
+	
+	if(dojo.byId("fldZjjhbh_xm")){
+		var strZjjhbh = dojo.byId("fldZjjhbh_xm").value;
+		if(strZjjhbh == ""){
+			alert("没有资金计划。");
+			return false;
+		}
+	}
+	
+	if(dojo.byId("selXjlmxlb_xm")){
+		var strZjmx = dojo.byId("selXjlmxlb_xm").value;
+		if(strZjmx == ""){
+			alert("现金流明细不能为空。");
+			return false;
+		}
+	}
+	
+	var process;					//Deferred对象
+	if(strZffs == "代理支付" || strZffs == "请款支付"){
+		//若传入的参数为_ALL_ 则证明是一份审批文档多笔支付的情形
+		var arrDynids = null;
+		if(strdynid == "_ALL_"){
+			//兼容某些支付表单中 收款人信息不发生支付的情形    2018-11-23 tianyq@smartdot.com
+			if(dojo.query("input[name='fldSkrxm_xm']")[0] && dojo.query("input[name='fldSkrxm_xm']")[0].value != ""){
+				arrDynids = [""];
+			}else{
+				arrDynids = [];
+			}
+
+			var strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+			var strJsonField_tmp = strJsonDataIndex_xm.split("#")[0];
+			var strJsonText_tmp = dojo.byId(strJsonField_tmp).value;
+			var objJsonData_tmp = dojo.fromJson(strJsonText_tmp);
+			var arrDynids_left = dojo.map(objJsonData_tmp.items, function(item){return item._dynid_});
+			arrDynids = arrDynids.concat(arrDynids_left);
+		}else{
+			arrDynids = [];
+			arrDynids.push(strdynid);
+		}	
+		
+		var blnNeedSet2Waiting = false;		//是否有必要设置waiting状态
+		
+		dojo.forEach(arrDynids, function(itm, idx){
+			fnDoYhfk_xm(itm,strZffs).then(function(data){
+				if(data.resultCode == "000000"){		//000000 表示成功,E99999 表示失败
+					//支付成功,需要对文档进行暂存,同时隐藏当前用户待办\隐藏提交按钮
+					if(itm == ""){
+						dojo.byId("fldZfzt_xm").value = "已提交资金系统，支付中";
+					}else{
+						var strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+						var arrJsonDataIndex_xm = strJsonDataIndex_xm.split("#");
+						var strRtfJsonFieldName_tmp = arrJsonDataIndex_xm[0];
+		
+						var objRtfField = dojo.byId(strRtfJsonFieldName_tmp).value;
+						var objJsonData = dojo.fromJson(objRtfField);
+		
+						var objRowTarget = dojo.filter(objJsonData.items, function(item, index){
+							return item._dynid_ == itm;
+						});
+		
+						objRowTarget[0].zfzt = "已提交资金系统，支付中";							//规范中已经定义动态表格中的支付状态字段名必须为zfzt
+		
+						dojo.byId(strRtfJsonFieldName_tmp).value = dojo.toJson(objJsonData);	
+					}
+					blnNeedSet2Waiting = true;
+					
+					//暂存文档，然后在暂存扩展接口中，读取fldZfzt_xm，对当前用户的待办进行隐藏处理
+				}else if(data.resultCode == "E99999"){
+					//支付失败
+					alert("支付申请提交失败:"+ data.resultMsg);
+					////return false;
+				}else{
+
+				}
+			},function(error){
+				console.log(error);
+			});
+		});
+		
+		if(blnNeedSet2Waiting){
+			dojo.byId("strUpdateTodoRequest_xm").value= "yes";
+			if(dojo.query("input[name='fldEveryRowIsFailed_xm']")[0] && dojo.query("input[name='fldEveryRowIsFailed_xm']")[0].value == "yes"){
+				dojo.query("input[name='fldEveryRowIsFailed_xm']")[0].value = "no";
+			}else{
+				dojo.query("input[name='fldZfStatus4Hide_xm']")[0].value = "WAITING";
+			}
+			savesubmit();
+		}
+		
+	}else if(strZffs == "请款下拨"){
+		
+		//若传入的参数为_ALL_ 则证明是一份审批文档多笔支付的情形
+		var arrDynids = null;
+		if(strdynid == "_ALL_"){
+			//兼容某些支付表单中 收款人信息不发生支付的情形    2018-11-23 tianyq@smartdot.com
+			if(dojo.query("input[name='fldSkrxm_xm']")[0] && dojo.query("input[name='fldSkrxm_xm']")[0].value != ""){
+				arrDynids = [""];
+			}else{
+				arrDynids = [];
+			}
+			var strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+			var strJsonField_tmp = strJsonDataIndex_xm.split("#")[0];
+			var strJsonText_tmp = dojo.byId(strJsonField_tmp).value;
+			var objJsonData_tmp = dojo.fromJson(strJsonText_tmp);
+			var arrDynids_left = dojo.map(objJsonData_tmp.items, function(item){return item._dynid_});
+			arrDynids = arrDynids.concat(arrDynids_left);
+		}else{
+			arrDynids = [];
+			arrDynids.push(strdynid);
+		}	
+		
+		var blnNeedSet2Waiting = false;		//是否有必要设置waiting状态
+		
+		dojo.forEach(arrDynids, function(itm, idx){
+			fnDoQkxb_xm(itm).then(function(data){
+				if(data.resultCode == "000000"){		//000000 表示成功,E99999 表示失败
+					//支付成功,需要对文档进行暂存,同时隐藏当前用户待办\隐藏提交按钮
+					if(itm == ""){
+						dojo.byId("fldZfzt_xm").value = "已提交资金系统，支付中";
+					}else{
+						var strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+						var arrJsonDataIndex_xm = strJsonDataIndex_xm.split("#");
+						var strRtfJsonFieldName_tmp = arrJsonDataIndex_xm[0];
+		
+						var objRtfField = dojo.byId(strRtfJsonFieldName_tmp).value;
+						var objJsonData = dojo.fromJson(objRtfField);
+		
+						var objRowTarget = dojo.filter(objJsonData.items, function(item, index){
+							return item._dynid_ == itm;
+						});
+		
+						objRowTarget[0].zfzt = "已提交资金系统，支付中";							//规范中已经定义动态表格中的支付状态字段名必须为zfzt
+						dojo.byId(strRtfJsonFieldName_tmp).value = dojo.toJson(objJsonData);	
+					}
+					
+					blnNeedSet2Waiting = true;
+				}else if(data.resultCode == "E99999"){
+					//支付失败
+					alert("支付申请提交失败:"+ data.resultMsg);
+					////return false;
+				}else{
+
+				}
+			},function(error){
+				console.log(error);
+			});
+		});
+		
+		if(blnNeedSet2Waiting){
+			dojo.byId("strUpdateTodoRequest_xm").value= "yes";
+			if(dojo.query("input[name='fldEveryRowIsFailed_xm']")[0] && dojo.query("input[name='fldEveryRowIsFailed_xm']")[0].value == "yes"){
+				dojo.query("input[name='fldEveryRowIsFailed_xm']")[0].value = "no";
+			}else{
+				dojo.query("input[name='fldZfStatus4Hide_xm']")[0].value = "WAITING";
+			}
+			savesubmit();
+		}
+	}
+	
+	var e=arguments.callee.caller.arguments[0] || window.event;
+	//阻止事件冒泡,仅对动态行中的支付按钮有效(防止因为点击按钮,而误将动态行详情展开的问题出现)
+	e.stopImmediatePropagation();
+}
+
+/*
+方法说明：	调用银行付款接口
+使用方式：	代码已经做了逻辑处理，不需要对单笔、多笔的情况进行区分处理
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-10-28
+*/
+function fnDoYhfk_xm(strdynid){
+	var deferred = new dojo.Deferred();
+	
+	//获取可选参数
+	var zflx = "";
+	if(arguments[1]){
+		zflx = arguments[1];
+	}
+	
+	//[校验]保证资金计划已经被选中
+	if(dojo.byId("fldZjjhbh_xm")){
+		var strZjjhbh = dojo.byId("fldZjjhbh_xm").value;
+		if(dojo.byId("selXjlmxlb_xm")){
+			var strZjmx = dojo.byId("selXjlmxlb_xm").value;
+		}else{
+			var strZjmx = dojo.byId("fldXjlmxlb_xm").value;
+		}
+		
+		if(strZjjhbh == ""){
+			alert("没有资金计划。");
+			deferred.reject("没有资金计划。")
+		}else if(strZjmx == ""){
+			alert("现金流明细不能为空。");
+			deferred.reject("现金流明细不能为空。")
+		}else{
+			var strXhrUrl = "/indishare/indiWSCenter.nsf/agtConsumerDoYHFK_xm?openagent";
+
+			/* -------------------- 以下是支付结果反馈时的路径定位信息 -------------------- */
+			var strServerName = dojo.query("input[name='fldCurServer_forJS']")[0].value;
+			var strFromDb = dojo.query("input[name='fldFromDB']")[0].value;
+			var strDocUnid = dojo.query("input[name='docUnid_forJS']")[0].value;
+			var strJsonDataField = "";													//动态表格json数据存放的富文本域名
+			////var strdynid = "";													//获取按钮所在动态行的唯一标识 若为空，则表示该文档只有一笔支付而且是非动态表格；
+																	//若有值，则表示该笔支付为文档中，非动态表格总分的支付提交；
+																	
+			/* -------------------- 以下信息对应收款方信息 -------------------- */
+			var fldSkrxm_xm, fldSkrzhxx_xm, fldKhh_xm, fldYhdhbh_xm, strfkje_xm;
+			var strFieldName_tmp;							//在非动态表格行支付的情况下，使用到的临时变量
+			var strJsonDataIndex_xm, arrJsonDataIndex_xm, strRtfJsonFieldName_tmp, strItemSkfhm_FieldName_tmp, strItemSkfzh_FieldName_tmp, strItemSkfkhhmc_FieldName_tmp,strItemSkyhdhbh_FieldName_tmp, strItemFkje_FieldName_tmp;	//在动态表格行中支付时，使用到的临时变量
+			var objRtfField, objJsonData, objRowTarget;
+			
+			//尝试获取动态表格数据字段的名称 2018-11-22 tianyq@smartdot.com
+			if(dojo.byId("strJsonDataIndex_xm")){
+				strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+				arrJsonDataIndex_xm = strJsonDataIndex_xm.split("#");
+				strRtfJsonFieldName_tmp = arrJsonDataIndex_xm[0];
+				strJsonDataField = strRtfJsonFieldName_tmp;
+			}
+			
+			
+			if(strdynid == ""){
+				fldSkrxm_xm = dojo.byId("fldSkrxm_xm").value;						//收款方户名
+				fldSkrzhxx_xm = dojo.byId("fldSkrzhxx_xm").value;					//收款方账号(银行卡账号)
+				fldKhh_xm = dojo.byId("fldKhh_xm").value;							//收款方开户行名称
+				fldYhdhbh_xm = dojo.byId("fldYhdhbh_xm").value;						//收款方账户所在银行的大行编号
+				strFieldName_tmp = dojo.byId("strFieldName4Zfje_xm").value;			//临时变量(一般在_Edit子表单的最上方表格中有指定)
+				strfkje_xm = dojo.byId(strFieldName_tmp).value;						//付款金额值
+			}else{
+				strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+				arrJsonDataIndex_xm = strJsonDataIndex_xm.split("#");
+				strRtfJsonFieldName_tmp = arrJsonDataIndex_xm[0];
+				strJsonDataField = strRtfJsonFieldName_tmp;
+				strItemSkfhm_FieldName_tmp = arrJsonDataIndex_xm[1];
+				strItemSkfzh_FieldName_tmp = arrJsonDataIndex_xm[2];
+				strItemSkfkhhmc_FieldName_tmp = arrJsonDataIndex_xm[3];
+				strItemSkyhdhbh_FieldName_tmp = arrJsonDataIndex_xm[4];
+				strItemFkje_FieldName_tmp = arrJsonDataIndex_xm[5];
+	
+				objRtfField = dojo.byId(strRtfJsonFieldName_tmp).value;
+				objJsonData = dojo.fromJson(objRtfField);
+	
+				objRowTarget = dojo.filter(objJsonData.items, function(item, index){
+					return item._dynid_ == strdynid;
+				});
+	
+				fldSkrxm_xm = objRowTarget[0][strItemSkfhm_FieldName_tmp];
+				fldSkrzhxx_xm = objRowTarget[0][strItemSkfzh_FieldName_tmp];
+				fldKhh_xm = objRowTarget[0][strItemSkfkhhmc_FieldName_tmp];
+				fldYhdhbh_xm = objRowTarget[0][strItemSkyhdhbh_FieldName_tmp];
+				strfkje_xm = objRowTarget[0][strItemFkje_FieldName_tmp];
+			}
+			var fldYt_xm = dojo.byId("fldYt_xm")?dojo.byId("fldYt_xm").value:"";		//用途
+
+	
+			/* -------------------- 以下信息对应付款方信息 -------------------- */
+			var fldYhmc_xm = dojo.byId("fldYhmc_xm").value;						//银行名称
+			var fldCwgsnbzh_xm = dojo.byId("fldCwgsnbzh_xm").value;				//财务公司内部账号(表单上隐藏)
+			var fldFkdwbh_xm = dojo.byId("fldFkdwbh_xm").value;					//付款单位编号(表单上隐藏)
+			var fldYhdhbh_Fk_xm = dojo.byId("fldYhdhbh_Fk_xm").value;				//付款银行大行编号
+			var fldZjjhbh_xm = dojo.byId("fldZjjhbh_xm").value;					//资金计划编号(预算编号)
+			var fldXjlmxlb_xm = dojo.byId("fldXjlmxlb_xm").value;				//明细编号
+			
+			var isPerson = "";
+			var fundSource = "";
+			
+			if(zflx == "代理支付"){
+				fldYhdhbh_Fk_xm = "00";
+				isPerson = "0";	//
+			}else if(zflx == "请款支付"){
+					isPerson = "0";
+					fundSource = "1";
+					fldCwgsnbzh_xm = dojo.byId("fldYhzh_xm").value;				//银行大行编号不为00时，使用银行卡号
+			}
+			
+			/* -------------------- 生成交易请求批次号(请勿修改) -------------------- */
+			var strRandom = getRandom()+""+getRandom();
+			strRandom = dojo.string.pad(strRandom,10,'x');						//补齐10位随机字符串
+			var strDocUnidRan = strDocUnid.substr(0,22) + strRandom;				//交易请求批次号 要求全局唯一这里使用文档unid + 随机数据
+		
+			/* -------------------- 生成交易日期(请勿修改)  -------------------- */
+			var d = new Date();
+			var strJysj = dojo.date.locale.format(d,{datePattern:'yyyyMMdd',timePattern:'HHmmss'}).replace(/ /g,"");
+		
+			/* -------------------- 生成期望打款时间(请勿修改)  -------------------- */
+			var strQwdksj = dojo.date.locale.format(d,{datePattern:'yyyy-MM-dd'});
+			strQwdksj = strQwdksj.substr(0,10);
+	
+			/* -------------------- 临时变量用于生成固定参数(请勿修改)  -------------------- */
+			var strFwbh = dojo.query("input[name='fldFwbh']")[0].value;
+	
+			var objData = {
+				"code": "MPBS-T001",									//[Y]固定值，此处表示请求的是银行付款接口
+				"batchNo": strDocUnidRan,								//[Y]交易请求批次号 要求全局唯一这里使用文档unid + 随机数据
+				"nodeId": "client.001",									//[Y]固定值，接收节点编号ID 九恒星系统为（client.001）
+				"channelId": "OA",										//[Y]固定值，渠道编号
+				"clientId": "003",										//[Y]客户编号ID(单位编号）
+				"clientName": "江苏凤凰传媒投资有限公司",						//[Y]客户名称
+				"txDateTime": strJysj,									//[Y]交易日期时间
+				"data": {
+					"ERP_INS_ID": "OA_" + strFwbh + getRandom(),						//[Y]字符OA 加上 文档的编号  "OA_" + strFwbh
+					"PAY_CLT_NO": fldFkdwbh_xm,							//[Y]付款单位（资金系统付款方单位编号）
+					"PAY_ACNT_NO": fldCwgsnbzh_xm,						//[Y]付款方账号（财务公司内部账户、银行账户）
+					"PAY_ACNT_NAME": fldYhmc_xm,						//[N]付款方户名
+					"PAY_BANK": fldYhdhbh_Fk_xm,						//[Y]付款银行（银行大行编号，财务公司为00）
+					"FUND_SOURCE": fundSource,							//[Y]区分请款支付和银行转账（1-请款支付 2-银行转账），当付款银行不为00的情况下生效
+					"PAY_DATE": strQwdksj,								//[Y]期望付款日期 YYYY-MMM-DD
+					"AMOUNT": strfkje_xm,								//[Y]付款金额
+					"CURRENCY": "CNY",									//[Y]币种：人民币 CNY
+					"PROP_NO": "",										//[N]款项类别（默认为空）
+					"FLOW_NO": "",										//[N]现金流编号（默认为空）
+					"BDG_NO": fldZjjhbh_xm+"~"+fldXjlmxlb_xm,			//[N]预算编号（资金系统维护的预算编号）
+					"RECE_ACC_NO": fldSkrzhxx_xm,						//[Y]收款方账号（其它成员单位、第三方单位或个人银行账户）	"320006624018010082017"
+					"RECE_ACC_NAME": fldSkrxm_xm,						//[Y]收款方户名						"南京青土堂建筑装饰有限公司"
+					"RECE_BANK_NO": fldYhdhbh_xm,						//[Y]收款方银行（银行大行编号）			？？？
+					"RECE_OPBANK_NAME": fldKhh_xm,						//[Y]收款方开户行名称（与下面二选一）      	"交通银行南京华侨路支行"
+					"RECE_CNAPS": "",									//[Y]收款方开户行CNAPS号（与上面二选一）
+					"REG_NO": "",										//[N]收款方标准地名编码
+					"CONTRACT_NO": "",									//[N]合同号
+					"IS_PERSON": isPerson,								//[Y]0 对公, 1 对私
+					"URGENT_FLAG": "0",									//[Y]1 加急, 0 不加急
+					"PURPOSE": fldYt_xm,								//[N]用途								"测试代理支付"
+					"REMARK": "",										//[N]附言
+					"CREATOR": "",										//[N]录入人姓名
+					"CREATE_TIME": "",									//[N]录入时间（YYYY-MM-DD）
+					"TEXTVALUE1": "server~"+strServerName+"^dbpath~"+strFromDb+"^unid~"+strDocUnid+"^jsonfield~" +strJsonDataField+ "^dynid~"+strdynid,			//[N]
+					"TEXTVALUE2": "",									//[N]
+					"NUMBERVALUE1": "",									//[N]
+					"NUMBERVALUE2": "",									//[N]
+					"DATEVALUE1": "",									//[N]
+					"DATEVALUE2": ""									//[N]
+				}
+			}
+	
+			var xhrArgs = {
+				url:strXhrUrl,
+				postData:escape(dojo.toJson(objData)),
+				handleAs:"json",
+				sync:true,
+				load:function(data){
+					////alert(dojo.toJson(data));
+					deferred.resolve(data);
+				},
+				error:function(error){
+
+				}
+			};
+
+			dojo.xhrPost(xhrArgs);
+		}
+	}	
+	return deferred.promise;
+}
+
+/*
+方法说明：	调用请款下拨接口
+使用方式：	代码已经做了逻辑处理，不需要对单笔、多笔的情况进行区分处理
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-10-28
+*/
+function fnDoQkxb_xm(strdynid){
+	var deferred = new dojo.Deferred();
+
+	//[校验]保证资金计划已经被选中
+	if(dojo.byId("fldZjjhbh_xm")){
+		var strZjjhbh = dojo.byId("fldZjjhbh_xm").value;
+		if(strZjjhbh == ""){
+			alert("没有资金计划。");
+			deferred.reject("没有资金计划。")
+		}else{
+			var strXhrUrl = "/indishare/indiWSCenter.nsf/agtConsumerDoYHFK_xm?openagent";
+			
+			/* -------------------- 以下是支付结果反馈时的路径定位信息 -------------------- */
+			var strServerName = dojo.query("input[name='fldCurServer_forJS']")[0].value;
+			var strFromDb = dojo.query("input[name='fldFromDB']")[0].value;
+			var strDocUnid = dojo.query("input[name='docUnid_forJS']")[0].value;
+			var strJsonDataField = "";													//动态表格json数据存放的富文本域名
+			////var strdynid = "";													//获取按钮所在动态行的唯一标识 若为空，则表示该文档只有一笔支付而且是非动态表格；
+																			//若有值，则表示该笔支付为文档中，非动态表格总分的支付提交；
+			/* -------------------- 以下信息对应收款方信息 -------------------- */
+			var fldSkrxm_xm, fldSkrzhxx_xm, fldKhh_xm, fldYhdhbh_xm, strfkje_xm;
+			var strFieldName_tmp;							//在非动态表格行支付的情况下，使用到的临时变量
+			var strJsonDataIndex_xm, arrJsonDataIndex_xm, strRtfJsonFieldName_tmp, strItemSkfhm_FieldName_tmp, strItemSkfzh_FieldName_tmp, strItemSkfkhhmc_FieldName_tmp,strItemSkyhdhbh_FieldName_tmp, strItemFkje_FieldName_tmp;	//在动态表格行中支付时，使用到的临时变量
+			var objRtfField, objJsonData, objRowTarget;
+
+			//尝试获取动态表格数据字段的名称 2018-11-22 tianyq@smartdot.com
+			if(dojo.byId("strJsonDataIndex_xm")){
+				strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+				arrJsonDataIndex_xm = strJsonDataIndex_xm.split("#");
+				strRtfJsonFieldName_tmp = arrJsonDataIndex_xm[0];
+				strJsonDataField = strRtfJsonFieldName_tmp;
+			}
+			
+			if(strdynid == ""){
+				fldSkrxm_xm = dojo.byId("fldSkrxm_xm").value;						//收款方户名
+				fldSkrzhxx_xm = dojo.byId("fldSkrzhxx_xm").value;					//收款方账号(银行卡账号)
+				fldKhh_xm = dojo.byId("fldKhh_xm").value;							//收款方开户行名称
+				fldYhdhbh_xm = dojo.byId("fldYhdhbh_xm").value;						//收款方账户所在银行的大行编号
+				strFieldName_tmp = dojo.byId("strFieldName4Zfje_xm").value;			//临时变量(一般在_Edit子表单的最上方表格中有指定)
+				strfkje_xm = dojo.byId(strFieldName_tmp).value;						//付款金额值
+			}else{
+				strJsonDataIndex_xm = dojo.byId("strJsonDataIndex_xm").value;
+				arrJsonDataIndex_xm = strJsonDataIndex_xm.split("#");
+				strRtfJsonFieldName_tmp = arrJsonDataIndex_xm[0];
+				strJsonDataField = strRtfJsonFieldName_tmp;
+				strItemSkfhm_FieldName_tmp = arrJsonDataIndex_xm[1];
+				strItemSkfzh_FieldName_tmp = arrJsonDataIndex_xm[2];
+				strItemSkfkhhmc_FieldName_tmp = arrJsonDataIndex_xm[3];
+				strItemSkyhdhbh_FieldName_tmp = arrJsonDataIndex_xm[4];
+				strItemFkje_FieldName_tmp = arrJsonDataIndex_xm[5];
+	
+				objRtfField = dojo.byId(strRtfJsonFieldName_tmp).value;
+				objJsonData = dojo.fromJson(objRtfField);
+	
+				objRowTarget = dojo.filter(objJsonData.items, function(item, index){
+					return item._dynid_ == strdynid;
+				});
+
+				fldSkrxm_xm = objRowTarget[0][strItemSkfhm_FieldName_tmp];
+				fldSkrzhxx_xm = objRowTarget[0][strItemSkfzh_FieldName_tmp];
+				fldKhh_xm = objRowTarget[0][strItemSkfkhhmc_FieldName_tmp];
+				fldYhdhbh_xm = objRowTarget[0][strItemSkyhdhbh_FieldName_tmp];
+				strfkje_xm = objRowTarget[0][strItemFkje_FieldName_tmp];
+			}
+			var fldYt_xm = dojo.byId("fldYt_xm")?dojo.byId("fldYt_xm").value:"";		//用途
+		
+		
+			/* -------------------- 以下信息对应付款方信息 -------------------- */
+			////var fldYhmc_xm = dojo.byId("fldYhmc_xm").value;						//银行名称
+			var fldYhmc_xm = "";
+			var fldCwgsnbzh_xm = dojo.byId("fldCwgsnbzh_xm").value;				//财务公司内部账号(表单上隐藏)
+			////var fldCwgsnbzh_xm = "";
+			var fldFkdwbh_xm = dojo.byId("fldFkdwbh_xm").value;					//付款单位编号(表单上隐藏)
+			////var fldYhdhbh_Fk_xm = dojo.byId("fldYhdhbh_Fk_xm").value;			//付款银行大行编号
+			var fldYhdhbh_Fk_xm = "00";
+			var fldZjjhbh_xm = dojo.byId("fldZjjhbh_xm").value;					//资金计划编号(预算编号)
+			var fldXjlmxlb_xm = dojo.byId("fldXjlmxlb_xm").value;				//明细编号
+			
+			/* -------------------- 生成交易请求批次号(请勿修改) -------------------- */
+			var strRandom = getRandom()+""+getRandom();
+			strRandom = dojo.string.pad(strRandom,10,'x');						//补齐10位随机字符串
+			var strDocUnidRan = strDocUnid.substr(0,22) + strRandom;				//交易请求批次号 要求全局唯一这里使用文档unid + 随机数据
+		
+			/* -------------------- 生成交易日期(请勿修改)  -------------------- */
+			var d = new Date();
+			var strJysj = dojo.date.locale.format(d,{datePattern:'yyyyMMdd',timePattern:'HHmmss'}).replace(/ /g,"");
+			
+			/* -------------------- 生成期望打款时间(请勿修改)  -------------------- */
+			var strQwdksj = dojo.date.locale.format(d,{datePattern:'yyyy-MM-dd'});
+		strQwdksj = strQwdksj.substr(0,10);
+		
+			/* -------------------- 临时变量用于生成固定参数(请勿修改)  -------------------- */
+			var strFwbh = dojo.query("input[name='fldFwbh']")[0].value;
+
+			var objData = {
+				"code": "MPBS-T004",									//[Y]固定值，此处表示请求的是银行付款接口
+				"batchNo": strDocUnidRan,								//[Y]交易请求批次号 要求全局唯一这里使用文档unid + 随机数据
+				"nodeId": "client.001",									//[Y]固定值，接收节点编号ID 九恒星系统为（client.001）
+				"channelId": "OA",										//[Y]固定值，渠道编号
+				"clientId": "003",										//[Y]客户编号ID(单位编号）
+				"clientName": "江苏凤凰传媒投资有限公司",						//[Y]客户名称
+				"txDateTime": strJysj,									//[Y]交易日期时间
+				"data": {
+					"ERP_INS_ID": "OA_" + strFwbh + getRandom(),		//[Y]字符OA 加上 文档的编号  "OA_" + strFwbh
+					"PAY_CLT_NO": fldFkdwbh_xm,							//[N]付款单位（资金系统付款方单位编号）
+					"PAY_ACNT_NO": fldCwgsnbzh_xm,						//[N]付款方账号（财务公司内部账户、银行账户）
+					"PAY_ACNT_NAME": fldYhmc_xm,						//[N]付款方户名
+					"PAY_BANK": fldYhdhbh_Fk_xm,						//[N]付款银行（财务公司为：00）
+					"PAY_DATE": strQwdksj,								//[Y]期望付款日期 YYYY-MMM-DD
+					"AMOUNT": strfkje_xm,								//[Y]付款金额
+					"CURRENCY": "CNY",									//[Y]币种：人民币 CNY
+					"PROP_NO": "",										//[N]款项类别（默认为空）
+					"FLOW_NO": "",										//[N]现金流编号（默认为空）
+					"BDG_NO": fldZjjhbh_xm+"~"+fldXjlmxlb_xm,			//[N]预算编号（资金系统维护的预算编号）						YSMM20180900-8053-006003
+					"RECE_ACC_NO": fldSkrzhxx_xm,						//[Y]收款方账号（其它成员单位、第三方单位或个人银行账户）		"320006624018010082017"
+					"RECE_ACC_NAME": fldSkrxm_xm,						//[Y]收款方户名										"南京青土堂建筑装饰有限公司"
+					"RECE_BANK_NO": fldYhdhbh_xm,						//[Y]收款方银行（银行大行编号）
+					"RECE_OPBANK_NAME": fldKhh_xm,						//[Y]收款方开户行名称（与下面二选一）						"交通银行南京华侨路支行"
+					"RECE_CNAPS": "",									//[Y]收款方开户行CNAPS号（与上面二选一）
+					"REG_NO": "",										//[N]收款方标准地名编码
+					"CONTRACT_NO": "",									//[N]合同号
+					"URGENT_FLAG": "0",									//[Y]1 加急, 0 不加急
+					"PURPOSE": fldYt_xm,								//[N]用途												"测试代理支付"
+					"REMARK": "",										//[N]附言
+					"CREATOR": "",										//[N]录入人姓名
+					"CREATE_TIME": "",									//[N]录入时间（YYYY-MM-DD）
+					"TEXTVALUE1": "server~"+strServerName+"^dbpath~"+strFromDb+"^unid~"+strDocUnid+"^jsonfield~" +strJsonDataField+ "^dynid~"+strdynid,			//[N]
+					"TEXTVALUE2": "",									//[N]
+					"NUMBERVALUE1": "",									//[N]
+					"NUMBERVALUE2": "",									//[N]
+					"DATEVALUE1": "",									//[N]
+					"DATEVALUE2": ""									//[N]
+				}
+			}
+
+			var xhrArgs = {
+				url:strXhrUrl,
+				postData:escape(dojo.toJson(objData)),
+				handleAs:"json",
+				sync:true,
+				load:function(data){
+					alert(dojo.toJson(data));
+					deferred.resolve(data);
+				},
+				error:function(error){
+
+				}
+			};
+
+			dojo.xhrPost(xhrArgs);
+		}
+	}	
+	return deferred.promise;
+}
+
+
+
+//名字带出id
+function fReturnPerson_xm(data){
+	//调用代理，检查预算情况
+  var pathname = (window.location.pathname);
+  var thisform = document.forms[0];
+ var  dbpath=  '/indishare/oares_custom.nsf/agtgetId_xm?openagent';
+  //alert(data);
+  if(data==""){
+	  dojo.byId("fldBaoxiaoBm").value = "";
+  }
+ //通过参数调用
+  var josnData="{'data':'"+data+"'}";
+  var datas=eval("("+josnData+")");
+  var retData;
+  var loader = { 
+		url: dbpath,
+          handleAs:"json", 
+          content:datas, 
+          timeout: 10000,
+          handle:function(req){ 
+              try{ 
+              	retData=req;
+              	
+              }catch(e){
+              	alert(e)
+              } 
+          }, 
+          error:function(error){ 
+          	alert(resp); 
+          }, 
+          sync: true 
+    }; 
+	dojo.xhrPost(loader); 
+	if(retData){
+	//debugger
+		
+		if(retData[0].strdepname){
+			//dojo.byId("fldDh").set("value",retData[0].strPhone);
+			if(dojo.byId("fldBaoxiaoBm")){
+				dojo.byId("fldBaoxiaoBm").value = retData[0].strdepname;
+				dojo.byId("fldBaoxiaoBm").title = retData[0].strdepname;
+			}
+			if(dojo.byId("fldBaoxiaoBmid")){
+				dojo.byId("fldBaoxiaoBmid").value = retData[0].strdepid;
+			}
+			
+		}
+		
+	}	
+}
+//附件、关联文档校验  add by gq --2018-11-26
+function fncheck_xm(){
+	
+    var files=slCtl.Content.Files;  //获取附件对象
+    var mainurl = dojo.query("#glTable tr[mainurl]"); // 获取关联文档
+	if(files.length == 0 && mainurl.length ==0){
+		alert("请上传附件或者关联公文")	;
+		return false;
+	}else{
+		return true;
+	}
+	
+}
+/*
+方法说明：	财务初审环节 用于处理在财务初审环节将表单上所有域处理为只读（除了挂账金额和支票核销金额字段）
+使用方式：	在webflow.js 扩展点中通过dojo.addOnLoad调用
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-11-27
+*/
+function fnDoReadOnlyOnCwcshj_xm(){
+	
+}
+
+/*
+方法说明：	被选入到表单中的收款人，需要校验一下是否在ERP信息中存在
+使用方式：	被引用在smartdot.Validator组件的customvalidator属性上
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-11-27
+*/
+function fnValidator_Skr_xm(value, item){
+	var flag = true;
+	var process = fnDoValidateSKR_xm();
+	process.then(function(data){
+		
+		if(data.OutputParameters.RESPONSECODE != "SUCC"){
+			alert("ERP返回消息：" + data.OutputParameters.RESPONSEMESSAGE);
+			return;
+		}
+		
+		var numDocCount = 0;
+		if(data.OutputParameters.RESPONSEDATA){
+			numDocCount = data.OutputParameters.RESPONSEDATA.RESPONSEDATA_ITEM.length;
+		}else{
+			console.log("ERP返回消息：" + data.OutputParameters.RESPONSEMESSAGE);
+		}
+		
+		console.log(numDocCount);
+
+		flag = (numDocCount > 0);
+	});
+
+	return flag;
+	///if(item == "xxxx"){
+	///	item.invalidMessage = "不能为test";
+	///	return false;
+	///}
+
+	///return true;
+}
+
+//收款人查询接口
+function fnDoValidateSKR_xm(strsfzh){
+	var deferred = new dojo.Deferred();
+
+	//增加方法调用的灵活性，如果参数中传递了身份证信息，代码可以不从表单上获取
+	var strParam1 = "";
+	if(strsfzh){
+		strParam1 = strsfzh;
+	}else{
+		//此时从表单上获取
+		var objSfzxx = dojo.query("input[name='fldSfzxx_xm']")[0];
+		if(!objSfzxx){
+			console.log("开发不规范，存放身份证信息的字段name属性应该为fldSfzxx_xm");
+			return;
+		}else{
+			strParam1 = objSfzxx.value;
+		}
+	}
+
+	if(strParam1 == ""){
+		console.log("未成功获取到身份证信息相关的参数，请检查。");
+		return false;
+	}
+
+	var strXhrUrl="/indishare/indiWSCenter.nsf/agtGetERPSkrInfo_xm?openagent&type="+escape("个人") + "&param1=" + strParam1 + "&param2=";
+
+	var xhrArgs = {
+		url:strXhrUrl,
+		sync:true,
+		handleAs:"json",
+		load:function(data){
+			deferred.resolve(data);
+		},
+		error:function(error){
+			console.log(error);
+		}
+	};
+	
+	dojo.xhrGet(xhrArgs);
+	return deferred.promise;
+}
+
+/*
+方法说明：	财务初审环节 用于隐藏付款信息
+使用方式：	在webflow.js 扩展点中通过dojo.addOnLoad调用
+限制条件：	无
+作    者:	kejl@smartdot.com
+日    期:	2018-11-27
+*/
+function hidefkxx_xm(){
+	if(dojo.byId("fldcwcs_xm")&&dojo.byId("fldcwcsafter_xm")){
+		if(dojo.byId("fldcwcs_xm").value=="yes"||dojo.byId("fldcwcsafter_xm").value=="yes"){
+			if(dojo.query("#fktable")[0].style.display!="none"){
+				dojo.query("#fktable").style("display","")
+			}
+		}
+		else{
+			dojo.query("#fktable").style("display","none")
+		}
+	}
+}
+dojo.addOnLoad(function(){
+	setTimeout(hidefkxx_xm,"1000")// 设置付款信息
+	setTimeout(setTitle_xm,"1000")
+	dojo.connect(dojo.query("select[name='fldNiGaoDWJZ']")[0],"onchange",setTitle_xm)
+})
+
+/*
+方法说明：	财务初审环节 用于处理在财务初审环节将动态表格中所有域处理为只读（除了挂账金额和支票核销金额字段）
+使用方式：	建议在fnEdrow方法的最后调用
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-11-28
+*/
+function fnDoDynamicGridReadOnlyOnCwcshj_xm(){
+	//当前环节可编辑
+	var objEditable = dojo.query("input[name='editable']")[0];
+	if(!objEditable || objEditable.value != "yes"){
+		return;
+	}
+
+	//流程扩展字段
+	var objCwcshj = dojo.query("input[name='fldIsCwcshj_xm']")[0];
+	if(!objCwcshj){
+		return false;
+	}
+
+	var strCwcshj = objCwcshj.value;
+	if(strCwcshj != "yes"){
+		return;
+	}
+
+	//不需要被处理的域的name属性
+	var arrExceptionFields = ["hxje", "zphxje"];
+
+	dojo.query(".DynamicGridEditNodeContent input").forEach(function(item, index){
+		if(dojo.indexOf(arrExceptionFields, dojo.attr(item, "name")) == -1){
+			dojo.attr(item, "readonly", "readonly");
+
+			//检查这个字段是否有onclick事件，若有需要去除掉
+			if(item.onclick != null){
+				item.onclick = null;
+			}
+			//检查这个字段是否有placeholder属性，若有需要去除掉
+
+		}
+	});
+			
+	//处理按钮（隐藏掉）
+	dojo.query(".DynamicGridEditNodeContent button").forEach(function(item, index){
+		if(item.innerText != "取消"){
+			dojo.style(item, "display", "none");
+		}
+	});
+
+	//处理widget组件
+	var smartdotDijitTextBoxes = {
+		"smartdot.form.SelectDepTextBox": 1,
+		"smartdot.form.SelectDepTextarea": 1,
+		"smartdot.form.SelectPersonTextBox": 1,
+		"smartdot.form.SelectPersonTextarea": 1,
+		"smartdot.form.TimeTextBox": 1,
+		"smartdot.form.DateTextBox": 1,
+		"smartdot.form.DateTimeTextBox": 1,
+		"smartdot.form.SelectGroupTextBox": 1,
+		"smartdot.form.ComboBox": 1
+	};
+	//获取所有的widget
+	dojo.forEach(dijit.findWidgets(dojo.query(".DynamicGridEditNodeContent")[0]), function(w){
+		if(smartdotDijitTextBoxes[w.declaredClass]){
+			w.set("readOnly",true);
+		}
+	});
+
+	//radio 和 复选框处理
+	var strItemChecked;
+	var objNodeWillBeHidden;
+	dojo.query(".DynamicGridEditNodeContent input[type='checkbox'], .DynamicGridEditNodeContent input[type='checkbox']").forEach(function(item,index){
+		//尝试找到它的最外层，如果当前input外边有label标签，那要对label进行隐藏
+		if(item.parentNode.tagName == "LABEL"){
+			objNodeWillBeHidden = item.parentNode;
+		}else{
+			objNodeWillBeHidden = item;
+		}
+
+		//将被选中的这个值记录下来
+		if(dojo.attr(item,"checked")){
+			//strItemChecked = dojo.attr(item, "value");
+
+			if(objNodeWillBeHidden.tagName == "LABEL"){
+				strItemChecked = item.parentNode.innerText || item.parentNode.textContent;
+			}else{
+				//input[type='radio'] 标签后直接是文本的情况
+				strItemChecked = item.nextElementSibling?item.nextElementSibling.innerText:item.nextSibling.textContent;
+			}
+			
+			//在objNodeWillBeHidden对象前创建span 输出radio的文本值;
+			dojo.create("span", {innerHTML:strItemChecked}, objNodeWillBeHidden, "before");
+		}
+
+		//隐藏当前对象
+		dojo.style(objNodeWillBeHidden, "display", "none");
+	});
+
+}
+
+
+/*
+方法说明：	财务初审环节 用于处理在财务初审环节将表单上所有域处理为只读（除了挂账金额和支票核销金额字段）
+使用方式：	在webflow.js 扩展点中通过dojo.addOnLoad调用
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-11-27
+*/
+function fnDoReadOnlyOnCwcshj_xm(){
+	//当前环节可编辑
+	var objEditable = dojo.query("input[name='editable']")[0];
+	if(!objEditable || objEditable.value != "yes"){
+		return;
+	}
+
+	//流程扩展字段
+	var objCwcshj = dojo.query("input[name='fldIsCwcshj_xm']")[0];
+	if(!objCwcshj){
+		return false;
+	}
+
+	var strCwcshj = objCwcshj.value;
+	if(strCwcshj != "yes"){
+		return;
+	}
+
+	//获取_Edit子表单中可以被用户看到的区域
+	var objDivsUnderContentTable = dojo.query("div#content div#content-table > div");
+	var arrAllDivsCanBeSeeUnderTable = objDivsUnderContentTable.filter(function(item, index){
+		return dojo.style(item,"display") != "none";
+	});
+
+	//默许只有一个div可以被直接看到
+	var objAreaUserCanSee = arrAllDivsCanBeSeeUnderTable[0];
+
+	if(!objAreaUserCanSee){
+		console.error("您的_Edit子表单结构不正确，请参考产品样例对_Edit子表单的外层结构进行调整。");
+		return;
+	}
+
+	var smartdotDijitTextBoxes = {
+		"smartdot.form.SelectDepTextBox": 1,
+		"smartdot.form.SelectDepTextarea": 1,
+		"smartdot.form.SelectPersonTextBox": 1,
+		"smartdot.form.SelectPersonTextarea": 1,
+		"smartdot.form.TimeTextBox": 1,
+		"smartdot.form.DateTextBox": 1,
+		"smartdot.form.DateTimeTextBox": 1,
+		"smartdot.form.SelectGroupTextBox": 1,
+		"smartdot.form.ComboBox": 1
+	};
+	//获取所有的widget
+	dojo.forEach(dijit.findWidgets(objAreaUserCanSee), function(w){
+		if(smartdotDijitTextBoxes[w.declaredClass]){
+			w.set("readOnly",true);
+		}
+
+	});
+
+	//下拉选择框处理	**$$处理逻辑为，先隐藏然后将它的选中值显示在原来的组件旁边
+	var arrAllSelect = dojo.query("select", objAreaUserCanSee).filter(function(item, index){return dojo.style(item, "display") != "none";});
+	arrAllSelect.forEach(function(item, index){
+		dojo.create("span", {innerHTML:item.value}, item, "before");
+		dojo.style(item, "display", "none");
+	});
+
+	//radio按钮 和 复选框 处理
+	var strItemChecked;
+	var objNodeWillBeHidden;
+	var arrAllRadioButton = dojo.query("input[type='radio'], input[type='checkbox']", objAreaUserCanSee).filter(function(item, index){return dojo.style(item, "display") != "none";});
+	arrAllRadioButton.forEach(function(item, index){
+
+		//尝试找到它的最外层，如果当前input外边有label标签，那要对label进行隐藏
+		if(item.parentNode.tagName == "LABEL"){
+			objNodeWillBeHidden = item.parentNode;
+		}else{
+			objNodeWillBeHidden = item;
+		}
+
+		//将被选中的这个值记录下来
+		if(dojo.attr(item,"checked")){
+			//strItemChecked = dojo.attr(item, "value");
+
+			if(objNodeWillBeHidden.tagName == "LABEL"){
+				strItemChecked = item.parentNode.innerText || item.parentNode.textContent;
+			}else{
+				//input[type='radio'] 标签后直接是文本的情况
+				strItemChecked = item.nextElementSibling?item.nextElementSibling.innerText:item.nextSibling.textContent;
+			}
+			
+			//在objNodeWillBeHidden对象前创建span 输出radio的文本值;
+			dojo.create("span", {innerHTML:strItemChecked}, objNodeWillBeHidden, "before");
+		}
+
+		//隐藏当前对象
+		dojo.style(objNodeWillBeHidden, "display", "none");
+
+	});
+
+	//input[type='text']文本框处理            开始
+
+	// ==> 第一部分	fldGzje_xm|挂账金额	fldZphxje_xm|支票核销金额
+	var arrExceptionFields = ["fldGzje_xm",	"fldZphxje_xm"];
+	var arrInputTextFields = dojo.query("input", objAreaUserCanSee).filter(function(item, index){
+		return (dojo.indexOf(arrExceptionFields, dojo.attr(item, "name")) == -1) && (dojo.style(item, "display") != "none") && (!dojo.hasAttr(item, "type") || (dojo.attr(item,"type") == "text" && !dojo.hasAttr(item, "role"))) && !dojo.hasAttr(item, "readonly") && !dojo.hasAttr(item, "readOnly");
+	});
+	dojo.forEach(arrInputTextFields, function(item){dojo.attr(item,"readOnly","readonly")});
+
+	// ==> 第二部分	动态表格中 gzje 	zphxje   以后再说  2018-11-28 10:26 备注
+
+	//input文本框处理            结束
+
+}
+/*
+方法说明：	给部门增加title
+使用方式：	在webflow.js 扩展点中通过dojo.addOnLoad调用
+限制条件：	无
+作    者:	tianyq@smartdot.com
+日    期:	2018-11-27
+*/
+function setTitle_xm(){
+	
+	dojo.query("select[name='fldNiGaoDWJZ'] option").forEach(function(obj){
+	    if(obj.selected){
+	       
+	        dojo.query("select[name='fldNiGaoDWJZ']")[0].title=obj.innerHTML
+	    }
+	})
+	if(dojo.query("input[name='fldBaoxiaoBm']")[0]){
+		dojo.query("input[name='fldBaoxiaoBm']")[0].title=dojo.query("input[name='fldBaoxiaoBm']")[0].value
+	}
+}
+/*-------------------------------------------------------------------财务改造/资金计划、支付相关代码---------------------------------------------------------------------*/
